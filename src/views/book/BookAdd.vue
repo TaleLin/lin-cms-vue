@@ -29,7 +29,7 @@
                           prop="summary">
               <el-input
                 type="textarea"
-                :rows="4"
+                autosize
                 placeholder="请输入简介"
                 v-model="form.summary">
               </el-input>

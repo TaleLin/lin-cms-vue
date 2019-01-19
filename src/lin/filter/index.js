@@ -70,8 +70,8 @@ export default {
 
   dateTimeFormatter(t) {
     if (!t) return ''
-    t = new Date(t).getTime()
-    t = new Date(t)
+    t = new Date(t).getTime() // eslint-disable-line
+    t = new Date(t) // eslint-disable-line
     const year = t.getFullYear()
     let month = (t.getMonth() + 1)
     month = checkAddZone(month)
