@@ -29,11 +29,12 @@
                           prop="summary">
               <el-input
                 type="textarea"
-                autosize
+                :autosize="{ minRows: 4, maxRows: 8}"
                 placeholder="请输入简介"
                 v-model="form.summary">
               </el-input>
             </el-form-item>
+
             <el-form-item
                           class="submit">
               <el-button type="primary"
@@ -50,6 +51,7 @@
 
 <script>
 import book from '@/lin/models/book'
+import Scroll from '@/base/scroll/scroll'
 
 export default {
   data() {
@@ -61,6 +63,9 @@ export default {
         image: '',
       },
     }
+  },
+  components: {
+    Scroll,
   },
   methods: {
     async submitForm(formName) {

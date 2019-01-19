@@ -32,5 +32,6 @@ export default {
   width: 100%;
   background: #c4c0d2;
   margin-bottom: 10px;
+  box-shadow: 0 1px 1px #c4c0d2;
 }
 </style>

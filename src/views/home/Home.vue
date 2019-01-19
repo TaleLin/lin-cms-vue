@@ -20,17 +20,11 @@
             <reuse-tab v-show="showReuseTab"></reuse-tab>
           </el-collapse-transition>
         </el-header>
-        <scroll class="wrapper"
-                ref="scroll"
-                :listenScroll="true"
-                :probeType="2"
-                @scroll="scroll">
           <el-main>
             <menu-tab></menu-tab>
             <app-main ref="appMain"
                       class="app-main"></app-main>
           </el-main>
-        </scroll>
         <div class="backTop"
              v-if="showBackTop">
           <i class="iconfont icon-top"
@@ -172,6 +166,10 @@ export default {
   background: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+.el-main {
+  overflow-y: auto;
+  position: relative;
 }
 .backTop {
   position: fixed;

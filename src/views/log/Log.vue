@@ -1,23 +1,25 @@
 <template>
   <div class="log">
-    <div class="log-header">
-      <div class="header-left">
-        <p class="title">日志信息</p>
+    <sticky-top>
+      <div  class="log-header">
+        <div class="header-left">
+          <p class="title">日志信息</p>
+        </div>
+        <div class="header-right"
+            v-auth="['搜索日志','查询日志']">
+          <lin-search @query="onQueryChange"
+                      ref="searchKeyword" />
+          <lin-dropdown style="margin: 0 10px;"
+                        :list="users"
+                        @command="searchByUser" />
+          <lin-date-picker @dateChange="handleDateChange"
+                          ref="searchDate"
+                          class="date"></lin-date-picker>
+        </div>
       </div>
-      <div class="header-right"
-           v-auth="['搜索日志','查询日志']">
-        <lin-search @query="onQueryChange"
-                    ref="searchKeyword" />
-        <lin-dropdown style="margin: 0 10px;"
-                      :list="users"
-                      @command="searchByUser" />
-        <lin-date-picker @dateChange="handleDateChange"
-                         ref="searchDate"
-                         class="date"></lin-date-picker>
-      </div>
-    </div>
     <lin-1px v-if="!keyword"
              :addWidth="40"></lin-1px>
+    </sticky-top>
     <transition name="fade">
       <div class="search"
            v-if="keyword">
@@ -68,12 +70,14 @@ import LinSearch from '@/base/search/lin-search'
 import LinDropdown from '@/base/dropdown/lin-dropdown'
 import LinDatePicker from '@/base/date-picker/lin-date-picker'
 import { searchLogKeyword } from 'lin/utils/search'
+import StickyTop from '@/base/sticky-top/sticky-top'
 
 export default {
   components: {
     LinSearch,
     LinDropdown,
     LinDatePicker,
+    StickyTop,
   },
   data() {
     return {
