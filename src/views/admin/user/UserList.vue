@@ -162,7 +162,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
+        this.loading = true
         const res = await Admin.deleteOneUser(val.row[val.index].id)
+        this.loading = false
         if (res.error_code === 0) {
           if (this.total_nums % this.pageCount === 1) { // 判断删除的是不是每一页的最后一条数据
             this.currentPage--
@@ -239,9 +241,6 @@ export default {
         })
       }
     })
-  },
-  activated() {
-
   },
 }
 </script>
