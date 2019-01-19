@@ -1,6 +1,8 @@
 <template>
   <div class="lin-line"
-       :style="{ height: height + 'px', width: 'calc(100% + ' + addWidth + 'px'+ ')', marginLeft: - addWidth / 2 + 'px', color: color }">
+       :style="{ height: height + 'px',
+       width: 'calc(100% + ' + addWidth + 'px'+ ')',
+       marginLeft: - addWidth / 2 + 'px', color: color }">
   </div>
 </template>
 

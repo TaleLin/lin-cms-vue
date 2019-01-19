@@ -50,7 +50,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   res => res.data,
   (error) => {
-    tip(error.response.data)
+    tip(error)
   },
 )
 
