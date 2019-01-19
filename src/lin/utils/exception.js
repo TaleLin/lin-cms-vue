@@ -2,8 +2,17 @@ import Vue from 'vue'
 import stateCode from '@/config/error-code'
 import User from '../models/user'
 
-export default function tip(params) {
-  let { error_code, msg } = params // eslint-disable-line
+export default function tip(error) {
+  if (!error.response) {
+    Vue.prototype.$notify({
+      title: 'Network Error',
+      dangerouslyUseHTMLString: true,
+      message: '<strong class="my-notify">请检查 API 是否异常</strong>',
+    })
+    console.log('error', error)
+  }
+
+  let { error_code, msg } = error.response.data // eslint-disable-line
   if (msg instanceof Object) {
     let showMsg = ''
     Object.getOwnPropertyNames(msg).forEach((key, index) => {
@@ -13,7 +22,7 @@ export default function tip(params) {
     })
     msg = showMsg
   }
-  console.log('error 参数', params)
+  console.log('error 参数', error.response.data)
   switch (error_code) {
     case 10040: // 无效token
       User.getRefreshToken()
@@ -22,7 +31,7 @@ export default function tip(params) {
       User.getRefreshToken()
       break
     case 1004: // 无效token
-      console.warn('无效token', params)
+      console.warn('无效token', error.response.data)
       break
     case 10020: // 没有找到相关日志
       Vue.prototype.$notify({
