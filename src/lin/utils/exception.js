@@ -3,6 +3,7 @@ import stateCode from '@/config/error-code'
 import User from '../models/user'
 
 export default function tip(error) {
+  // 处理 network fail 异常
   if (!error.response) {
     Vue.prototype.$notify({
       title: 'Network Error',
@@ -12,6 +13,16 @@ export default function tip(error) {
     console.log('error', error)
   }
 
+  // 判断请求超时
+  if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
+    Vue.prototype.$message({
+      type: 'warning',
+      message: '请求超时',
+    })
+  }
+
+
+  // 处理 API 异常
   let { error_code, msg } = error.response.data // eslint-disable-line
   if (msg instanceof Object) {
     let showMsg = ''

@@ -86,7 +86,7 @@ export default {
         if (valid) {
           const finalAuths = this.auths.filter(x => Object.keys(this.allAuths).indexOf(x) < 0)
           this.loading = true
-          const res = await Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id)
+          const res = await Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id) // eslint-disable-line
           this.loading = true
           if (res.error_code === 0) {
             this.$message.success(`${res.msg}`)
