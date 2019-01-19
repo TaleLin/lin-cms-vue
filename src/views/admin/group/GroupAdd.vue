@@ -13,7 +13,8 @@
                    :model="form"
                    ref="form"
                    label-position="right"
-                   label-width="100px">
+                   label-width="100px"
+                   v-loading="loading">
             <el-form-item label="分组名称"
                           prop="name">
               <el-input clearable
@@ -72,6 +73,7 @@ export default {
         ],
         info: [],
       },
+      loading: false,
     }
   },
   methods: {
@@ -87,7 +89,7 @@ export default {
           const finalAuths = this.auths.filter(x => Object.keys(this.allAuths).indexOf(x) < 0)
           this.loading = true
           const res = await Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id) // eslint-disable-line
-          this.loading = true
+          this.loading = false
           if (res.error_code === 0) {
             this.$message.success(`${res.msg}`)
             this.eventBus.$emit('addGroup', true)
