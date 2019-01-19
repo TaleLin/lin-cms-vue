@@ -51,6 +51,7 @@ export default {
   components: {
     GroupAuths,
   },
+  inject: ['eventBus'],
   data() {
     const checkName = (rule, value, callback) => { // eslint-disable-line
       if (!value) {
@@ -80,15 +81,23 @@ export default {
     updateAllAuths(allAuths) {
       this.allAuths = allAuths
     },
-    submitForm(formName) {
+    async submitForm(formName) {
       this.$refs[formName].validate(async (valid) => { // eslint-disable-line
         if (valid) {
           const finalAuths = this.auths.filter(x => Object.keys(this.allAuths).indexOf(x) < 0)
-          Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id)
-          this.$message.success('添加成功')
-          this.$router.push('/admin/group/list')
+          this.loading = true
+          const res = await Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id)
+          this.loading = true
+          if (res.error_code === 0) {
+            this.$message.success(`${res.msg}`)
+            this.eventBus.$emit('addGroup', true)
+            this.$router.push('/admin/group/list')
+            this.resetForm('form')
+          } else {
+            this.$message.error(`${res.msg}`)
+          }
         } else {
-          this.$message.warning('请将信息填写完整')
+          this.$message.error('请将信息填写完整')
           return false
         }
       })
