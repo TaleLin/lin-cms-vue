@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <!-- <keep-alive :include="cachePage"> -->
-    <div class="wrapper" ref="wrapper">
+    <div class="wrapper">
       <transition name="fade-transform"
                   mode="out-in">
         <router-view></router-view>
@@ -26,14 +26,8 @@ export default {
     window.addEventListener('scroll', this.handleScroll, true)
   },
   methods: {
-    handleScroll() {
-      console.log('12323')
-      // let scrollTop = this.$parent.$el.scrollTop
-      // if (scrollTop > 135) {
-      //   this.positionFlag = true
-      // } else {
-      //   this.positionFlag = false
-      // }
+    handleScroll(e) {
+      console.log(e.target.scrollTop)
     },
     ...mapMutations(['SET_START_SCROLL', 'GET_SCROLLY']),
   },
@@ -42,12 +36,14 @@ export default {
       this.SET_START_SCROLL(false)
     },
   },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
 }
 </script>
 
 <style scoped type="text/scss" lang="scss">
 .container {
-  position: relative;
   .wrapper {
     width: 100%;
     height: 100%;

@@ -53,7 +53,7 @@
   border: none !important;
 }
 
-.el-radio__input.is-checked+.el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: #3963bc;
 }
 
@@ -406,7 +406,6 @@ table {
 }
 
 .el-menu--collapse {
-
   // margin-left: -2px;
   .el-submenu.is-active {
     .el-submenu__title {
@@ -465,7 +464,6 @@ table {
   padding: 20px;
   padding-top: 0px;
   background: #273b6f;
-  overflow: hidden;
 }
 
 .el-container {

@@ -30,8 +30,8 @@ export default {
 .lin-line {
   height: 1px;
   width: 100%;
-  background: #c4c0d2;
+  background: #dae1ed;
   margin-bottom: 10px;
-  box-shadow: 0 1px 1px #c4c0d2;
+  box-shadow: 0 2px 5px #d4d4d4;
 }
 </style>
