@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <!-- <keep-alive :include="cachePage"> -->
-    <div class="wrapper">
+    <div class="wrapper" ref="wrapper">
       <transition name="fade-transform"
                   mode="out-in">
         <router-view></router-view>
@@ -22,7 +22,19 @@ export default {
       flag: true,
     }
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll, true)
+  },
   methods: {
+    handleScroll() {
+      console.log('12323')
+      // let scrollTop = this.$parent.$el.scrollTop
+      // if (scrollTop > 135) {
+      //   this.positionFlag = true
+      // } else {
+      //   this.positionFlag = false
+      // }
+    },
     ...mapMutations(['SET_START_SCROLL', 'GET_SCROLLY']),
   },
   watch: {
