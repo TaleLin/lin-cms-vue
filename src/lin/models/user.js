@@ -36,28 +36,30 @@ export default class User {
    * @param {string} password 密码
    */
   static async getToken(nickname, password) {
-    const tokens = await post('cms/user/login', {
-      nickname,
-      password,
-    })
-    saveTokens(tokens.access_token, tokens.refresh_token)
-    return tokens
+    // const tokens = await post('cms/user/login', {
+    //   nickname,
+    //   password,
+    // })
+    // saveTokens(tokens.access_token, tokens.refresh_token)
+    return 123456
   }
 
   /**
    * 获取当前用户信息，并返回User实例
    */
   static async getInformation() {
-    const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.super)
+    // const info = await get('cms/user/information')
+    // return new User(info.active, info.email, info.group_id, info.nickname, info.super)
+    return new User(true, '123', 1, 'hello', true)
   }
 
   /**
    * 获取当前用户信息和所拥有的权限
    */
   static async getAuths() {
-    const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.super, info.auths)
+    // const info = await get('cms/user/auths')
+    // return new User(info.active, info.email, info.group_id, info.nickname, info.super, info.auths)
+    return new User(true, '123', 1, 'hello', true)
   }
 
   /**
