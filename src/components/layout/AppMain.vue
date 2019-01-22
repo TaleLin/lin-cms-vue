@@ -22,22 +22,13 @@ export default {
       flag: true,
     }
   },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll, true)
-  },
   methods: {
-    handleScroll(e) {
-      console.log(e.target.scrollTop)
-    },
     ...mapMutations(['SET_START_SCROLL', 'GET_SCROLLY']),
   },
   watch: {
     $route() {
       this.SET_START_SCROLL(false)
     },
-  },
-  destroyed() {
-    window.removeEventListener('scroll', this.handleScroll)
   },
 }
 </script>

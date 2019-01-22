@@ -206,7 +206,6 @@ export default {
       } else {
         res = await log.moreLogPage()
       }
-      console.log('res', res)
       if (res) {
         let moreLogs = res.collection
         if (this.isSearch && this.searchKeyword) {
