@@ -20,7 +20,7 @@
             <reuse-tab v-show="showReuseTab"></reuse-tab>
           </el-collapse-transition>
         </el-header>
-          <el-main>
+          <el-main ref="main">
             <menu-tab></menu-tab>
             <app-main ref="appMain"
                       class="app-main"></app-main>
@@ -66,6 +66,22 @@ export default {
       showBackTop: false,
     }
   },
+  mounted() {
+    const _this = this
+    this.setResize()
+    window.onresize = function temp() {
+      _this.setResize()
+      if (_this.clientWidth <= 768) {
+        if (_this.isCollapse === false) {
+          _this.isCollapse = true
+        }
+      } else if (_this.isCollapse === true) {
+        _this.isCollapse = false
+      }
+    }
+    // 监听滑动事件
+    window.addEventListener('scroll', this.handleScroll, true)
+  },
   methods: {
     changeSlidebarState() {
       this.isCollapse = !this.isCollapse
@@ -86,11 +102,15 @@ export default {
       this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight}px`
     },
     // 监听滚轮
-    scroll(pos) {
-      this.showBackTop = pos.y < -100
+    handleScroll(e) {
+      this.showBackTop = e.target.scrollTop > 100
     },
+    // 滑动到顶部
     backTop() {
-      this.$refs.scroll.scrollTo(0, 0, 1000)
+      this.$refs.main.$el.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
     },
   },
   watch: {
@@ -104,20 +124,6 @@ export default {
   computed: {
     ...mapGetters(['isScroll']),
   },
-  mounted() {
-    const _this = this
-    this.setResize()
-    window.onresize = function temp() {
-      _this.setResize()
-      if (_this.clientWidth <= 768) {
-        if (_this.isCollapse === false) {
-          _this.isCollapse = true
-        }
-      } else if (_this.isCollapse === true) {
-        _this.isCollapse = false
-      }
-    }
-  },
   mixins: [layoutMixin],
   components: {
     NavBar,
@@ -126,6 +132,9 @@ export default {
     ReuseTab,
     MenuTab,
     Scroll,
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll)
   },
 }
 </script>
