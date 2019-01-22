@@ -35,7 +35,6 @@ export default {
 
 <style scoped type="text/scss" lang="scss">
 .container {
-  position: relative;
   .wrapper {
     width: 100%;
     height: 100%;

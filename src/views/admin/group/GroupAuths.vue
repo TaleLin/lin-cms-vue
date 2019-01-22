@@ -3,7 +3,7 @@
        v-loading="loading">
     <div class="group">
       <div class="label">
-        <span class="necessary">*</span><label>{{title}}</label>
+        <label>{{title}}</label>
       </div>
       <div class="details">
 
@@ -122,8 +122,8 @@ export default {
   margin-left: -95px;
   .label {
     margin-bottom: 10px;
-    width: 80px;
-    margin-left: 10px;
+    width: 70px;
+    margin-left: 20px;
     float: left;
     font-weight: 500;
     label {

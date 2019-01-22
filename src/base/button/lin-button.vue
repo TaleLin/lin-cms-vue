@@ -23,7 +23,7 @@ export default {
       default: '',
     },
   },
-  data () {
+  data() {
     return {
       buttonType: '',
     }
@@ -31,7 +31,7 @@ export default {
   components: {
 
   },
-  created () {
+  created() {
     this.buttonType = `lin-button-${this.type}`
   },
 }

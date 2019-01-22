@@ -8,6 +8,7 @@ import tip from './exception'
 const http = axios.create({
   baseURL: Config.baseUrl, // api 的 base_url
   transformResponse: [data => JSON.parse(data)], // 对 data 进行任意转换处理
+  timeout: 5000, // 请求超时
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
   // validateStatus(status) {
@@ -50,7 +51,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   res => res.data,
   (error) => {
-    tip(error.response.data)
+    tip(error)
   },
 )
 

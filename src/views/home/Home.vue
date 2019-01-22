@@ -20,17 +20,11 @@
             <reuse-tab v-show="showReuseTab"></reuse-tab>
           </el-collapse-transition>
         </el-header>
-        <scroll class="wrapper"
-                ref="scroll"
-                :listenScroll="true"
-                :probeType="2"
-                @scroll="scroll">
-          <el-main>
+          <el-main ref="main">
             <menu-tab></menu-tab>
             <app-main ref="appMain"
                       class="app-main"></app-main>
           </el-main>
-        </scroll>
         <div class="backTop"
              v-if="showBackTop">
           <i class="iconfont icon-top"
@@ -72,6 +66,22 @@ export default {
       showBackTop: false,
     }
   },
+  mounted() {
+    const _this = this
+    this.setResize()
+    window.onresize = function temp() {
+      _this.setResize()
+      if (_this.clientWidth <= 768) {
+        if (_this.isCollapse === false) {
+          _this.isCollapse = true
+        }
+      } else if (_this.isCollapse === true) {
+        _this.isCollapse = false
+      }
+    }
+    // 监听滑动事件
+    window.addEventListener('scroll', this.handleScroll, true)
+  },
   methods: {
     changeSlidebarState() {
       this.isCollapse = !this.isCollapse
@@ -92,11 +102,15 @@ export default {
       this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight}px`
     },
     // 监听滚轮
-    scroll(pos) {
-      this.showBackTop = pos.y < -100
+    handleScroll(e) {
+      this.showBackTop = e.target.scrollTop > 100
     },
+    // 滑动到顶部
     backTop() {
-      this.$refs.scroll.scrollTo(0, 0, 1000)
+      this.$refs.main.$el.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
     },
   },
   watch: {
@@ -110,20 +124,6 @@ export default {
   computed: {
     ...mapGetters(['isScroll']),
   },
-  mounted() {
-    const _this = this
-    this.setResize()
-    window.onresize = function temp() {
-      _this.setResize()
-      if (_this.clientWidth <= 768) {
-        if (_this.isCollapse === false) {
-          _this.isCollapse = true
-        }
-      } else if (_this.isCollapse === true) {
-        _this.isCollapse = false
-      }
-    }
-  },
   mixins: [layoutMixin],
   components: {
     NavBar,
@@ -133,12 +133,18 @@ export default {
     MenuTab,
     Scroll,
   },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
 }
 </script>
 
 <style lang="scss" type="text/scss" scoped>
 .sidebar {
-  height: 100%;
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
   overflow: hidden;
 }
 .operate {
@@ -172,6 +178,10 @@ export default {
   background: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+.el-main {
+  overflow-y: auto;
+  position: relative;
 }
 .backTop {
   position: fixed;
