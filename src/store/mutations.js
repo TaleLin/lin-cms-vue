@@ -62,9 +62,6 @@ export default {
     state.stopTime = currentTime
   },
 
-  [types.SET_START_SCROLL](state, flag) {
-    state.isScroll = flag
-  },
   [types.SET_USER_AUTHS](state, auths) {
     const _auths = []
     for (let i = 0; i < auths.length; i++) {
@@ -77,6 +74,4 @@ export default {
     }
     state.auths = _auths
   },
-
-
 }
