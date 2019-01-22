@@ -132,7 +132,10 @@ export default {
 
 <style lang="scss" type="text/scss" scoped>
 .sidebar {
-  height: 100%;
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
   overflow: hidden;
 }
 .operate {
