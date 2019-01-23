@@ -139,6 +139,9 @@ export default {
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll)
   },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
 }
 </script>
 
