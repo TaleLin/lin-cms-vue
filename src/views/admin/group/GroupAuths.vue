@@ -110,9 +110,14 @@ export default {
     },
   },
   async created () {
-    this.loading = true
-    await this.getGroupAuths()
-    this.loading = false
+    try {
+      this.loading = true
+      await this.getGroupAuths()
+      this.loading = false
+    } catch (e) {
+      this.loading = false
+      console.log(e)
+    }
   }
 }
 </script>

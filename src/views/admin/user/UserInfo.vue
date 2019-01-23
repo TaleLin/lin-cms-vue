@@ -10,6 +10,7 @@
                  :rules="rules"
                  :label-position="labelPosition"
                  ref="form"
+                 v-loading="loading"
                  label-width="100px">
           <el-form-item label="用户名"
                         prop="nickname">
@@ -122,6 +123,7 @@ export default {
       }
     }
     return {
+      loading: false, // 加载动画
       isEdited: false, // 能否编辑
       form: {
         nickname: '',
@@ -153,13 +155,22 @@ export default {
       this.$refs[formName].validate(async (valid) => { // eslint-disable-line
         if (valid) {
           // 新增用户
+          let res
           if (this.pageType === 'add') {
-            const res = await User.register(this.form)
+            try {
+              this.loading = true
+              res = await User.register(this.form)
+            } catch (e) {
+              this.loading = false
+              console.log(e)
+            }
             if (res.error_code === 0) {
+              this.loading = false
               this.$message.success(`${res.msg}`)
               this.eventBus.$emit('addUser', true)
               this.resetForm(formName)
             } else {
+              this.loading = false
               this.$message.error(`${res.msg}`)
             }
           } else {
@@ -167,10 +178,20 @@ export default {
             if (this.form.email === this.info.email && this.form.group_id === this.info.group_id) {
               return
             }
-            const res = await Admin.updateOneUser(this.form.email, this.form.group_id, this.id)
+            try {
+              this.loading = true
+              res = await Admin.updateOneUser(this.form.email, this.form.group_id, this.id)
+            } catch (e) {
+              this.loading = false
+              console.log(e)
+            }
             if (res.error_code === 0) {
+              this.loading = false
               this.$message.success(`${res.msg}`)
               this.$emit('handleInfoResult', true)
+            } else {
+              this.loading = false
+              this.$message.error(`${res.msg}`)
             }
           }
         } else {

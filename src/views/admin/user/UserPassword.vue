@@ -5,6 +5,7 @@
              :rules="rules"
              label-position="right"
              ref="form"
+             v-loading="loading"
              label-width="100px">
       <el-form-item label="密码"
                     prop="new_password">
@@ -58,6 +59,7 @@ export default {
       }
     }
     return {
+      loading: false,
       form: {
         new_password: '',
         confirm_password: '',
@@ -82,11 +84,22 @@ export default {
       }
       this.$refs[formName].validate(async (valid) => { // eslint-disable-line
         if (valid) {
-          const res = await Admin.changePassword(this.form.new_password, this.form.confirm_password, this.id) // eslint-disable-line
+          let res
+          try {
+            this.loading = true
+            res = await Admin.changePassword(this.form.new_password, this.form.confirm_password, this.id) // eslint-disable-line
+          } catch (e) {
+            this.loading = false
+            console.log(e)
+          }
           if (res.error_code === 0) {
+            this.loading = false
             this.$message.success(`${res.msg}`)
             this.resetForm(formName)
             this.$emit('handlePasswordResult', true)
+          } else {
+            this.loading = false
+            this.$message.error(`${res.msg}`)
           }
         } else {
           console.log('error submit!!')

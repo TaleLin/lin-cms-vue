@@ -86,16 +86,23 @@ export default {
     async submitForm(formName) {
       this.$refs[formName].validate(async (valid) => { // eslint-disable-line
         if (valid) {
+          let res
           const finalAuths = this.auths.filter(x => Object.keys(this.allAuths).indexOf(x) < 0)
-          this.loading = true
-          const res = await Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id) // eslint-disable-line
-          this.loading = false
+          try {
+            this.loading = true
+            res = await Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id) // eslint-disable-line
+          } catch (e) {
+            this.loading = false
+            console.log(e)
+          }
           if (res.error_code === 0) {
+            this.loading = false
             this.$message.success(`${res.msg}`)
             this.eventBus.$emit('addGroup', true)
             this.$router.push('/admin/group/list')
             this.resetForm('form')
           } else {
+            this.loading = false
             this.$message.error(`${res.msg}`)
           }
         } else {
