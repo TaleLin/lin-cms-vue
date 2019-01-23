@@ -76,6 +76,7 @@ export default {
     LinButton,
     GroupAuths,
   },
+  inject: ['eventBus'],
   data() {
     return {
       id: 0, // 分组id
@@ -189,11 +190,18 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
+        this.loading = true
         const res = await Admin.deleteOneGroup(val.row[val.index].id)
+        this.loading = false
         if (res.error_code === 0) {
-          this.getAllGroups()
+          await this.getAllGroups()
           this.$message({
             type: 'success',
+            message: `${res.msg}`,
+          })
+        } else {
+          this.$message({
+            type: 'error',
             message: `${res.msg}`,
           })
         }
@@ -238,6 +246,12 @@ export default {
     this.loading = false
     this.tableColumn = [{ prop: 'name', label: '姓名' }, { prop: 'info', label: '信息' }] // 设置表头信息
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
+    // 监听分组是否成功
+    this.eventBus.$on('addGroup', async (flag) => {
+      if (flag === true) {
+        await this.getAllGroups()
+      }
+    })
   },
 }
 </script>

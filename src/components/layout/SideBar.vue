@@ -10,7 +10,8 @@
       <img src="../../assets/img/mobile-logo.png"
            alt="">
     </div>
-    <el-menu class="el-menu-vertical-demo"
+    <div class="app-sidebar-second">
+      <el-menu class="el-menu-vertical-demo"
              ref="meun"
              @open="handleOpen"
              @close="handleClose"
@@ -61,6 +62,8 @@
         <!-- </router-link> -->
       </template>
     </el-menu>
+    </div>
+
   </div>
 </template>
 
@@ -249,7 +252,16 @@ export default {
       transition: all 0.3s linear;
     }
   }
-
+  .app-sidebar-second{
+    width:$sidebar-width + 30px;
+    position:absolute;
+    top:66px;
+    left:0;
+    bottom:0;
+    padding-bottom:20px;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
   .imgIcon {
     width: 16px;
     height: 16px;
