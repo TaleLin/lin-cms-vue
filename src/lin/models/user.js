@@ -48,18 +48,16 @@ export default class User {
    * 获取当前用户信息，并返回User实例
    */
   static async getInformation() {
-    // const info = await get('cms/user/information')
-    // return new User(info.active, info.email, info.group_id, info.nickname, info.super)
-    return new User(true, '123', 1, 'hello', true)
+    const info = await get('cms/user/information')
+    return new User(info.active, info.email, info.group_id, info.nickname, info.super)
   }
 
   /**
    * 获取当前用户信息和所拥有的权限
    */
   static async getAuths() {
-    // const info = await get('cms/user/auths')
-    // return new User(info.active, info.email, info.group_id, info.nickname, info.super, info.auths)
-    return new User(true, '123', 1, 'hello', true)
+    const info = await get('cms/user/auths')
+    return new User(info.active, info.email, info.group_id, info.nickname, info.super, info.auths)
   }
 
   /**
