@@ -8,9 +8,6 @@ export default {
   // 推送消息
   readedMessages: [],
   unreadMessages: [],
-  // 停止操作时间
-  stopTime: 0,
-  // 是否开始滚动
-  isScroll: false,
+  stopTime: 0, // 停止操作时间
   auths: [], // 每个用户的所有权限
 }
