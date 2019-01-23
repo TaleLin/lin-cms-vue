@@ -123,7 +123,7 @@ export default {
     },
     $route() {
       this.showBackTop = false
-      if (this.scrollY < 50) {
+      if (this.scrollY <= 70) { // MenuTab组件高度
         this.backTop()
       }
     },
