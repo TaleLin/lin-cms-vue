@@ -113,16 +113,29 @@ export default {
   methods: {
     // 根据分组 刷新/获取分组内的用户
     async getAdminUsers() {
+      let res
       const currentPage = this.currentPage - 1
-      this.loading = true
-      const res = await Admin.getAdminUsers({ group_id: this.group_id, count: this.pageCount, page: currentPage }) // eslint-disable-line
-      this.loading = false
-      this.tableData = [...res.collection]
-      this.total_nums = res.total_nums
+      try {
+        this.loading = true
+        res = await Admin.getAdminUsers({ group_id: this.group_id, count: this.pageCount, page: currentPage }) // eslint-disable-line
+        this.loading = false
+        this.tableData = [...res.collection]
+        this.total_nums = res.total_nums
+      } catch (e) {
+        this.loading = false
+        console.log(e)
+      }
     },
     // 获取所有分组
     async getAllGroups() {
-      this.groups = await Admin.getAllGroups()
+      try {
+        this.loading = true
+        this.groups = await Admin.getAllGroups()
+        this.loading = false
+      } catch (e) {
+        this.loading = false
+        console.log(e)
+      }
     },
     // 获取所拥有的权限并渲染  由子组件提供
     async handleEdit(val) {
@@ -157,15 +170,21 @@ export default {
       this.loading = false
     },
     handleDelete(val) {
+      let res
       this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
-        this.loading = true
-        const res = await Admin.deleteOneUser(val.row[val.index].id)
-        this.loading = false
+        try {
+          this.loading = true
+          res = await Admin.deleteOneUser(val.row[val.index].id)
+        } catch (e) {
+          this.loading = false
+          console.log(e)
+        }
         if (res.error_code === 0) {
+          this.loading = false
           if (this.total_nums % this.pageCount === 1) { // 判断删除的是不是每一页的最后一条数据
             this.currentPage--
           }
@@ -174,6 +193,9 @@ export default {
             type: 'success',
             message: `${res.msg}`,
           })
+        } else {
+          this.loading = false
+          this.$message.error(`${res.msg}`)
         }
       })
     },
@@ -222,10 +244,8 @@ export default {
     },
   },
   async created() {
-    this.loading = true
     await this.getAdminUsers()
     await this.getAllGroups()
-    this.loading = false
     this.tableColumn = [{ prop: 'nickname', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
     // 监听添加用户是否成功

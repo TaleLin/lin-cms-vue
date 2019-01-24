@@ -1,5 +1,5 @@
 const Config = {
-  baseUrl: 'http://localhost:5000/',
+  baseUrl: 'http://cms.lin.7yue.pro/',
   stagnateTime: 2 * 60 * 60 * 1000, // 无操作停滞时间  默认2小时
 }
 

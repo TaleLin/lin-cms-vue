@@ -4,7 +4,9 @@
       <img src="@/assets/img/login/team-name.png"
            alt="">
     </div>
-    <div class="form-box">
+    <div class="form-box"
+         v-loading="loading"
+         element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title">
         <h1 title="Lin">Lin CMS</h1>
       </div>
@@ -33,13 +35,16 @@
 </template>
 
 <script>
-import User from 'lin/models/user'
+import User from '@/lin/models/user'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'login',
   data() {
     return {
+      loading: false, // 加载动画
+      lastTime: 0, // 定时器
+      delay: 2000, // 2000ms
       form: {
         nickname: 'super',
         password: '123456',
@@ -51,13 +56,20 @@ export default {
   methods: {
     async login() {
       const { nickname, password } = this.form
-      try {
-        await User.getToken(nickname, password)
-        await this.getInformation()
-        this.$router.push('/about')
-        this.$message.success('登录成功')
-      } catch (e) {
-        console.log('e', e)
+      const now = +new Date()
+      if (now - this.lastTime > this.delay) {
+        this.lastTime = now
+        try {
+          this.loading = true
+          await User.getToken(nickname, password)
+          await this.getInformation()
+          this.loading = false
+          this.$router.push('/about')
+          this.$message.success('登录成功')
+        } catch (e) {
+          this.loading = false
+          console.log(e)
+        }
       }
     },
     async getInformation() {

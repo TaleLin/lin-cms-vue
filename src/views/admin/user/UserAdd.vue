@@ -22,9 +22,14 @@ export default {
     }
   },
   async created() {
-    this.loading = true
-    this.groups = await Admin.getAllGroups()
-    this.loading = false
+    try {
+      this.loading = true
+      this.groups = await Admin.getAllGroups()
+      this.loading = false
+    } catch (e) {
+      this.loading = false
+      console.log(e)
+    }
   },
 }
 </script>

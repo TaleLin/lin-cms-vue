@@ -109,7 +109,14 @@ export default {
   methods: {
     // 获取所有分组并传给table渲染
     async getAllGroups() {
-      this.tableData = await Admin.getAllGroups()
+      try {
+        this.loading = true
+        this.tableData = await Admin.getAllGroups()
+        this.loading = false
+      } catch (e) {
+        this.loading = false
+        console.log(e)
+      }
     },
     async confirmEdit() {
       // 修改分组信息
@@ -185,14 +192,19 @@ export default {
       this.dialogFormVisible = true
     },
     handleDelete(val) {
+      let res
       this.$confirm('此操作将永久删除该分组, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
-        this.loading = true
-        const res = await Admin.deleteOneGroup(val.row[val.index].id)
-        this.loading = false
+        try {
+          this.loading = true
+          res = await Admin.deleteOneGroup(val.row[val.index].id)
+        } catch (e) {
+          this.loading = false
+          console.log(e)
+        }
         if (res.error_code === 0) {
           await this.getAllGroups()
           this.$message({
@@ -200,6 +212,7 @@ export default {
             message: `${res.msg}`,
           })
         } else {
+          this.loading = false
           this.$message({
             type: 'error',
             message: `${res.msg}`,
@@ -241,9 +254,7 @@ export default {
     },
   },
   async created() {
-    this.loading = true
     await this.getAllGroups()
-    this.loading = false
     this.tableColumn = [{ prop: 'name', label: '姓名' }, { prop: 'info', label: '信息' }] // 设置表头信息
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
     // 监听分组是否成功
