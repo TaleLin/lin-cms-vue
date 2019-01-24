@@ -36,12 +36,12 @@ export default class User {
    * @param {string} password 密码
    */
   static async getToken(nickname, password) {
-    // const tokens = await post('cms/user/login', {
-    //   nickname,
-    //   password,
-    // })
-    // saveTokens(tokens.access_token, tokens.refresh_token)
-    return 123456
+    const tokens = await post('cms/user/login', {
+      nickname,
+      password,
+    })
+    saveTokens(tokens.access_token, tokens.refresh_token)
+    return tokens
   }
 
   /**
