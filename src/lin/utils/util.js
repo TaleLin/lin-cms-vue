@@ -1,3 +1,4 @@
+/* eslint-disable */
 const Utils = {}
 
 /** 参数说明：
@@ -45,22 +46,42 @@ Utils.getIntersect = (a, b) => {
 }
 
 /**
- * 节流函数
+ * 防抖函数
  * @param {*} func 函数体
- * @param {*} delay 延时
+ * @param {*} wait 延时
  */
-Utils.debounce = (func, delay) => {
-  let timer
-  /* eslint-disable */
+Utils.debounce = (func, wait = 50) => {
+  // 缓存一个定时器id
+  let timer = 0
+  // 这里返回的函数是每次用户实际调用的防抖函数
+  // 如果已经设定过定时器了就清空上一次的定时器
+  // 开始一个新的定时器，延迟执行用户传入的方法
   return function(...args) {
-    if (timer) {
-      clearTimeout(timer)
-    }
+    if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
       func.apply(this, args)
-    }, delay)
+    }, wait)
   }
-  /* eslint-enable */
+}
+
+/**
+ * 节流函数
+ * @param {*} func 函数体
+ * @param {*} wait 延时
+ */
+Utils.throttle = (func, wait = 50) => {
+  // 上一次执行该函数的时间
+  let lastTime = 0
+  return function(...args) {
+    // 当前时间
+    const now = +new Date()
+    // 将当前时间和上一次执行函数时间对比
+    // 如果差值大于设置的等待时间就执行函数
+    if (now - lastTime > wait) {
+      lastTime = now
+      func.apply(this, args)
+    }
+  }
 }
 
 function type(obj) {
@@ -84,7 +105,7 @@ function type(obj) {
  * 深度遍历，深拷贝
  * @param {*} data
  */
-Utils.deepClone = (data) => {
+Utils.deepClone = data => {
   const t = type(data)
   let o
   let i

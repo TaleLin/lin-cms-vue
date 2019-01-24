@@ -22,7 +22,4 @@ export const SET_SIDEBAR_LIST = 'SET_SIDEBAR_LIST'
 
 export const SET_STOP_TIME = 'SET_STOP_TIME'
 
-export const SET_START_SCROLL = 'SET_START_SCROLL'
-
 export const SET_USER_AUTHS = 'SET_USER_AUTHS'
-

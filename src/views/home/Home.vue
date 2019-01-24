@@ -20,11 +20,11 @@
             <reuse-tab v-show="showReuseTab"></reuse-tab>
           </el-collapse-transition>
         </el-header>
-          <el-main ref="main">
-            <menu-tab></menu-tab>
-            <app-main ref="appMain"
-                      class="app-main"></app-main>
-          </el-main>
+        <el-main ref="main">
+          <menu-tab></menu-tab>
+          <app-main ref="appMain"
+                    class="app-main"></app-main>
+        </el-main>
         <div class="backTop"
              v-if="showBackTop">
           <i class="iconfont icon-top"
@@ -44,34 +44,34 @@ import {
   MenuTab,
 } from '@/components/layout'
 import layoutMixin from 'lin/mixin/layout.js'
-import { mapGetters } from 'vuex'
-import Scroll from '@/base/scroll/scroll'
 
-const navBarHeight = 66
-const reuseTabHeight = 70
-const marginHeight = 20
+const navBarHeight = 66 // header高度
+const reuseTabHeight = 70 // 历史记录栏高度
+const marginHeight = 20 // 历史记录栏与舞台的间距
 const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {
   name: 'layout',
   data() {
     return {
-      isCollapse: false,
-      sideBarWidth: '170px',
-      clientWidth: 0,
-      clientHeight: 0,
-      foldState: false,
-      upState: false,
-      showReuseTab: true,
-      showBackTop: false,
+      isCollapse: false, // 左侧菜单栏是否折叠
+      sideBarWidth: '170px', // 左侧菜单栏展开的宽度
+      clientWidth: 0, // 页面宽度
+      clientHeight: 0, // 页面高度
+      foldState: false, // 控制左侧菜单栏按键
+      upState: false, // 控制历史记录栏按键
+      showReuseTab: true, // 是否显示历史记录栏
+      showBackTop: false, // 是否显示回到顶部标识
+      scrollY: 0, // 滚动距离
     }
   },
   mounted() {
     const _this = this
     this.setResize()
+    // 监测屏幕宽度 折叠左侧菜单栏
     window.onresize = function temp() {
       _this.setResize()
-      if (_this.clientWidth <= 768) {
+      if (_this.clientWidth <= 768) { // 页面宽度 768
         if (_this.isCollapse === false) {
           _this.isCollapse = true
         }
@@ -83,10 +83,12 @@ export default {
     window.addEventListener('scroll', this.handleScroll, true)
   },
   methods: {
+    // 控制菜单折叠
     changeSlidebarState() {
       this.isCollapse = !this.isCollapse
       this.foldState = !this.foldState
     },
+    // 控制历史记录折叠
     changeReuseState() {
       this.showReuseTab = !this.showReuseTab
       this.upState = !this.upState
@@ -96,6 +98,7 @@ export default {
         this.$refs.scroll.refresh()
       }, 400)
     },
+    // 响应页面的宽度高度变化
     setResize() {
       this.clientHeight = document.body.clientHeight
       this.clientWidth = document.body.clientWidth
@@ -103,7 +106,8 @@ export default {
     },
     // 监听滚轮
     handleScroll(e) {
-      this.showBackTop = e.target.scrollTop > 100
+      this.scrollY = e.target.scrollTop
+      this.showBackTop = e.target.scrollTop > 100 // 页面滚动距离大于100的时候显示回到top的标识
     },
     // 滑动到顶部
     backTop() {
@@ -119,10 +123,10 @@ export default {
     },
     $route() {
       this.showBackTop = false
+      if (this.scrollY <= 70) { // MenuTab组件高度
+        this.backTop()
+      }
     },
-  },
-  computed: {
-    ...mapGetters(['isScroll']),
   },
   mixins: [layoutMixin],
   components: {
@@ -131,7 +135,9 @@ export default {
     AppMain,
     ReuseTab,
     MenuTab,
-    Scroll,
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll)
   },
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -141,10 +147,10 @@ export default {
 
 <style lang="scss" type="text/scss" scoped>
 .sidebar {
-  position:absolute;
-  top:0;
-  left:0;
-  bottom:0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
   overflow: hidden;
 }
 .operate {

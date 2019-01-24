@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 
 export default {
   name: 'AppMain',
@@ -21,14 +20,6 @@ export default {
       cachePage: [], // keep-alive生效的组件，
       flag: true,
     }
-  },
-  methods: {
-    ...mapMutations(['SET_START_SCROLL', 'GET_SCROLLY']),
-  },
-  watch: {
-    $route() {
-      this.SET_START_SCROLL(false)
-    },
   },
 }
 </script>
