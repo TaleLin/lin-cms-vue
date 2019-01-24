@@ -11,6 +11,7 @@
     "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "axios": "~0.18.0",
     "better-scroll": "^1.13.2",
     "element-ui": "~2.4.6",
