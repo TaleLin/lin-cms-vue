@@ -12,7 +12,7 @@
       </div>
       <form class="login-form"
             autocomplete="off"
-            @submit.prevent="login()">
+            @submit.prevent="throttleLogin()">
         <div class="form-item nickname">
           <span class="icon account-icon"></span>
           <input type="text"
@@ -36,6 +36,7 @@
 
 <script>
 import User from '@/lin/models/user'
+import Utils from '@/lin/utils/util'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -43,8 +44,8 @@ export default {
   data() {
     return {
       loading: false, // 加载动画
-      lastTime: 0, // 定时器
-      delay: 2000, // 2000ms
+      wait: 2000, // 2000ms之内不能重复发起请求
+      throttleLogin: null, // 节流登录
       form: {
         nickname: 'super',
         password: '123456',
@@ -56,20 +57,16 @@ export default {
   methods: {
     async login() {
       const { nickname, password } = this.form
-      const now = +new Date()
-      if (now - this.lastTime > this.delay) {
-        this.lastTime = now
-        try {
-          this.loading = true
-          await User.getToken(nickname, password)
-          await this.getInformation()
-          this.loading = false
-          this.$router.push('/about')
-          this.$message.success('登录成功')
-        } catch (e) {
-          this.loading = false
-          console.log(e)
-        }
+      try {
+        this.loading = true
+        await User.getToken(nickname, password)
+        await this.getInformation()
+        this.loading = false
+        this.$router.push('/about')
+        this.$message.success('登录成功')
+      } catch (e) {
+        this.loading = false
+        console.log(e)
       }
     },
     async getInformation() {
@@ -102,6 +99,10 @@ export default {
     ...mapMutations({
       setUserAuths: 'SET_USER_AUTHS',
     }),
+  },
+  created() {
+    // 节流登录
+    this.throttleLogin = Utils.throttle(this.login, this.wait)
   },
   components: {},
 }
