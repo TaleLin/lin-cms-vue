@@ -164,7 +164,7 @@ export default {
         border-radius: 0 0 0 14px;
         background: rgba(255, 255, 255, 0.3);
         &::before {
-          font-size: 4px;
+          font-size: 12px;
           position: absolute;
           right: -1px;
           transform: scale(0.7);
@@ -190,7 +190,7 @@ export default {
       border-radius: 0 0 0 14px;
       background: rgba(255, 255, 255, 0.3);
       &::before {
-        font-size: 4px;
+        font-size: 12px;
         position: absolute;
         right: -1px;
         transform: scale(0.7);
