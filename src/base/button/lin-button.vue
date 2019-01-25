@@ -44,6 +44,7 @@ export default {
   .lin-button {
     display: flex;
     justify-content: center;
+    align-items: center;
     font-weight: 400;
     height: 24px;
     font-size: 12px;
@@ -61,6 +62,7 @@ export default {
     &:hover {
       color: #ffffff;
       background: $theme;
+      border:1px solid $theme;
     }
   }
   .lin-button-del {
@@ -69,6 +71,7 @@ export default {
     &:hover {
       color: #ffffff;
       background: #f4516c;
+      border:1px solid #f4516c;
     }
   }
 }
