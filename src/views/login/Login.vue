@@ -152,7 +152,7 @@ export default {
         input {
           width: 100%;
           height: 100%;
-          background-color: inherit;
+          background:transparent;
           color: #c4c9d2;
           font-size: 14px;
           padding-left: 74px;
