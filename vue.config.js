@@ -6,7 +6,9 @@ function resolve(dir) {
 
 module.exports = {
   lintOnSave: true,
-  baseUrl: '/',
+  baseUrl: process.env.NODE_ENV === 'production'
+    ? '/lin-cms/'
+    : '/',
   productionSourceMap: false,
   // assetsDir: 'static',
   chainWebpack: (config) => {
