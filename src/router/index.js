@@ -39,6 +39,7 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title
   }
   // 判断哪些页面不需登陆便可进入
+  console.log('store', store)
   if (isLoginRequired(to.name) && !store.state.logined) {
     next({ path: '/login' })
   } else {
