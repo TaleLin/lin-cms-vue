@@ -6,7 +6,7 @@ function resolve(dir) {
 
 module.exports = {
   lintOnSave: true,
-  publicPath: '/',
+  baseUrl: '/',
   productionSourceMap: false,
   // assetsDir: 'static',
   chainWebpack: (config) => {
@@ -30,6 +30,6 @@ module.exports = {
   devServer: {},
   // node_modules依赖项es6语法未转换问题
   transpileDependencies: [
-    'vuex-persist'
+    'vuex-persist',
   ],
 }
