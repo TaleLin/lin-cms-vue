@@ -3,7 +3,7 @@
     <!-- 列表页面 -->
     <div class="container" v-if="!showEdit">
       <div class="header">
-        <div class="title">用户列表</div>
+        <div class="title">图书列表</div>
       </div>
       <!-- 表格 -->
       <lin-table :tableColumn="tableColumn"
