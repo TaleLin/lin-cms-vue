@@ -185,14 +185,14 @@ export default {
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    justify-content:space-around;
+    justify-content: space-around;
     .imgIcon {
       width: 16px;
       height: 16px;
       margin: 0 auto;
     }
     .title{
-      margin-top:-6px;
+      margin-top: -6px;
     }
   }
 }
