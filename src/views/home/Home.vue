@@ -198,7 +198,7 @@ export default {
   border-radius: 4px;
   line-height: 45px;
   .iconfont {
-    font-size: 18px;
+    font-size: 36px;
   }
 }
 </style>
