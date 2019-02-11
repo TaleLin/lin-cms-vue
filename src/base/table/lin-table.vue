@@ -21,8 +21,8 @@
                     :type="item.type"
                     :text="item.name"
                     :key="index"
+                    v-auth="item.auth ? item.auth : ''"
                     @click.native.prevent.stop="buttonMethods(item.func, scope.$index, tableData)">
-          {{item.name}}
         </lin-button>
         <!-- <el-button @click.native.prevent="handleEdit(scope.$index, tableData)"
                    type="text"

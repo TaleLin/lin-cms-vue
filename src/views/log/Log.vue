@@ -250,6 +250,9 @@ export default {
 @import "~assets/styles/elementUi.scss";
 .log {
   padding: 0 20px;
+  background:#ffffff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   .log-header {
     display: flex;
     justify-content: space-between;
@@ -307,6 +310,7 @@ export default {
   .content {
     padding: 40px 60px;
     font-family: "PingFangSC-Regular";
+    background:#ffffff;
     article {
       position: relative;
       section {

@@ -3,7 +3,7 @@
     <!-- 列表页面 -->
     <div class="container" v-if="!showEdit">
       <div class="header">
-        <div class="title">用户列表</div>
+        <div class="title">图书列表</div>
       </div>
       <!-- 表格 -->
       <lin-table :tableColumn="tableColumn"
@@ -47,7 +47,11 @@ export default {
   async created() {
     this.loading = true
     this.getBooks()
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
+    this.operate = [{
+      name: '编辑', func: 'handleEdit', type: 'edit',
+    }, {
+      name: '删除', func: 'handleDelete', type: 'del', auth: '删除图书',
+    }]
     this.loading = false
   },
   methods: {
