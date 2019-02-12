@@ -178,6 +178,9 @@ export default {
     border-top: 3px solid $theme;
     background: rgba(255, 255, 255, 1);
     color: rgba(57, 99, 188, 1);
+     .menu-li {
+      margin-top: -3px;
+    }
   }
   .menu-li {
     width: 120px;
@@ -192,7 +195,7 @@ export default {
       margin: 0 auto;
     }
     .title{
-      margin-top: -6px;
+      margin-top: -9px;
     }
   }
 }
