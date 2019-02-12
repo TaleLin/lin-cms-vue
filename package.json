@@ -8,7 +8,9 @@
     "build-modern": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact",
+    "release": "standard-version"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
@@ -32,10 +34,17 @@
     "@vue/cli-service": "^3.0.1",
     "@vue/eslint-config-airbnb": "^3.0.1",
     "babel-plugin-component": "^1.1.1",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint-plugin-vue": "~4.7.1",
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
+    "standard-version": "^4.4.0",
     "vue-template-compiler": "^2.5.17",
     "vuepress": "^0.14.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
