@@ -5,7 +5,7 @@
         <side-bar :isCollapse="isCollapse"
                   class="sidebar"></side-bar>
       </el-aside>
-      <el-container>
+      <el-container class="el-container-right">
         <el-header>
           <div class="operate">
             <i class="iconfont icon-fold"
@@ -176,8 +176,10 @@ export default {
   height: 100%;
   overflow: hidden;
 }
+.el-container-right {
+  padding-bottom: 20px;
+}
 .app-main {
-  height: 100%;
   background: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -185,20 +187,22 @@ export default {
 .el-main {
   overflow-y: auto;
   position: relative;
+  padding-bottom: 0;
 }
 .backTop {
   position: fixed;
   display: inline-block;
   text-align: center;
   cursor: pointer;
-  right: 50px;
+  right: 30px;
   bottom: 50px;
   width: 40px;
   height: 40px;
   border-radius: 4px;
   line-height: 45px;
+  z-index: 3;
   .iconfont {
-    font-size: 18px;
+    font-size: 24px;
   }
 }
 </style>
