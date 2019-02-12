@@ -177,7 +177,6 @@ export default {
   overflow: hidden;
 }
 .app-main {
-  height: 100%;
   background: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -191,14 +190,15 @@ export default {
   display: inline-block;
   text-align: center;
   cursor: pointer;
-  right: 50px;
+  right: 30px;
   bottom: 50px;
   width: 40px;
   height: 40px;
   border-radius: 4px;
   line-height: 45px;
+  z-index: 3;
   .iconfont {
-    font-size: 18px;
+    font-size: 24px;
   }
 }
 </style>
