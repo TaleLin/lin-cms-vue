@@ -1,10 +1,10 @@
-const Poetry = () => import('./views/Poetry')
+const Poem = () => import('./views/Poem')
 
 const poetryRouter = {
-  path: '/poetry',
-  component: Poetry,
+  path: '/poems',
+  component: Poem,
   meta: {
-    title: '优雅唐诗',
+    title: '唐诗宋词',
     // menuTab: true,
     icon: 'iconfont icon-demo',
   },
