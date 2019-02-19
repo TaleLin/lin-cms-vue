@@ -6,7 +6,7 @@
         <span class="label">时长</span> {{time}}
       </div>
       <div class="num">
-        <i class="iconfont icon-huiyuan1"></i>&nbsp;
+        <i class="iconfont icon-huiyuan"></i>&nbsp;
         <span class="label">学习人数</span> {{people}}
       </div>
     </div>
