@@ -104,10 +104,16 @@ export default {
     isCollapse() {
       this.sideBarWidth = this.isCollapse === false ? '170px' : '50px'
     },
-    $route() {
+    $route(to) {
       this.showBackTop = false
       if (this.scrollY <= 70) { // MenuTab组件高度
         this.backTop()
+      }
+
+      if (to.meta.blueBaseColor) {
+        this.$refs.appMain.$el.style.background = '#273B6F'
+      } else {
+        this.$refs.appMain.$el.style.background = '#fff'
       }
     },
   },
