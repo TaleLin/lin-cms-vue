@@ -19,6 +19,9 @@ export default {
   },
   watch: {
     stopTime() {
+      if (!Config.openAutoJumpOut) {
+        return
+      }
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.loginOut()

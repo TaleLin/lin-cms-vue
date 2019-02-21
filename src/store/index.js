@@ -10,7 +10,7 @@ import actions from './actions'
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
-  storage: window.sessionStorage,
+  storage: window.localStorage,
 })
 
 
