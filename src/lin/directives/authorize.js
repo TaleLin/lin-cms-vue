@@ -18,7 +18,7 @@ export default {
       bind(el, binding) {
         const isAllow = isAllowed(binding.value, store.state.user, store.state.auths)
         const element = el
-        if (!isAllow) {
+        if (!isAllow && binding.value) {
           element.style.display = 'none'
         }
       },
