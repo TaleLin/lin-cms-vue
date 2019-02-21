@@ -1,6 +1,7 @@
 <template>
   <div class="box">
     <div class="header">
+      <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/imooc.png" alt="">
       <p>慕课网精品课程</p>
     </div>
     <div class="course-box">
@@ -11,11 +12,15 @@
           </div>
           <div class="content">
             <div class="title">微信小程序入门与实战 常用组件API开发技巧项目实战</div>
-            <p>随着小程序生态的逐渐形成，小程序越来越多的出现在万千百姓的生活中，日活用户量高达两亿。门槛低、更易学、对个人开发者更加包容开放的特点也吸引了越来越多的人加入到“小程序程序员”的行列，尤其是解决“跨系统开发”这个难题之后，小程序也更多的吸引到了国内外更多的开发者。</p>
+            <p>随着小程序生态的逐渐形成，小程序越来越多的出现在万千百姓的生活中，日活用户量高达两亿。
+              门槛低、更易学、对个人开发者更加包容开放的特点也吸引了越来越多的人加入到“小程序程序员”的行列，
+              尤其是解决“跨系统开发”这个难题之后，小程序也更多的吸引到了国内外更多的开发者。</p>
             <course-data time="14小时39分钟" people="16597" link="https://coding.imooc.com/class/75.html"></course-data>
           </div>
         </div>
-        <div class="flag"></div>
+        <div class="flag">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/wechat-logo.png" alt="">
+        </div>
       </div>
       <div class="course">
         <div class="mark">
@@ -24,42 +29,51 @@
           </div>
           <div class="content">
             <div class="title">全面系统 Python3入门+进阶课程 更快上手实际开发</div>
-            <p>无论是大数据、人工智能还是机器学习，Python都是最热门的首选语言 ，这次课程，就将带你从基础入门Python3，掌握Python3.x 版本语法，并结合讲师实际工作经验讲解Python使用技巧以及数据结构等相关知识，并为你精心配套了练习题目及实战案例。巧妙的课程设计，在项目实践中学习Python编程本质。</p>
+            <p>无论是大数据、人工智能还是机器学习，Python都是最热门的首选语言 ，这次课程，就将带你从基础入门Python3，掌握Python3.x 版本语法，
+              并结合讲师实际工作经验讲解Python使用技巧以及数据结构等相关知识，并为你精心配套了练习题目及实战案例。巧妙的课程设计，在项目实践中学习Python编程本质。</p>
             <course-data time="20小时" people="7628" link="https://coding.imooc.com/class/136.html"></course-data>
           </div>
         </div>
-        <div class="flag"></div>
+        <div class="flag">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/python.png" alt="">
+        </div>
       </div>
       <div class="course">
         <div class="row">
-          <div class="banner">
-            <img class="" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-3.png" alt="">
+          <div class="banner" style="background-image: url('https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-3.png');">
           </div>
           <div class="content">
             <div class="title">纯正商业级应用-微信小程序开发实战</div>
-            <p>小程序的成功，让广大程序员早已不再纠结该不该学习小程序开发 ，但会纠结如何学习小程序开发，直到他们遇到了 “七月”老师，你可以自行看看七月老师其它课程的学员对他课程的真实评价，选择他的课，不需要纠结，更不需要犹豫</p>
+            <p>小程序的成功，让广大程序员早已不再纠结该不该学习小程序开发 ，但会纠结如何学习小程序开发，
+              直到他们遇到了 “七月”老师，你可以自行看看七月老师其它课程的学员对他课程的真实评价，选择他的课，不需要纠结，更不需要犹豫</p>
             <course-data time="18小时20分钟" people="1829" link="https://coding.imooc.com/class/251.html"></course-data>
           </div>
         </div>
-        <div class="flag"></div>
+        <div class="flag">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/wechat-logo.png" alt="">
+        </div>
+        <div class="mini">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/mini2.jpg" alt="">
+        </div>
       </div>
       <div class="course">
         <div class="row">
-        <div class="banner">
-          <img class="" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-4.png" alt="">
+        <div class="banner" style="background-image: url('https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-4.png');">
         </div>
         <div class="content">
           <div class="title">Python Flask构建可扩展的RESTful API</div>
-          <p>前后端分离大势所趋，本课程将构建一套优秀的RESTful API，可以适配小程序、App 、wap 、web前端页面，除此之外，课程扩展了Flask框架机制，培养编程思维，随心所欲玩转Flask</p>
+          <p>前后端分离大势所趋，本课程将构建一套优秀的RESTful API，可以适配小程序、App 、wap 、web前端页面，
+            除此之外，课程扩展了Flask框架机制，培养编程思维，随心所欲玩转Flask</p>
           <course-data time="6小时25分钟" people="781" link="https://coding.imooc.com/class/220.html"></course-data>
         </div>
         </div>
-        <div class="flag"></div>
+        <div class="flag">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/flask.png" alt="">
+        </div>
       </div>
       <div class="course">
         <div class="row">
-        <div class="banner">
-          <img class="" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-5.png" alt="">
+        <div class="banner" style="background-image: url('https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-5.png');">
         </div>
         <div class="content">
           <div class="title">微信小程序商城构建全栈应用</div>
@@ -67,12 +81,16 @@
           <course-data time="23小时39分钟" people="3118" link="https://coding.imooc.com/class/97.html"></course-data>
         </div>
         </div>
-        <div class="flag"></div>
+        <div class="flag">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/PHP.png" alt="">
+        </div>
+        <div class="mini">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/mini1.jpg" alt="">
+        </div>
       </div>
       <div class="course">
         <div class="row">
-        <div class="banner">
-          <img class="" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-6.png" alt="">
+        <div class="banner" style="background-image: url('https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/CMS-6.png');">
         </div>
         <div class="content">
           <div class="title">Python Flask高级编程</div>
@@ -80,7 +98,9 @@
           <course-data time="19小时38分钟" people="1222" link="https://coding.imooc.com/class/194.html"></course-data>
         </div>
         </div>
-        <div class="flag"></div>
+        <div class="flag">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/flask.png" alt="">
+        </div>
       </div>
     </div>
   </div>
@@ -98,6 +118,9 @@ export default {
   components: {
     CourseData,
   },
+  mounted() {
+    console.log('document.body.clientWidth ')
+  },
 }
 </script>
 
@@ -107,6 +130,11 @@ export default {
   .header {
     color: #fff;
     margin-bottom: 30px;
+    img {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 4px;
+    }
     p {
       text-align: center;
       font-size: 24px;
@@ -133,6 +161,30 @@ export default {
         background:rgba(255,182,62,1);
         box-shadow:0px 2px 10px 0px rgba(68,83,132,0.5);
         border-radius:0px 0px 8px 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 35px;
+          height: auto;
+        }
+      }
+      .mini {
+        position: absolute;
+        left: 7%;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 50%;
+        width: 15%;
+        overflow: hidden;
+        box-shadow:0px 2px 10px 0px rgba(68,83,132,0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
       .mark {
         max-height: 510px;
@@ -168,6 +220,8 @@ export default {
         justify-content: flex-start;
         .banner {
           width: 31%;
+          background-position: center;
+          background-size: cover;
           img {
             width: 100%;
             height: 240px;
@@ -196,6 +250,14 @@ export default {
         }
       }
     }
+  }
+}
+@media screen and (max-width: 1280px){
+  .box .course-box .course .row .banner {
+    width: 10%
+  }
+  .box .course-box .course .row .content {
+    width: 90%
   }
 }
 

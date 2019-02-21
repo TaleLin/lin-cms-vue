@@ -60,6 +60,7 @@ export default {
         height: 12px;
         width: 12px;
         font-size: 12px;
+        font-weight: bold;
       }
     }
   }
