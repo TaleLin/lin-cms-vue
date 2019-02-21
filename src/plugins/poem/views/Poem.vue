@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import poem from '@/plugins/demo/models/poem'
+import poem from '@/plugins/poem/models/poem'
 import StickyTop from '@/base/sticky-top/sticky-top'
 
 export default {
@@ -82,6 +82,9 @@ export default {
       color: #7f8c8d;
     }
     .poems{
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
       width: 100%;
       padding-bottom: 20px;
       .poems-container{
@@ -90,9 +93,11 @@ export default {
         justify-content: center;
         align-items: center;
         background:url('../assets/images/bg.png');
-        width: inherit;
-        height: 470px;
-        margin-top: 20px;
+        width: 47%;
+        margin-left: 0.5%;
+        margin-right: 0.5%;
+        padding: 1%;
+        margin-top: 1%;
         .poems-title{
           display: flex;
           flex-direction: column;

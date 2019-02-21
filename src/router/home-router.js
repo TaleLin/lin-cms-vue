@@ -1,4 +1,4 @@
-import poetryRouter from '@/plugins/demo'
+import poemsRouter from '@/plugins/poem'
 
 import adminRouter from './modules/admin'
 import bookRouter from './modules/book' // 引入图书管理路由文件
@@ -29,7 +29,7 @@ const homeRouter = [
   },
   bookRouter, // 插入路由树
   adminRouter,
-  poetryRouter,
+  poemsRouter,
 ]
 
 export default homeRouter

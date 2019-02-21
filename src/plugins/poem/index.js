@@ -1,6 +1,6 @@
 const Poem = () => import('./views/Poem')
 
-const poetryRouter = {
+const poemsRouter = {
   path: '/poems',
   component: Poem,
   meta: {
@@ -10,4 +10,4 @@ const poetryRouter = {
   },
 }
 
-export default poetryRouter
+export default poemsRouter
