@@ -52,12 +52,8 @@ export default function tip(error) {
       })
       break
     case 10000: // 无权限
-      Vue.prototype.$notify({
-        title: '无权限',
-        dangerouslyUseHTMLString: true,
-        message: `<strong class="my-notify">${msg}</strong>`,
-      })
-      throw new Error(msg)
+      User.getRefreshToken()
+      break
     case 10030: // 参数错误
       Vue.prototype.$message({
         type: 'error',

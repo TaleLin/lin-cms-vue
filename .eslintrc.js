@@ -19,11 +19,11 @@ module.exports = {
     'no-underscore-dangle': 0, // 无下划线
     camelcase: 0, // 变量可以用下划线
     semi: ['error', 'never'], // 无分号
-    "no-plusplus": 0,//禁止使用++，--
+    'no-plusplus': 0, // 禁止使用++，--
     // 'no-tabs': [o],
-    "guard-for-in": 0,
+    'guard-for-in': 0,
     // "max-len": ["error", { "code": 200 }],
-    "no-restricted-syntax": 0,
+    'no-restricted-syntax': 0,
   },
   parserOptions: {
     parser: 'babel-eslint',

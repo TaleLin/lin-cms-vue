@@ -3,9 +3,9 @@ module.exports = {
     [
       '@vue/app',
       {
-        useBuiltIns: 'entry'
-      }
-    ]
+        useBuiltIns: 'entry',
+      },
+    ],
   ],
   plugins: [
     [

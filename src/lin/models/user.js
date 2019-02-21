@@ -6,11 +6,21 @@ const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
 
 export default class User {
-  isActive = null // 当前用户是否在激活状态
-  email = null // 邮箱
-  groupId = null // 权限分组id
-  nickname = null // 昵称
-  isSuper = null // 是否为超级管理员
+  isActive = null
+
+  // 当前用户是否在激活状态
+  email = null
+
+  // 邮箱
+  groupId = null
+
+  // 权限分组id
+  nickname = null
+
+  // 昵称
+  isSuper = null
+
+  // 是否为超级管理员
   auths = [] // 拥有的权限
 
   constructor(active, email, groupId, nickname, _super, auths) {

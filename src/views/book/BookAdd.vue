@@ -51,7 +51,6 @@
 
 <script>
 import book from '@/lin/models/book'
-import Scroll from '@/base/scroll/scroll'
 
 export default {
   data() {
@@ -63,9 +62,6 @@ export default {
         image: '',
       },
     }
-  },
-  components: {
-    Scroll,
   },
   methods: {
     async submitForm(formName) {

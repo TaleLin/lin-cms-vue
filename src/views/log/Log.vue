@@ -11,6 +11,7 @@
                       ref="searchKeyword" />
           <lin-dropdown style="margin: 0 10px;"
                         :list="users"
+                        :title="title"
                         @command="searchByUser" />
           <lin-date-picker @dateChange="handleDateChange"
                           ref="searchDate"
@@ -94,6 +95,7 @@ export default {
       searchDate: [],
       keyword: null,
       totalCount: 0,
+      title: '全部人员',
     }
   },
   async created() {
@@ -218,6 +220,7 @@ export default {
       this.more = false
     },
     searchByUser(user) {
+      this.title = user
       this.searchUser = user
     },
     onQueryChange(query) {
