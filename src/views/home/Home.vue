@@ -174,6 +174,20 @@ export default {
 .el-main {
   overflow-y: auto;
   position: relative;
-  padding-bottom: 0;
+}
+.backTop {
+  position: fixed;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  right: 50px;
+  bottom: 50px;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  line-height: 45px;
+  .iconfont {
+    font-size: 36px;
+  }
 }
 </style>

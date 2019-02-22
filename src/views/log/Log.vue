@@ -9,12 +9,25 @@
             v-auth="['搜索日志','查询日志']">
           <lin-search @query="onQueryChange"
                       ref="searchKeyword" />
-          <lin-dropdown style="margin: 0 10px;"
-                        :list="users"
-                        @command="searchByUser" />
-          <lin-date-picker @dateChange="handleDateChange"
-                          ref="searchDate"
-                          class="date"></lin-date-picker>
+        <el-dropdown style="margin: 0 10px;" @command="handleCommand">
+          <el-button>
+            {{searchUser}}<i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="['全部人员']">全部分组</el-dropdown-item>
+            <el-dropdown-item
+              v-for="(user, index) in users"
+              :key="index"
+              :command="[user]"
+              >{{user}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+          <lin-date-picker
+              @dateChange="handleDateChange"
+              ref="searchDate"
+              class="date">
+          </lin-date-picker>
         </div>
       </div>
     <lin-1px v-if="!keyword"
@@ -85,11 +98,11 @@ export default {
       value: '',
       logs: [],
       users: [],
+      searchUser: '全部人员',
       more: false,
       loading: false,
       finished: false,
       isSearch: false,
-      searchUser: '',
       searchKeyword: '',
       searchDate: [],
       keyword: null,
@@ -97,7 +110,6 @@ export default {
     }
   },
   async created() {
-    console.log(this.isAllowed('搜索日志'))
     this.loading = true
     await this.initPage()
     this.loading = false
@@ -161,6 +173,10 @@ export default {
     },
   },
   methods: {
+    // 下拉框
+    handleCommand(user) {
+      this.searchUser = user[0]
+    },
     // 页面初始化
     async initPage() {
       try {
