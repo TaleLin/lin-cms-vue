@@ -107,7 +107,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import CourseData from '@/base/course-data/course-data'
+import CourseData from '../components/course-data'
 
 export default {
   data() {
