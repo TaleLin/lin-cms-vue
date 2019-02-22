@@ -1,4 +1,5 @@
 import imoocRouter from '@/plugins/imooc/route'
+import tableRouter from '@/plugins/lin-table/route'
 
 import adminRouter from './modules/admin'
 import bookRouter from './modules/book' // 引入图书管理路由文件
@@ -18,6 +19,7 @@ const homeRouter = [
     },
   },
   imoocRouter,
+  tableRouter,
   {
     path: '/log',
     name: 'log',
