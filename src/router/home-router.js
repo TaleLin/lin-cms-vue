@@ -1,4 +1,4 @@
-import poemsRouter from '@/plugins/poem'
+import poemsRouter from '@/plugins/poem/router.js'
 
 import adminRouter from './modules/admin'
 import bookRouter from './modules/book' // 引入图书管理路由文件

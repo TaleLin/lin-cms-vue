@@ -14,7 +14,7 @@
 |
 |——config.js # 配置文件
 |
-|——index.js # 路由文件
+|——router.js # 路由文件
 |
 └──info.json # 插件信息
 ```
