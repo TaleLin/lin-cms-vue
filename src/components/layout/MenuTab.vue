@@ -178,21 +178,24 @@ export default {
     border-top: 3px solid $theme;
     background: rgba(255, 255, 255, 1);
     color: rgba(57, 99, 188, 1);
-    .menu-li {
+     .menu-li {
       margin-top: -3px;
     }
   }
   .menu-li {
-    height: 50px;
     width: 120px;
+    height: 50px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
     .imgIcon {
       width: 16px;
       height: 16px;
       margin: 0 auto;
+    }
+    .title{
+      margin-top: -9px;
     }
   }
 }
