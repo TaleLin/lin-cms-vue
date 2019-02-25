@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "plugin-new": "node script/plugin-new.js",
     "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact"
   },
   "dependencies": {
