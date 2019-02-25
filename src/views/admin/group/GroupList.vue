@@ -67,13 +67,11 @@
 import Utils from '@/lin/utils/util'
 import Admin from '@/lin/models/admin'
 import LinTable from '@/base/table/lin-table'
-import LinButton from '@/base/button/lin-button'
 import GroupAuths from './GroupAuths'
 
 export default {
   components: {
     LinTable,
-    LinButton,
     GroupAuths,
   },
   inject: ['eventBus'],

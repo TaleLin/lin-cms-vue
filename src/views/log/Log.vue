@@ -80,7 +80,6 @@
 <script>
 import log from 'lin/models/log'
 import LinSearch from '@/base/search/lin-search'
-import LinDropdown from '@/base/dropdown/lin-dropdown'
 import LinDatePicker from '@/base/date-picker/lin-date-picker'
 import { searchLogKeyword } from 'lin/utils/search'
 import StickyTop from '@/base/sticky-top/sticky-top'
@@ -88,7 +87,6 @@ import StickyTop from '@/base/sticky-top/sticky-top'
 export default {
   components: {
     LinSearch,
-    LinDropdown,
     LinDatePicker,
     StickyTop,
   },
@@ -175,7 +173,7 @@ export default {
   methods: {
     // 下拉框
     handleCommand(user) {
-      this.searchUser = user[0]
+      this.searchUser = user[0] // eslint-disable-line
     },
     // 页面初始化
     async initPage() {

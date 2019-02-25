@@ -3,8 +3,11 @@ import { get } from '../utils/http'
 
 class Log {
   name = null;
+
   start = null;
+
   end = null;
+
   keyword = null;
 
   constructor({
@@ -71,6 +74,7 @@ class Log {
     const log = await get('cms/test/info')
     return log
   }
+
   /**
    * 查询已经被记录过日志的用户（分页）
    * @param {number} count 每页个数

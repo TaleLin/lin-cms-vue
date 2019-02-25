@@ -6,6 +6,7 @@ import store from '../../store'
 
 export default class Sse {
   source = null;
+
   /**
    * 需在vuex中确认有user对象后才能初始化，否则不连接服务器
    * 注意： sse单独走自己的请求路线，不与axios重合，所以axios里面的配置在此处失效

@@ -6,14 +6,11 @@ const Login = () => import('@/views/login/Login')
 
 const routes = [
   {
-    path: '',
+    path: '/',
     name: 'Home',
+    redirect: '/about',
     component: Home,
     children: [
-      {
-        path: '/',
-        redirect: '/about',
-      },
       ...homeRouter,
     ],
   },

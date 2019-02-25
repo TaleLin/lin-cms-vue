@@ -85,9 +85,9 @@ export default {
       let has = false
       this.sideBarList.forEach((element) => {
         if (
-          element.path === path &&
-          element.children &&
-          element.children.length > 0
+          element.path === path
+          && element.children
+          && element.children.length > 0
         ) {
           has = true
         } else if (element.children && element.children.length > 0) {
