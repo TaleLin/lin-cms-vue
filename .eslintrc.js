@@ -24,7 +24,7 @@ module.exports = {
     'guard-for-in': 0,
     // "max-len": ["error", { "code": 200 }],
     "no-restricted-syntax": 0,
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["script/*.js"]}]
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["script/*.js"]}],
     'no-restricted-syntax': 0,
   },
   parserOptions: {

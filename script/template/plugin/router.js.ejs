@@ -1,0 +1,15 @@
+/*
+plugin: <%= name %>
+*/
+
+ const PluginRouter = {
+  path: '/<%= name %>/test',
+  component: () => import('./views/TestView'),
+  meta: {
+    title: '示例舞台',
+    // menuTab: true,
+    icon: 'iconfont icon-demo',
+  },
+}
+
+export default PluginRouter
