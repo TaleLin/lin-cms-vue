@@ -92,22 +92,25 @@ export default {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        background:url('../assets/images/bg.png');
+        background:url('../assets/images/bg.png') no-repeat;
+        background-size: 100%;
+        background-position-y: 100%;
+        background-color: #f8f8f8;
         width: 47%;
         margin-left: 0.5%;
         margin-right: 0.5%;
         padding: 1%;
         margin-top: 1%;
+        font-family: 'SimSun';
         .poems-title{
           display: flex;
           flex-direction: column;
           align-items: center;
-          width: 120px;
+          width: 90px;
           .poems-name{
             display:flex;
             flex-direction: row;
             align-items:flex-end;
-            font-family: 'Source Han Serif';
             margin-top: 20px;
             line-height: 30px;
             width: 30px;
