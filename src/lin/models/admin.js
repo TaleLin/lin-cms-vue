@@ -1,5 +1,7 @@
 /* eslint-disable class-methods-use-this */
-import { post, get, put, _delete } from '../utils/http'
+import {
+  post, get, put, _delete,
+} from '../utils/http'
 
 export default class Admin {
   constructor(uPage = 0, uCount = 10, gPage = 0, gCount = 5) {
@@ -116,6 +118,7 @@ export default class Admin {
     const res = await _delete(`cms/admin/${id}`)
     return res
   }
+
   static async updateOneUser(email, group_id, id) {
     const res = await put(`cms/admin/${id}`, {
       email,
@@ -123,6 +126,7 @@ export default class Admin {
     })
     return res
   }
+
   static async dispatchAuths(group_id, auths) {
     const res = await post('cms/admin/dispatch/patch', {
       group_id,
@@ -130,6 +134,7 @@ export default class Admin {
     })
     return res
   }
+
   static async changePassword(new_password, confirm_password, id) {
     const res = await put(`cms/admin/password/${id}`, {
       new_password,

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Config from '@/config'
-import { getToken } from '../utils/cookie'
+import { getToken } from './cookie'
 import store from '../../store'
 import tip from './exception'
 

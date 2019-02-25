@@ -6,7 +6,7 @@ function isAllowed(_auth, user, auths) {
   }
   if (typeof _auth === 'string') {
     return auths.includes(_auth)
-  } else if (_auth instanceof Array) {
+  } if (_auth instanceof Array) {
     return _auth.some(auth => auths.indexOf(auth) >= 0)
   }
   return false
