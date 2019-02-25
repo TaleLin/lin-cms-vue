@@ -69,10 +69,10 @@ Lin CMS 除了内置常见的功能外，还提供了一套开发规范与工具
 git clone https://github.com/TaleLin/lin-cms-vue.git
 
 # install dependency
-npm install
+npm install or yarn
 
 # develop
-npm run serve
+npm run serve or yarn (run) serve
 ```
 
 ## 下个版本开发计划

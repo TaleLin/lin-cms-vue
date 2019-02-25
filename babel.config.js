@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 module.exports = {
   presets: [
     [
