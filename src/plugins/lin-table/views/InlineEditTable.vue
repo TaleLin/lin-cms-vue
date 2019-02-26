@@ -52,23 +52,20 @@ export default {
   },
   created() {
     this.tableData = tableData.map((v) => {
-      const temp = { ...v }
-      this.$set(temp, 'edit', false)
-      temp.originalAddress = temp.address
-      return temp
+      this.$set(v, 'edit', false)
+      v.originalAddress = v.address
+      return v
     })
   },
   methods: {
     // 行内编辑
     cancelEdit(row) {
-      const temp = { ...row }
-      temp.address = temp.originalAddress
-      temp.edit = false
+      row.address = row.originalAddress
+      row.edit = false
     },
     confirmEdit(row) {
-      const temp = { ...row }
-      temp.edit = false
-      temp.originalAddress = temp.address
+      row.edit = false
+      row.originalAddress = row.address
     },
   },
 }
