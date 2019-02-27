@@ -49,7 +49,10 @@ http.interceptors.request.use(
 )
 // 返回结果处理
 http.interceptors.response.use(
-  res => res.data,
+  (res) => {
+    console.log('res', res)
+    return res.data
+  },
   (error) => {
     tip(error)
   },
@@ -105,6 +108,16 @@ export function put(url, data = {}, params = {}) {
 export function _delete(url, params = {}) {
   return http({
     method: 'delete',
+    url,
+    params,
+  })
+}
+
+export async function refreshRequest(response) {
+  const { params, url, method } = response.config
+  console.log('2233434')
+  return http({
+    method,
     url,
     params,
   })

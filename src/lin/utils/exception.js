@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import stateCode from '@/config/error-code'
 import User from '../models/user'
+// import { refreshRequest } from './http'
 
-export default function tip(error) {
+
+export default async function tip(error) {
   // 处理 network fail 异常
   if (!error.response) {
     Vue.prototype.$notify({
@@ -21,7 +23,7 @@ export default function tip(error) {
     })
   }
 
-
+  console.log('error.response', error.response)
   // 处理 API 异常
   let { error_code, msg } = error.response.data // eslint-disable-line
   if (msg instanceof Object) {
@@ -52,12 +54,9 @@ export default function tip(error) {
       })
       break
     case 10000: // 无权限
-      Vue.prototype.$notify({
-        title: '无权限',
-        dangerouslyUseHTMLString: true,
-        message: `<strong class="my-notify">${msg}</strong>`,
-      })
-      throw new Error(msg)
+      await User.getRefreshToken()
+      // await refreshRequest(error.response)
+      break
     case 10030: // 参数错误
       Vue.prototype.$message({
         type: 'error',
