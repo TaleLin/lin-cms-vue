@@ -21,7 +21,7 @@ const homeRouter = [
     },
   },
   imoocRouter,
-  // tableRouter,
+  tableRouter,
   {
     path: '/log',
     name: 'log',

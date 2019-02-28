@@ -122,7 +122,7 @@ export default {
         this.tableData = [...res.collection]
         this.total_nums = res.total_nums
       } catch (e) {
-        this.loading = false
+        // this.loading = false
         console.log(e)
       }
     },

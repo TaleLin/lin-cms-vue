@@ -49,10 +49,7 @@ http.interceptors.request.use(
 )
 // 返回结果处理
 http.interceptors.response.use(
-  (res) => {
-    console.log('res', res)
-    return res.data
-  },
+  res => res.data,
   (error) => {
     tip(error)
   },

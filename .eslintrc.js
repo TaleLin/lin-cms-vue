@@ -24,6 +24,7 @@ module.exports = {
     'guard-for-in': 0,
     // "max-len": ["error", { "code": 200 }],
     'no-restricted-syntax': 0,
+    'class-methods-use-this': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint',

@@ -11,7 +11,9 @@
     <el-table-column v-for="item in tableColumn"
                      :key="item.id"
                      :prop="item.prop"
-                     :label="item.label">
+                     :label="item.label"
+                     :show-overflow-tooltip="true"
+                     :width="item.width ? item.width : ''">
     </el-table-column>
     <el-table-column label="操作"
                      fixed="right"

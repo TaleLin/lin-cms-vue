@@ -16,6 +16,7 @@ const tableRouter = {
       component: TableRowHid,
       meta: {
         title: '单列超出隐藏',
+        icon: 'iconfont icon-table1',
       },
     },
     {
@@ -23,6 +24,7 @@ const tableRouter = {
       component: InlineEditTable,
       meta: {
         title: '行内编辑',
+        icon: 'iconfont icon-table1',
       },
     },
     {
@@ -30,6 +32,7 @@ const tableRouter = {
       component: CustomRowTable,
       meta: {
         title: '定制列',
+        icon: 'iconfont icon-table1',
       },
     },
   ],

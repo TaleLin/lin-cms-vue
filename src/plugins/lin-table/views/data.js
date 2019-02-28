@@ -1,8 +1,13 @@
 const tableColumn = [
-  { prop: 'date', label: '日期' },
-  { prop: 'name', label: '姓名' },
-  { prop: 'province', label: '省份' },
-  { prop: 'city', label: '市区' },
+  { prop: 'rank', label: '排名' },
+  { prop: 'title', label: '电影名', width: 150 },
+  { prop: 'originalTitle', label: '原名', width: 150 },
+  { prop: 'avatar', label: '缩略图' },
+  { prop: 'rating', label: '评分' },
+  { prop: 'genres', label: '类型', width: 150 },
+  { prop: 'directors', label: '导演', width: 150 },
+  { prop: 'casts', label: '主演', width: 150 },
+  { prop: 'year', label: '年份' },
 ]
 
 const tableData = [
