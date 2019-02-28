@@ -1,5 +1,5 @@
 import imoocRouter from '@/plugins/imooc/route'
-// import tableRouter from '@/plugins/lin-table/route'
+import tableRouter from '@/plugins/lin-table/route'
 import poemsRouter from '@/plugins/poem/route.js'
 
 import adminRouter from './modules/admin'
@@ -21,7 +21,7 @@ const homeRouter = [
     },
   },
   imoocRouter,
-  // tableRouter,
+  tableRouter,
   {
     path: '/log',
     name: 'log',

@@ -3,13 +3,13 @@
     <!-- 列表页面 -->
     <div class="container">
       <div class="header">
-        <div class="title">表单</div>
+        <div class="title">豆瓣电影TOP250</div>
       </div>
       <el-checkbox-group v-model="checkList" @change="handleChange">
-        <el-checkbox disabled label="日期"></el-checkbox>
-        <el-checkbox label="姓名"></el-checkbox>
-        <el-checkbox label="省份"></el-checkbox>
-        <el-checkbox label="市区"></el-checkbox>
+        <el-checkbox disabled label="电影名"></el-checkbox>
+        <el-checkbox label="原名"></el-checkbox>
+        <el-checkbox label="类型"></el-checkbox>
+        <el-checkbox label="导演"></el-checkbox>
       </el-checkbox-group>
       <lin-table
         :tableColumn="filterTableColumn"
@@ -18,6 +18,18 @@
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
         @row-click="rowClick"></lin-table>
+
+        <!-- 分页 -->
+        <!-- <div class="pagination">
+          <el-pagination @current-change="handleCurrentChange"
+                        :background="true"
+                        :page-size="pageCount"
+                        :current-page="currentPage"
+                        v-if="refreshPagination"
+                        layout="prev, pager, next, jumper"
+                        :total="total_nums">
+          </el-pagination>
+        </div> -->
     </div>
   </div>
 </template>
@@ -77,7 +89,7 @@ export default {
 @import "~assets/styles/variable.scss";
 
 .container {
-  padding: 0 30px;
+  padding: 0 30px 30px;
 
   .header {
     display: flex;
@@ -93,5 +105,16 @@ export default {
       font-weight: 500;
     }
   }
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+  }
 }
+</style>
+<style>
+
+  .el-table .cell {
+    display: inline-block;
+  }
 </style>

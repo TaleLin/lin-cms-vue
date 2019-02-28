@@ -11,7 +11,7 @@ export const movieList = [
       '犯罪',
       '剧情',
     ],
-    title: '肖申克的救赎肖申克的救赎肖申克的救赎肖申克的救赎肖申克的救赎肖申克的救赎肖申克的救赎肖申克的救赎肖申克的救赎',
+    title: '肖申克的救赎',
     casts: [
       {
         alt: 'https://movie.douban.com/celebrity/1054521/',

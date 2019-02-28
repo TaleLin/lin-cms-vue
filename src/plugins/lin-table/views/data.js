@@ -2,7 +2,6 @@ const tableColumn = [
   { prop: 'rank', label: '排名' },
   { prop: 'title', label: '电影名', width: 150 },
   { prop: 'originalTitle', label: '原名', width: 150 },
-  { prop: 'avatar', label: '缩略图' },
   { prop: 'rating', label: '评分' },
   { prop: 'genres', label: '类型', width: 150 },
   { prop: 'directors', label: '导演', width: 150 },
