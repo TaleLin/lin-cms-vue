@@ -4,9 +4,9 @@ const poemsRouter = {
   path: '/poems',
   component: Poem,
   meta: {
-    title: '唐诗宋词',
+    title: '插件示例',
     // menuTab: true,
-    icon: 'iconfont icon-demo',
+    icon: 'iconfont icon-schedule2',
   },
 }
 

@@ -8,20 +8,21 @@
       </div>
       <lin-1px :addWidth="40"></lin-1px>
     </sticky-top>
-    <div class="body">
-      <p class="status" v-if="poems.length===0">加载中...</p>
-      <div class="poems" v-else>
-        <div class="poems-container" v-for="poem in poems" :key="poem.author">
-            <div class="poems-title">
-              <img :src="poem.image" alt="诗词图标"/>
-              <div class="poems-name">
-                <span class="name-text">{{poem.title}}</span>
-                <span class="name-author"><div class="line"/>{{poem.author}}·{{poem.dynasty}}</span>
-              </div>
+      <div class="body">
+          <p class="status" v-if="poems.length===0">加载中...</p>
+          <div class="poems" v-else>
+            <div class="poems-container" v-for="poem in poems" :key="poem.author">
+              <div class="poems-title">
+                <div class="poems-name">
+                  <span class="name-text">{{poem.title}}</span>
+                  <span class="name-author"><div class="line"/>
+                    {{poem.author}}·{{poem.dynasty}}
+                  </span>
+                </div>
             </div>
-            <div v-for="(items,index) in poem.content" :key="index" class="poems-body">
-              <div v-for="(item,index) in items" :key="index" class="poems-content">{{item}}</div>
-            </div>
+          <div v-for="(items,index) in poem.content" :key="index" class="poems-body">
+            <div v-for="(item,index) in items" :key="index" class="poems-content">{{item}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -87,16 +88,25 @@ export default {
       flex-wrap: wrap;
       width: 100%;
       padding-bottom: 20px;
+      @media screen and (min-width: 1400px) {
+        .poems-container{
+          width: 47%;
+        }
+      }
+      @media screen and (max-width: 1400px){
+        .poems-container{
+          width: 100%;
+        }
+      }
       .poems-container{
         display: flex;
         flex-direction: row;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         background:url('../assets/images/bg.png') no-repeat;
         background-size: 100%;
         background-position-y: 100%;
         background-color: #f8f8f8;
-        width: 47%;
         margin-left: 0.5%;
         margin-right: 0.5%;
         padding: 1%;
@@ -111,7 +121,6 @@ export default {
             display:flex;
             flex-direction: row;
             align-items:flex-end;
-            margin-top: 20px;
             line-height: 30px;
             width: 30px;
             text-align: center;
@@ -139,9 +148,9 @@ export default {
           align-items: flex-start;
           margin: 0 30px;
           .poems-content{
-            width: 14px;
-            font-size: 14px;
-            line-height: 22px;
+            width: 16px;
+            font-size: 16px;
+            line-height: 24px;
             padding: 0 7px;
           }
         }
