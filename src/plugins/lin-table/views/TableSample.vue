@@ -5,22 +5,28 @@
       <div class="header">
         <div class="title">豆瓣电影TOP250</div>
       </div>
+      <!-- 定制列 -->
       <el-checkbox-group v-model="checkList" @change="handleChange">
         <el-checkbox disabled label="电影名"></el-checkbox>
         <el-checkbox label="原名"></el-checkbox>
         <el-checkbox label="类型"></el-checkbox>
         <el-checkbox label="导演"></el-checkbox>
+        <el-checkbox label="排序"></el-checkbox>
       </el-checkbox-group>
       <lin-table
         :tableColumn="filterTableColumn"
         :tableData="tableData"
         :operate="operate"
+        :sortingHidden="sortingHidden"
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
-        @row-click="rowClick"></lin-table>
+        @row-click="rowClick"
+        @changeSort="changeSort"
+        @changeRocommend="changeRocommend"
+        v-loading="loading"></lin-table>
 
         <!-- 分页 -->
-        <!-- <div class="pagination">
+        <div class="pagination">
           <el-pagination @current-change="handleCurrentChange"
                         :background="true"
                         :page-size="pageCount"
@@ -29,7 +35,7 @@
                         layout="prev, pager, next, jumper"
                         :total="total_nums">
           </el-pagination>
-        </div> -->
+        </div>
     </div>
   </div>
 </template>
@@ -46,40 +52,93 @@ export default {
 
   data() {
     return {
-      checkList: [],
       tableData: [],
+      loading: false,
+      sortingHidden: true, // 默认隐藏自定义排序列
+      // 定制列相关
+      checkList: [],
       filterTableColumn: [],
+      // 分页相关
+      refreshPagination: true, // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
+      currentPage: 1, // 默认获取第一页的数据
+      pageCount: 20, // 每页20条数据
+      total_nums: 180, // 分组内的用户总数
     }
   },
   created() {
-    const res = movie.getTop250(0, 20)
-    this.tableData = [...res]
+    // 获取数据
+    this._getTableData((this.currentPage - 1) * this.pageCount, this.pageCount)
+
+    // 操作栏
     this.operate = [
       { name: '编辑', func: 'handleEdit', type: 'edit' },
       { name: '删除', func: 'handleDelete', type: 'del' },
     ]
-    this.checkList = tableColumn.map(v => v.label)
+    // 定制列
+    this.checkList = tableColumn.map((v) => { // eslint-disable-line
+      if (!v.hidden) return v.label
+    })
     this.filterTableColumn = tableColumn.filter(
       v => this.checkList.indexOf(v.label) > -1,
     )
   },
   methods: {
+
+    _getTableData() {
+      const res = movie.getTop250((this.currentPage - 1) * this.pageCount, this.pageCount)
+      this.tableData = [...res]
+    },
+
     handleEdit(val) {
       console.log(val)
     },
 
     handleDelete(val) {
       console.log(val)
+      this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {})
     },
 
     rowClick(val) {
       console.log(val)
     },
 
-    handleChange() {
+    // 定制列
+    handleChange(e) {
+      this.sortingHidden = !e.includes('排序')
       this.filterTableColumn = tableColumn.filter(
         v => this.checkList.indexOf(v.label) > -1,
       )
+    },
+
+    // 变更排序
+    changeSort(val, rowData) {
+      console.log('rowData', rowData)
+      this.$message({
+        type: 'success',
+        message: `排序已更改为：${val}`,
+      })
+    },
+
+    changeRocommend(val, rowData) {
+      console.log(val, rowData)
+      if (val) {
+        this.$message({
+          type: 'success',
+          message: '推荐成功',
+        })
+      }
+    },
+
+    // 切换分页
+    async handleCurrentChange(val) {
+      this.currentPage = val
+      this.loading = true
+      this._getTableData((this.currentPage - 1) * this.pageCount, this.pageCount)
+      this.loading = false
     },
   },
 }

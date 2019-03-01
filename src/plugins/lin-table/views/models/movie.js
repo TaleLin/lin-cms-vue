@@ -23,7 +23,9 @@ class Movie {
         casts: tempCasts.join('/'),
         directors: tempDirectors.join('/'),
         genres: element.genres.join('/'),
-        rank: index + 1,
+        rank: index + 1 + start,
+        sorting: 50,
+        recommend: 0,
       })
     })
 

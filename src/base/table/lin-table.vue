@@ -3,11 +3,22 @@
             @row-dblclick="rowClick"
             @selection-change="handleSelectionChange"
             @current-change="handleCurrentChange">
+    <!-- 多选列 -->
     <el-table-column type="selection"
                      v-if="selection"
                      width="55"
                      @cell-dblclick="tableDbEdit">
     </el-table-column>
+    <!-- 自定义排序 -->
+    <el-table-column label="排序" prop="sorting" v-if="!sortingHidden">
+      <template slot-scope="scope" >
+        <input type="number"
+               class="sort-input"
+               v-model="scope.row.sorting"
+               @blur="handleSort(scope.row.sorting, scope.row)"/>
+      </template>
+    </el-table-column>
+    <!-- 正常表单列 -->
     <el-table-column v-for="item in tableColumn"
                      :key="item.id"
                      :prop="item.prop"
@@ -15,6 +26,17 @@
                      :show-overflow-tooltip="true"
                      :width="item.width ? item.width : ''">
     </el-table-column>
+     <!-- 推荐 -->
+    <el-table-column label="推荐" prop="recommend" v-if="!recommendHidden">
+      <template slot-scope="scope" >
+        <el-switch
+          v-model="scope.row.recommend"
+          active-color="#3963bc"
+          @change="handleRecommend($event, scope.row)">
+        </el-switch>
+      </template>
+    </el-table-column>
+    <!-- 操作列 -->
     <el-table-column label="操作"
                      fixed="right"
                      width="150">
@@ -62,6 +84,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    sortingHidden: { // 是否隐藏排序列
+      type: Boolean,
+      default: true,
+    },
+    recommendHidden: { // 是否隐藏推荐列
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     LinButton,
@@ -84,9 +114,24 @@ export default {
     handleCurrentChange(val) {
       this.currentRow = val
     },
+    // 自定义排序
+    handleSort(val, rowData) {
+      this.$emit('changeSort', val, rowData)
+    },
+    // 推荐
+    handleRecommend(val, rowData) {
+      this.$emit('changeRocommend', val, rowData)
+    },
     rowClick (row, event, column) { // eslint-disable-line
       this.$emit('row-click', row)
     },
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.sort-input {
+  width: 50px;
+  background: none;
+}
+</style>
