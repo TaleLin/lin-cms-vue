@@ -24,6 +24,7 @@
                      :prop="item.prop"
                      :label="item.label"
                      :show-overflow-tooltip="true"
+                     :fixed="item.fixed ? item.fixed : false"
                      :width="item.width ? item.width : ''">
     </el-table-column>
      <!-- 推荐 -->
