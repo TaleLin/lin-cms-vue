@@ -1,20 +1,15 @@
 <template>
   <div class="container">
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="name" label="姓名" width="120" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="120"  :show-overflow-tooltip="true"></el-table-column>
        <el-table-column prop="date" label="日期" width="120" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="province" label="省份" width="120" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column min-width="300px" label="地址">
         <template slot-scope="scope">
           <template v-if="scope.row.edit">
-            <el-input v-model="scope.row.address" class="edit-input" size="small"/>
-            <el-button
-              class="cancel-btn"
-              size="small"
-              icon="el-icon-refresh"
-              type="warning"
-              @click="cancelEdit(scope.row)"
-            >cancel</el-button>
+            <el-input v-model="scope.row.address" class="edit-input" size="small">
+               <i slot="suffix" class="el-input__icon el-icon-refresh"  @click="cancelEdit(scope.row)"></i>
+            </el-input>
           </template>
           <span v-else>{{ scope.row.address }}</span>
         </template>
@@ -74,5 +69,8 @@ export default {
 <style lang="scss" scoped >
 .container {
   padding: 30px;
+  .el-input__icon{
+    cursor: pointer;
+  }
 }
 </style>
