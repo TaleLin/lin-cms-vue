@@ -182,6 +182,8 @@ export default {
           display: flex;
           flex-direction: column;
           width: 110px;
+          align-items: center;
+          margin-right: 15px;
           img{
             width: 90px;
             margin-bottom: 20px;
