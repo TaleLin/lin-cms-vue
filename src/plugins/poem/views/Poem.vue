@@ -200,6 +200,7 @@ export default {
                display: flex;
                flex-direction: row;
                align-items: flex-start;
+               margin-left: -13px;
             }
             .song-lyrics :nth-child(1){
               font-size: 20px;
