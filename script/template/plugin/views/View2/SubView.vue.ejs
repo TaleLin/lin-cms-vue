@@ -1,0 +1,54 @@
+<!-- CONFIG
+---
+<%- configYml %>
+CONFIG -->
+
+<template>
+  <div v-loading="loading">
+    <h1>插件: <%= name %></h1>
+    <p>{{text}}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'SubView',
+  components: {},
+  data() {
+    return {
+      loading: true,
+      text: '',
+    }
+  },
+  // 计算属性设置
+  computed: {},
+  // 数据变更监听
+  watch: {},
+  mounted() {
+    this.init()
+  },
+  // 当tab被激活时触发
+  activited() {
+  },
+  // 当页面使用路由参数时, 参数部分变化触发的动作在本函数中操作
+  // https://router.vuejs.org/zh/guide/advanced/navigation-guards.htmll#组件内的守卫
+  // beforeRouteUpdate(to, from, next) {
+  //   // this.name = to.params.name
+  //   // this.init()
+  //   // next()
+  // },
+  methods: {
+    // 执行获取数据等初始化动作
+    init() {
+      this.loading = true
+      setTimeout(() => {
+        this.text = '舞台 SubView 初始化完成'
+        this.loading = false
+      }, 3000)
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+</style>

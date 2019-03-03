@@ -250,10 +250,6 @@ export default {
 
 .log {
   padding: 0 20px;
-  background: #ffffff;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-
   .log-header {
     display: flex;
     justify-content: space-between;

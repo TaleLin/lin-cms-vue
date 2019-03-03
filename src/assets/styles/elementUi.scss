@@ -176,6 +176,10 @@
   border: 1px solid #c4c0d2 !important;
 }
 
+.input-with-select > input.el-input__inner {
+  border-right: none !important;
+}
+
 // table
 .el-table {
   border-left: 1px solid $table-border-color;
