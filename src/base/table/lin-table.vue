@@ -120,7 +120,7 @@ export default {
     },
     // 推荐
     handleRecommend(val, rowData) {
-      this.$emit('changeRocommend', val, rowData)
+      this.$emit('changeRecommend', val, rowData)
     },
     rowClick (row, event, column) { // eslint-disable-line
       this.$emit('row-click', row)

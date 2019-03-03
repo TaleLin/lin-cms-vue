@@ -22,7 +22,7 @@
         @handleDelete="handleDelete"
         @row-click="rowClick"
         @changeSort="changeSort"
-        @changeRocommend="changeRocommend"
+        @changeRecommend="changeRecommend"
         v-loading="loading"></lin-table>
 
         <!-- 分页 -->
@@ -123,7 +123,7 @@ export default {
       })
     },
 
-    changeRocommend(val, rowData) {
+    changeRecommend(val, rowData) {
       console.log(val, rowData)
       if (val) {
         this.$message({
