@@ -1,57 +1,44 @@
 <template>
   <div class="log">
     <sticky-top>
-      <div  class="log-header">
+      <div class="log-header">
         <div class="header-left">
           <p class="title">日志信息</p>
         </div>
-        <div class="header-right"
-            v-auth="['搜索日志','查询日志']">
-          <lin-search @query="onQueryChange"
-                      ref="searchKeyword" />
-        <el-dropdown style="margin: 0 10px;" @command="handleCommand">
-          <el-button>
-            {{searchUser}}<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="['全部人员']">全部分组</el-dropdown-item>
-            <el-dropdown-item
-              v-for="(user, index) in users"
-              :key="index"
-              :command="[user]"
-              >{{user}}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-          <lin-date-picker
-              @dateChange="handleDateChange"
-              ref="searchDate"
-              class="date">
+        <div class="header-right" v-auth="['搜索日志','查询日志']">
+          <lin-search @query="onQueryChange" ref="searchKeyword" />
+          <el-dropdown style="margin: 0 10px;" @command="handleCommand">
+            <el-button>
+              {{searchUser}}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item :command="['全部人员']">全部分组</el-dropdown-item>
+              <el-dropdown-item v-for="(user, index) in users" :key="index" :command="[user]">
+                {{user}}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date">
           </lin-date-picker>
         </div>
       </div>
-    <lin-1px v-if="!keyword"
-             :addWidth="40"></lin-1px>
+      <lin-1px v-if="!keyword" :addWidth="40"></lin-1px>
     </sticky-top>
     <transition name="fade">
-      <div class="search"
-           v-if="keyword">
+      <div class="search" v-if="keyword">
         <p class="search-tip">
           搜索“<span class="search-keyword">{{keyword}}</span>”，
           找到 <span class="search-num">{{totalCount}}</span> 条日志信息</p>
-        <button class="search-back"
-                @click="backInit">返回全部日志</button>
+        <button class="search-back" @click="backInit">返回全部日志</button>
       </div>
     </transition>
-    <div class="content"
-         v-loading="loading">
+    <div class="content" v-loading="loading">
       <article>
-        <section v-for="log in logs"
-                 :key="log.id">
+        <section v-for="log in logs" :key="log.id">
           <span class="point-time"></span>
           <aside>
-            <p class="things"
-               v-html="log.message"></p>
+            <p class="things" v-html="log.message"></p>
             <p class="brief">
               <span class="text-yellow">{{log.user_name}}</span>
               {{log.time | dateTimeFormatter}}
@@ -61,13 +48,10 @@
       </article>
       <lin-1px></lin-1px>
       <div class="more">
-        <i v-if="more"
-           class="iconfont icon-loading"></i>
-        <div v-show="!more && !finished"
-             @click="nextPage">
+        <i v-if="more" class="iconfont icon-loading"></i>
+        <div v-show="!more && !finished" @click="nextPage">
           <span>查看更多</span>
-          <i class="iconfont icon-gengduo"
-             style="font-size:14px"></i>
+          <i class="iconfont icon-gengduo" style="font-size:14px"></i>
         </div>
         <div v-if="finished">
           <span>没有更多数据了</span>
@@ -259,20 +243,25 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 @import "~assets/styles/variable.scss";
 @import "~assets/styles/elementUi.scss";
+
 .log {
   padding: 0 20px;
-  background:#ffffff;
+  background: #ffffff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
   .log-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .header-left {
       float: left;
+
       .title {
         height: 59px;
         line-height: 59px;
@@ -282,6 +271,7 @@ export default {
         font-weight: 500;
       }
     }
+
     .header-right {
       float: right;
       display: flex;
@@ -289,6 +279,7 @@ export default {
       align-items: center;
     }
   }
+
   .search {
     height: 52px;
     width: 100%;
@@ -296,19 +287,23 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
     .search-tip {
       margin-left: 40px;
       height: 52px;
       line-height: 52px;
       color: #354058;
       font-size: 14px;
+
       .search-keyword {
         color: $theme;
       }
+
       .search-num {
         color: #f4516c;
       }
     }
+
     .search-back {
       margin: 8px 20px;
       height: 36px;
@@ -321,15 +316,19 @@ export default {
       cursor: pointer;
     }
   }
+
   .content {
     padding: 40px 60px;
     font-family: "PingFangSC-Regular";
-    background:#ffffff;
+    background: #ffffff;
+
     article {
       position: relative;
+
       section {
         padding: 0 0 36px;
         position: relative;
+
         &:before {
           content: "";
           width: 1px;
@@ -339,9 +338,11 @@ export default {
           background: #f3f3f3;
           position: absolute;
         }
+
         &:last-child:before {
           display: none;
         }
+
         .point-time {
           content: "";
           position: absolute;
@@ -353,24 +354,29 @@ export default {
           margin-left: -4px;
           border-radius: 50%;
         }
+
         time {
           width: 15%;
           display: block;
           position: absolute;
+
           span {
             display: block;
             text-align: right;
           }
         }
+
         aside {
           color: #45526b;
           margin-left: 30px;
+
           .things {
             font-size: 14px;
             color: #45526b;
             margin-bottom: 15px;
           }
         }
+
         .text-yellow {
           color: #8c98ae;
           font-size: 14px;
@@ -378,6 +384,7 @@ export default {
           padding-right: 30px;
           float: left;
         }
+
         .brief {
           font-size: 14px;
           color: #c4c9d2;
@@ -387,6 +394,7 @@ export default {
       }
     }
   }
+
   .more {
     height: 40px;
     line-height: 40px;
@@ -395,10 +403,12 @@ export default {
     font-family: "PingFangSC-Regular";
     margin-left: 28px;
     cursor: pointer;
+
     .icon-gengduo {
       display: inline;
       margin-left: 6px;
     }
+
     .icon-loading {
       &:before {
         display: inline-block;
@@ -407,15 +417,18 @@ export default {
     }
   }
 }
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
-@media screen and (max-width: 1000px){
+
+@media screen and (max-width: 1000px) {
   .date {
     display: none;
   }

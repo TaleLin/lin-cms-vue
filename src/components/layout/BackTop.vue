@@ -1,10 +1,6 @@
 <template>
-  <div class="backTop"
-       :style="{ right: right + 'px', bottom: bottom + 'px' }"
-       v-if="showBackTop">
-    <i class="iconfont icon-top"
-       :style="{ fontSize: fontSize + 'px'}"
-       @click="backTop"></i>
+  <div class="backTop" :style="{ right: right + 'px', bottom: bottom + 'px' }" v-if="showBackTop">
+    <i class="iconfont icon-top" :style="{ fontSize: fontSize + 'px'}" @click="backTop"></i>
   </div>
 </template>
 
@@ -62,9 +58,9 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
 }
-
 </script>
-<style type="text/scss" lang='scss' scoped>
+
+<style lang="scss" scoped>
 .backTop {
   position: fixed;
   display: inline-block;

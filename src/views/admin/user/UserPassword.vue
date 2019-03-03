@@ -1,30 +1,29 @@
 <template>
   <div class="container">
-    <el-form :model="form"
-             status-icon
-             :rules="rules"
-             label-position="right"
-             ref="form"
-             v-loading="loading"
-             label-width="100px">
-      <el-form-item label="密码"
-                    prop="new_password">
-        <el-input clearable
-                  type="password"
-                  v-model="form.new_password"
-                  autocomplete="off"></el-input>
+    <el-form
+      :model="form"
+      status-icon
+      :rules="rules"
+      label-position="right"
+      ref="form"
+      v-loading="loading"
+      label-width="100px">
+      <el-form-item label="密码" prop="new_password">
+        <el-input
+          clearable
+          type="password"
+          v-model="form.new_password"
+          autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码"
-                    prop="confirm_password"
-                    label-position="top">
-        <el-input clearable
-                  type="password"
-                  v-model="form.confirm_password"
-                  autocomplete="off"></el-input>
+      <el-form-item label="确认密码" prop="confirm_password" label-position="top">
+        <el-input
+          clearable
+          type="password"
+          v-model="form.confirm_password"
+          autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-show="false">
-        <el-button type="primary"
-                   @click="submitForm('form')">保存</el-button>
+        <el-button type="primary" @click="submitForm('form')">保存</el-button>
         <el-button @click="resetForm('form')">取消</el-button>
       </el-form-item>
     </el-form>

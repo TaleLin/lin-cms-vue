@@ -1,23 +1,18 @@
 <template>
   <div v-if="tabs.length">
-    <swiper :options="swiperOption"
-            class="reuse-tab-wrap">
-      <swiper-slide v-for="(tag, index) in tabs"
-                    :key="tag.path">
-        <router-link class="reuse-tab-item"
-                     ref="tag"
-                     v-ripple
-                     :class="tag.path === $route.path? 'active':'' "
-                     :to="tag.path"
-                     @contextmenu.prevent.native="onTags">
-          <i v-if="test(tabIconList[tag.title])"
-             :class="tabIconList[tag.title]"></i>
-          <img v-else
-               :src="tabIconList[tag.title]"
-               style="width:16px;">
+    <swiper :options="swiperOption" class="reuse-tab-wrap">
+      <swiper-slide v-for="(tag, index) in tabs" :key="tag.path">
+        <router-link
+          class="reuse-tab-item"
+          ref="tag"
+          v-ripple
+          :class="tag.path === $route.path? 'active':'' "
+          :to="tag.path"
+          @contextmenu.prevent.native="onTags">
+          <i v-if="test(tabIconList[tag.title])" :class="tabIconList[tag.title]"></i>
+          <img v-else :src="tabIconList[tag.title]" style="width:16px;">
           <span style="padding: 0 5px;">{{ tag.title | filterTitle }}</span>
-          <span class="el-icon-close reMove"
-                @click.prevent.stop="clean(index)" />
+          <span class="el-icon-close reMove" @click.prevent.stop="clean(index)" />
         </router-link>
       </swiper-slide>
     </swiper>
@@ -52,7 +47,7 @@ export default {
       },
     }
   },
-  created() { },
+  created() {},
   computed: {
     ...mapGetters(['tabs', 'tabIconList', 'sideBarList']),
   },
@@ -73,7 +68,7 @@ export default {
       this.ADD_TAB(o)
     },
   },
-  mounted() { },
+  mounted() {},
   methods: {
     test() {
       // if (icon.slice(0, 8)) {
@@ -84,11 +79,9 @@ export default {
     hasChildren(path) {
       let has = false
       this.sideBarList.forEach((element) => {
-        if (
-          element.path === path
+        if (element.path === path
           && element.children
-          && element.children.length > 0
-        ) {
+          && element.children.length > 0) {
           has = true
         } else if (element.children && element.children.length > 0) {
           element.children.forEach((el) => {
@@ -111,7 +104,7 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style lang="scss" scoped>
 @import "~assets/styles/variable.scss";
 
 .swiper-slide {
@@ -121,6 +114,7 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
+
 .reuse-tab-wrap {
   width: calc(100% -40px);
   margin: 0 20px;
@@ -132,6 +126,7 @@ export default {
   display: flex;
   align-items: center;
   overflow: hidden;
+
   .reuse-tab-item {
     box-sizing: border-box;
     width: auto;
@@ -145,14 +140,17 @@ export default {
     padding: 0 1em;
     margin-right: 10px;
     position: relative;
+
     .el-icon-close {
       opacity: 0;
       position: absolute;
     }
+
     &:hover {
       background: $theme;
       border: none;
       color: #fff;
+
       .el-icon-close {
         position: absolute;
         display: inline-block;
@@ -163,6 +161,7 @@ export default {
         opacity: 1;
         border-radius: 0 0 0 14px;
         background: rgba(255, 255, 255, 0.3);
+
         &::before {
           font-size: 12px;
           position: absolute;
@@ -172,6 +171,7 @@ export default {
       }
     }
   }
+
   .active {
     box-sizing: border-box;
     height: 30px;
@@ -179,6 +179,7 @@ export default {
     background: $theme;
     border: none;
     position: relative;
+
     .el-icon-close {
       position: absolute;
       display: inline-block;
@@ -189,6 +190,7 @@ export default {
       opacity: 1;
       border-radius: 0 0 0 14px;
       background: rgba(255, 255, 255, 0.3);
+
       &::before {
         font-size: 12px;
         position: absolute;
@@ -197,6 +199,7 @@ export default {
       }
     }
   }
+
   .reuse-tab-wrap {
     height: 100%;
   }

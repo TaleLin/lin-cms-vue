@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="scroll-container"
-    ref="scrollContainer"
-    @wheel.prevent="handleScroll"
-  >
+  <div class="scroll-container" ref="scrollContainer" @wheel.prevent="handleScroll">
     <div class="scroll-wrapper" ref="scrollWrapper" :style="classObject">
       <slot></slot>
     </div>
@@ -61,9 +57,10 @@ export default {
 }
 </script>
 
-<style lang="scss" type="text/scss" scoped>
+<style lang="scss" scoped>
 .scroll-container {
   height: 100%;
+
   .scroll-wrapper {
     position: absolute;
     width: 100%;
