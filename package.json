@@ -32,6 +32,7 @@
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
     "chalk": "^2.4.2",
+    "child_process": "^1.0.2",
     "cz-conventional-changelog": "^2.1.0",
     "directory-tree": "^2.2.1",
     "ejs": "^2.6.1",
@@ -42,6 +43,7 @@
     "js-yaml": "^3.12.2",
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
+    "shelljs": "^0.8.3",
     "vue-template-compiler": "^2.5.21"
   },
   "postcss": {
