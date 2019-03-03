@@ -1,29 +1,24 @@
- <template>
+<template>
   <div>
-    <div v-if="menuTabs.length || show"  style="margin-bottom:20px">
-
+    <div v-if="menuTabs.length || show" style="margin-bottom:20px">
       <ul class="menu-tab">
-        <router-link :to="tab.path"
-                     v-for="(tab) in menuTabs"
-                     :key="tab.path"
-                     ref="menuTabs">
-          <li ref="tabList"
-              class="menu-li">
-            <img v-if="tab.src"
-                 :src="tab.src"
-                 class="imgIcon" />
-            <i v-else
-               :class="tab.icon"></i>
+        <router-link
+          :to="tab.path"
+          v-for="(tab) in menuTabs"
+          :key="tab.path"
+          ref="menuTabs">
+          <li ref="tabList" class="menu-li">
+            <img v-if="tab.src" :src="tab.src" class="imgIcon" />
+            <i v-else :class="tab.icon"></i>
             <span class="title">{{tab.title | filterTitle}}</span>
           </li>
         </router-link>
       </ul>
-
     </div>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -68,7 +63,7 @@ export default {
           }
         })
       } else if (recursionPath.parent && recursionPath.parent.parent && recursionPath.parent.meta.menuTab) { // eslint-disable-line 
-      // 如果是二级在右侧（从历史菜单）
+        // 如果是二级在右侧（从历史菜单）
         this.sideBarList.forEach((element) => {
           if (element.path === recursionPath.parent.path && element.children && element.children.length) { // eslint-disable-line
             element.children.forEach((tab) => {
@@ -155,12 +150,13 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '~assets/styles/variable.scss';
 
 .router-link-active {
   background: black;
 }
+
 .menu-tab {
   width: 100%;
   height: 50px;
@@ -172,16 +168,19 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+
   .router-link-exact-active,
   .router-link-active {
     height: 47px;
     border-top: 3px solid $theme;
     background: rgba(255, 255, 255, 1);
     color: rgba(57, 99, 188, 1);
-     .menu-li {
+
+    .menu-li {
       margin-top: -3px;
     }
   }
+
   .menu-li {
     width: 120px;
     height: 50px;
@@ -189,12 +188,14 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+
     .imgIcon {
       width: 16px;
       height: 16px;
       margin: 0 auto;
     }
-    .title{
+
+    .title {
       margin-top: -9px;
     }
   }

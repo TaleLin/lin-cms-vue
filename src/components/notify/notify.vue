@@ -1,29 +1,25 @@
 <template>
   <el-dropdown>
     <div class="notify">
-      <el-badge :value="3"
-                class="item">
-        <img class="icon-img"
-             src="@/assets/img/铃铛icon.png" />
+      <el-badge :value="3" class="item">
+        <img class="icon-img" src="@/assets/img/铃铛icon.png" />
       </el-badge>
     </div>
-    <el-dropdown-menu slot="dropdown"
-                      style="position:relative;">
+    <el-dropdown-menu slot="dropdown" style="position:relative;">
       <div class="notify-title">
         <p>消息提醒</p>
         <p class="button">全部已读</p>
       </div>
       <div class="left-border"></div>
-      <el-dropdown-item v-for="unread in unreadMessages"
-                        class="unread-messages"
-                        :key="unread.id"
-                        @click.native="readMessage(unread)">
+      <el-dropdown-item
+        v-for="unread in unreadMessages"
+        class="unread-messages"
+        :key="unread.id"
+        @click.native="readMessage(unread)">
         {{ unread.data}}
         <span class="date-time">08-16 13:22:07</span>
       </el-dropdown-item>
-      <el-dropdown-item v-for="readed in readedMessages"
-                        :key="readed.id"
-                        class="read-messages">
+      <el-dropdown-item v-for="readed in readedMessages" :key="readed.id" class="read-messages">
         {{ readed.data }}
         <span class="date-time">08-16 13:22:07</span>
       </el-dropdown-item>
@@ -90,6 +86,7 @@ export default {
   align-items: center;
   position: relative;
   cursor: pointer;
+
   .icon-img {
     width: 18px;
     height: 18px;
@@ -98,6 +95,7 @@ export default {
 
 .el-popper {
   padding-left: 10px;
+
   .el-dropdown-menu__item:nth-child(3) {
     &:after {
       content: "";
@@ -109,8 +107,10 @@ export default {
       border-bottom: 10px solid #fff;
     }
   }
+
   .el-dropdown-menu__item.unread-messages {
     position: relative;
+
     &:before {
       content: "";
       position: absolute;
@@ -123,8 +123,10 @@ export default {
       background: #f4516c;
     }
   }
+
   .el-dropdown-menu__item.read-messages {
     position: relative;
+
     &:before {
       content: "";
       position: absolute;
@@ -138,6 +140,7 @@ export default {
     }
   }
 }
+
 .notify-title {
   display: flex;
   justify-content: space-between;
@@ -150,6 +153,7 @@ export default {
   height: 30px;
   min-width: 150px;
   border-bottom: 1px solid #dee2e6;
+
   .button {
     font-size: 12px;
     border: 1px solid #596c8e;
@@ -161,6 +165,7 @@ export default {
     padding-right: 5px;
   }
 }
+
 .left-border {
   position: absolute;
   box-sizing: border-box;
@@ -178,6 +183,7 @@ export default {
   border-image-outset: initial;
   border-image-repeat: initial;
 }
+
 .date-time {
   float: right;
   padding-left: 10px;
@@ -191,6 +197,7 @@ export default {
   transform-origin: center center;
   transform: translateY(-50%) translateX(100%) scale(0.8) !important;
 }
+
 .el-badge__content {
   border: 1px solid transparent !important;
   line-height: 20px !important;

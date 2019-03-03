@@ -2,8 +2,7 @@
   <section class="container">
     <!-- <keep-alive :include="cachePage"> -->
     <div class="wrapper">
-      <transition name="fade-transform"
-                  mode="out-in">
+      <transition name="fade-transform" mode="out-in">
         <router-view></router-view>
       </transition>
     </div>
@@ -12,7 +11,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'AppMain',
   data() {
@@ -24,7 +22,7 @@ export default {
 }
 </script>
 
-<style scoped type="text/scss" lang="scss">
+<style lang="scss" scoped>
 .container {
   .wrapper {
     width: 100%;
