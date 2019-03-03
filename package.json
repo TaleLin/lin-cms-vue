@@ -3,8 +3,8 @@
   "version": "0.0.1-alpha.2",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "node script/plugin-get-config.js && vue-cli-service serve",
+    "build": "node script/plugin-get-config.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "plugin-new": "node script/plugin-new.js",
     "plugin-init": "node script/plugin-init.js",
@@ -45,7 +45,7 @@
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
     "shelljs": "^0.8.3",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.8"
   },
   "postcss": {
     "plugins": {
