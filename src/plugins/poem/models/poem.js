@@ -2,8 +2,8 @@
 import { get } from '@/lin/utils/http'
 
 class Poem {
-  async fetchPoem() {
-    const res = await get('plugin/poem/all')
+  async fetchPoem(params) {
+    const res = await get(`plugin/poem/all?count=${params.count}`)
     return res
   }
 }

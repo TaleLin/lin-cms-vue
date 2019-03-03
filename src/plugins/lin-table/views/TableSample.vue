@@ -6,12 +6,23 @@
         <div class="title">豆瓣电影TOP250</div>
       </div>
       <!-- 定制列 -->
+      <span>选择要展示的列:</span>
       <el-checkbox-group v-model="checkList" @change="handleChange">
-        <el-checkbox disabled label="电影名"></el-checkbox>
+        <!-- <el-checkbox disabled label="电影名"></el-checkbox>
         <el-checkbox label="原名"></el-checkbox>
         <el-checkbox label="类型"></el-checkbox>
         <el-checkbox label="导演"></el-checkbox>
-        <el-checkbox label="排序"></el-checkbox>
+        <el-checkbox label="排序"></el-checkbox> -->
+         <el-checkbox :disabled="item === '电影名'" :label="item" v-for="item in checkList" :key="item" />
+      </el-checkbox-group>
+      <!-- 固定列 -->
+      <span>选择固定在左侧的列:</span>
+      <el-checkbox-group v-model="fixedLeftList">
+        <el-checkbox :disabled="fixedRightList.indexOf(item) > -1" :label="item" v-for="item in checkList" :key="item" />
+      </el-checkbox-group>
+      <span>选择固定在右侧的列:</span>
+      <el-checkbox-group v-model="fixedRightList">
+        <el-checkbox :disabled="fixedLeftList.indexOf(item) > -1" :label="item" v-for="item in checkList" :key="item" />
       </el-checkbox-group>
       <lin-table
         :tableColumn="filterTableColumn"
@@ -63,6 +74,9 @@ export default {
       currentPage: 1, // 默认获取第一页的数据
       pageCount: 20, // 每页20条数据
       total_nums: 180, // 分组内的用户总数
+      // 固定列相关
+      fixedLeftList: [],
+      fixedRightList:[]
     }
   },
   created() {
@@ -141,6 +155,30 @@ export default {
       this.loading = false
     },
   },
+
+  watch: {
+    // 监听固定列变化
+    fixedLeftList () {
+      this.filterTableColumn.map( (item,index) => {
+        if (this.fixedLeftList.indexOf(item.label) > -1 ) {
+          this.$set(this.filterTableColumn[index], 'fixed','left')
+        } else if ( this.fixedRightList.indexOf(item.label) === -1 ){
+          this.$set(this.filterTableColumn[index], 'fixed',false)
+        }
+      })
+      console.log(this.filterTableColumn)
+    },
+    fixedRightList () {
+      this.filterTableColumn.map( (item,index) => {
+        if (this.fixedRightList.indexOf(item.label) > -1 ) {
+          this.$set(this.filterTableColumn[index], 'fixed','right')
+        } else if ( this.fixedLeftList.indexOf(item.label) === -1 ){
+          this.$set(this.filterTableColumn[index], 'fixed',false)
+        }
+      })
+      console.log(this.filterTableColumn)
+    }
+  }
 }
 </script>
 
