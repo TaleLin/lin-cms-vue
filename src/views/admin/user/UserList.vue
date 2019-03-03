@@ -10,7 +10,10 @@
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item :command="[undefined,'全部分组']">全部分组</el-dropdown-item>
-          <el-dropdown-item v-for="(group, index) in groups" :key="index" :command="[group.id,group.name]">
+          <el-dropdown-item
+          v-for="(group, index) in groups"
+          :key="index"
+          :command="[group.id,group.name]">
             {{group.name}}
           </el-dropdown-item>
         </el-dropdown-menu>
