@@ -3,6 +3,7 @@ const path = require('path')
 const inquirer = require('inquirer')
 const ejs = require('ejs')
 const chalk = require('chalk')
+const yaml = require('js-yaml')
 
 const questions = []
 
@@ -37,6 +38,13 @@ questions.push({
 
 questions.push({
   type: 'input',
+  name: 'title',
+  message: '请输入插件标题, 7个字内\n',
+  default: '插件标题',
+})
+
+questions.push({
+  type: 'input',
   name: 'version',
   message: '请输入版本号\n',
   default: '1.0.0',
@@ -55,6 +63,13 @@ questions.push({
   message: '请输入作者\n',
   default: '',
 })
+
+// questions.push({
+//   type: 'confirm',
+//   name: 'hasView',
+//   message: '是否包含舞台页面\n',
+//   default: true,
+// })
 
 inquirer.prompt(questions).then((answers) => {
   const result = answers
@@ -75,6 +90,19 @@ inquirer.prompt(questions).then((answers) => {
   }
   fs.mkdirSync(cachePluginPath)
 
+  // 页面基础配置
+  const viewConfig = {
+    title: 'View',
+    path: '/view',
+    inNav: true,
+    name: 'View',
+    permission: [],
+    needLogin: true,
+    order: '',
+    icon: 'iconfont icon-demo',
+  }
+
+  // 基础组成
   const structure = [{
     path: 'README.md',
   }, {
@@ -87,16 +115,65 @@ inquirer.prompt(questions).then((answers) => {
     path: 'generator.js',
   }, {
     path: 'views/TestView.vue',
+    config: Object.assign({}, viewConfig, {
+      title: 'TestView',
+      path: `/${config.camelCaseName}/testview`,
+      name: `${config.camelCaseName}TestView`,
+    }),
   }, {
     path: 'components/Test.vue',
   }]
 
+  // 主模块组成
+  const stageStructure = [{
+    path: 'views/View1.vue',
+    config: Object.assign({}, viewConfig, {
+      title: 'View1',
+      path: `/${config.camelCaseName}/view1`,
+      name: `${config.camelCaseName}View1`,
+    }),
+  }, {
+    path: 'views/View2/index.vue',
+    config: Object.assign({}, viewConfig, {
+      title: 'View2',
+      path: `/${config.camelCaseName}/view2`,
+      name: `${config.camelCaseName}View2`,
+    }),
+  }, {
+    path: 'views/View2/SubView.vue',
+    config: Object.assign({}, viewConfig, {
+      title: `/${config.camelCaseName}/SubView`,
+      path: '/subview',
+      name: `${config.camelCaseName}SubView`,
+    }),
+  }]
+
+  // 基础内容构建
   structure.forEach((file) => {
     const template = fs.readFileSync(path.resolve(__dirname, `./template/plugin/${file.path}.ejs`), 'utf8')
-    const result = ejs.render(template, config)
+    const fileConfig = { ...config }
+    if (file.config) {
+      fileConfig.configYml = yaml.dump(file.config)
+    }
+    const result = ejs.render(template, fileConfig)
     const targetPath = path.resolve(__dirname, `./.cache/plugin/${file.path}`)
     fs.outputFileSync(targetPath, result)
   })
+
+  // 舞台模块构建
+  if (true) {
+    // if (config.hasView) {
+    stageStructure.forEach((file) => {
+      const template = fs.readFileSync(path.resolve(__dirname, `./template/plugin/${file.path}.ejs`), 'utf8')
+      const fileConfig = { ...config }
+      if (file.config) {
+        fileConfig.configYml = yaml.dump(file.config)
+      }
+      const result = ejs.render(template, fileConfig)
+      const targetPath = path.resolve(__dirname, `./.cache/plugin/${file.path}`)
+      fs.outputFileSync(targetPath, result)
+    })
+  }
 
   return config
 }).then((answers) => {
@@ -105,6 +182,10 @@ inquirer.prompt(questions).then((answers) => {
   const targetPath = path.resolve(__dirname, `../src/plugins/${answers.camelCaseName}`)
   fs.copySync(sourcePath, targetPath)
   console.log(chalk.green(`创建插件${answers.name}: ${targetPath}`))
+  // eslint-disable-next-line
+}).then(() => {
+  // eslint-disable-next-line
+  require('./plugin-get-config.js');
   // eslint-disable-next-line
 }).catch((err) => {
   // eslint-disable-next-line
