@@ -1,6 +1,5 @@
 const tableColumn = [
-  // { prop: 'sorting', label: '排序', hidden: true },
-  { prop: 'rank', label: '排名' ,fixed:'false'},
+  { prop: 'rank', label: '排名', fixed: 'false' },
   { prop: 'title', label: '电影名', width: 150 },
   { prop: 'originalTitle', label: '原名', width: 150 },
   { prop: 'rating', label: '评分' },

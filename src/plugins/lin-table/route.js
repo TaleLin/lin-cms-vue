@@ -1,7 +1,6 @@
 const Table = () => import('./views/Table')
 const TableSample = () => import('./views/TableSample.vue')
 const InlineEditTable = () => import('./views/InlineEditTable.vue')
-const CustomRowTable = () => import('./views/CustomRowTable.vue')
 
 const tableRouter = {
   path: '/table',
@@ -24,14 +23,6 @@ const tableRouter = {
       component: InlineEditTable,
       meta: {
         title: '行内编辑',
-        icon: 'iconfont icon-table1',
-      },
-    },
-    {
-      path: '/table/custom-row-table',
-      component: CustomRowTable,
-      meta: {
-        title: '定制列',
         icon: 'iconfont icon-table1',
       },
     },
