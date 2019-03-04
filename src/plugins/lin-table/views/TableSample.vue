@@ -111,6 +111,10 @@ export default {
     // 获取数据
     _getTableData() {
       const res = movie.getTop250((this.currentPage - 1) * this.pageCount, this.pageCount)
+      res.map((item) => {
+        item.remark = '这是一部不错的电影'
+        item.editFlag = false
+      })
       this.tableData = [...res]
     },
 
