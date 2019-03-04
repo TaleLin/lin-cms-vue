@@ -20,8 +20,8 @@
             <reuse-tab v-show="showReuseTab"></reuse-tab>
           </el-collapse-transition>
         </el-header>
+            <menu-tab></menu-tab>
         <el-main ref="main">
-          <menu-tab></menu-tab>
           <app-main ref="appMain"
                     class="app-main"></app-main>
         </el-main>
@@ -174,6 +174,10 @@ export default {
 .el-main {
   overflow-y: auto;
   position: relative;
+  padding: 0;
+  margin: 0 20px 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 .backTop {
   position: fixed;

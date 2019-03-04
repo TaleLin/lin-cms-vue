@@ -1,6 +1,6 @@
  <template>
   <div>
-    <div v-if="menuTabs.length || show"  style="margin-bottom:20px">
+    <div v-if="menuTabs.length || show"  style="margin: 0 20px 20px;">
 
       <ul class="menu-tab">
         <router-link :to="tab.path"

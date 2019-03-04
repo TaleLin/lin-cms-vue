@@ -1,5 +1,5 @@
 const tableColumn = [
-  { prop: 'rank', label: '排名', fixed: 'false' },
+  { prop: 'rank', label: '排名' },
   { prop: 'title', label: '电影名', width: 150 },
   { prop: 'originalTitle', label: '原名', width: 150 },
   { prop: 'rating', label: '评分' },

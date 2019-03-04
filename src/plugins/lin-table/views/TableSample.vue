@@ -40,7 +40,7 @@
         :tableColumn="filterTableColumn"
         :tableData="tableData"
         :operate="operate"
-        :sortingHidden="sortingHidden"
+        :hiddenColumn="hiddenColumn"
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
         @row-click="rowClick"
@@ -78,7 +78,7 @@ export default {
     return {
       tableData: [],
       loading: false,
-      sortingHidden: true, // 默认隐藏自定义排序列
+      Hidden: true, // 默认隐藏自定义排序列
       // 定制列相关
       checkList: [],
       filterTableColumn: [],
@@ -90,6 +90,12 @@ export default {
       // 固定列相关
       fixedLeftList: [],
       fixedRightList: [],
+      // 特殊列
+      hiddenColumn: {
+        sorting: true,
+        recommend: false,
+        thumb: false,
+      },
     }
   },
   created() {
@@ -137,7 +143,7 @@ export default {
 
     // 定制列
     handleChange(e) {
-      this.sortingHidden = !e.includes('排序')
+      // this.sortingHidden = !e.includes('排序')
       this.filterTableColumn = tableColumn.filter(
         v => this.checkList.indexOf(v.label) > -1,
       )

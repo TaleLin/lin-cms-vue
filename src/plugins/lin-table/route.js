@@ -6,7 +6,7 @@ const tableRouter = {
   path: '/table',
   component: Table,
   meta: {
-    title: '列表示例',
+    title: '表格示例',
     icon: 'iconfont icon-table1',
   },
   children: [
@@ -14,7 +14,7 @@ const tableRouter = {
       path: '/table/movie',
       component: TableSample,
       meta: {
-        title: '列表示例',
+        title: '表格示例',
         icon: 'iconfont icon-table1',
       },
     },

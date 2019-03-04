@@ -12,6 +12,7 @@ export const movieList = [
       '剧情',
     ],
     title: '肖申克的救赎',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p480747492.webp',
     casts: [
       {
         alt: 'https://movie.douban.com/celebrity/1054521/',
@@ -81,6 +82,7 @@ export const movieList = [
       '同性',
     ],
     title: '霸王别姬',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1910813120.webp',
     casts: [
       {
         alt: 'https://movie.douban.com/celebrity/1003494/',
