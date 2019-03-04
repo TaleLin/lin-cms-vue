@@ -8,6 +8,7 @@ const tableColumn = [
   { prop: 'directors', label: '导演', width: 150 },
   { prop: 'casts', label: '主演', width: 150 },
   { prop: 'year', label: '年份' },
+  { prop: 'remark', label: '备注' },
 ]
 
 const tableData = [

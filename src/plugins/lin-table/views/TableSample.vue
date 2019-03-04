@@ -13,16 +13,28 @@
         <el-checkbox label="类型"></el-checkbox>
         <el-checkbox label="导演"></el-checkbox>
         <el-checkbox label="排序"></el-checkbox> -->
-         <el-checkbox :disabled="item === '电影名'" :label="item" v-for="item in checkList" :key="item" />
+        <el-checkbox
+          :disabled="item === '电影名'"
+          :label="item"
+          v-for="item in checkList"
+          :key="item" />
       </el-checkbox-group>
       <!-- 固定列 -->
       <span>选择固定在左侧的列:</span>
       <el-checkbox-group v-model="fixedLeftList">
-        <el-checkbox :disabled="fixedRightList.indexOf(item) > -1" :label="item" v-for="item in checkList" :key="item" />
+        <el-checkbox
+          :disabled="fixedRightList.indexOf(item) > -1"
+          :label="item"
+          v-for="item in checkList"
+          :key="item" />
       </el-checkbox-group>
       <span>选择固定在右侧的列:</span>
       <el-checkbox-group v-model="fixedRightList">
-        <el-checkbox :disabled="fixedLeftList.indexOf(item) > -1" :label="item" v-for="item in checkList" :key="item" />
+        <el-checkbox
+          :disabled="fixedLeftList.indexOf(item) > -1"
+          :label="item"
+          v-for="item in checkList"
+          :key="item" />
       </el-checkbox-group>
       <lin-table
         :tableColumn="filterTableColumn"
@@ -36,17 +48,18 @@
         @changeRocommend="changeRocommend"
         v-loading="loading"></lin-table>
 
-        <!-- 分页 -->
-        <div class="pagination">
-          <el-pagination @current-change="handleCurrentChange"
-                        :background="true"
-                        :page-size="pageCount"
-                        :current-page="currentPage"
-                        v-if="refreshPagination"
-                        layout="prev, pager, next, jumper"
-                        :total="total_nums">
-          </el-pagination>
-        </div>
+      <!-- 分页 -->
+      <div class="pagination">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :background="true"
+          :page-size="pageCount"
+          :current-page="currentPage"
+          v-if="refreshPagination"
+          layout="prev, pager, next, jumper"
+          :total="total_nums">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -76,7 +89,7 @@ export default {
       total_nums: 180, // 分组内的用户总数
       // 固定列相关
       fixedLeftList: [],
-      fixedRightList:[]
+      fixedRightList: []
     }
   },
   created() {
@@ -100,6 +113,10 @@ export default {
 
     _getTableData() {
       const res = movie.getTop250((this.currentPage - 1) * this.pageCount, this.pageCount)
+      res.map(item => {
+        item.remark = '这是一部不错的电影'
+        item.editFlag = false
+      })
       this.tableData = [...res]
     },
 
@@ -158,22 +175,22 @@ export default {
 
   watch: {
     // 监听固定列变化
-    fixedLeftList () {
-      this.filterTableColumn.map( (item,index) => {
-        if (this.fixedLeftList.indexOf(item.label) > -1 ) {
-          this.$set(this.filterTableColumn[index], 'fixed','left')
-        } else if ( this.fixedRightList.indexOf(item.label) === -1 ){
-          this.$set(this.filterTableColumn[index], 'fixed',false)
+    fixedLeftList() {
+      this.filterTableColumn.map((item, index) => {
+        if (this.fixedLeftList.indexOf(item.label) > -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', 'left')
+        } else if (this.fixedRightList.indexOf(item.label) === -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', false)
         }
       })
       console.log(this.filterTableColumn)
     },
-    fixedRightList () {
-      this.filterTableColumn.map( (item,index) => {
-        if (this.fixedRightList.indexOf(item.label) > -1 ) {
-          this.$set(this.filterTableColumn[index], 'fixed','right')
-        } else if ( this.fixedLeftList.indexOf(item.label) === -1 ){
-          this.$set(this.filterTableColumn[index], 'fixed',false)
+    fixedRightList() {
+      this.filterTableColumn.map((item, index) => {
+        if (this.fixedRightList.indexOf(item.label) > -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', 'right')
+        } else if (this.fixedLeftList.indexOf(item.label) === -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', false)
         }
       })
       console.log(this.filterTableColumn)
@@ -202,6 +219,7 @@ export default {
       font-weight: 500;
     }
   }
+
   .pagination {
     display: flex;
     justify-content: flex-end;
@@ -210,8 +228,7 @@ export default {
 }
 </style>
 <style>
-
-  .el-table .cell {
-    display: inline-block;
-  }
+.el-table .cell {
+  display: inline-block;
+}
 </style>
