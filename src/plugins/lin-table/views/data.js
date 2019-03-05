@@ -1,6 +1,5 @@
 const tableColumn = [
-  // { prop: 'sorting', label: '排序', hidden: true },
-  { prop: 'rank', label: '排名' ,fixed:'false'},
+  { prop: 'rank', label: '排名' },
   { prop: 'title', label: '电影名', width: 150 },
   { prop: 'originalTitle', label: '原名', width: 150 },
   { prop: 'rating', label: '评分' },
@@ -8,6 +7,7 @@ const tableColumn = [
   { prop: 'directors', label: '导演', width: 150 },
   { prop: 'casts', label: '主演', width: 150 },
   { prop: 'year', label: '年份' },
+  { prop: 'remark', label: '备注' },
 ]
 
 const tableData = [

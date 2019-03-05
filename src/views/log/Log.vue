@@ -178,9 +178,13 @@ export default {
     // 页面初始化
     async initPage() {
       try {
+        console.group('getquanzurenyuan----')
         this.users = await log.getLoggedUsers({})
         const res = await log.getLogs({ page: 0 })
         this.logs = res.collection
+        console.log('this.user', this.users)
+        console.log('this.log', this.logs)
+        console.groupEnd()
       } catch (err) {
         console.error(err)
       }

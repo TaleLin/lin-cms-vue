@@ -7,46 +7,59 @@
       </div>
       <!-- 定制列 -->
       <span>选择要展示的列:</span>
-      <el-checkbox-group v-model="checkList" @change="handleChange">
-        <!-- <el-checkbox disabled label="电影名"></el-checkbox>
+      <el-checkbox-group v-model="checkList" @change="handleChange" class="m-20">
+        <el-checkbox disabled label="电影名"></el-checkbox>
         <el-checkbox label="原名"></el-checkbox>
         <el-checkbox label="类型"></el-checkbox>
         <el-checkbox label="导演"></el-checkbox>
-        <el-checkbox label="排序"></el-checkbox> -->
-         <el-checkbox :disabled="item === '电影名'" :label="item" v-for="item in checkList" :key="item" />
+        <el-checkbox label="排序"></el-checkbox>
+        <!-- <el-checkbox
+          :disabled="item === '电影名'"
+          :label="item"
+          v-for="item in checkList"
+          :key="item" /> -->
       </el-checkbox-group>
       <!-- 固定列 -->
       <span>选择固定在左侧的列:</span>
-      <el-checkbox-group v-model="fixedLeftList">
-        <el-checkbox :disabled="fixedRightList.indexOf(item) > -1" :label="item" v-for="item in checkList" :key="item" />
+      <el-checkbox-group v-model="fixedLeftList" class="m-20">
+        <el-checkbox
+          :disabled="fixedRightList.indexOf(item) > -1"
+          :label="item"
+          v-for="item in checkList"
+          :key="item" />
       </el-checkbox-group>
       <span>选择固定在右侧的列:</span>
-      <el-checkbox-group v-model="fixedRightList">
-        <el-checkbox :disabled="fixedLeftList.indexOf(item) > -1" :label="item" v-for="item in checkList" :key="item" />
+      <el-checkbox-group v-model="fixedRightList" class="m-20">
+        <el-checkbox
+          :disabled="fixedLeftList.indexOf(item) > -1"
+          :label="item"
+          v-for="item in checkList"
+          :key="item" />
       </el-checkbox-group>
       <lin-table
         :tableColumn="filterTableColumn"
         :tableData="tableData"
         :operate="operate"
-        :sortingHidden="sortingHidden"
+        :hiddenColumn="hiddenColumn"
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
         @row-click="rowClick"
         @changeSort="changeSort"
-        @changeRocommend="changeRocommend"
+        @changeRecommend="changeRecommend"
         v-loading="loading"></lin-table>
 
-        <!-- 分页 -->
-        <div class="pagination">
-          <el-pagination @current-change="handleCurrentChange"
-                        :background="true"
-                        :page-size="pageCount"
-                        :current-page="currentPage"
-                        v-if="refreshPagination"
-                        layout="prev, pager, next, jumper"
-                        :total="total_nums">
-          </el-pagination>
-        </div>
+      <!-- 分页 -->
+      <div class="pagination">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :background="true"
+          :page-size="pageCount"
+          :current-page="currentPage"
+          v-if="refreshPagination"
+          layout="prev, pager, next, jumper"
+          :total="total_nums">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -65,7 +78,7 @@ export default {
     return {
       tableData: [],
       loading: false,
-      sortingHidden: true, // 默认隐藏自定义排序列
+      Hidden: true, // 默认隐藏自定义排序列
       // 定制列相关
       checkList: [],
       filterTableColumn: [],
@@ -76,7 +89,13 @@ export default {
       total_nums: 180, // 分组内的用户总数
       // 固定列相关
       fixedLeftList: [],
-      fixedRightList:[]
+      fixedRightList: [],
+      // 特殊列
+      hiddenColumn: {
+        sorting: true,
+        recommend: false,
+        thumb: false,
+      },
     }
   },
   created() {
@@ -89,17 +108,19 @@ export default {
       { name: '删除', func: 'handleDelete', type: 'del' },
     ]
     // 定制列
-    this.checkList = tableColumn.map((v) => { // eslint-disable-line
-      if (!v.hidden) return v.label
-    })
+    this.checkList = tableColumn.map(v => v.label)
     this.filterTableColumn = tableColumn.filter(
       v => this.checkList.indexOf(v.label) > -1,
     )
   },
   methods: {
-
+    // 获取数据
     _getTableData() {
       const res = movie.getTop250((this.currentPage - 1) * this.pageCount, this.pageCount)
+      res.map((item) => {
+        item.remark = '这是一部不错的电影'
+        item.editFlag = false
+      })
       this.tableData = [...res]
     },
 
@@ -122,7 +143,7 @@ export default {
 
     // 定制列
     handleChange(e) {
-      this.sortingHidden = !e.includes('排序')
+      // this.sortingHidden = !e.includes('排序')
       this.filterTableColumn = tableColumn.filter(
         v => this.checkList.indexOf(v.label) > -1,
       )
@@ -137,7 +158,7 @@ export default {
       })
     },
 
-    changeRocommend(val, rowData) {
+    changeRecommend(val, rowData) {
       console.log(val, rowData)
       if (val) {
         this.$message({
@@ -158,27 +179,29 @@ export default {
 
   watch: {
     // 监听固定列变化
-    fixedLeftList () {
-      this.filterTableColumn.map( (item,index) => {
-        if (this.fixedLeftList.indexOf(item.label) > -1 ) {
-          this.$set(this.filterTableColumn[index], 'fixed','left')
-        } else if ( this.fixedRightList.indexOf(item.label) === -1 ){
-          this.$set(this.filterTableColumn[index], 'fixed',false)
+    fixedLeftList() {
+      this.filterTableColumn.map((item, index) => {
+        if (this.fixedLeftList.indexOf(item.label) > -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', 'left')
+        } else if (this.fixedRightList.indexOf(item.label) === -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', false)
         }
+        return ''
       })
       console.log(this.filterTableColumn)
     },
-    fixedRightList () {
-      this.filterTableColumn.map( (item,index) => {
-        if (this.fixedRightList.indexOf(item.label) > -1 ) {
-          this.$set(this.filterTableColumn[index], 'fixed','right')
-        } else if ( this.fixedLeftList.indexOf(item.label) === -1 ){
-          this.$set(this.filterTableColumn[index], 'fixed',false)
+    fixedRightList() {
+      this.filterTableColumn.map((item, index) => {
+        if (this.fixedRightList.indexOf(item.label) > -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', 'right')
+        } else if (this.fixedLeftList.indexOf(item.label) === -1) {
+          this.$set(this.filterTableColumn[index], 'fixed', false)
         }
+        return ''
       })
       console.log(this.filterTableColumn)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -202,6 +225,12 @@ export default {
       font-weight: 500;
     }
   }
+
+  .m-20 {
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+
   .pagination {
     display: flex;
     justify-content: flex-end;
@@ -210,8 +239,7 @@ export default {
 }
 </style>
 <style>
-
-  .el-table .cell {
-    display: inline-block;
-  }
+.el-table .cell {
+  display: inline-block;
+}
 </style>

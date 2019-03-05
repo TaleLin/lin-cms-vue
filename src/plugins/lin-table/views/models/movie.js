@@ -26,6 +26,7 @@ class Movie {
         rank: index + 1 + start,
         sorting: 50,
         recommend: 0,
+        thumb: element.thumb,
       })
     })
 
