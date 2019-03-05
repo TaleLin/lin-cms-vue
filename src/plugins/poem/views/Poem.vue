@@ -12,18 +12,7 @@
           <p class="status" v-if="poems.length===0">加载中...</p>
           <div class="poems" v-else>
             <div class="poems-container" v-for="poem in poems" :key="poem.id">
-              <div class="poems-title" v-if="poem.title.length>6&&poem.title.indexOf('·')!=-1">
-                <img :src="poem.image" />
-                <div class="poems-name">
-                  <span class="song-lyrics">
-                    <span v-for="title in poem.title.split('·')" :key="title.key">{{title}}</span>
-                  </span>
-                  <span class="name-author"><div class="line"/>
-                    {{poem.author}}·{{poem.dynasty}}
-                  </span>
-                </div>
-            </div>
-            <div v-else class="tang-dynasty-title">
+            <div class="tang-dynasty-title">
               <img :src="poem.image" />
               <div class="tang-dynasty">
                 <span class="tang-dynasty-name">{{poem.title}}</span>
@@ -69,64 +58,104 @@ export default {
 <style scoped lang="scss">
 
 @media screen and(min-width: 1500px){
+  .poems{
+    font-size: 20px;
+  }
   .poems>div:nth-child(1){
-    width: 40%;
+    width: 37%;
   }
   .poems>div:nth-child(2){
-    width: 54%;
+    width: 49%;
   }
   .poems>div:nth-child(3){
-    width: 50%;
+    width: 48%;
   }
   .poems>div:nth-child(4){
-    width: 44%;
+    width: 38%;
   }
   .poems>div:nth-child(5){
-    width: 25%;
+    width: 21%;
   }
   .poems>div:nth-child(6){
-    width: 33%;
+    width: 29%;
   }
   .poems>div:nth-child(7){
-    width: 33%;
+    width: 29%;
   }
   .poems>div:nth-child(8){
-    width: 45%;
+    width: 39%;
   }
 }
 
 @media screen and(max-width:1500px)and(min-width: 1200px){
+  .poems{
+    font-size: 18px;
+  }
   .poems>div:nth-child(1){
-    width: 44%;
+    width: 39%;
   }
   .poems>div:nth-child(2){
-    width: 50%;
+    width: 47%;
   }
   .poems>div:nth-child(3){
     width: 97%;
   }
   .poems>div:nth-child(4){
-    width: 52%;
+    width: 47%;
   }
   .poems>div:nth-child(5){
-    width: 42%;
+    width: 39%;
   }
   .poems>div:nth-child(6){
-    width: 47%;
+    width: 43%;
   }
   .poems>div:nth-child(7){
-    width: 47%;
+    width: 43%;
   }
   .poems>div:nth-child(8){
-    width: 55%;
+    width: 50%;
   }
 }
 
-@media screen and(max-width:1200px){
+@media screen and(max-width:1200px)and(min-width:1100px){
+  .poems{
+    font-size: 16px;
+  }
+  .poems>div:nth-child(1){
+    width: 40%;
+  }
+  .poems>div:nth-child(2){
+    width: 46%;
+  }
+  .poems>div:nth-child(3){
+    width: 97%;
+  }
+  .poems>div:nth-child(4){
+    width: 48%;
+  }
+  .poems>div:nth-child(5){
+    width: 38%;
+  }
+  .poems>div:nth-child(6){
+    width: 43%;
+  }
+  .poems>div:nth-child(7){
+    width: 43%;
+  }
+  .poems>div:nth-child(8){
+    width: 50%;
+  }
+}
+
+@media screen and(max-width:1100px){
+  .poems{
+    font-size: 20px;
+  }
   .poems>div{
     width: 97%;
   }
 }
+
 
 .container {
   padding: 0 20px;
@@ -163,7 +192,7 @@ export default {
       flex-direction: row;
       flex-wrap: wrap;
       width: 100%;
-      padding-bottom: 20px;
+      padding-bottom: 1em;
       .poems-container{
         display: flex;
         flex-direction: row;
@@ -175,84 +204,39 @@ export default {
         background-color: #f8f8f8;
         margin-left: 0.5%;
         margin-right: 0.5%;
-        padding: 1%;
+        padding: 3%;
         margin-top: 1%;
         font-family: 'SimSun';
-        .poems-title{
-          display: flex;
-          flex-direction: column;
-          width: 110px;
-          align-items: center;
-          margin-right: 15px;
-          img{
-            width: 90px;
-            margin-bottom: 20px;
-          }
-          .poems-name{
-            display:flex;
-            flex-direction: row;
-            align-items:flex-start;
-            line-height: 30px;
-            width: 30px;
-            text-align: center;
-            color: #45526B;
-            .song-lyrics{
-               display: flex;
-               flex-direction: row;
-               align-items: flex-start;
-               margin-left: -13px;
-            }
-            .song-lyrics :nth-child(1){
-              font-size: 20px;
-              margin-right: 14px;
-            }
-            .song-lyrics :nth-child(2){
-              font-size: 14px;
-              line-height: 28px;
-            }
-            .name-author{
-              font-size: 12px;
-              line-height: 16px;
-              margin-left:8px;
-              .line{
-                width: 1px;
-                height: 40px;
-                margin: 6px auto 0 auto;
-                background: #45526B;
-              }
-            }
-          }
-        }
         .tang-dynasty-title{
           display: flex;
           flex-direction: column;
           align-items: center;
-          width: 90px;
+          width: 4.5em;
           img{
-            width: 90px;
-            margin-bottom: 20px;
+            width: 4.5em;
+            margin-bottom: 1em;
           }
           .tang-dynasty{
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             .tang-dynasty-name{
-            line-height: 30px;
-            width: 25px;
-            text-align: center;
-            color: #45526B;
-            font-size: 20px;
+              line-height: 1.5em;
+              width: 1.25em;
+              color: #45526B;
+              font-size: 1em;
+              text-align: center
             }
             .tang-dynasty-author{
-              width: 12px;
-              font-size: 12px;
-              line-height: 16px;
-              margin-left:8px;
+              width: 1em;
+              font-size: .6em;
+              line-height: 1.3em;
+              margin-left:.4em;
               text-align: center;
               .line{
                 width: 1px;
-                height: 40px;
-                margin: 6px auto 0 auto;
+                height: 3em;
+                margin: .6em auto 0 auto;
                 background: #45526B;
               }
             }
@@ -263,9 +247,9 @@ export default {
           flex-direction: row;
           justify-content: center;
           align-items: flex-start;
-          margin: 110px 30px 0 30px;
+          margin: 5.5em 1.5em 0 1.5em;
           .poems-content{
-            width: 16px;
+            width: .875em;
             font-size: 14px;
             line-height: 24px;
             padding: 0 7px;
