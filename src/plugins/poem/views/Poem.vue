@@ -248,6 +248,7 @@ export default {
           justify-content: center;
           align-items: flex-start;
           margin: 5.5em 1.5em 0 1.5em;
+          color: #06266F;
           .poems-content{
             width: .875em;
             font-size: 14px;
