@@ -8,16 +8,11 @@
       <!-- 定制列 -->
       <span>选择要展示的列:</span>
       <el-checkbox-group v-model="checkList" @change="handleChange" class="m-20">
-        <el-checkbox disabled label="电影名"></el-checkbox>
-        <el-checkbox label="原名"></el-checkbox>
-        <el-checkbox label="类型"></el-checkbox>
-        <el-checkbox label="导演"></el-checkbox>
-        <el-checkbox label="排序"></el-checkbox>
-        <!-- <el-checkbox
+        <el-checkbox
           :disabled="item === '电影名'"
           :label="item"
-          v-for="item in checkList"
-          :key="item" /> -->
+          v-for="item in tempCheckList"
+          :key="item" />
       </el-checkbox-group>
       <!-- 固定列 -->
       <span>选择固定在左侧的列:</span>
@@ -36,17 +31,101 @@
           v-for="item in checkList"
           :key="item" />
       </el-checkbox-group>
-      <lin-table
-        :tableColumn="filterTableColumn"
-        :tableData="tableData"
-        :operate="operate"
-        :hiddenColumn="hiddenColumn"
-        @handleEdit="handleEdit"
-        @handleDelete="handleDelete"
-        @row-click="rowClick"
-        @changeSort="changeSort"
-        @changeRecommend="changeRecommend"
-        v-loading="loading"></lin-table>
+      <el-table :data="tableData" @row-dblclick="rowClick" v-loading="loading">
+        <!-- 展示摘要 -->
+        <el-table-column type="expand" >
+          <template slot-scope="props">
+            <div class="summary">
+              <img  :src="props.row.thumb" alt="">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="电影名">
+                  <span>{{ props.row.title }}</span>
+                </el-form-item>
+                <el-form-item label="导演">
+                  <span>{{ props.row.directors }}</span>
+                </el-form-item>
+                <el-form-item label="主演">
+                  <span>{{ props.row.casts }}</span>
+                </el-form-item>
+              </el-form>
+            </div>
+          </template>
+        </el-table-column>
+        <!-- 开始循环 -->
+        <template v-for="item in filterTableColumn">
+          <!-- 自定义排序 -->
+          <el-table-column label="排序" v-if="item.label === '排序'" v-bind:key="item.label">
+            <template slot-scope="props">
+              <input
+                type="number"
+                class="sort-input"
+                v-model="props.row.sorting"
+                @blur="handleSort(props.row.sorting, props.row)">
+            </template>
+          </el-table-column>
+          <!-- 正常表单列 -->
+            <el-table-column
+              v-bind:key="item.label"
+              v-if="!item.noRepeat"
+              :prop="item.prop"
+              :label="item.label"
+              :show-overflow-tooltip="true"
+              :fixed="item.fixed ? item.fixed : false"
+              :width="item.width ? item.width : ''">
+            </el-table-column>
+          <!-- 单元格编辑 -->
+          <el-table-column
+            v-bind:key="item.label"
+            label="备注"
+            width="200"
+            :show-overflow-tooltip="true"
+            v-if="item.label === '备注'">
+            <template slot-scope="props">
+              <div class="table-edit">
+                <div v-if="!props.row.editFlag" @click="handleEdit(props.row)">
+                  {{ props.row.remark }}
+                </div>
+                <div v-if="props.row.editFlag" class="cell-edit-input">
+                  <el-input v-model="props.row.remark" placeholder=""></el-input>
+                </div>
+                <div v-if="!props.row.editFlag" class="cell-icon"
+                  @click="handleCellEdit(props.row)">
+                  <i class="el-icon-edit"></i>
+                </div>
+                <div v-if="props.row.editFlag" class="cell-icon" @click="handleCellSave(props.row)">
+                  <i class="el-icon-circle-check-outline"></i>
+                </div>
+                <div v-if="props.row.editFlag" class="cell-icon"
+                  @click="handleCellCancel(props.row)">
+                  <i class="el-icon-circle-close-outline"></i>
+                </div>
+              </div>
+            </template>
+          </el-table-column>
+          <!-- 推荐 -->
+          <el-table-column label="推荐"  v-if="item.label === '推荐'" v-bind:key="item.label">
+            <template slot-scope="props">
+              <el-switch v-model="props.row.recommend"
+              active-color="#3963bc"
+              @change="handleRecommend($event, props.row)">
+              </el-switch>
+            </template>
+          </el-table-column>
+        </template>
+        <!-- 操作列 -->
+        <el-table-column label="操作" fixed="right" width="150">
+          <template slot-scope="props">
+            <lin-button
+              v-for="(item,index) in operate"
+              :type="item.type"
+              :text="item.name"
+              :key="index"
+              v-auth="item.auth ? item.auth : ''"
+              @click.native.prevent.stop="buttonMethods(item.func, props.$index, tableData)">
+            </lin-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
       <!-- 分页 -->
       <div class="pagination">
@@ -66,14 +145,13 @@
 
 <script>
 import { tableColumn } from './data'
-import LinTable from '@/base/table/lin-table'
 import movie from './models/movie'
+import LinButton from '@/base/button/lin-button'
 
 export default {
   components: {
-    LinTable,
+    LinButton,
   },
-
   data() {
     return {
       tableData: [],
@@ -90,13 +168,10 @@ export default {
       // 固定列相关
       fixedLeftList: [],
       fixedRightList: [],
-      // 特殊列
-      hiddenColumn: {
-        sorting: true,
-        recommend: false,
-        thumb: false,
-      },
     }
+  },
+  computed: {
+
   },
   created() {
     // 获取数据
@@ -108,6 +183,7 @@ export default {
       { name: '删除', func: 'handleDelete', type: 'del' },
     ]
     // 定制列
+    this.tempCheckList = tableColumn.map(v => v.label).slice()
     this.checkList = tableColumn.map(v => v.label)
     this.filterTableColumn = tableColumn.filter(
       v => this.checkList.indexOf(v.label) > -1,
@@ -118,8 +194,10 @@ export default {
     _getTableData() {
       const res = movie.getTop250((this.currentPage - 1) * this.pageCount, this.pageCount)
       res.map((item) => {
-        item.remark = '这是一部不错的电影'
-        item.editFlag = false
+        const temp = item
+        temp.remark = '这是一部不错的电影'
+        temp.editFlag = false
+        return ''
       })
       this.tableData = [...res]
     },
@@ -142,15 +220,14 @@ export default {
     },
 
     // 定制列
-    handleChange(e) {
-      // this.sortingHidden = !e.includes('排序')
+    handleChange() {
       this.filterTableColumn = tableColumn.filter(
         v => this.checkList.indexOf(v.label) > -1,
       )
     },
 
     // 变更排序
-    changeSort(val, rowData) {
+    handleSort(val, rowData) {
       console.log('rowData', rowData)
       this.$message({
         type: 'success',
@@ -158,7 +235,8 @@ export default {
       })
     },
 
-    changeRecommend(val, rowData) {
+    // 推荐
+    handleRecommend(val, rowData) {
       console.log(val, rowData)
       if (val) {
         this.$message({
@@ -166,6 +244,19 @@ export default {
           message: '推荐成功',
         })
       }
+    },
+
+    // 单元格编辑
+    handleCellEdit(row) {
+      row.editFlag = true // eslint-disable-line
+      this.tempEditRemark = row.remark
+    },
+    handleCellSave(row) {
+      row.editFlag = false // eslint-disable-line
+    },
+    handleCellCancel(row) {
+      row.editFlag = false // eslint-disable-line
+      row.remark = this.tempEditRemark // eslint-disable-line
     },
 
     // 切换分页
@@ -226,9 +317,58 @@ export default {
     }
   }
 
+  .sort-input {
+    width: 50px;
+    background: none;
+    justify-content: space-around;
+  }
+
+  .table-edit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 135px;
+  }
+
+  .cell-edit-input .el-input,
+  .el-input__inner {
+    width: 125px;
+  }
+
+  .cell-icon {
+    cursor: pointer;
+    color: #3963bc;
+    margin-left: 5px;
+  }
+
   .m-20 {
     margin-bottom: 10px;
     margin-top: 5px;
+  }
+  .summary {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    img {
+      width: 135px;
+      height: 200px;
+    }
+    .demo-table-expand {
+      font-size: 0;
+      margin-left: 30px;
+      display: flex;
+      flex-direction: column;
+      label {
+        width: 90px;
+        color: #99a9bf;
+      }
+      .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: row;
+      }
+    }
   }
 
   .pagination {

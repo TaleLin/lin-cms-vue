@@ -1,4 +1,5 @@
-const tableColumn = [
+export const tableColumn = [
+  { prop: 'sorting', label: '排序', noRepeat: true },
   { prop: 'rank', label: '排名' },
   { prop: 'title', label: '电影名', width: 150 },
   { prop: 'originalTitle', label: '原名', width: 150 },
@@ -7,42 +8,8 @@ const tableColumn = [
   { prop: 'directors', label: '导演', width: 150 },
   { prop: 'casts', label: '主演', width: 150 },
   { prop: 'year', label: '年份' },
-  { prop: 'remark', label: '备注' },
+  { prop: 'recommend', label: '推荐', noRepeat: true },
+  { prop: 'remark', label: '备注', noRepeat: true },
 ]
 
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: '王小虎',
-    province: '上海',
-    city: '普陀区',
-    address: '上海市普陀区金沙江路 1518 弄',
-    zip: 200333,
-    tag: '家',
-  }, {
-    date: '2016-05-02',
-    name: '王小虎',
-    province: '上海',
-    city: '普陀区',
-    address: '上海市普陀区金沙江路 1518 弄',
-    zip: 200333,
-    tag: '公司',
-  }, {
-    date: '2016-05-04',
-    name: '王小虎',
-    province: '上海',
-    city: '普陀区',
-    address: '上海市普陀区金沙江路 1518 弄',
-    zip: 200333,
-    tag: '家',
-  }, {
-    date: '2016-05-01',
-    name: '王小虎',
-    province: '上海',
-    city: '普陀区',
-    address: '上海市普陀区金沙江路 1518 弄',
-    zip: 200333,
-    tag: '公司',
-  }]
-
-export { tableColumn, tableData }
+export const a = 1

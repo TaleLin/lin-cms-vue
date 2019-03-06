@@ -26,7 +26,7 @@ class Movie {
         rank: index + 1 + start,
         sorting: 50,
         recommend: 0,
-        thumb: element.thumb,
+        thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/2659938529933529797.jpg',
       })
     })
 

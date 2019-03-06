@@ -118,12 +118,11 @@ export default {
       try {
         this.loading = true
         res = await Admin.getAdminUsers({ group_id: this.group_id, count: this.pageCount, page: currentPage }) // eslint-disable-line
-        console.log('endResult', res)
         this.loading = false
         this.tableData = [...res.collection]
         this.total_nums = res.total_nums
       } catch (e) {
-        // this.loading = false
+        this.loading = false
         console.log(e)
       }
     },

@@ -200,6 +200,7 @@ export const movieList = [
       },
     ],
     year: '1994',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p511118051.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p511118051.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p511118051.webp',
@@ -268,6 +269,7 @@ export const movieList = [
       },
     ],
     year: '1994',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p510876377.webp',
     images: {
       small: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p510876377.webp',
       large: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p510876377.webp',
@@ -337,6 +339,7 @@ export const movieList = [
       },
     ],
     year: '1997',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p510861873.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p510861873.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p510861873.webp',
@@ -406,6 +409,7 @@ export const movieList = [
       },
     ],
     year: '1997',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p457760035.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p457760035.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p457760035.webp',
@@ -475,6 +479,7 @@ export const movieList = [
       },
     ],
     year: '2001',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1606727862.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1606727862.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1606727862.webp',
@@ -544,6 +549,7 @@ export const movieList = [
       },
     ],
     year: '1993',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p492406163.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p492406163.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p492406163.webp',
@@ -613,6 +619,7 @@ export const movieList = [
       },
     ],
     year: '2010',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p513344864.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p513344864.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p513344864.webp',
@@ -680,6 +687,7 @@ export const movieList = [
       },
     ],
     year: '2009',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p524964016.webp',
     images: {
       small: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p524964016.webp',
       large: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p524964016.webp',
@@ -749,6 +757,7 @@ export const movieList = [
       },
     ],
     year: '2008',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1461851991.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1461851991.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1461851991.webp',
@@ -818,6 +827,7 @@ export const movieList = [
       },
     ],
     year: '2009',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p579729551.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p579729551.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p579729551.webp',
@@ -886,6 +896,7 @@ export const movieList = [
       },
     ],
     year: '1998',
+    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p511146807.webp',
     images: {
       small: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p511146807.webp',
       large: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p511146807.webp',

@@ -1,6 +1,5 @@
 const Table = () => import('./views/Table')
 const TableSample = () => import('./views/TableSample.vue')
-const InlineEditTable = () => import('./views/InlineEditTable.vue')
 
 const tableRouter = {
   path: '/table',
@@ -15,14 +14,6 @@ const tableRouter = {
       component: TableSample,
       meta: {
         title: '表格示例',
-        icon: 'iconfont icon-table1',
-      },
-    },
-    {
-      path: '/table/inline-edit-table',
-      component: InlineEditTable,
-      meta: {
-        title: '行内编辑',
         icon: 'iconfont icon-table1',
       },
     },
