@@ -1,28 +1,58 @@
-const chalk = require('chalk')
-const yaml = require('js-yaml')
+// const yaml = require('js-yaml')
 const fs = require('fs-extra')
 const path = require('path')
+const chalk = require('chalk')
+const frontYaml = require('yaml-front-matter')
 
-const configRgx = /<!-- CONFIG([\s\S]*)CONFIG -->/
 const viewNameRgx = /^[A-Z][A-Za-z0-9]*\.vue$/
 const srcDir = path.resolve(__dirname, '../../src')
+let vPath
+let pName
 
-function getPathId(pathStr) {
-  const pathArr = pathStr.split('/').filter(item => (item && item[0] !== ':'))
-  return pathArr.join('_')
+function getId() {
+  const list = vPath.slice(0, -4).split(path.sep)
+  list[0] = 'p'
+  return list.join('_').toLowerCase()
+}
+
+function getName(name) {
+  if (name === 'index.vue') {
+    const list = vPath.split(path.sep)
+    return list[list.length - 2]
+  }
+  return pName + name.slice(0, -4)
+}
+
+function getRoute() {
+  const list = vPath.slice(0, -4).split(path.sep)
+  list[0] = ''
+  list[1] = pName
+
+  if (list[list.length - 1] === 'index') {
+    list.pop()
+  }
+  return list.join('/')
+}
+
+function checkConfig(config) {
+  if (Object.keys(config).length === 0) {
+    console.log(chalk.yellow(`${vPath} 找不到配置部分`))
+  }
 }
 
 module.exports = (viewObj, pluginName = '') => {
-  // console.log(pluginName)
-  let configCtx = fs.readFileSync(viewObj.path, 'utf8').match(configRgx)
-  // console.log(path.relative(srcDir, viewObj.path))
+  const config = frontYaml.loadFront(fs.readFileSync(viewObj.path, 'utf8'))
+  delete config.__content
 
+  checkConfig(config)
+  vPath = path.relative(srcDir, viewObj.path)
+  pName = pluginName
   const result = {
-    filePath: path.relative(srcDir, viewObj.path),
-    path: pluginName + path.relative(srcDir, viewObj.path).slice(5, -4).toLowerCase(),
-    name: pluginName + viewObj.name.slice(0, -4),
+    id: getId(),
+    filePath: vPath,
+    route: getRoute(),
+    name: getName(viewObj.name),
     type: 'view',
-    id: getPathId(path.relative(srcDir, viewObj.path).slice(5, -4).toLowerCase()),
   }
 
   if (!viewNameRgx.test(viewObj.name)) {
@@ -32,27 +62,5 @@ module.exports = (viewObj, pluginName = '') => {
     }
   }
 
-  if (!configCtx) {
-    // 提示该页面未找到页面配置
-    // eslint-disable-next-line
-    console.log(chalk.yellow(`WARNING: 未找到页面配置:\npath: ${viewObj.path}\n`));
-    // 返回默认
-    return false
-  }
-
-  // eslint-disable-next-line
-  configCtx = configCtx[1]
-
-  try {
-    configCtx = yaml.safeLoad(configCtx)
-  } catch (e) {
-    // eslint-disable-next-line
-    console.log(chalk.red(`ERROR: 页面配置解析失败:\npath: ${viewObj.path}\n`))
-    process.exit(1)
-  }
-
-  result.path = configCtx.path || result.path
-  result.name = configCtx.name || result.name
-
-  return Object.assign(configCtx, result)
+  return Object.assign(result, config)
 }

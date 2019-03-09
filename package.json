@@ -45,7 +45,8 @@
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
     "shelljs": "^0.8.3",
-    "vue-template-compiler": "^2.6.8"
+    "vue-template-compiler": "^2.6.8",
+    "yaml-front-matter": "^4.0.0"
   },
   "postcss": {
     "plugins": {

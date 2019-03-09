@@ -1,5 +1,5 @@
 /*
-plugin: <%= name %>
+plugin: <%= camelCaseName %>
 
 如默认路由无法满足, 需自定义路由, 需在此文件中配置, 配置方式参考文档中路由配置
 
@@ -7,7 +7,7 @@ plugin: <%= name %>
 */
 
  const PluginRouter = {
-  path: '/<%= name %>/test',
+  path: '/<%= camelCaseName %>/test',
   component: () => import('./views/TestView'),
   meta: {
     title: '自定义路由文件',

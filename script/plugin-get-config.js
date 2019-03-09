@@ -43,7 +43,7 @@ function iteratTree(treeObj, pluginName) {
 }
 
 // eslint-disable-next-line
-console.log(chalk.green('开始自动构建插件配置...\n'));
+console.log(chalk.green('开始自动构建插件配置...'));
 
 const targetDir = path.resolve(__dirname, '../src/plugins/configs.json')
 const pluginsPath = path.resolve(__dirname, '../src/plugins')
@@ -61,4 +61,4 @@ puginList.forEach((item) => {
 fs.writeFile(targetDir, JSON.stringify(viewConfig, null, 2))
 // fs.outputFileSync(targetDir, JSON.stringify(pluginsConfig));
 // eslint-disable-next-line
-console.log(chalk.green(`插件配置完成: ${targetDir}`))
+console.log(chalk.green(`插件配置完成: ${targetDir}\n`))
