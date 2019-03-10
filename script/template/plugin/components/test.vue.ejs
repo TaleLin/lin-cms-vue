@@ -1,16 +1,12 @@
-/*
-plugin: <%= name %>
-*/
-
 <template>
   <div>
-    组件test
+    组件: <%= camelCaseName %>test
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Test',
+  name: '<%= camelCaseName %>Test',
   components: {},
   data() {
     return {}

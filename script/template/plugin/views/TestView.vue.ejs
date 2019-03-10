@@ -1,12 +1,14 @@
-<!-- CONFIG
 ---
-<%- configYml %>
-CONFIG -->
+<%- configYml %>---
+
 
 <template>
-  <div v-loading="loading">
-    <h1>插件: <%= name %></h1>
-    <test/>
+  <div class="lin-container">
+    <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
+    <lin-1px></lin-1px>
+    <div class="lin-wrap">
+      <test />
+    </div>
   </div>
 </template>
 
@@ -14,7 +16,7 @@ CONFIG -->
 import Test from '../components/Test'
 
 export default {
-  name: 'TestView',
+  name: '<%= camelCaseName %>TestView',
   components: {
     Test,
   },
@@ -24,6 +26,13 @@ export default {
   computed: {},
   watch: {},
   mounted() {},
+  // 当页面使用路由参数时, 参数部分变化触发的动作在本函数中操作
+  // https://router.vuejs.org/zh/guide/advanced/navigation-guards.htmll#组件内的守卫
+  // beforeRouteUpdate(to, from, next) {
+  //   // this.name = to.params.name
+  //   // this.init()
+  //   // next()
+  // },
   methods: {},
 }
 </script>

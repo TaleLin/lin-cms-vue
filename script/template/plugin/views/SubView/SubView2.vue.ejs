@@ -1,18 +1,19 @@
-<!-- CONFIG
 ---
-<%- configYml %>
-CONFIG -->
+<%- configYml %>---
 
 <template>
-  <div v-loading="loading">
-    <h1>插件: <%= name %></h1>
-    <p>{{text}}</p>
+  <div class="lin-container" v-loading="loading">
+    <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
+    <lin-1px></lin-1px>
+    <div class="lin-wrap">
+      <p>{{text}}</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'View2',
+  name: '<%= camelCaseName %>SubView2',
   components: {},
   data() {
     return {
@@ -42,7 +43,7 @@ export default {
     init() {
       this.loading = true
       setTimeout(() => {
-        this.text = '舞台 View2 初始化完成'
+        this.text = '三级舞台 <%= camelCaseName %>SubView2 初始化完成'
         this.loading = false
       }, 3000)
     },
@@ -52,4 +53,3 @@ export default {
 
 <style lang="scss" scoped>
 </style>
-
