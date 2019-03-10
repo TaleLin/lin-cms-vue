@@ -84,6 +84,7 @@ export default {
     },
     editClose() {
       this.showEdit = false
+      this.getBooks()
     },
   },
 }

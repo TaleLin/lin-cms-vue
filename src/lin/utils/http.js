@@ -50,7 +50,7 @@ http.interceptors.request.use(
 // 返回结果处理
 http.interceptors.response.use(
   async (res) => {
-    if (res.status !== 200) {
+    if (res.status.toString().charAt(0) !== '2') {
       const result = await handleException(res)
       return result
     }
