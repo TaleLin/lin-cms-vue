@@ -87,7 +87,7 @@ export default {
     changeReuseState() {
       this.showReuseTab = !this.showReuseTab
       this.upState = !this.upState
-      this.$refs.appMain.$el.style.minHeight = this.showReuseTab === false ? `${this.clientHeight - navBarHeight - marginHeight}px` : `${this.clientHeight - totalHeight}px`
+      this.$refs.appMain.$el.style.minHeight = this.showReuseTab === false ? `${this.clientHeight - navBarHeight - marginHeight + 20}px` : `${this.clientHeight - totalHeight + 20}px`
       // 因为动画效果有延时，所以需要重新渲染scroll
       setTimeout(() => {
         this.$refs.scroll.refresh()
@@ -97,7 +97,7 @@ export default {
     setResize() {
       this.clientHeight = document.body.clientHeight
       this.clientWidth = document.body.clientWidth
-      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight}px`
+      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
     },
   },
   watch: {
@@ -163,9 +163,9 @@ export default {
   height: 100%;
   overflow: hidden;
 }
-.el-container-right {
-  padding-bottom: 20px;
-}
+// .el-container-right {
+//   padding-bottom: 20px;
+// }
 .app-main {
   background: white;
   border-top-left-radius: 10px;
@@ -175,7 +175,7 @@ export default {
   overflow-y: auto;
   position: relative;
   padding: 0;
-  margin: 0 20px 20px;
+  margin: 0 20px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }

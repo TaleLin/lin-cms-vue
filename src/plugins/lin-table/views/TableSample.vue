@@ -121,7 +121,7 @@
               :text="item.name"
               :key="index"
               v-auth="item.auth ? item.auth : ''"
-              @click.native.prevent.stop="buttonMethods(item.func, props.$index, tableData)">
+              @click.native.prevent.stop="buttonMethods(item.func, props.$index, props.row)">
             </lin-button>
           </template>
         </el-table-column>
@@ -202,19 +202,6 @@ export default {
       this.tableData = [...res]
     },
 
-    handleEdit(val) {
-      console.log(val)
-    },
-
-    handleDelete(val) {
-      console.log(val)
-      this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(async () => {})
-    },
-
     rowClick(val) {
       console.log(val)
     },
@@ -265,6 +252,24 @@ export default {
       this.loading = true
       this._getTableData((this.currentPage - 1) * this.pageCount, this.pageCount)
       this.loading = false
+    },
+
+    // 操作列
+    buttonMethods(func, index, row) {
+      const self = this
+      const { methods } = this.$options
+      methods[func](self, index, row)
+    },
+    handleEdit(self, index, row) {
+      console.log(index, row)
+    },
+    handleDelete(self, index, val) {
+      console.log(val)
+      self.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {})
     },
   },
 

@@ -10,22 +10,8 @@
       v-if="selection"
       width="55"
       @cell-dblclick="tableDbEdit"></el-table-column>
-      <!-- 展示缩略图 -->
-      <el-table-column type="expand" fixed="left"  v-if="!hiddenColumn.thumb">
-        <template slot-scope="scope">
-          <img style="width: 100px;height: auto;" :src="scope.row.thumb" alt="">
-        </template>
-      </el-table-column>
-    <!-- 自定义排序 -->
-    <el-table-column label="排序" prop="sorting" v-if="!hiddenColumn.sorting">
-      <template slot-scope="scope">
-        <input
-          type="number"
-          class="sort-input"
-          v-model="scope.row.sorting"
-          @blur="handleSort(scope.row.sorting, scope.row)">
-      </template>
-    </el-table-column>
+
+
     <!-- 正常表单列 -->
     <div v-for="item in tableColumn" :key="item.id">
       <el-table-column
@@ -37,38 +23,8 @@
         :width="item.width ? item.width : ''">
       </el-table-column>
     </div>
-    <!-- 单元格编辑 -->
-    <el-table-column label="备注" width="200" :show-overflow-tooltip="true">
-      <template scope="scope">
-        <div class="table-edit">
-          <div v-if="!scope.row.editFlag"
-          @click="handleEdit(scope.row)">
-          {{ scope.row.remark }}
-          </div>
-          <div v-if="scope.row.editFlag" class="cell-edit-input">
-            <el-input v-model="scope.row.remark" placeholder=""></el-input>
-          </div>
-          <div v-if="!scope.row.editFlag" class="cell-icon" @click="handleCellEdit(scope.row)">
-            <i class="el-icon-edit"></i>
-          </div>
-          <div v-if="scope.row.editFlag" class="cell-icon" @click="handleCellSave(scope.row)">
-            <i class="el-icon-circle-check-outline"></i>
-          </div>
-          <div v-if="scope.row.editFlag" class="cell-icon" @click="handleCellCancel(scope.row)">
-            <i class="el-icon-circle-close-outline"></i>
-          </div>
-        </div>
-      </template>
-    </el-table-column>
-    <!-- 推荐 -->
-    <el-table-column label="推荐" prop="recommend"  v-if="!hiddenColumn.recommend">
-      <template slot-scope="scope">
-        <el-switch v-model="scope.row.recommend"
-        active-color="#3963bc"
-        @change="handleRecommend($event, scope.row)">
-        </el-switch>
-      </template>
-    </el-table-column>
+
+
     <!-- 操作列 -->
     <el-table-column label="操作" fixed="right" width="150">
       <template slot-scope="scope">
@@ -120,24 +76,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    hiddenColumn: {
-      type: Object,
-      default() {
-        return {
-          sorting: true, // 是否隐藏排序
-          recommend: true, // 是否隐藏推荐
-          thumb: true, // 是否隐藏缩略图
-        }
-      },
-    },
   },
   components: {
     LinButton,
-  },
-  data() {
-    return {
-      tempEditRemark: '', // 缓存单元格内容
-    }
   },
   methods: {
     buttonMethods(func, index, row) {
@@ -157,10 +98,6 @@ export default {
     handleCurrentChange(val) {
       this.currentRow = val
     },
-    // 自定义排序
-    handleSort(val, rowData) {
-      this.$emit('changeSort', val, rowData)
-    },
     // 推荐
     handleRecommend(val, rowData) {
       this.$emit('changeRocommend', val, rowData)
@@ -168,18 +105,7 @@ export default {
     rowClick(row, event, column) { // eslint-disable-line
       this.$emit('row-click', row)
     },
-    // 单元格编辑
-    handleCellEdit(row) {
-      row.editFlag = true // eslint-disable-line
-      this.tempEditRemark = row.remark
-    },
-    handleCellSave(row) {
-      row.editFlag = false // eslint-disable-line
-    },
-    handleCellCancel(row) {
-      row.editFlag = false // eslint-disable-line
-      row.remark = this.tempEditRemark // eslint-disable-line
-    },
+
   },
 }
 </script>
