@@ -44,7 +44,9 @@
     "js-yaml": "^3.12.2",
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
+    "semver": "^5.6.0",
     "shelljs": "^0.8.3",
+    "validate-npm-package-name": "^3.0.0",
     "vue-template-compiler": "^2.6.8",
     "yaml-front-matter": "^4.0.0"
   },

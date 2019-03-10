@@ -6,22 +6,34 @@ const chalk = require('chalk')
 const child_process = require('child_process')
 const shell = require('shelljs')
 const inquirer = require('inquirer')
+const semver = require('semver')
 const getPluginDep = require('./lib/plugin-get-dep')
 const pluginList = require('./lib/plugin-get-all')
 
-let hasError = false
-function exec (cmd) {
-  try {
-    return child_process.execSync(cmd).toString().trim()
-  } catch (err) {
-    console.log(chalk.red(`初始化插件依赖失败 ${cmd}, 请手动支持`))
-    hasError = true
+// let hasError = false
+const hasError = false
+
+function exec(cmd) {
+  return new Promise((resolve, reject) => {
+    child_process.exec(cmd, (error, stdout) => {
+      if (error) {
+        reject(error)
+      }
+      resolve(stdout)
+    })
+  })
+}
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    // eslint-disable-next-line
+    await callback(array[index], index, array);
   }
 }
 
 // 安装插件
 if (!shell.which('npm')) {
-  console.log(chalk.red('请安装 npm'))
+  console.log(chalk.red('检测到未安装 npm, 请先安装 npm 再重新执行, 查看: https://www.npmjs.com/get-npm'))
   process.exit(1)
 }
 
@@ -32,7 +44,7 @@ async function handler() {
     questions.push({
       type: 'input',
       name: 'name',
-      message: '未传入插件名, 如果需要初始化所有插件请回车, 如果需要初始化特定插件, 请输入插件名\n',
+      message: '如需要初始化特定插件, 请输入插件名, 如需初始化所有插件请直接回车\n',
       validate(value) {
         const done = this.async()
         setTimeout(() => {
@@ -58,28 +70,101 @@ async function handler() {
   }
 
   if (!answer) {
-    console.log(chalk.green('初始化所有插件...'))
+    console.log(chalk.green('开始初始化所有插件'))
   } else {
-    console.log(chalk.green(`初始化插件${answer}...`))
+    console.log(chalk.green(`开始初始化插件${answer}`))
   }
 
   if (!answer) {
-    pluginList.forEach((item) => {
+    await asyncForEach(pluginList, async (item) => {
+      console.log(`- 初始化插件 ${item.name}...`)
       const itemPk = item.package
-      Object.keys(itemPk.dependencies).forEach((item) => {
-        exec(`npm install ${item}@${itemPk.dependencies[item]}`)
+      await asyncForEach(Object.keys(itemPk.dependencies), async (plugin) => {
+        // prod
+        const lsPackage = JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --prod`))
+        let v = false
+        let ifInstall = true
+
+        if (lsPackage.dependencies) {
+          v = lsPackage.dependencies[plugin].version
+        }
+
+        if (v) {
+          ifInstall = !semver.satisfies(v, itemPk.dependencies[plugin])
+        }
+
+        if (ifInstall) {
+          console.log(chalk.yellow(`安装依赖 ${plugin}@${itemPk.dependencies[plugin]}`))
+          await exec(`npm install ${plugin}@${itemPk.dependencies[plugin]}`)
+        } else {
+          console.log(`当前已存在依赖 ${plugin}@${v}`)
+        }
       })
-      Object.keys(itemPk.devDependencies).forEach((item) => {
-        exec(`npm install --save-dev ${item}@${itemPk.devDependencies[item]}`)
+      await asyncForEach(Object.keys(itemPk.devDependencies), async (plugin) => {
+        // dev
+        const lsPackage = JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --dev`))
+        let v = false
+        let ifInstall = true
+
+        if (lsPackage.dependencies) {
+          v = lsPackage.dependencies[plugin].version
+        }
+
+        if (v) {
+          ifInstall = !semver.satisfies(v, itemPk.devDependencies[plugin])
+        }
+
+        if (ifInstall) {
+          console.log(chalk.yellow(`安装依赖 ${plugin}@${itemPk.devDependencies[plugin]}`))
+          await exec(`npm install --save-dev ${plugin}@${itemPk.devDependencies[plugin]}`)
+        } else {
+          console.log(`当前已存在依赖 ${plugin}@${v}`)
+        }
       })
     })
   } else {
-    const plugindep = getPluginDep(answer)
-    Object.keys(plugindep.dependencies).forEach((item) => {
-      exec(`npm install ${item}@${plugindep.dependencies[item]}`)
+    const itemPk = getPluginDep(answer)
+    await asyncForEach(Object.keys(itemPk.dependencies), async (plugin) => {
+      // prod
+      const lsPackage = JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --prod`))
+      let v = false
+      let ifInstall = true
+
+      if (lsPackage.dependencies) {
+        v = lsPackage.dependencies[plugin].version
+      }
+
+      if (v) {
+        ifInstall = !semver.satisfies(v, itemPk.dependencies[plugin])
+      }
+
+      if (ifInstall) {
+        console.log(chalk.yellow(`安装依赖 ${plugin}@${itemPk.dependencies[plugin]}`))
+        await exec(`npm install ${plugin}@${itemPk.dependencies[plugin]}`)
+      } else {
+        console.log(`当前已存在依赖 ${plugin}@${v}`)
+      }
     })
-    Object.keys(plugindep.devDependencies).forEach((item) => {
-      exec(`npm install --save-dev ${item}@${plugindep.devDependencies[item]}`)
+    await asyncForEach(Object.keys(itemPk.devDependencies), async (plugin) => {
+      // dev
+      const lsPackage = JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --dev`))
+      let v = false
+      let ifInstall = true
+
+      if (lsPackage.dependencies) {
+        v = lsPackage.dependencies[plugin].version
+      }
+
+      if (v) {
+        ifInstall = !semver.satisfies(v, itemPk.devDependencies[plugin])
+      }
+
+      if (ifInstall) {
+        console.log(chalk.yellow(`安装依赖 ${plugin}@${itemPk.devDependencies[plugin]}`))
+        await exec(`npm install --save-dev ${plugin}@${itemPk.devDependencies[plugin]}`)
+      } else {
+        console.log(`当前已存在依赖 ${plugin}@${v}`)
+      }
     })
   }
 
