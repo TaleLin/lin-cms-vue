@@ -3,8 +3,14 @@
     <!-- 列表页面 -->
     <div class="container">
       <div class="header">
-        <div class="title">豆瓣电影TOP250</div>
+        <div class="header-left">
+          <p class="title">豆瓣电影TOP250</p>
+        </div>
+        <div class="header-right">
+          <lin-search @query="onQueryChange" placeholder="请输入电影名" />
+        </div>
       </div>
+      <lin-1px :addWidth="60"></lin-1px>
       <!-- 定制列 -->
       <span>选择要展示的列:</span>
       <el-checkbox-group v-model="checkList" @change="handleChange" class="m-20">
@@ -128,7 +134,7 @@
       </el-table>
 
       <!-- 分页 -->
-      <div class="pagination">
+      <div class="pagination" v-if="!searchKeyword">
         <el-pagination
           @current-change="handleCurrentChange"
           :background="true"
@@ -144,19 +150,22 @@
 </template>
 
 <script>
+import LinButton from '@/base/button/lin-button'
+import LinSearch from '@/base/search/lin-search'
 import { tableColumn } from './data'
 import movie from './models/movie'
-import LinButton from '@/base/button/lin-button'
 
 export default {
   components: {
     LinButton,
+    LinSearch,
   },
   data() {
     return {
       tableData: [],
       loading: false,
       Hidden: true, // 默认隐藏自定义排序列
+      searchKeyword: '',
       // 定制列相关
       checkList: [],
       filterTableColumn: [],
@@ -191,8 +200,8 @@ export default {
   },
   methods: {
     // 获取数据
-    _getTableData() {
-      const res = movie.getTop250((this.currentPage - 1) * this.pageCount, this.pageCount)
+    _getTableData(start, count) {
+      const res = movie.getTop250(start, count)
       res.map((item) => {
         const temp = item
         temp.remark = '这是一部不错的电影'
@@ -271,6 +280,17 @@ export default {
         type: 'warning',
       }).then(async () => {})
     },
+
+    // 搜索
+    onQueryChange(query) {
+      this.searchKeyword = query.trim()
+      if (!query) {
+        this._getTableData(0, 20)
+        return
+      }
+      // 处理带空格的情况
+      this.tableData = movie.getDataByQuery(this.searchKeyword)
+    },
   },
 
   watch: {
@@ -311,14 +331,22 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    .title {
-      height: 59px;
-      line-height: 59px;
-      color: $parent-title-color;
-      font-size: 16px;
-      font-family: PingFangSC-Medium;
-      font-weight: 500;
+    .header-left {
+      float: left;
+      .title {
+        height: 59px;
+        line-height: 59px;
+        color: $parent-title-color;
+        font-size: 16px;
+        font-family: 'PingFangSC-Medium';
+        font-weight: 500;
+      }
+    }
+    .header-right {
+      float: right;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 

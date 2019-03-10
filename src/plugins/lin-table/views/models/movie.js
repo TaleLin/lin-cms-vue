@@ -32,6 +32,41 @@ class Movie {
 
     return arr
   }
+
+  getDataByQuery(query = '') {
+    const arr = []
+    for (let index = 0; index < movieList.length; index++) {
+      const element = movieList[index]
+
+      if (element.title.match(query)) {
+        const tempCasts = []
+        const tempDirectors = []
+        element.casts.forEach((el) => {
+          tempCasts.push(el.name)
+        })
+        element.directors.forEach((el) => {
+          tempDirectors.push(el.name)
+        })
+
+
+        arr.push({
+          title: element.title,
+          originalTitle: element.original_title,
+          year: element.year,
+          rating: element.rating.average,
+          casts: tempCasts.join('/'),
+          directors: tempDirectors.join('/'),
+          genres: element.genres.join('/'),
+          rank: index + 1,
+          sorting: 50,
+          recommend: 0,
+          thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/2659938529933529797.jpg',
+        })
+      }
+    }
+
+    return arr
+  }
 }
 
 export default new Movie()
