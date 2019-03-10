@@ -8,6 +8,7 @@ const viewNameRgx = /^[A-Z][A-Za-z0-9]*\.vue$/
 const srcDir = path.resolve(__dirname, '../../src')
 let vPath
 let pName
+let vName
 
 function getId() {
   const list = vPath.slice(0, -4).split(path.sep)
@@ -18,9 +19,9 @@ function getId() {
 function getName(name) {
   if (name === 'index.vue') {
     const list = vPath.split(path.sep)
-    return list[list.length - 2]
+    return pName.charAt(0).toUpperCase() + pName.slice(1) + list[list.length - 2]
   }
-  return pName + name.slice(0, -4)
+  return pName.charAt(0).toUpperCase() + pName.slice(1) + vName
 }
 
 function getRoute() {
@@ -31,7 +32,7 @@ function getRoute() {
   if (list[list.length - 1] === 'index') {
     list.pop()
   }
-  return list.join('/')
+  return list.join('/').toLowerCase()
 }
 
 function checkConfig(config) {
@@ -47,6 +48,7 @@ module.exports = (viewObj, pluginName = '') => {
   checkConfig(config)
   vPath = path.relative(srcDir, viewObj.path)
   pName = pluginName
+  vName = viewObj.name.slice(-4)
   const result = {
     id: getId(),
     filePath: vPath,
@@ -61,6 +63,5 @@ module.exports = (viewObj, pluginName = '') => {
       console.log(chalk.yellow(`WARNING: 页面不满足命名规范, 驼峰命名且首字母需大写:\npath: ${viewObj.path}\n`))
     }
   }
-
   return Object.assign(result, config)
 }

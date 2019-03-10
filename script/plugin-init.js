@@ -10,13 +10,14 @@ const semver = require('semver')
 const getPluginDep = require('./lib/plugin-get-dep')
 const pluginList = require('./lib/plugin-get-all')
 
-// let hasError = false
-const hasError = false
+let hasError = false
+const projectPackage = require('../package.json')
 
 function exec(cmd) {
   return new Promise((resolve, reject) => {
     child_process.exec(cmd, (error, stdout) => {
       if (error) {
+        hasError = true
         reject(error)
       }
       resolve(stdout)
@@ -140,7 +141,14 @@ async function handler() {
 
       if (ifInstall) {
         console.log(chalk.yellow(`安装依赖 ${plugin}@${itemPk.dependencies[plugin]}`))
-        await exec(`npm install ${plugin}@${itemPk.dependencies[plugin]}`)
+        try {
+          await exec(`npm install ${plugin}@${itemPk.dependencies[plugin]}`)
+          const v2 = (JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --prod`)).dependencies[plugin].version)
+          if (!semver.satisfies(v2, projectPackage.dependencies[plugin])) {
+            console.log(chalk.red(`检查到插件 ${answer} 依赖 ${plugin} 有冲突, 请手动解决`))
+            await exec(`npm install ${plugin}@${projectPackage.dependencies[plugin]}`)
+          }
+        } catch(err) {}
       } else {
         console.log(`当前已存在依赖 ${plugin}@${v}`)
       }
@@ -161,7 +169,14 @@ async function handler() {
 
       if (ifInstall) {
         console.log(chalk.yellow(`安装依赖 ${plugin}@${itemPk.devDependencies[plugin]}`))
-        await exec(`npm install --save-dev ${plugin}@${itemPk.devDependencies[plugin]}`)
+        try {
+          await exec(`npm install --save-dev ${plugin}@${itemPk.devDependencies[plugin]}`)
+          const v2 = (JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --dev`)).dependencies[plugin].version)
+          if (!semver.satisfies(v2, projectPackage.devDependencies[plugin])) {
+            console.log(chalk.red(`检查到插件 ${answer} 依赖 ${plugin} 有冲突, 请手动解决`))
+            await exec(`npm install ${plugin}@${projectPackage.devDependencies[plugin]}`)
+          }
+        } catch (err) {}
       } else {
         console.log(`当前已存在依赖 ${plugin}@${v}`)
       }

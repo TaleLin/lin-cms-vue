@@ -44,7 +44,7 @@ function compareOrder(a, b) {
 }
 
 function iteratTree(treeObj, plugin) {
-  const pluginName = plugin.package.name
+  const pluginName = plugin.package.name.slice('lc-plugin-'.length)
   let result
   if (treeObj.type === 'directory') {
     result = {
@@ -81,15 +81,22 @@ puginList.forEach((item) => {
     if (subItem.type !== 'directory') {
       return
     }
-    const indexView = subItem.children.find(view => (view.name === subItem.name))
-    // eslint-disable-next-line
-    subItem.title = indexView.folderTitle || indexView.title
-    // eslint-disable-next-line
-    subItem.icon = indexView.folderIcon || indexView.icon
-    // eslint-disable-next-line
-    subItem.route = indexView.folderRoute || indexView.route
-    // eslint-disable-next-line
-    subItem.order = indexView.folderOrder || indexView.order
+    const indexView = subItem.children.find((view) => {
+      // console.log(subItem.name.slice(item.name.length))
+      return (view.name.slice(-5) === 'index')
+    })
+    if (indexView) {
+      // eslint-disable-next-line
+      subItem.name = item.name + subItem.name
+      // eslint-disable-next-line
+      subItem.title = indexView.folderTitle || indexView.title
+      // eslint-disable-next-line
+      subItem.icon = indexView.folderIcon || indexView.icon
+      // eslint-disable-next-line
+      subItem.route = indexView.folderRoute || indexView.route
+      // eslint-disable-next-line
+      subItem.order = indexView.folderOrder || indexView.order
+    }
   })
 })
 

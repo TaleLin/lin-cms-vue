@@ -120,6 +120,7 @@ inquirer.prompt(questions).then((answers) => {
       if (item.path.slice(pluginStrPos).split(path.sep)[1] === 'views' && item.name.slice(-8) === '.vue.ejs') {
         const viewConfig = {}
         viewConfig.icon = 'iconfont icon-demo'
+        viewConfig.name = fileConfig.camelCaseName + item.name.slice(0, -8)
         viewConfig.route = path.join(config.name, path.relative(pluginViewsPath, item.path)).split(path.sep).join('/')
         viewConfig.route = `/${viewConfig.route.slice(0, -8)}`
         viewConfig.order = null

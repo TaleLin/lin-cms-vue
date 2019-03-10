@@ -1,3 +1,5 @@
+import pluginViewConfig from '@/plugins/configs.json'
+
 export default {
   logined: false, // 是否登录
   user: null, // 当前用户
@@ -10,4 +12,5 @@ export default {
   unreadMessages: [],
   stopTime: 0, // 停止操作时间
   auths: [], // 每个用户的所有权限
+  plugin: pluginViewConfig,
 }
