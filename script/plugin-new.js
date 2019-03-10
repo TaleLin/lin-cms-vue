@@ -5,6 +5,8 @@ const ejs = require('ejs')
 const chalk = require('chalk')
 const yaml = require('js-yaml')
 const dirTree = require('directory-tree')
+const validatePName = require('validate-npm-package-name')
+const semver = require('semver')
 
 const questions = []
 
@@ -32,6 +34,12 @@ questions.push({
         done('项目中已存在该插件, 请更换其他插件名')
         return
       }
+
+      const v = validatePName(`lc-plugin-${value}`)
+      if (!v.validForNewPackages) {
+        done(v.errors.join(', '))
+        return
+      }
       done(null, true)
     })
   },
@@ -49,6 +57,14 @@ questions.push({
   name: 'version',
   message: '请输入版本号\n',
   default: '1.0.0',
+  validate(value) {
+    const done = this.async()
+    if (!semver.valid(value)) {
+      done('版本号不符合规范')
+      return
+    }
+    done(null, true)
+  },
 })
 
 questions.push({
