@@ -153,7 +153,7 @@
 import LinButton from '@/base/button/lin-button'
 import LinSearch from '@/base/search/lin-search'
 import { tableColumn } from './data'
-import movie from './models/movie'
+import movie from '../models/movie'
 
 export default {
   components: {

@@ -1,4 +1,4 @@
-import { movieList } from '../../mock'
+import { movieList } from '../mock'
 
 class Movie {
   getTop250(start = 0, count = 20) {
@@ -26,7 +26,7 @@ class Movie {
         rank: index + 1 + start,
         sorting: 50,
         recommend: 0,
-        thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/2659938529933529797.jpg',
+        thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
       })
     })
 
@@ -60,7 +60,7 @@ class Movie {
           rank: index + 1,
           sorting: 50,
           recommend: 0,
-          thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/2659938529933529797.jpg',
+          thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
         })
       }
     }

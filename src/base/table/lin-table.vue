@@ -67,82 +67,82 @@ import LinButton from '../button/lin-button'
 
 export default {
   components: {
-    LinButton
+    LinButton,
   },
   props: {
     tableColumn: {
       // 表头名称
       type: Array,
-      default: () => []
+      default: () => [],
     },
     tableData: {
       // 表格数据
       type: Array,
-      default: () => []
+      default: () => [],
     },
     operate: {
       // 自定义按键及绑定方法
       type: Array,
-      default: () => []
+      default: () => [],
     },
     customColumn: {
       // 定制要展示的列
       type: Array,
-      default: () => []
+      default: () => [],
     },
     fixedLeftList: {
       // 左侧固定列
       type: Array,
-      default: () => []
+      default: () => [],
     },
     fixedRightList: {
       // 右侧固定列
       type: Array,
-      default: () => []
+      default: () => [],
     },
     type: {
       // 是否开启表格多选
       type: String,
-      default: null
+      default: null,
     },
     index: {
       // 是否显示索引
       index: String,
-      default: ''
+      default: '',
     },
     highlightCurrentRow: {
       // 是否开启表格单选
       type: Boolean,
-      default: false
+      default: false,
     },
     loading: {
       // 动画加载
       type: Boolean,
-      default: false
+      default: false,
     },
     loadingText: {
       // 动画提示
       type: String,
-      default: ''
+      default: '',
     },
     loadingIcon: {
       // 动画图标
       type: String,
-      default: 'el-icon-loading'
+      default: 'el-icon-loading',
     },
     loadingBG: {
       // 动画背景色
       type: String,
-      default: 'rgba(255,255,255,0.5)'
+      default: 'rgba(255,255,255,0.5)',
     },
     pagination: {
       // 分页
       type: [Object, Boolean],
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
-    LinButton
+    LinButton,
   },
   data() {
     return {
@@ -154,7 +154,7 @@ export default {
       currentRow: null, // 单选选中的数据
       oldVal: [], // 上一次选中的数据
       oldKey: [], // 上一次选中数据的key
-      currentIndex: 1 // 当前索引，切换页面的时候需要重新计算
+      currentIndex: 1, // 当前索引，切换页面的时候需要重新计算
     }
   },
   created() {
@@ -196,7 +196,7 @@ export default {
     // 多选-选中checkbox
     toggleSelection(rows, flag) {
       if (rows) {
-        rows.forEach(row => {
+        rows.forEach((row) => {
           this.$refs.linTable.toggleRowSelection(row, flag)
         })
       } else {
@@ -243,7 +243,7 @@ export default {
       this.oldVal = []
       this.currentPage = page
       this.selectedTableData = JSON.parse(sessionStorage.getItem('selectedTableData'))
-      this.currentData = this.tableData.filter((item, index) => { return (index >= (this.currentPage - 1) * this.pagination.pageSize) && (index < (this.currentPage * this.pagination.pageSize)) })
+      this.currentData = this.tableData.filter((item, index) => (index >= (this.currentPage - 1) * this.pagination.pageSize) && (index < (this.currentPage * this.pagination.pageSize)))
       this.$emit('currentChange', page)
       // 已选中的数据打勾
       this.selectedTableData.forEach((item, index) => {
@@ -274,22 +274,22 @@ export default {
         this.oldVal = [...val]
         sessionStorage.setItem('selectedTableData', JSON.stringify(this.selectedTableData))
         return
-      } else {
-        // 判断是选中数据还是取消选中
-        if (valKeys.length < oldValKeys.length) {
-          const delKey = oldValKeys.filter(item => !valKeys.includes(item))
-          this.selectedTableData = this.selectedTableData.filter(item => !delKey.includes(item.key))
-          this.$emit('selection-change', this.selectedTableData)
-        } else {
-          const addKey = valKeys.filter(item => !oldValKeys.includes(item))
-          const addVal = val.filter(item => addKey.includes(item.key))
-          this.selectedTableData = this.selectedTableData.concat(addVal)
-          this.$emit('selection-change', this.selectedTableData)
-        }
       }
+      // 判断是选中数据还是取消选中
+      if (valKeys.length < oldValKeys.length) {
+        const delKey = oldValKeys.filter(item => !valKeys.includes(item))
+        this.selectedTableData = this.selectedTableData.filter(item => !delKey.includes(item.key))
+        this.$emit('selection-change', this.selectedTableData)
+      } else {
+        const addKey = valKeys.filter(item => !oldValKeys.includes(item))
+        const addVal = val.filter(item => addKey.includes(item.key))
+        this.selectedTableData = this.selectedTableData.concat(addVal)
+        this.$emit('selection-change', this.selectedTableData)
+      }
+
       sessionStorage.setItem('selectedTableData', JSON.stringify(this.selectedTableData))
       this.oldVal = [...val]
-    }
+    },
   },
   watch: {
     fixedLeftList: {
@@ -304,7 +304,7 @@ export default {
         })
       },
       deep: true,
-      immediate: true
+      immediate: true,
     },
     fixedRightList: {
       handler(val, oldVal) {
@@ -318,18 +318,19 @@ export default {
         })
       },
       deep: true,
-      immediate: true
+      immediate: true,
     },
     customColumn: {
       handler(val, oldVal) {
         if (val.length > 1) {
           this.filterTableColumn = this.tableColumn.filter(
-            v => val.indexOf(v.label) > -1)
+            v => val.indexOf(v.label) > -1,
+          )
         } else {}
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 }
 </script>
 
