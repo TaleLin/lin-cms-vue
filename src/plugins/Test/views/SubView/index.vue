@@ -1,9 +1,17 @@
 ---
-<%- configYml %>---
+icon: iconfont icon-demo
+name: Testindex
+route: /test/SubView/index
+order: null
+inSideNav: true
+title: 测试
+permission: []
+needLogin: true
+---
 
 <template>
   <div class="lin-container" v-loading="loading">
-    <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
+    <div class="lin-title">插件Test舞台页面</div>
     <lin-1px></lin-1px>
     <div class="lin-wrap">
       <p>{{text}}</p>
@@ -13,7 +21,7 @@
 
 <script>
 export default {
-  name: '<%= camelCaseName %>SubView',
+  name: 'TestSubView',
   components: {},
   data() {
     return {
@@ -43,7 +51,7 @@ export default {
     init() {
       this.loading = true
       setTimeout(() => {
-        this.text = '三级舞台 <%= camelCaseName %>SubView 初始化完成'
+        this.text = '三级舞台 TestSubView 初始化完成'
         this.loading = false
       }, 3000)
     },

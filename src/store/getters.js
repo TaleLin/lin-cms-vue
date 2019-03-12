@@ -1,22 +1,3 @@
-import pluginViewConfig from '@/plugins/configs.json'
-
-const pluginViewList = (() => {
-  const list = []
-  function deepLook(viewObj) {
-    if (viewObj.type === 'view') {
-      list.push(viewObj.path)
-    } else {
-      viewObj.children.forEach((item) => {
-        deepLook(item)
-      })
-    }
-  }
-  Object.keys(pluginViewConfig).forEach((plugin) => {
-    deepLook(pluginViewConfig[plugin])
-  })
-  return list
-})()
-
 // 返回 n 位的随机字符串
 const getRandomStr = function getRandomStr(n) {
   let str = ''
@@ -27,8 +8,10 @@ const getRandomStr = function getRandomStr(n) {
   return str
 }
 
-function addPlugin(current) {
+function addPlugin(pluginViewConfig) {
   // console.log(current)
+  const plluginSideBar = []
+  // debugger
   Object.keys(pluginViewConfig).forEach((plugin) => {
     const sideBar = {
       children: [],
@@ -40,6 +23,10 @@ function addPlugin(current) {
       name: pluginViewConfig[plugin].name,
     }
     pluginViewConfig[plugin].children.forEach((item) => {
+      if (!item.inSideNav) {
+        return
+      }
+      console.log(item.title)
       sideBar.children.push({
         path: item.route,
         name: item.name,
@@ -49,8 +36,9 @@ function addPlugin(current) {
         },
       })
     })
-    current.push(sideBar)
+    plluginSideBar.push(sideBar)
   })
+  return plluginSideBar
 }
 
 export const logined = state => state.logined
@@ -69,15 +57,12 @@ export const defaultActive = state => state.defaultActive
 
 export const sideBarList = (state) => {
   const { plugin } = state
-  const pluginPath = {}
-  pluginViewList.forEach((path) => {
-    pluginPath[path] = true
-  })
-  return state.sideBarList.filter(item => !pluginPath[item.path])
+  return state.sideBarList.concat(addPlugin(plugin))
 }
 
 export const tabIconList = (state) => {
   const iconList = {}
+  const { plugin } = state
   // eslint-disable-next-line
   const { sideBarList } = state
 
@@ -86,13 +71,19 @@ export const tabIconList = (state) => {
       if (item.children) {
         inherit(item.children)
       }
-      iconList[item.meta.title] = item.meta.icon || item.meta.src
+      if (item.meta) {
+        iconList[item.meta.title] = item.meta.icon || item.meta.src
+      } else if (item.title) {
+        iconList[item.title] = item.icon
+      }
     })
     return iconList
   }
   inherit(sideBarList)
+  Object.keys(plugin).forEach((item) => {
+    inherit(plugin[item].children)
+  })
 
-  addPlugin(sideBarList)
   // console.log(iconList)
   return iconList
 }

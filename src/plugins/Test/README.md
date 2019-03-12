@@ -1,12 +1,12 @@
-# 插件名: <%= title %>(<%= camelCaseName %>)
+# 插件名: 测试(Test)
 
-插件描述, <%= title %> 用于处于xxx业务场景, 提供了xxx功能
+插件描述, 测试 用于处于xxx业务场景, 提供了xxx功能
 
 ## 舞台视口列表
 
 ### TestView
 
-地址: `/<%= camelCaseName %>/test.vue`
+地址: `/Test/test.vue`
 显示xxx内容, 可进行xxx操作
 
 ## 自由视口列表

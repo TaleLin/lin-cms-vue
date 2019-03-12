@@ -1,12 +1,12 @@
 <template>
   <div>
-    组件: <%= camelCaseName %>test
+    组件: Testtest
   </div>
 </template>
 
 <script>
 export default {
-  name: '<%= camelCaseName %>Test',
+  name: 'TestTest',
   components: {},
   data() {
     return {}

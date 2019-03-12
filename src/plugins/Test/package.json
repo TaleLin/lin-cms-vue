@@ -1,0 +1,11 @@
+{
+  "name": "lc-plugin-test",
+  "title": "测试1",
+  "version": "1.0.0",
+  "linIcon": "iconfont icon-demo",
+  "linOrder": null,
+  "description": "",
+  "author": "",
+  "dependencies": {},
+  "devDependencies": {}
+}

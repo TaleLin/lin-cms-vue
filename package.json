@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint",
     "plugin-new": "node script/plugin-new.js",
     "plugin-init": "node script/plugin-init.js",
+    "plugin-reconfig": "node script/plugin-get-config.js",
     "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact"
   },
   "dependencies": {

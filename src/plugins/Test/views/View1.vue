@@ -1,9 +1,17 @@
 ---
-<%- configYml %>---
+icon: iconfont icon-demo
+name: TestView1
+route: /test/View1
+order: null
+inSideNav: true
+title: 测试页1
+permission: []
+needLogin: true
+---
 
 <template>
   <div class="lin-container" v-loading="loading">
-    <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
+    <div class="lin-title">插件Test舞台页面</div>
     <lin-1px></lin-1px>
     <div class="lin-wrap">
       <p>{{text}}</p>
@@ -13,8 +21,9 @@
 
 <script>
 export default {
-  name: '<%= camelCaseName %>SubView',
-  components: {},
+  name: 'TestView1',
+  components: {
+  },
   data() {
     return {
       loading: true,
@@ -28,9 +37,6 @@ export default {
   mounted() {
     this.init()
   },
-  // 当tab被激活时触发
-  activited() {
-  },
   // 当页面使用路由参数时, 参数部分变化触发的动作在本函数中操作
   // https://router.vuejs.org/zh/guide/advanced/navigation-guards.htmll#组件内的守卫
   // beforeRouteUpdate(to, from, next) {
@@ -43,7 +49,7 @@ export default {
     init() {
       this.loading = true
       setTimeout(() => {
-        this.text = '三级舞台 <%= camelCaseName %>SubView 初始化完成'
+        this.text = '舞台 TestView1 初始化完成'
         this.loading = false
       }, 3000)
     },
@@ -51,5 +57,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 </style>

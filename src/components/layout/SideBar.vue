@@ -63,7 +63,7 @@
 /* eslint-disable no-restricted-syntax */
 import { mapGetters, mapMutations } from 'vuex'
 import routes from '@/router/routes'
-import homeRouter from '@/router/sidebar'
+import homeRouter from '@/router/home-router'
 import Utils from 'lin/utils/util'
 
 export default {
@@ -92,7 +92,6 @@ export default {
     // 筛选左侧菜单渲染数据
     filterSideBarList() {
       const filterRouter = [] // 根据用户权限，筛选用户能看到的菜单内容
-      console.log(homeRouter)
       const homeRouterTwoLevel = Utils.deepClone(homeRouter) // 用来取二级菜单的数据
       const homeRouterThreeLevel = Utils.deepClone(homeRouter) // 用来取三级菜单的数据
       let hasOneLevelRouter = false // 是否添加过一级菜单
@@ -163,10 +162,10 @@ export default {
       // routesArr.homeRouter
       routesArr.forEach((item) => {
         if (item.name === 'Home') {
+          // eslint-disable-next-line
           item.children = homeRouter
         }
       })
-      console.log(homeRouter)
       const recursion = (a) => {
         for (const key in a) {
           if (Object.prototype.hasOwnProperty.call(a, key)) {
@@ -187,7 +186,6 @@ export default {
         }
       }
       recursion(layoutArr)
-      console.log(layoutArr)
       return layoutArr
     },
     handleOpen(key, keyPath) {

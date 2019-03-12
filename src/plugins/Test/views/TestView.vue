@@ -1,10 +1,18 @@
 ---
-<%- configYml %>---
+icon: iconfont icon-demo
+name: TestTestView
+route: /test/TestView
+order: null
+inSideNav: true
+title: 阿斯达
+permission: []
+needLogin: true
+---
 
 
 <template>
   <div class="lin-container">
-    <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
+    <div class="lin-title">插件Test舞台页面</div>
     <lin-1px></lin-1px>
     <div class="lin-wrap">
       <test />
@@ -16,7 +24,7 @@
 import Test from '../components/Test'
 
 export default {
-  name: '<%= camelCaseName %>TestView',
+  name: 'TestTestView',
   components: {
     Test,
   },

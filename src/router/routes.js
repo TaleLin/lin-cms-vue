@@ -1,9 +1,10 @@
 import Home from '@/views/home/Home'
 
 import homeRouter from './home-router'
+import pluginsRouter from './plugins'
 
 const Login = () => import('@/views/login/Login')
-
+const stageRouters = homeRouter.concat(pluginsRouter)
 const routes = [
   {
     path: '/',
@@ -11,7 +12,7 @@ const routes = [
     redirect: '/about',
     component: Home,
     children: [
-      ...homeRouter,
+      ...stageRouters,
     ],
   },
   {
