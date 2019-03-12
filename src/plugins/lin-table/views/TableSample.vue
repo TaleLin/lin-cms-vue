@@ -37,7 +37,12 @@
           v-for="item in checkList"
           :key="item" />
       </el-checkbox-group>
-      <el-table :data="tableData" @row-dblclick="rowClick" v-loading="loading">
+      <el-button @click="exportExcel()">数据导出</el-button>
+      <el-table
+        :data="tableData"
+        @row-dblclick="rowClick"
+        v-loading="loading"
+        id="out-table'">
         <!-- 展示摘要 -->
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -148,6 +153,8 @@
 <script>
 import LinButton from '@/base/button/lin-button'
 import LinSearch from '@/base/search/lin-search'
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
 import Sortable from 'sortablejs'
 import { tableColumn } from './data'
 import movie from '../models/movie'
@@ -293,7 +300,7 @@ export default {
       // 处理带空格的情况
       this.tableData = movie.getDataByQuery(this.searchKeyword)
     },
-    
+
     // 拖拽
     drag() {
       const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
@@ -307,7 +314,17 @@ export default {
           this.tableData[evt.newIndex] = copy[evt.oldIndex]
         }
       })
-    }
+    },
+
+    // 导出excel
+    exportExcel(fileName = "sheet") {
+      const targetTable = XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+      var writeTable = XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      try {
+        FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
+      } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
+      return writeTable
+    },
   },
 
   watch: {
