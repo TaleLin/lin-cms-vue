@@ -39,10 +39,10 @@
       </el-checkbox-group>
       <el-table :data="tableData" @row-dblclick="rowClick" v-loading="loading">
         <!-- 展示摘要 -->
-        <el-table-column type="expand" >
+        <el-table-column type="expand">
           <template slot-scope="props">
             <div class="summary">
-              <img  :src="props.row.thumb" alt="">
+              <img :src="props.row.thumb" alt="">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="电影名">
                   <span>{{ props.row.title }}</span>
@@ -70,15 +70,15 @@
             </template>
           </el-table-column>
           <!-- 正常表单列 -->
-            <el-table-column
-              v-bind:key="item.label"
-              v-if="!item.noRepeat"
-              :prop="item.prop"
-              :label="item.label"
-              :show-overflow-tooltip="true"
-              :fixed="item.fixed ? item.fixed : false"
-              :width="item.width ? item.width : ''">
-            </el-table-column>
+          <el-table-column
+            v-bind:key="item.label"
+            v-if="!item.noRepeat"
+            :prop="item.prop"
+            :label="item.label"
+            :show-overflow-tooltip="true"
+            :fixed="item.fixed ? item.fixed : false"
+            :width="item.width ? item.width : ''">
+          </el-table-column>
           <!-- 单元格编辑 -->
           <el-table-column
             v-bind:key="item.label"
@@ -94,26 +94,22 @@
                 <div v-if="props.row.editFlag" class="cell-edit-input">
                   <el-input v-model="props.row.remark" placeholder=""></el-input>
                 </div>
-                <div v-if="!props.row.editFlag" class="cell-icon"
-                  @click="handleCellEdit(props.row)">
+                <div v-if="!props.row.editFlag" class="cell-icon" @click="handleCellEdit(props.row)">
                   <i class="el-icon-edit"></i>
                 </div>
                 <div v-if="props.row.editFlag" class="cell-icon" @click="handleCellSave(props.row)">
                   <i class="el-icon-circle-check-outline"></i>
                 </div>
-                <div v-if="props.row.editFlag" class="cell-icon"
-                  @click="handleCellCancel(props.row)">
+                <div v-if="props.row.editFlag" class="cell-icon" @click="handleCellCancel(props.row)">
                   <i class="el-icon-circle-close-outline"></i>
                 </div>
               </div>
             </template>
           </el-table-column>
           <!-- 推荐 -->
-          <el-table-column label="推荐"  v-if="item.label === '推荐'" v-bind:key="item.label">
+          <el-table-column label="推荐" v-if="item.label === '推荐'" v-bind:key="item.label">
             <template slot-scope="props">
-              <el-switch v-model="props.row.recommend"
-              active-color="#3963bc"
-              @change="handleRecommend($event, props.row)">
+              <el-switch v-model="props.row.recommend" active-color="#3963bc" @change="handleRecommend($event, props.row)">
               </el-switch>
             </template>
           </el-table-column>
@@ -152,6 +148,7 @@
 <script>
 import LinButton from '@/base/button/lin-button'
 import LinSearch from '@/base/search/lin-search'
+import Sortable from 'sortablejs'
 import { tableColumn } from './data'
 import movie from '../models/movie'
 
@@ -197,6 +194,11 @@ export default {
     this.filterTableColumn = tableColumn.filter(
       v => this.checkList.indexOf(v.label) > -1,
     )
+
+  },
+  mounted() {
+    // 开启拖拽功能
+    this.drag()
   },
   methods: {
     // 获取数据
@@ -291,6 +293,21 @@ export default {
       // 处理带空格的情况
       this.tableData = movie.getDataByQuery(this.searchKeyword)
     },
+    
+    // 拖拽
+    drag() {
+      const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+      this.sortable = Sortable.create(el, {
+        setData: function (dataTransfer) {
+          dataTransfer.setData('Text', '')
+        },
+        onEnd: evt => {
+          const copy = [...this.tableData]
+          this.tableData[evt.oldIndex] = copy[evt.newIndex]
+          this.tableData[evt.newIndex] = copy[evt.oldIndex]
+        }
+      })
+    }
   },
 
   watch: {
@@ -331,8 +348,10 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .header-left {
       float: left;
+
       .title {
         height: 59px;
         line-height: 59px;
@@ -342,6 +361,7 @@ export default {
         font-weight: 500;
       }
     }
+
     .header-right {
       float: right;
       display: flex;
@@ -378,23 +398,28 @@ export default {
     margin-bottom: 10px;
     margin-top: 5px;
   }
+
   .summary {
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
+
     img {
       width: 135px;
       height: 200px;
     }
+
     .demo-table-expand {
       font-size: 0;
       margin-left: 30px;
       display: flex;
       flex-direction: column;
+
       label {
         width: 90px;
         color: #99a9bf;
       }
+
       .el-form-item {
         margin-right: 0;
         margin-bottom: 0;
