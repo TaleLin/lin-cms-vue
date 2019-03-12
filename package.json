@@ -12,6 +12,7 @@
     "@babel/polyfill": "^7.2.5",
     "axios": "~0.18.0",
     "better-scroll": "^1.13.2",
+    "echarts": "^4.1.0",
     "element-ui": "~2.4.6",
     "event-source-polyfill": "^0.0.16",
     "fastscan": "^1.0.4",

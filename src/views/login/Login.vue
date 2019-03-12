@@ -18,14 +18,14 @@
           <input type="text"
                  v-model="form.nickname"
                  autocomplete="off"
-                 placeholder="填写用户名">
+                 placeholder="请填写用户名">
         </div>
         <div class="form-item password">
           <span class="icon secret-icon"></span>
           <input type="password"
                  v-model="form.password"
                  autocomplete="off"
-                 placeholder="填写用户登录">
+                 placeholder="请填写用户登录密码">
         </div>
         <button class="submit-btn"
                 type="submit">登录</button>
