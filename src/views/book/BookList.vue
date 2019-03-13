@@ -6,21 +6,18 @@
         <div class="title">图书列表</div>
       </div>
       <!-- 表格 -->
-      <lin-table :tableColumn="tableColumn"
-                :tableData="tableData"
-                :operate="operate"
-                @handleEdit="handleEdit"
-                @handleDelete="handleDelete"
-                @row-click="rowClick"
-                v-loading="loading"></lin-table>
+      <lin-table
+        :tableColumn="tableColumn"
+        :tableData="tableData"
+        :operate="operate"
+        @handleEdit="handleEdit"
+        @handleDelete="handleDelete"
+        @row-click="rowClick"
+        v-loading="loading"></lin-table>
     </div>
 
     <!-- 编辑页面 -->
-    <book-edit
-      v-else
-      @editClose="editClose"
-      :editBookID="editBookID"
-    ></book-edit>
+    <book-edit v-else @editClose="editClose" :editBookID="editBookID"></book-edit>
 
   </div>
 </template>
@@ -48,9 +45,14 @@ export default {
     this.loading = true
     this.getBooks()
     this.operate = [{
-      name: '编辑', func: 'handleEdit', type: 'edit',
+      name: '编辑',
+      func: 'handleEdit',
+      type: 'edit',
     }, {
-      name: '删除', func: 'handleDelete', type: 'del', auth: '删除图书',
+      name: '删除',
+      func: 'handleDelete',
+      type: 'del',
+      auth: '删除图书',
     }]
     this.loading = false
   },
@@ -92,12 +94,15 @@ export default {
 
 <style lang="scss" scoped>
 @import "~assets/styles/variable.scss";
+
 .container {
   padding: 0 30px;
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .title {
       height: 59px;
       line-height: 59px;
@@ -107,11 +112,11 @@ export default {
       font-weight: 500;
     }
   }
+
   .pagination {
     display: flex;
     justify-content: flex-end;
     margin: 20px;
   }
 }
-
 </style>

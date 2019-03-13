@@ -157,22 +157,7 @@ export default {
       currentIndex: 1, // 当前索引，切换页面的时候需要重新计算
     }
   },
-  created() {
-    // 如果一开始没有传要展示的列 就默认全展示
-    if (this.customColumn.length > 1) {
-      this.filterTableColumn = this.tableColumn.filter(
-        v => this.customColumn.indexOf(v.label) > -1,
-      )
-    } else {
-      this.filterTableColumn = this.tableColumn
-    }
-    // 传了分页配置
-    if (this.pagination && this.pagination.pageSize) {
-      this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize)
-    } else {
-      this.currentData = this.tableData
-    }
-  },
+  created() {},
   beforeMount() {
     // 先放在session里，因为每次切换页码table都会重新渲染，之前选中都数据就丢失了  sessionstorage在create里面打包会提示undefined
     sessionStorage.setItem('selectedTableData', JSON.stringify([]))
@@ -330,6 +315,32 @@ export default {
       },
       deep: true,
     },
+    tableData: {
+      handler(val, oldVal) {
+        // 传了分页配置
+        if (this.pagination && this.pagination.pageSize) {
+          this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize)
+        } else {
+          this.currentData = this.tableData
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    tableColumn: {
+      handler(val, oldVal) {
+        // 如果一开始没有传要展示的列 就默认全展示
+        if (this.customColumn.length > 1) {
+          this.filterTableColumn = this.tableColumn.filter(
+            v => this.customColumn.indexOf(v.label) > -1,
+          )
+        } else {
+          this.filterTableColumn = this.tableColumn
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
 }
 </script>
