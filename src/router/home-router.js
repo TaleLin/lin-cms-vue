@@ -1,7 +1,4 @@
-import imoocRouter from '@/plugins/imooc/route'
-import tableRouter from '@/plugins/lin-table/route'
-import poemsRouter from '@/plugins/poem/route'
-import echartsRouter from '@/plugins/echarts/route'
+
 
 import adminRouter from './modules/admin'
 import bookRouter from './modules/book' // 引入图书管理路由文件
@@ -21,8 +18,7 @@ const homeRouter = [
       icon: 'iconfont icon-iconset0103',
     },
   },
-  imoocRouter,
-  tableRouter,
+
   {
     path: '/log',
     name: 'log',
@@ -35,8 +31,7 @@ const homeRouter = [
   },
   bookRouter, // 插入路由树
   adminRouter,
-  poemsRouter,
-  echartsRouter,
+
 ]
 
 export default homeRouter

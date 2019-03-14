@@ -178,7 +178,7 @@ export default {
       let selectedData
       // 单击 编辑按键
       if (val.index >= 0) {
-        selectedData = val.row[val.index]
+        selectedData = val.row
       } else {
         // 单机 table row
         selectedData = val
@@ -198,7 +198,7 @@ export default {
       }).then(async () => {
         try {
           this.loading = true
-          res = await Admin.deleteOneGroup(val.row[val.index].id)
+          res = await Admin.deleteOneGroup(val.row.id)
         } catch (e) {
           this.loading = false
           console.log(e)
