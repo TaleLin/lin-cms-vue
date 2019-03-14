@@ -18,9 +18,10 @@
             <reuse-tab v-show="showReuseTab"></reuse-tab>
           </el-collapse-transition>
         </el-header>
+            <menu-tab></menu-tab>
         <el-main ref="main">
-          <menu-tab></menu-tab>
-          <app-main ref="appMain" class="app-main"></app-main>
+          <app-main ref="appMain"
+                    class="app-main"></app-main>
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="24"></back-top>
       </el-container>
@@ -82,7 +83,7 @@ export default {
     changeReuseState() {
       this.showReuseTab = !this.showReuseTab
       this.upState = !this.upState
-      this.$refs.appMain.$el.style.minHeight = this.showReuseTab === false ? `${this.clientHeight - navBarHeight - marginHeight}px` : `${this.clientHeight - totalHeight}px`
+      this.$refs.appMain.$el.style.minHeight = this.showReuseTab === false ? `${this.clientHeight - navBarHeight - marginHeight + 20}px` : `${this.clientHeight - totalHeight + 20}px`
       // 因为动画效果有延时，所以需要重新渲染scroll
       setTimeout(() => {
         this.$refs.scroll.refresh()
@@ -92,17 +93,23 @@ export default {
     setResize() {
       this.clientHeight = document.body.clientHeight
       this.clientWidth = document.body.clientWidth
-      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight}px`
+      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
     },
   },
   watch: {
     isCollapse() {
       this.sideBarWidth = this.isCollapse === false ? '170px' : '50px'
     },
-    $route() {
+    $route(to) {
       this.showBackTop = false
       if (this.scrollY <= 70) { // MenuTab组件高度
         this.backTop()
+      }
+
+      if (to.meta.blueBaseColor) {
+        this.$refs.appMain.$el.style.background = '#273B6F'
+      } else {
+        this.$refs.appMain.$el.style.background = '#fff'
       }
     },
   },
@@ -157,11 +164,9 @@ export default {
   height: 100%;
   overflow: hidden;
 }
-
-.el-container-right {
-  padding-bottom: 20px;
-}
-
+// .el-container-right {
+//   padding-bottom: 20px;
+// }
 .app-main {
   background: white;
   border-top-left-radius: 10px;
@@ -171,6 +176,10 @@ export default {
 .el-main {
   overflow-y: auto;
   position: relative;
+  padding: 0;
+  margin: 0 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .backTop {

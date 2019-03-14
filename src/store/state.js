@@ -12,5 +12,6 @@ export default {
   unreadMessages: [],
   stopTime: 0, // 停止操作时间
   auths: [], // 每个用户的所有权限
+  refreshOptions: {}, // 请求异常保存本地请求信息
   plugin: pluginViewConfig,
 }

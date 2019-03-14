@@ -10,19 +10,17 @@
       <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
         <div class="form-item nickname">
           <span class="icon account-icon"></span>
-          <input
-            type="text"
-            v-model="form.nickname"
-            autocomplete="off"
-            placeholder="填写用户名">
+          <input type="text"
+                 v-model="form.nickname"
+                 autocomplete="off"
+                 placeholder="请填写用户名">
         </div>
         <div class="form-item password">
           <span class="icon secret-icon"></span>
-          <input
-            type="password"
-            v-model="form.password"
-            autocomplete="off"
-            placeholder="填写用户登录">
+          <input type="password"
+                 v-model="form.password"
+                 autocomplete="off"
+                 placeholder="请填写用户登录密码">
         </div>
         <button class="submit-btn" type="submit">登录</button>
       </form>
@@ -110,7 +108,7 @@ export default {
   height: 100%;
   background-size: auto;
   background: #1b2c5f url("../../assets/img/login/login-ba.png") no-repeat center center;
-
+  
   .team-name {
     position: fixed;
     left: 40px;
@@ -164,13 +162,13 @@ export default {
       }
 
       .form-item.nickname {
-        background: url("../../assets/img/login/nickname.png") no-repeat;
+        background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/nickname.png") no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
 
       .form-item.password {
-        background: url("../../assets/img/login/password.png") no-repeat;
+        background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/password.png") no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
@@ -185,7 +183,7 @@ export default {
         box-sizing: border-box;
         padding: 0 10px;
         padding-left: 74px;
-        background: url("../../assets/img/login/login-btn.png") no-repeat;
+        background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/login-btn.png") no-repeat;
         background-size: 90% auto;
         background-position: center bottom;
         border: none;

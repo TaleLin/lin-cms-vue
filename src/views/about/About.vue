@@ -3,7 +3,7 @@
     <div class="header">
       <div class="title">
         <div class="welcome">
-          <img src="../../assets/img/about/welcome.png" alt="">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/welcome.png" alt="">
           <!-- <span class="version">当前版本0.0.1-alpha1</span> -->
         </div>
         <p class="desc">您还可以通过 GitHub 地址下载源码:
@@ -51,12 +51,12 @@
           </ul>
         </div>
         <div class="team-icon">
-          <img src="../../assets/img/about/team-icon.png" alt="">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/team-icon.png" alt="">
         </div>
       </div>
       <div class="official-account">
         <div class="official-account-box">
-          <img src="../../assets/img/about/qrcode.jpg" alt="">
+          <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qrcode.jpg" alt="">
           <p>扫码关注林间有风公众号</p>
         </div>
       </div>
@@ -74,7 +74,7 @@
     width: 100%;
     height: 180px;
     background-color: #F3F6FF;
-    background-image: url('../../assets/img/about/header-bg.png');
+    background-image: url('https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/header-bg.png');
     background-position: 100%;
     background-repeat: no-repeat;
     background-size: 34% 100%;

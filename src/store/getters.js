@@ -100,3 +100,5 @@ export const tabIconList = (state) => {
 export const stopTime = state => state.stopTime
 
 export const auths = state => state.auths
+
+export const refreshOptions = state => state.refreshOptions
