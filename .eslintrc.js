@@ -24,6 +24,8 @@ module.exports = {
     // 'no-tabs': [o],
     'guard-for-in': 0,
     // "max-len": ["error", { "code": 200 }],
+    "no-restricted-syntax": 0,
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["script/**/*.js"]}],
     'no-restricted-syntax': 0,
     'class-methods-use-this': 'off'
   },

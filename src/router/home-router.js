@@ -1,8 +1,7 @@
 
-
 import adminRouter from './modules/admin'
 import bookRouter from './modules/book' // 引入图书管理路由文件
-
+import pluginsRouter from './plugins'
 
 const About = () => import('@/views/about/About')
 const Log = () => import('@/views/log/Log')
@@ -31,7 +30,6 @@ const homeRouter = [
   },
   bookRouter, // 插入路由树
   adminRouter,
-
 ]
 
-export default homeRouter
+export default homeRouter.concat(pluginsRouter)

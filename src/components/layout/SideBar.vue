@@ -1,67 +1,59 @@
 <template>
   <div class="app-sidebar">
-    <div class="logo"
-         v-if="!isCollapse">
-      <img src="../../assets/img/logo.png"
-           alt="">
+    <div class="logo" v-if="!isCollapse">
+      <img src="../../assets/img/logo.png" alt="">
     </div>
-    <div class="mobile-logo"
-         v-else>
-      <img src="../../assets/img/mobile-logo.png"
-           alt="">
+    <div class="mobile-logo" v-else>
+      <img src="../../assets/img/mobile-logo.png" alt="">
     </div>
     <div class="app-sidebar-second">
-      <el-menu class="el-menu-vertical-demo"
-             ref="meun"
-             @open="handleOpen"
-             @close="handleClose"
-             :default-active="defaultActive"
-             :collapse="isCollapse"
-             background-color="#192A5E"
-             text-color="rgba(196,201,210,1)"
-             active-text-color="#1890ff">
-      <template v-for="(ls, index) in sideBarList">
-        <el-submenu v-if="ls.children && !ls.meta.menuTab"
-                    :key="ls.path"
-                    :index="indexToString(index++)"
-                    popper-class="abc">
-          <template slot="title">
-            <img v-if="ls.meta.src"
-                 :src="ls.meta.src"
-                 class="imgIcon" />
-            <i v-else
-               :class="ls.meta.icon"></i>
-            <span slot="title">{{ls.meta.title}}</span>
-          </template>
-          <el-menu-item-group>
-            <router-link v-for="(chi, chiIndex) in ls.children"
-                         :to="chi.path"
-                         :key="chi.path">
-              <el-menu-item :index="index - 1 + '-' + indexToString(chiIndex++)"
-                            style="padding-left: 60px;">
-                {{chi.meta.title}}
-              </el-menu-item>
-            </router-link>
-          </el-menu-item-group>
-        </el-submenu>
-        <!-- 分割线 -->
-        <!-- <router-link :to="ls.path"
+      <el-menu
+        class="el-menu-vertical-demo"
+        ref="meun"
+        @open="handleOpen"
+        @close="handleClose"
+        :default-active="defaultActive"
+        :collapse="isCollapse"
+        background-color="#192A5E"
+        text-color="rgba(196,201,210,1)"
+        active-text-color="#1890ff">
+        <template v-for="(ls, index) in sideBarList">
+          <el-submenu
+            v-if="ls.children && !ls.meta.menuTab"
+            :key="ls.path"
+            :index="indexToString(index++)"
+            popper-class="abc">
+            <template slot="title">
+              <img v-if="ls.meta.src" :src="ls.meta.src" class="imgIcon" />
+              <i v-else :class="ls.meta.icon"></i>
+              <span slot="title">{{ls.meta.title}}</span>
+            </template>
+            <el-menu-item-group>
+              <router-link v-for="(chi, chiIndex) in ls.children" :to="chi.path" :key="chi.path">
+                <el-menu-item
+                  :index="index - 1 + '-' + indexToString(chiIndex++)"
+                  style="padding-left: 60px;">
+                  {{chi.meta.title}}
+                </el-menu-item>
+              </router-link>
+            </el-menu-item-group>
+          </el-submenu>
+          <!-- 分割线 -->
+          <!-- <router-link :to="ls.path"
                      :key="ls.path"
                      v-else> -->
-        <el-menu-item :index="indexToString(index++)"
-                      @click="goto(ls.path)"
-                      v-else
-                      :key="ls.path">
-          <img v-if="ls.meta.src"
-               :src="ls.meta.src"
-               class="imgIcon" />
-          <i v-else
-             :class="{[ls.meta.icon]: ls.meta.icon}"></i>
-          <span slot="title">{{ls.meta.title}}</span>
-        </el-menu-item>
-        <!-- </router-link> -->
-      </template>
-    </el-menu>
+          <el-menu-item
+            :index="indexToString(index++)"
+            @click="goto(ls.path)"
+            v-else
+            :key="ls.path">
+            <img v-if="ls.meta.src" :src="ls.meta.src" class="imgIcon" />
+            <i v-else :class="{[ls.meta.icon]: ls.meta.icon}"></i>
+            <span slot="title">{{ls.meta.title}}</span>
+          </el-menu-item>
+          <!-- </router-link> -->
+        </template>
+      </el-menu>
     </div>
 
   </div>
@@ -71,7 +63,7 @@
 /* eslint-disable no-restricted-syntax */
 import { mapGetters, mapMutations } from 'vuex'
 import routes from '@/router/routes'
-import homeRouter from '@/router/home-router'
+import homeRouter from '@/router/sidebar'
 import Utils from 'lin/utils/util'
 
 export default {
@@ -100,6 +92,7 @@ export default {
     // 筛选左侧菜单渲染数据
     filterSideBarList() {
       const filterRouter = [] // 根据用户权限，筛选用户能看到的菜单内容
+      console.log(homeRouter)
       const homeRouterTwoLevel = Utils.deepClone(homeRouter) // 用来取二级菜单的数据
       const homeRouterThreeLevel = Utils.deepClone(homeRouter) // 用来取三级菜单的数据
       let hasOneLevelRouter = false // 是否添加过一级菜单
@@ -146,7 +139,7 @@ export default {
                     }
                     if (hasTwoLevelRouter === false) {
                       // 添加二级路由
-                      filterRouter[filterRouter.length - 1].children.push(homeRouterTwoLevel[i].children[j])  // eslint-disable-line
+                      filterRouter[filterRouter.length - 1].children.push(homeRouterTwoLevel[i].children[j]) // eslint-disable-line
                       hasTwoLevelRouter = true
                     }
                     // 添加三级路由
@@ -167,6 +160,13 @@ export default {
     getSideBarList() {
       let layoutArr = []
       const routesArr = [...routes]
+      // routesArr.homeRouter
+      routesArr.forEach((item) => {
+        if (item.name === 'Home') {
+          item.children = homeRouter
+        }
+      })
+      console.log(homeRouter)
       const recursion = (a) => {
         for (const key in a) {
           if (Object.prototype.hasOwnProperty.call(a, key)) {
@@ -187,6 +187,7 @@ export default {
         }
       }
       recursion(layoutArr)
+      console.log(layoutArr)
       return layoutArr
     },
     handleOpen(key, keyPath) {
@@ -218,12 +219,13 @@ export default {
 }
 </script>
 
-
-<style lang='scss'>
+<style lang="scss">
 @import "~assets/styles/variable.scss";
+
 .app-sidebar {
   background: #192a5e;
   padding-right: 0px;
+
   .logo {
     width: $sidebar-width;
     display: flex;
@@ -234,6 +236,7 @@ export default {
     transition: all 0.5s ease-in-out;
     background-color: #122150;
     transition: all 0.3s linear;
+
     img {
       width: 110px;
       height: 60px;
@@ -241,10 +244,12 @@ export default {
       transition: all 0.3s linear;
     }
   }
+
   .mobile-logo {
     width: 50px;
     background-color: #122150;
     transition: all 0.3s linear;
+
     img {
       width: 40px;
       height: 40px;
@@ -252,16 +257,18 @@ export default {
       transition: all 0.3s linear;
     }
   }
-  .app-sidebar-second{
-    width:$sidebar-width + 30px;
-    position:absolute;
-    top:66px;
-    left:0;
-    bottom:0;
-    padding-bottom:20px;
-    overflow-x:hidden;
-    overflow-y:auto;
+
+  .app-sidebar-second {
+    width: $sidebar-width + 30px;
+    position: absolute;
+    top: 66px;
+    left: 0;
+    bottom: 0;
+    padding-bottom: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
+
   .imgIcon {
     width: 16px;
     height: 16px;
@@ -269,6 +276,7 @@ export default {
     display: inline-block;
     transform: translateY(5px);
   }
+
   .iconfont {
     margin-right: 10px;
     color: $submenu-title;

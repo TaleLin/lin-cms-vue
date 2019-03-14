@@ -1,18 +1,13 @@
 <template>
   <div class="login">
     <div class="team-name">
-      <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/team-name.png"
-           alt="">
+      <img src="@/assets/img/login/team-name.png" alt="">
     </div>
-    <div class="form-box"
-         v-loading="loading"
-         element-loading-background="rgba(0, 0, 0, 0)">
+    <div class="form-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title">
         <h1 title="Lin">Lin CMS</h1>
       </div>
-      <form class="login-form"
-            autocomplete="off"
-            @submit.prevent="throttleLogin()">
+      <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
         <div class="form-item nickname">
           <span class="icon account-icon"></span>
           <input type="text"
@@ -27,8 +22,7 @@
                  autocomplete="off"
                  placeholder="请填写用户登录密码">
         </div>
-        <button class="submit-btn"
-                type="submit">登录</button>
+        <button class="submit-btn" type="submit">登录</button>
       </form>
     </div>
   </div>
@@ -108,13 +102,13 @@ export default {
 }
 </script>
 
-<style type="text/scss" lang="scss">
+<style lang="scss">
 .login {
   width: 100%;
   height: 100%;
   background-size: auto;
-  background: #1b2c5f url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/login-ba.png") no-repeat
-    center center;
+  background: #1b2c5f url("../../assets/img/login/login-ba.png") no-repeat center center;
+  
   .team-name {
     position: fixed;
     left: 40px;
@@ -122,17 +116,20 @@ export default {
     width: 50px;
     transform: translateY(-50%);
   }
+
   .form-box {
     position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 445px;
+
     .title {
       height: 37px;
       font-size: 30px;
       line-height: 37px;
       margin-bottom: 15%;
+
       h1 {
         padding-left: 74px;
         box-sizing: border-box;
@@ -141,18 +138,21 @@ export default {
         font-family: "HYYiSongW";
       }
     }
+
     .login-form {
       width: 100%;
+
       .form-item {
         width: 100%;
         height: 40px;
         box-sizing: border-box;
         padding-bottom: 13px;
         margin-bottom: 34px;
+
         input {
           width: 100%;
           height: 100%;
-          background:transparent;
+          background: transparent;
           color: #c4c9d2;
           font-size: 14px;
           padding-left: 74px;
@@ -160,16 +160,19 @@ export default {
           font-family: "HYYiSongW";
         }
       }
+
       .form-item.nickname {
         background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/nickname.png") no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
+
       .form-item.password {
         background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/password.png") no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
+
       .submit-btn {
         width: 100%;
         height: 70px;

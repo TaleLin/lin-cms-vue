@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 import Admin from '@/lin/models/admin'
 import UserInfo from './UserInfo'
 
@@ -34,8 +34,9 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "~assets/styles/variable.scss";
+
 .container {
   .title {
     height: 59px;
@@ -46,6 +47,7 @@ export default {
     font-weight: 500;
     text-indent: 40px;
   }
+
   .wrap {
     padding: 0px 20px;
   }

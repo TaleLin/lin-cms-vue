@@ -10,7 +10,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'AppMain',
   data() {
@@ -32,7 +31,7 @@ export default {
 }
 </script>
 
-<style scoped type="text/scss" lang="scss">
+<style lang="scss" scoped>
 .container {
   .wrapper {
     width: 100%;
@@ -41,6 +40,7 @@ export default {
     border-top-right-radius: 10px;
     background: #ffffff;
     text-align: left;
+    overflow-y: hidden;
   }
 }
 </style>

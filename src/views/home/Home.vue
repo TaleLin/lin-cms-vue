@@ -2,18 +2,16 @@
   <div style="height:100%;">
     <el-container>
       <el-aside :width="sideBarWidth">
-        <side-bar :isCollapse="isCollapse"
-                  class="sidebar"></side-bar>
+        <side-bar :isCollapse="isCollapse" class="sidebar"></side-bar>
       </el-aside>
       <el-container class="el-container-right">
         <el-header>
           <div class="operate">
-            <i class="iconfont icon-fold"
-               :class="{rotate: foldState}"
-               @click="changeSlidebarState"></i>
-            <i class="iconfont icon-up"
-               :class="{rotate: upState}"
-               @click="changeReuseState"></i>
+            <i
+            class="iconfont icon-fold"
+            :class="{rotate: foldState}"
+            @click="changeSlidebarState"/>
+            <i class="iconfont icon-up" :class="{rotate: upState}" @click="changeReuseState"/>
             <nav-bar></nav-bar>
           </div>
           <el-collapse-transition>
@@ -25,9 +23,7 @@
           <app-main ref="appMain"
                     class="app-main"></app-main>
         </el-main>
-        <back-top :right="50"
-                  :bottom="50"
-                  :fontSize="24"></back-top>
+        <back-top :right="50" :bottom="50" :fontSize="24"></back-top>
       </el-container>
     </el-container>
   </div>
@@ -129,7 +125,7 @@ export default {
 }
 </script>
 
-<style lang="scss" type="text/scss" scoped>
+<style lang="scss" scoped>
 .sidebar {
   position: absolute;
   top: 0;
@@ -137,11 +133,13 @@ export default {
   bottom: 0;
   overflow: hidden;
 }
+
 .operate {
   display: flex;
   align-items: center;
   background: $navbar-background;
   padding-left: 20px;
+
   .iconfont {
     font-size: 16px;
     font-weight: 500;
@@ -150,15 +148,18 @@ export default {
     transform: rotate(0deg);
     transition: all 0.3s linear;
     margin-right: 10px;
+
     &:hover {
       color: #3963bc;
     }
   }
+
   .rotate {
     transform: rotate(180deg);
     transition: all 0.3s linear;
   }
 }
+
 .wrapper {
   height: 100%;
   overflow: hidden;
@@ -171,6 +172,7 @@ export default {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+
 .el-main {
   overflow-y: auto;
   position: relative;
@@ -179,6 +181,7 @@ export default {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+
 .backTop {
   position: fixed;
   display: inline-block;
@@ -190,6 +193,7 @@ export default {
   height: 40px;
   border-radius: 4px;
   line-height: 45px;
+
   .iconfont {
     font-size: 36px;
   }
