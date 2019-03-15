@@ -75,6 +75,20 @@ npm install or yarn
 npm run serve or yarn (run) serve
 ```
 
+## Docker 快速安装
+
+开发环境：
+
+```sh
+docker-compose -f docker-compose-dev.yml up -d --build
+```
+
+生产环境：
+
+```sh
+docker-compose -f docker-compose-prod.yml up -d --build
+```
+
 ## 下个版本开发计划
 
 - [ ]  完成插件机制
