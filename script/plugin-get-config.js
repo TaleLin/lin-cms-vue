@@ -87,7 +87,7 @@ puginList.forEach((item) => {
   viewConfig[item.name] = iteratTree(tree, item)
   // 子文件夹自动找index页面, folderTitle, folderIcon, folderRoute
   viewConfig[item.name].children.forEach((subItem) => {
-    if (subItem.type !== 'directory') {
+    if (subItem.type !== 'folder') {
       return
     }
     const indexView = subItem.children.find(view => (view.name.slice(-5) === 'index'))
@@ -97,13 +97,16 @@ puginList.forEach((item) => {
       // eslint-disable-next-line
       subItem.title = indexView.folderTitle || indexView.title
       // eslint-disable-next-line
-      subItem.inSideNav = indexView.inSideNav
+      subItem.inNav = indexView.inNav
       // eslint-disable-next-line
       subItem.icon = indexView.folderIcon || indexView.icon
       // eslint-disable-next-line
       subItem.route = indexView.folderRoute || indexView.route
       // eslint-disable-next-line
       subItem.order = indexView.folderOrder || indexView.order
+      // 如果有 index 文件夹, name认为该文件夹以 tab 方式展示
+      // eslint-disable-next-line
+      subItem.type = 'tab'
     }
   })
 })

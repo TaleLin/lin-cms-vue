@@ -1,49 +1,7 @@
 // import pluginConfig from '@/plugins/configs.json'
+import Util from '@/lin/utils/util'
 
-// 返回 n 位的随机字符串
-const getRandomStr = function getRandomStr(n) {
-  let str = ''
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-  for (let i = 0; i < n; i += 1) {
-    str += chars.charAt(Math.floor(Math.random() * 62))
-  }
-  return str
-}
-
-
-// function addPlugin(pluginViewConfig) {
-//   // console.log(current)
-//   const plluginSideBar = []
-//   // debugger
-//   Object.keys(pluginViewConfig).forEach((plugin) => {
-//     const sideBar = {
-//       children: [],
-//       meta: {
-//         title: pluginViewConfig[plugin].title,
-//         icon: pluginViewConfig[plugin].icon,
-//       },
-//       path: getRandomStr(6),
-//       name: pluginViewConfig[plugin].name,
-//     }
-//     pluginViewConfig[plugin].children.forEach((item) => {
-//       if (!item.inSideNav) {
-//         return
-//       }
-
-//       sideBar.children.push({
-//         path: item.route,
-//         name: item.name,
-//         meta: {
-//           title: item.title,
-//           icon: item.icon,
-//           auths: item.permission,
-//         },
-//       })
-//     })
-//     plluginSideBar.push(sideBar)
-//   })
-//   return plluginSideBar
-// }
+const catchView = {}
 
 export const logined = state => state.logined
 
@@ -74,11 +32,11 @@ export const sideBarList = (state) => {
       return null
     }
 
-    if (target.type === 'folder') { // 处理 folder 模式
+    if (target.type === 'folder' && level !== 0) { // 处理 folder 模式
       const sideConfig = {}
       sideConfig.title = target.title
       sideConfig.icon = target.icon
-      sideConfig.path = getRandomStr(6)
+      sideConfig.path = target.route || Util.getRandomStr(6)
       sideConfig.children = target.children.map(item => deepTravel(item, (level - 1)))
       sideConfig.children = sideConfig.children.filter(item => (item !== null))
       return sideConfig
@@ -105,13 +63,12 @@ export const sideBarList = (state) => {
       const sideConfig = {}
       sideConfig.title = target.title
       sideConfig.icon = target.icon
-      sideConfig.path = getRandomStr(6)
+      sideConfig.path = Util.getRandomStr(6)
       if (target.children && target.children.length > 0 && target.children[0].route) {
         sideConfig.path = target.children[0].route
       }
       return sideConfig
     }
-    console.log('xxxx')
     return null
   }
 

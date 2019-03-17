@@ -207,7 +207,7 @@ export default {
       }
       return true
     },
-    ...mapMutations(['SET_SIDEBAR_LIST']),
+    // ...mapMutations(['SET_SIDEBAR_LIST']),
   },
   computed: {
     imgSrc() {

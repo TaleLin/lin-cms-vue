@@ -16,7 +16,6 @@ export default {
 
   async [types.ADD_TAB](state, payload) {
     if (!(payload instanceof Array)) {
-      console.log(payload)
       const { tabs } = state
       const flag = await tabs.find(el => el.path === payload.path)
       if (!flag) {
@@ -55,10 +54,9 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  [types.SET_SIDEBAR_LIST](state, payload) {
-    // console.log(payload)
-    state.sideBarList = payload
-  },
+  // [types.SET_SIDEBAR_LIST](state, payload) {
+  //   state.sideBarList = payload
+  // },
 
   [types.SET_STOP_TIME](state, currentTime) {
     state.stopTime = currentTime

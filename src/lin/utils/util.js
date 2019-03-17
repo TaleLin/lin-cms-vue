@@ -69,7 +69,7 @@ Utils.debounce = (func, wait = 50) => {
  * @param {*} func 函数体
  * @param {*} wait 延时
  */
-Utils.throttle = (func, wait = 50) => {
+export const throttle = (func, wait = 50) => {
   // 上一次执行该函数的时间
   let lastTime = 0
   return function(...args) {
@@ -82,6 +82,21 @@ Utils.throttle = (func, wait = 50) => {
       func.apply(this, args)
     }
   }
+}
+
+Utils.throttle = throttle
+
+/**
+ * 返回 n 位的随机字符串
+ * @param {Number} n
+ */
+Utils.getRandomStr = (n = 6) => {
+  let str = ''
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+  for (let i = 0; i < n; i += 1) {
+    str += chars.charAt(Math.floor(Math.random() * 62))
+  }
+  return str
 }
 
 function type(obj) {
