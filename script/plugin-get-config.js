@@ -48,10 +48,15 @@ function iteratTree(treeObj, plugin) {
   let result
   if (treeObj.type === 'directory') {
     result = {
-      type: 'directory',
+      type: 'folder',
       name: treeObj.name,
       title: plugin.package.title,
       icon: plugin.package.linIcon,
+      inNav: true,
+      auths: {
+        role: null,
+        right: null,
+      },
       order: plugin.package.linOrder || null,
     }
     result.children = treeObj.children.map(item => iteratTree(item, plugin))
@@ -75,21 +80,24 @@ puginList.forEach((item) => {
   const tree = dirTree(viewPath, {
     extensions: /\.vue$/,
   })
+  if (!item.package.linIcon) {
+    console.log(chalk.yellow(`${item.name} 不符合 Lin-CMS 插件规范`))
+    return
+  }
   viewConfig[item.name] = iteratTree(tree, item)
   // 子文件夹自动找index页面, folderTitle, folderIcon, folderRoute
   viewConfig[item.name].children.forEach((subItem) => {
     if (subItem.type !== 'directory') {
       return
     }
-    const indexView = subItem.children.find((view) => {
-      // console.log(subItem.name.slice(item.name.length))
-      return (view.name.slice(-5) === 'index')
-    })
+    const indexView = subItem.children.find(view => (view.name.slice(-5) === 'index'))
     if (indexView) {
       // eslint-disable-next-line
       subItem.name = item.name + subItem.name
       // eslint-disable-next-line
       subItem.title = indexView.folderTitle || indexView.title
+      // eslint-disable-next-line
+      subItem.inSideNav = indexView.inSideNav
       // eslint-disable-next-line
       subItem.icon = indexView.folderIcon || indexView.icon
       // eslint-disable-next-line

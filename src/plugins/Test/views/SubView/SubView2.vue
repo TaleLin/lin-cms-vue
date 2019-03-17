@@ -3,9 +3,11 @@ icon: iconfont icon-demo
 name: TestSubView2
 route: /test/SubView/SubView2
 order: null
-inSideNav: true
-title: 奥斯卡
-permission: []
+inNav: true
+title: 舞台页
+auths:
+  role: null
+  right: null
 needLogin: true
 ---
 

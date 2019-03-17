@@ -1,30 +1,41 @@
-const Book = () => import('@/views/book/Book')
-const BookAdd = () => import('@/views/book/BookAdd')
-const BookList = () => import('@/views/book/BookList')
-
 const bookRouter = {
-  path: '/book',
-  component: Book,
-  meta: {
-    title: '图书管理',
-    // menuTab: true,
-    icon: 'iconfont icon-demo',
+  route: null,
+  name: null,
+  title: '图书管理',
+  type: 'folder',
+  icon: 'iconfont icon-demo',
+  filePath: 'views/book/',
+  order: null,
+  inNav: true,
+  auths: {
+    role: null,
+    right: null,
   },
   children: [
     {
-      path: '/book/add',
-      component: BookAdd,
-      meta: {
-        title: '添加图书',
-        icon: 'iconfont icon-demo',
+      title: '添加图书',
+      type: 'view',
+      name: 'bookAdd',
+      route: '/book/add',
+      filePath: 'views/book/BookAdd.vue',
+      inNav: true,
+      icon: 'iconfont icon-demo',
+      auths: {
+        role: null,
+        right: null,
       },
     },
     {
-      path: '/book/list',
-      component: BookList,
-      meta: {
-        title: '图书列表',
-        icon: 'iconfont icon-demo',
+      title: '图书列表',
+      type: 'view',
+      name: 'bookList',
+      route: '/book/list',
+      filePath: 'views/book/BookList.vue',
+      inNav: true,
+      icon: 'iconfont icon-demo',
+      auths: {
+        role: null,
+        right: null,
       },
     },
   ],

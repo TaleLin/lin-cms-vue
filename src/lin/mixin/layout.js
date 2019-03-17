@@ -10,12 +10,12 @@ export default {
   },
   watch: {
     $route() {
-      this.setMenuDefaultActive()
+      // this.setMenuDefaultActive()
     },
   },
   mounted() {
     this.$nextTick(() => {
-      this.setMenuDefaultActive()
+      // this.setMenuDefaultActive()
     })
   },
   computed: {

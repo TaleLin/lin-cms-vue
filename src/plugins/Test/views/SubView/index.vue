@@ -3,9 +3,11 @@ icon: iconfont icon-demo
 name: Testindex
 route: /test/SubView/index
 order: null
-inSideNav: true
-title: 测试
-permission: []
+inNav: true
+title: 舞台页
+auths:
+  role: null
+  right: null
 needLogin: true
 ---
 

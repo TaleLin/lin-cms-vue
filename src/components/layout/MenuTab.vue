@@ -37,7 +37,6 @@ export default {
         return
       }
       const res = []
-
       // 这里一定要深拷贝
       const [...matchedArr] = to.matched
       const recursionPath = matchedArr.pop()

@@ -45,10 +45,10 @@ module.exports = (viewObj, pluginName = '') => {
   const config = frontYaml.loadFront(fs.readFileSync(viewObj.path, 'utf8'))
   delete config.__content
 
-  checkConfig(config)
   vPath = path.relative(srcDir, viewObj.path)
   pName = pluginName
   vName = viewObj.name.slice(-4)
+  checkConfig(config)
   const result = {
     id: getId(),
     filePath: vPath,

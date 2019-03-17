@@ -1,74 +1,96 @@
-const User = () => import('@/views/admin/user/User')
-const UserList = () => import('@/views/admin/user/UserList/')
-const UserAdd = () => import('@/views/admin/user/UserAdd')
-
-const Group = () => import('@/views/admin/group/Group')
-const GroupList = () => import('@/views/admin/group/GroupList')
-const GroupAdd = () => import('@/views/admin/group/GroupAdd')
-
-const Admin = () => import('@/views/admin/Admin')
 
 const adminRouter = {
-  path: '/admin',
-  name: 'admin',
-  component: Admin,
-  meta: {
-    title: '权限管理',
-    icon: 'iconfont icon-huiyuanguanli',
+  route: null,
+  name: null,
+  title: '权限管理',
+  type: 'folder',
+  icon: 'iconfont icon-huiyuanguanli',
+  filePath: 'views/admin/',
+  order: null,
+  inNav: true,
+  auths: {
+    role: null,
+    right: null,
   },
   children: [
     {
-      path: '/admin/user',
-      name: 'user',
-      component: User,
-      meta: {
-        title: '用户管理',
+      route: '/admin/user/list',
+      name: null,
+      title: '用户管理',
+      type: 'tab', // 取 route 为默认加载页
+      icon: null,
+      filePath: 'views/admin/user/',
+      inNav: true,
+      auths: {
+        role: null,
+        right: null,
       },
       children: [
         {
-          path: '/admin/user/list',
-          component: UserList,
-          meta: {
-            title: '用户列表',
-            icon: 'iconfont icon-huiyuanguanli',
-            auths: ['超级管理员独有权限'],
+          title: '用户列表',
+          type: 'view',
+          name: 'userList',
+          route: '/admin/user/list',
+          filePath: 'views/admin/user/UserList.vue',
+          inNav: true,
+          icon: 'iconfont icon-huiyuanguanli',
+          auths: {
+            role: null,
+            right: ['超级管理员独有权限'],
           },
         },
         {
-          path: '/admin/user/add',
-          component: UserAdd,
-          meta: {
-            title: '添加用户',
-            icon: 'iconfont icon-add',
-            auths: ['超级管理员独有权限'],
+          title: '添加用户',
+          type: 'view',
+          inNav: true,
+          route: '/admin/user/add',
+          icon: 'iconfont icon-add',
+          name: 'userAdd',
+          filePath: 'views/admin/user/UserAdd.vue',
+          auths: {
+            role: null,
+            right: ['超级管理员独有权限'],
           },
         },
       ],
     },
     {
-      path: '/admin/group',
-      name: 'group',
-      component: Group,
-      meta: {
-        title: '分组管理',
+      route: '/admin/user/list',
+      name: null,
+      title: '分组管理',
+      type: 'tab', // 取 route 为默认加载页
+      icon: null,
+      filePath: 'views/admin/group',
+      inNav: true,
+      auths: {
+        role: null,
+        right: ['超级管理员独有权限'],
       },
       children: [
         {
-          path: '/admin/group/list',
-          component: GroupList,
-          meta: {
-            title: '分组列表',
-            icon: 'iconfont icon-huiyuanguanli',
-            auths: ['超级管理员独有权限'],
+          route: '/admin/group/list',
+          type: 'view',
+          name: 'groupList',
+          inNav: true,
+          filePath: 'views/admin/group/GroupList.vue',
+          title: '分组列表',
+          icon: 'iconfont icon-huiyuanguanli',
+          auths: {
+            role: null,
+            right: ['超级管理员独有权限'],
           },
         },
         {
-          path: '/admin/group/add',
-          component: GroupAdd,
-          meta: {
-            title: '添加分组',
-            icon: 'iconfont icon-add',
-            auths: ['超级管理员独有权限'],
+          route: '/admin/group/add',
+          type: 'view',
+          name: 'groupAdd',
+          filePath: 'views/admin/group/GroupAdd.vue',
+          inNav: true,
+          title: '添加分组',
+          icon: 'iconfont icon-add',
+          auths: {
+            role: null,
+            right: ['超级管理员独有权限'],
           },
         },
       ],

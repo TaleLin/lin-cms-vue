@@ -160,7 +160,7 @@ export default {
   },
   computed: {
     title() {
-      const { isSuper } = this.user
+      const { isSuper } = this.user || {}
       if (isSuper) {
         return '超级管理员'
       }
