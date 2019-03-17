@@ -75,7 +75,6 @@ export const sideBarList = (state) => {
     }
 
     if (target.type === 'folder') { // 处理 folder 模式
-      debugger
       const sideConfig = {}
       sideConfig.title = target.title
       sideConfig.icon = target.icon
