@@ -35,6 +35,9 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步[后端�
 
 [http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
 
+## 讨论交流
+QQ群号：814597236
+
 ### Lin CMS 的特点
 
 Lin CMS 的构筑思想是有其自身特点的。下面我们阐述一些 Lin 的主要特点。
