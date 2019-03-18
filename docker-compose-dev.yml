@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    volumes:
+      - '../lin-cms-vue:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - 8080:8080
+    environment:
+      - NODE_ENV=development
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-dev
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - client

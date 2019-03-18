@@ -1,0 +1,41 @@
+
+###########
+# BUILDER #
+###########
+
+# base image
+FROM node:11.6.0-alpine as builder
+
+# set working directory
+WORKDIR /usr/src/app
+
+# install app dependencies
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+COPY package.json /usr/src/app/package.json
+RUN npm install --silent
+
+
+# create build
+COPY . /usr/src/app
+RUN npm run build
+
+
+#########
+# FINAL #
+#########
+
+# base image
+FROM nginx:1.15.8-alpine
+
+# update nginx conf
+RUN rm -rf /etc/nginx/conf.d
+COPY conf /etc/nginx
+
+# copy static files
+COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+
+# expose port
+EXPOSE 80
+
+# run nginx
+CMD ["nginx", "-g", "daemon off;"]

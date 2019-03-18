@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
+      args:
+        - NODE_ENV=production
+    expose:
+      - 80
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-prod
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - client
