@@ -52,16 +52,17 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // 登录验证
-  // if (isLoginRequired(to.name) && !store.state.logined) {
-  //   next({ path: '/login' })
-  //   return
-  // }
+  if (isLoginRequired(to.name) && !store.state.logined) {
+    next({ path: '/login' })
+    return
+  }
 
+  // tab 模式重复点击验证
 
   // TODO: 权限验证
   if (store && store.state && store.getters) {
     const { getStageInfo } = store.getters
-    const stageInfo = getStageInfo(to.name)
+    const stageInfo = getStageInfo(to.name) // 本操作可以获取当前路由的详细信息, 包括其父关系
   //   const { isSuper } = store.state.user
   //   if (to.path !== '/about' && !isSuper && !hasPermission(to)) {
   //     Vue.prototype.$notify({
