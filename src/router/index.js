@@ -2,19 +2,37 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import routes from './routes'
 import store from '../store'
+import appConfig from '@/config/index'
 
 Vue.use(Router)
 
-// TODO: 是否需要登录需配置在舞台配置中, 配置集中而不要分散
-// const notLoginComponents = ['login']
+// 判断是否需要登录访问, 配置位于 config 文件夹
+let isLoginRequired = (routeName) => {
+  // 首次执行时缓存配置
+  let { notLoginRoute } = appConfig
+  const notLoginMark = {}
 
-// function isLoginRequired(name) {
-//   const matched = notLoginComponents.find(el => el === name)
-//   if (matched) {
-//     return false
-//   }
-//   return true
-// }
+  // 构建标记对象
+  if (Array.isArray(notLoginRoute)) {
+    for (let i = 0; i < notLoginRoute.length; i += 1) {
+      notLoginMark[notLoginRoute[i].toString()] = true
+    }
+  }
+
+  notLoginRoute = null // 释放内存
+
+  // 重写初始化函数
+  isLoginRequired = (name) => {
+    if (!name) {
+      return true
+    }
+    // 处理 Symbol 类型
+    const target = (typeof name === 'symbol') ? name.description : name
+    return !(notLoginMark[target])
+  }
+
+  return isLoginRequired(routeName)
+}
 
 // function hasPermission(router) {
 //   if (router.meta && router.meta.auths) {
@@ -33,35 +51,38 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  /* 路由发生变化重新计时 */
+  // 登录验证
+  // if (isLoginRequired(to.name) && !store.state.logined) {
+  //   next({ path: '/login' })
+  //   return
+  // }
+
+  // TODO: 权限验证
+  // if (store && store.state && store.state.user) {
+  //   const { isSuper } = store.state.user
+  //   if (to.path !== '/about' && !isSuper && !hasPermission(to)) {
+  //     Vue.prototype.$notify({
+  //       title: '无权限',
+  //       dangerouslyUseHTMLString: true,
+  //       message: '<strong class="my-notify">您无此页面的权限哟</strong>',
+  //     })
+  //     next({ path: '/about' })
+  //   }
+  // }
+
+  // TODO: 获取当前路由的结构数据, 并缓存在 vuex 中
+  console.log(to)
+
+  // 路由发生变化重新计时
   store.commit('SET_STOP_TIME', new Date().getTime())
-  /* 路由发生变化修改页面title */
+  // store.dispatch('ROUTE_CHANGE')
+
+  // 路由发生变化修改页面title
   if (to.meta.title) {
     document.title = to.meta.title
   }
 
-  // TODO: 获取当前路由的结构数据, 并缓存在 vuex 中
-
   next()
-  // TODO: 根据新结构处理权限问题
-  // // 判断哪些页面不需登陆便可进入
-  // if (isLoginRequired(to.name) && !store.state.logined) {
-  //   next({ path: '/login' })
-  // } else {
-  //   // // 判断权限
-  //   if (store && store.state && store.state.user) {
-  //     const { isSuper } = store.state.user
-  //     if (to.path !== '/about' && !isSuper && !hasPermission(to)) {
-  //       Vue.prototype.$notify({
-  //         title: '无权限',
-  //         dangerouslyUseHTMLString: true,
-  //         message: '<strong class="my-notify">您无此页面的权限哟</strong>',
-  //       })
-  //       next({ path: '/about' })
-  //     }
-  //   }
-  //   next()
-  // }
 })
 
 export default router

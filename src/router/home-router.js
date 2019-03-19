@@ -1,4 +1,4 @@
-import homeConfig from './modules/home' // 引入图书管理路由文件
+import stageConfig from '@/config/stage' // 引入舞台配置
 
 // 深度遍历配置树, 摘取叶子节点作为路由部分
 function deepTravel(config, fuc) {
@@ -17,7 +17,7 @@ function deepTravel(config, fuc) {
 
 const homeRouter = []
 
-deepTravel(homeConfig, (viewConfig) => {
+deepTravel(stageConfig, (viewConfig) => {
   // 构造舞台view路由
   const viewRouter = {}
   viewRouter.path = viewConfig.route

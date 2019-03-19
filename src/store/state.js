@@ -1,5 +1,5 @@
 
-import stageConfig from '@/router/modules/home'
+import stageConfig from '@/config/stage' // 引入舞台配置
 
 export default {
   logined: false, // 是否登录
@@ -16,4 +16,9 @@ export default {
 
   // 舞台配置
   stageConfig,
+  // 当前页信息
+  currentRoute: {
+    config: null,
+    treePath: [],
+  },
 }

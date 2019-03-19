@@ -2,9 +2,9 @@ const bookRouter = {
   route: null,
   name: null,
   title: '图书管理',
-  type: 'folder',
+  type: 'folder', // 类型: folder, tab, view
   icon: 'iconfont icon-demo',
-  filePath: 'views/book/',
+  filePath: 'views/book/', // 文件路径
   order: null,
   inNav: true,
   auths: {
@@ -28,7 +28,7 @@ const bookRouter = {
     {
       title: '图书列表',
       type: 'view',
-      name: 'bookList',
+      name: 'bookAdd',
       route: '/book/list',
       filePath: 'views/book/BookList.vue',
       inNav: true,
