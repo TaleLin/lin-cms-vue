@@ -2,12 +2,12 @@
   <div class="nav-title">
     <a
       class="item"
-      v-for="(item) in titleArr"
+      v-for="(item, index) in titleArr"
       style="cursor: default;"
-      :key="item.path">
+      :key="index">
       <!-- <i v-if="index===0"
          :class="item.meta.icon"></i> -->
-      <p>{{item.meta.title}}</p>
+      <p>{{item}}</p>
     </a>
   </div>
 </template>
@@ -15,39 +15,20 @@
 <script>
 export default {
   data() {
-    return {
-      titleArr: [],
-    }
+    return {}
   },
-  created() {},
-  mounted() {
-    const to = this.$route
-    // eslint-disable-next-line
-    for (const i in to.matched) {
-      if (to.matched[i].path) {
-        this.titleArr.push({
-          path: to.matched[i].path,
-          meta: to.matched[i].meta,
-        })
-      }
-    }
-  },
-
-  watch: {
-    $route(to) {
-      this.titleArr = []
-      // eslint-disable-next-line
-      for (const i in to.matched) {
-        if (to.matched[i].path) {
-          this.titleArr.push({
-            path: to.matched[i].path,
-            meta: to.matched[i].meta,
-          })
-        }
-      }
+  computed: {
+    stageInfo() {
+      return this.$store.getters.getStageInfo(this.$route.name)
+    },
+    titleArr() {
+      return this.stageInfo.map(item => item.title).filter(item => !!item)
     },
   },
-  components: {},
+  // created() {},
+  // mounted() {},
+  // watch: {},
+  // components: {},
 }
 </script>
 
