@@ -57,8 +57,11 @@ router.beforeEach((to, from, next) => {
   //   return
   // }
 
+
   // TODO: 权限验证
-  // if (store && store.state && store.state.user) {
+  if (store && store.state && store.getters) {
+    const { getStageInfo } = store.getters
+    console.log(getStageInfo(to.name))
   //   const { isSuper } = store.state.user
   //   if (to.path !== '/about' && !isSuper && !hasPermission(to)) {
   //     Vue.prototype.$notify({
@@ -68,7 +71,7 @@ router.beforeEach((to, from, next) => {
   //     })
   //     next({ path: '/about' })
   //   }
-  // }
+  }
 
   // TODO: 获取当前路由的结构数据, 并缓存在 vuex 中
   console.log(to)
