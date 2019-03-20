@@ -78,6 +78,11 @@ npm install or yarn
 npm run serve or yarn (run) serve
 ```
 
+## 微信公众号
+微信搜索：七月有风
+<br>
+<img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg" style='text-align:left;width: 100px;height: 100px'>
+
 ## 下个版本开发计划
 
 - [ ]  完成插件机制
