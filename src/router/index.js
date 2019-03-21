@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import routes from './routes'
 import store from '../store'
 import appConfig from '@/config/index'
+import Util from '@/lin/utils/util'
 
 Vue.use(Router)
 
@@ -34,13 +35,6 @@ let isLoginRequired = (routeName) => {
   return isLoginRequired(routeName)
 }
 
-// function hasPermission(router) {
-//   if (router.meta && router.meta.auths) {
-//     return store.state.auths.some(auth => router.meta.auths.indexOf(auth) >= 0)
-//   }
-//   return true
-// }
-
 const router = new Router({
   // mode: 'history',
   scrollBehavior: () => ({
@@ -61,17 +55,16 @@ router.beforeEach((to, from, next) => {
 
   // TODO: 权限验证
   if (store && store.state && store.getters) {
-    const { getStageInfo } = store.getters
-    const stageInfo = getStageInfo(to.name) // 本操作可以获取当前路由的详细信息, 包括其父关系
-  //   const { isSuper } = store.state.user
-  //   if (to.path !== '/about' && !isSuper && !hasPermission(to)) {
-  //     Vue.prototype.$notify({
-  //       title: '无权限',
-  //       dangerouslyUseHTMLString: true,
-  //       message: '<strong class="my-notify">您无此页面的权限哟</strong>',
-  //     })
-  //     next({ path: '/about' })
-  //   }
+    const { auths, user } = store.getters
+    if (to.path !== '/about' && !Util.hasPermission(auths, to.meta, user)) {
+      Vue.prototype.$notify({
+        title: '无权限',
+        dangerouslyUseHTMLString: true,
+        message: '<strong class="my-notify">您无此页面的权限哟</strong>',
+      })
+      next({ path: '/about' })
+      return
+    }
   }
 
   // 路由发生变化重新计时

@@ -13,21 +13,12 @@ export const unreadMessages = state => state.unreadMessages
 
 export const defaultActive = state => state.defaultActive
 
-function hasPermission(auths, route, user) { // eslint-disable-line
-  if (user && user.isSuper) {
-    return true
-  }
-  if (route.right) {
-    return auths.some(auth => route.right.indexOf(auth) > -1)
-  }
-  return true
-}
 
 function IterationDelateMenuChildren(arr) {
   if (arr.length) {
     for (const i in arr) {
       if (arr[i].children && !arr[i].children.length) {
-        delete arr[i]
+        delete arr[i] // eslint-disable-line
       } else if (arr[i].children && !arr[i].children.length) {
         IterationDelateMenuChildren(arr[i].children)
       }
@@ -38,7 +29,7 @@ function IterationDelateMenuChildren(arr) {
 
 function permissionShaking(stageConfig, auths, user) { // eslint-disable-line
   const shookConfig = stageConfig.filter((route) => {
-    if (hasPermission(auths, route, user)) {
+    if (Util.hasPermission(auths, route, user)) {
       if (route.children && route.children.length) {
         route.children = permissionShaking(route.children, auths, user) // eslint-disable-line
       }

@@ -9,8 +9,8 @@
           :class="tag.path === $route.path? 'active':'' "
           :to="tag.path"
           @contextmenu.prevent.native="onTags">
-          <i v-if="test(tabIconList[tag.title])" :class="tabIconList[tag.title]"></i>
-          <img v-else :src="tabIconList[tag.title]" style="width:16px;">
+          <img v-if="tag.src" :src="tag.src" style="width:16px;">
+          <i v-else :class="tag.icon"></i>
           <span style="padding: 0 5px;">{{ tag.title | filterTitle }}</span>
           <span class="el-icon-close reMove" @click.prevent.stop="clean(index)" />
         </router-link>

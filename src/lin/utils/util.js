@@ -239,4 +239,17 @@ Utils.deepClone = data => {
   return data
 }
 
+/**
+ * 判断权限
+ */
+Utils.hasPermission = (auths, route, user) => { // eslint-disable-line
+  if (user && user.isSuper) {
+    return true
+  }
+  if (route.right) {
+    return auths.some(auth => route.right.indexOf(auth) > -1)
+  }
+  return true
+}
+
 export default Utils

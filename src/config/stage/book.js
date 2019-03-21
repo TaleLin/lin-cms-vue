@@ -25,7 +25,6 @@ const bookRouter = {
       route: '/book/list',
       filePath: 'views/book/BookList.vue',
       inNav: true,
-      icon: 'iconfont icon-demo',
       right: ['图书列表'],
     },
   ],
