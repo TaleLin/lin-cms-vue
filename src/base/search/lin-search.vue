@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-input
-      placeholder="请输入内容1"
+      placeholder="请输入内容"
       clearable
       v-model="keyword"
       class="input-with-select">

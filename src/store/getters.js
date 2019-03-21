@@ -1,15 +1,11 @@
 // import pluginConfig from '@/plugins/configs.json'
 import Util from '@/lin/utils/util'
 
-const catchView = {}
-
 export const logined = state => state.logined
 
 export const user = state => state.user
 
 export const tabs = state => state.tabs
-
-export const menuTabs = state => state.menuTabs
 
 export const readedMessages = state => state.readedMessages
 
@@ -17,8 +13,45 @@ export const unreadMessages = state => state.unreadMessages
 
 export const defaultActive = state => state.defaultActive
 
+function hasPermission(auths, route, user) { // eslint-disable-line
+  if (user && user.isSuper) {
+    return true
+  }
+  if (route.right) {
+    return auths.some(auth => route.right.indexOf(auth) > -1)
+  }
+  return true
+}
+
+function IterationDelateMenuChildren(arr) {
+  if (arr.length) {
+    for (const i in arr) {
+      if (arr[i].children && !arr[i].children.length) {
+        delete arr[i]
+      } else if (arr[i].children && !arr[i].children.length) {
+        IterationDelateMenuChildren(arr[i].children)
+      }
+    }
+  }
+  return arr
+}
+
+function permissionShaking(stageConfig, auths, user) { // eslint-disable-line
+  const shookConfig = stageConfig.filter((route) => {
+    if (hasPermission(auths, route, user)) {
+      if (route.children && route.children.length) {
+        route.children = permissionShaking(route.children, auths, user) // eslint-disable-line
+      }
+      return true
+    }
+    return false
+  })
+  return IterationDelateMenuChildren(shookConfig)
+}
+
 export const sideBarList = (state) => {
-  const { stageConfig } = state
+  const { stageConfig, auths, user } = state // eslint-disable-line
+  const shookConfig = permissionShaking(stageConfig, auths, user)
 
   function deepTravel(target, level = 2) {
     // 集合节点处理
@@ -72,7 +105,7 @@ export const sideBarList = (state) => {
     return null
   }
 
-  const sideBar = deepTravel(stageConfig)
+  const sideBar = deepTravel(shookConfig)
   return sideBar
 }
 

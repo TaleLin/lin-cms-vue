@@ -15,10 +15,6 @@ let homeRouter = [
     inNav: true,
     icon: 'iconfont icon-iconset0103',
     order: 0,
-    auths: {
-      role: null,
-      right: null,
-    },
   },
   {
     title: '日志管理',
@@ -27,12 +23,9 @@ let homeRouter = [
     route: '/log',
     filePath: 'views/log/Log.vue',
     inNav: true,
-    icon: 'iconfont icon-iconset0103',
+    icon: 'iconfont icon-rizhiguanli',
     order: 1,
-    auths: {
-      role: null,
-      right: ['查询所有日志'],
-    },
+    right: ['查询所有日志'],
   },
   bookConfig,
   adminConfig,

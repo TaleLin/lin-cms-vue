@@ -26,10 +26,6 @@ export default {
     }
   },
 
-  [types.ADD_MENU_TAB](state, tabs) {
-    state.menuTabs = tabs
-  },
-
   [types.REMOVE_TAB](state, payload) {
     state.tabs.splice(payload, 1)
   },

@@ -69,7 +69,7 @@ Utils.debounce = (func, wait = 50) => {
  * @param {*} func 函数体
  * @param {*} wait 延时
  */
-export const throttle = (func, wait = 50) => {
+Utils.throttle = (func, wait = 50) => {
   // 上一次执行该函数的时间
   let lastTime = 0
   return function(...args) {
@@ -84,7 +84,6 @@ export const throttle = (func, wait = 50) => {
   }
 }
 
-Utils.throttle = throttle
 
 /**
  * 返回 n 位的随机字符串

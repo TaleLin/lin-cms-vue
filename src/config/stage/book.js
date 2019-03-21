@@ -7,10 +7,6 @@ const bookRouter = {
   filePath: 'views/book/', // 文件路径
   order: null,
   inNav: true,
-  auths: {
-    role: null,
-    right: null,
-  },
   children: [
     {
       title: '添加图书',
@@ -20,10 +16,7 @@ const bookRouter = {
       filePath: 'views/book/BookAdd.vue',
       inNav: true,
       icon: 'iconfont icon-demo',
-      auths: {
-        role: null,
-        right: null,
-      },
+      right: ['添加图书'],
     },
     {
       title: '图书列表',
@@ -33,10 +26,7 @@ const bookRouter = {
       filePath: 'views/book/BookList.vue',
       inNav: true,
       icon: 'iconfont icon-demo',
-      auths: {
-        role: null,
-        right: null,
-      },
+      right: ['图书列表'],
     },
   ],
 }

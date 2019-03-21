@@ -63,12 +63,7 @@
 
 <script>
 /* eslint-disable no-restricted-syntax */
-import { mapGetters, mapMutations } from 'vuex'
-// import routes from '@/router/routes'
-// import homeRouter1 from '@/router/home-router'
-// import Utils from 'lin/utils/util'
-
-// const homeRouter = homeRouter1.children
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['isCollapse'],
@@ -78,117 +73,13 @@ export default {
       itemIndex: 0,
     }
   },
-  created() {
-    // this.$nextTick(() => {
-    //   this.filterSideBarList()
-    // })
-  },
-  mounted() {
-    // this.$refs.meun.close('2')
-  },
   methods: {
     goto(path) {
       this.$router.push({
         path,
       })
     },
-    // 筛选左侧菜单渲染数据
-    filterSideBarList() {
-      // const filterRouter = [] // 根据用户权限，筛选用户能看到的菜单内容
-      // const homeRouterTwoLevel = Utils.deepClone(homeRouter) // 用来取二级菜单的数据
-      // const homeRouterThreeLevel = Utils.deepClone(homeRouter) // 用来取三级菜单的数据
-      // let hasOneLevelRouter = false // 是否添加过一级菜单
-      // let hasTwoLevelRouter = false // 是否添加过二级菜单
-      // let multipleTwoLevelRouter = 0 // 是否需要添加多个二级菜单
-      // if (!this.user.isSuper) { // 如果不是超级管理员，做权限路由拦截
-      //   for (let i = 0; i < homeRouterTwoLevel.length; i++) {
-      //     // 判断是否只有一级菜单
-      //     if (!homeRouter[i].children) {
-      //       if (this.hasPermission(homeRouter[i])) {
-      //         // 添加一级路由
-      //         filterRouter.push(homeRouter[i])
-      //       }
-      //     } else {
-      //       hasOneLevelRouter = false
-      //       homeRouter[i].children.length = 0
-      //       for (let j = 0; j < homeRouterTwoLevel[i].children.length; j++) {
-      //         // 判断是否只有一级、二级菜单
-      //         if (!homeRouterTwoLevel[i].children[j].children) {
-      //           if (this.hasPermission(homeRouterTwoLevel[i].children[j])) {
-      //             if (hasOneLevelRouter === false) {
-      //               // 添加一级路由
-      //               filterRouter.push(homeRouter[i])
-      //               hasOneLevelRouter = true
-      //             }
-      //             // 添加二级路由
-      //             filterRouter[filterRouter.length - 1].children.push(homeRouterTwoLevel[i].children[j]) // eslint-disable-line
-      //           }
-      //         } else {
-      //           // 有三级菜单
-      //           if (multipleTwoLevelRouter !== i) {
-      //             homeRouter[i].children.length = 0
-      //             hasOneLevelRouter = false
-      //           }
-      //           hasTwoLevelRouter = false
-      //           homeRouterTwoLevel[i].children[j].children.length = 0
-      //           for (let k = 0; k < homeRouterThreeLevel[i].children[j].children.length; k++) {
-      //             if (this.hasPermission(homeRouterThreeLevel[i].children[j].children[k])) {
-      //               if (hasOneLevelRouter === false) {
-      //                 // 添加一级路由
-      //                 filterRouter.push(homeRouter[i])
-      //                 hasOneLevelRouter = true
-      //                 multipleTwoLevelRouter = i
-      //               }
-      //               if (hasTwoLevelRouter === false) {
-      //                 // 添加二级路由
-      //                 filterRouter[filterRouter.length - 1].children.push(homeRouterTwoLevel[i].children[j]) // eslint-disable-line
-      //                 hasTwoLevelRouter = true
-      //               }
-      //               // 添加三级路由
-      //               filterRouter[filterRouter.length - 1].children[filterRouter[filterRouter.length - 1].children.length - 1].children.push(homeRouterThreeLevel[i].children[j].children[k]) // eslint-disable-line
-      //             }
-      //           }
-      //         }
-      //       }
-      //     }
-      //   }
-      //   // 更新路由数据
-      //   routes[0].children.length = 0
-      //   routes[0].children = filterRouter
-      // }
-      // this.SET_SIDEBAR_LIST(this.getSideBarList())
-    },
-    // 菜单渲染
-    // getSideBarList() {
-    //   let layoutArr = []
-    //   const routesArr = [...routes]
-    //   // routesArr.homeRouter
-    //   routesArr.forEach((item) => {
-    //     if (item.name === 'Home') {
-    //       // eslint-disable-next-line
-    //       item.children = homeRouter
-    //     }
-    //   })
-    //   const recursion = (a) => {
-    //     Object.keys(a).forEach((key) => {
-    //       const element = a[key]
-    //       if (!element.component) {
-    //         a.splice(key, 1)
-    //       }
-    //       if (element.children) {
-    //         recursion(a[key].children)
-    //       }
-    //     })
-    //   }
-    //   for (const key in routesArr) {
-    //     if (routesArr[key].name === 'Home') {
-    //       layoutArr = routesArr[key].children
-    //       break
-    //     }
-    //   }
-    //   recursion(layoutArr)
-    //   return layoutArr
-    // },
+
     handleOpen(key, keyPath) {
       console.log(key, keyPath)
     },
@@ -200,14 +91,6 @@ export default {
       this.itemIndex = num
       return num.toString()
     },
-    // 判断是否有访问该路由的权限
-    hasPermission(router) {
-      if (router.meta && router.meta.auths) {
-        return this.auths.some(auth => router.meta.auths.indexOf(auth) >= 0)
-      }
-      return true
-    },
-    // ...mapMutations(['SET_SIDEBAR_LIST']),
   },
   computed: {
     imgSrc() {

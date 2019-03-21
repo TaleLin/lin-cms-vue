@@ -5,7 +5,6 @@ export default {
   logined: false, // 是否登录
   user: null, // 当前用户
   tabs: [], // 浏览历史
-  menuTabs: [], // 右侧tab栏
   defaultActive: '',
 
   // 推送消息

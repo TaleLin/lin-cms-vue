@@ -11,9 +11,7 @@ export default {
   },
 
   loginOut({ commit }) {
-    commit(types.ADD_MENU_TAB, [])
     commit(types.ADD_TAB, [])
-    // commit(types.SET_SIDEBAR_LIST, []) // 只需改变原数据, 不能直接改变getter的值
     commit(types.REMOVE_LOGINED, false)
   },
 
