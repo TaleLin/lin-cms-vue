@@ -35,8 +35,6 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步[后端�
 
 [http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
 
-## 讨论交流
-QQ群号：814597236
 
 ### Lin CMS 的特点
 
@@ -78,10 +76,14 @@ npm install or yarn
 npm run serve or yarn (run) serve
 ```
 
-## 微信公众号
-微信搜索：七月有风
+## 讨论交流
+微信搜索：林间有风
 <br>
-<img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg" style='text-align:left;width: 100px;height: 100px'>
+<img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg" width="150" height="150" style='text-align:left;width: 100px;height: 100px'>
+
+QQ群搜索：Lin CMS 或 814597236
+
+<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qqgroup.jpg" width="150" height="205" >
 
 ## 下个版本开发计划
 
