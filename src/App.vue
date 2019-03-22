@@ -6,12 +6,20 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Vue from 'vue'
 import Config from '@/config'
 
 export default {
   data() {
     return {
       timer: null,
+       eventBus: new Vue(),
+    }
+  },
+  provide() {
+    // eventBus挂载的事件： addGroup addUser 
+    return {
+      eventBus: this.eventBus,
     }
   },
   computed: {
