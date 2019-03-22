@@ -60,8 +60,7 @@ export default {
         src: to.meta.src,
       }
 
-      const has = this.hasChildren(to.path)
-      if (has) {
+      if (to.meta.type !== 'view') {
         return
       }
 
@@ -76,23 +75,7 @@ export default {
       // }
       return true
     },
-    hasChildren(path) {
-      let has = false
-      this.sideBarList.forEach((element) => {
-        if (element.path === path
-          && element.children
-          && element.children.length > 0) {
-          has = true
-        } else if (element.children && element.children.length > 0) {
-          element.children.forEach((el) => {
-            if (el.path === path && el.children && el.children.length) {
-              has = true
-            }
-          })
-        }
-      })
-      return has
-    },
+
     clean(index) {
       this.REMOVE_TAB(index)
     },
