@@ -49,7 +49,7 @@ export default {
   },
   created() {},
   computed: {
-    ...mapGetters(['tabs', 'tabIconList', 'sideBarList']),
+    ...mapGetters(['tabs', 'tabIconList']),
   },
   watch: {
     $route(to) {
