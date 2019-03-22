@@ -27,6 +27,7 @@ deepTravel(stageConfig, (viewConfig) => {
     title: viewConfig.title,
     icon: viewConfig.icon,
     right: viewConfig.right,
+    type: viewConfig.type,
   }
   homeRouter.push(viewRouter)
 })
