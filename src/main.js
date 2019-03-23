@@ -4,6 +4,9 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import Lin1px from '@/base/line/lin-1px'
+import LButton from '@/base/button/lin-button'
+import LButtonGroup from '@/base/button/lin-button-group'
+import LIcon from '@/base/icon/l-icon'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import GlobalMixin from 'lin/mixin/global'
@@ -27,7 +30,9 @@ Vue.use(plugins)
 Vue.component(CollapseTransition.name, CollapseTransition)
 
 Vue.component('lin-1px', Lin1px)
-
+Vue.component('l-button', LButton)
+Vue.component('l-button-group', LButtonGroup)
+Vue.component('l-icon', LIcon)
 
 Vue.use(GlobalMixin)
 Vue.use(AuthorizeDirective)

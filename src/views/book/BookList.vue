@@ -44,16 +44,7 @@ export default {
   async created() {
     this.loading = true
     this.getBooks()
-    this.operate = [{
-      name: '编辑',
-      func: 'handleEdit',
-      type: 'edit',
-    }, {
-      name: '删除',
-      func: 'handleDelete',
-      type: 'del',
-      auth: '删除图书',
-    }]
+    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     this.loading = false
   },
   methods: {

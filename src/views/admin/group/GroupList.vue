@@ -45,8 +45,8 @@
         </el-tabs>
       </div>
       <div slot="footer" class="dialog-footer" style="padding-left:5px;">
-        <el-button type="primary" @click="confirmEdit">确 定</el-button>
-        <el-button @click="resetForm('form')">重 置</el-button>
+        <l-button type="primary" @click="confirmEdit">确 定</l-button>
+        <l-button @click="resetForm('form')">重 置</l-button>
       </div>
     </el-dialog>
   </div>
@@ -243,7 +243,7 @@ export default {
   async created() {
     await this.getAllGroups()
     this.tableColumn = [{ prop: 'name', label: '姓名' }, { prop: 'info', label: '信息' }] // 设置表头信息
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
+    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     // 监听分组是否成功
     this.eventBus.$on('addGroup', async (flag) => {
       if (flag === true) {

@@ -51,8 +51,8 @@
           <el-input type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('form')">保存</el-button>
-          <el-button @click="resetForm('form')">重置</el-button>
+          <l-button type="primary" @click="submitForm('form')">保存</l-button>
+          <l-button @click="resetForm('form')">重置</l-button>
         </el-form-item>
       </el-form>
     </el-dialog>
