@@ -3,7 +3,7 @@ import store from '@/store'
 
 const plugins = {
   install(Vue, options) {
-    Vue.prototype.$_jump = () => {
+    Vue.prototype.$_lin_jump = () => {
       if (!Config.openAutoJumpOut) {
         return
       }

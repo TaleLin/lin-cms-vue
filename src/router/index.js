@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // 路由发生变化重新计时
-  Vue.prototype.$_jump()
+  Vue.prototype.$_lin_jump()
 
   // 路由发生变化修改页面title
   if (to.meta.title) {

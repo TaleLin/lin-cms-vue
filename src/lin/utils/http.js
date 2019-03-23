@@ -42,7 +42,7 @@ http.interceptors.request.use(
 
 http.interceptors.request.use(
   (requestConfig) => {
-    Vue.prototype.$_jump()
+    Vue.prototype.$_lin_jump()
     return requestConfig
   },
   error => Promise.reject(error),
