@@ -122,8 +122,6 @@ export const tabIconList = (state) => {
   return iconList
 }
 
-export const stopTime = state => state.stopTime
-
 export const auths = state => state.auths
 
 export const getStageInfo = (state) => {

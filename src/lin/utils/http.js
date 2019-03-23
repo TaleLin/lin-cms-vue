@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Config from '@/config'
+import Vue from 'vue'
 import { getToken } from './cookie'
-import store from '../../store'
 import tip from './exception'
 
 // 创建一个拥有通用配置的axios实例
@@ -42,7 +42,7 @@ http.interceptors.request.use(
 
 http.interceptors.request.use(
   (requestConfig) => {
-    store.commit('SET_STOP_TIME', new Date().getTime())
+    Vue.prototype.$_jump()
     return requestConfig
   },
   error => Promise.reject(error),

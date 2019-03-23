@@ -48,12 +48,10 @@
             @click="goto(item.path)"
             v-else
             :key="item.path">
-            <!-- <img v-if="item.meta.src" :src="item.meta.src" class="imgIcon" />
-            <i v-else :class="{[item.meta.icon]: item.meta.icon}"></i> -->
-            <i :class="item.icon" />
+            <i v-if="!filterIcon(item.icon)" :class="item.icon" ></i>
+            <img v-else :src="item.icon" class="imgIcon" />
             <span slot="title">{{item.title}}</span>
           </el-menu-item>
-          <!-- </router-link> -->
         </template>
       </el-menu>
     </div>
@@ -90,6 +88,9 @@ export default {
     indexToString(num) {
       this.itemIndex = num
       return num.toString()
+    },
+    filterIcon(icon) {
+      return icon.indexOf('/') !== -1
     },
   },
   computed: {
@@ -156,7 +157,7 @@ export default {
     height: 16px;
     margin-right: 10px;
     display: inline-block;
-    transform: translateY(5px);
+    transform: translateY(21px);
   }
 
   .iconfont {

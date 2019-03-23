@@ -50,14 +50,6 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  // [types.SET_SIDEBAR_LIST](state, payload) {
-  //   state.sideBarList = payload
-  // },
-
-  [types.SET_STOP_TIME](state, currentTime) {
-    state.stopTime = currentTime
-  },
-
   [types.SET_USER_AUTHS](state, auths) {
     const _auths = []
     for (let i = 0; i < auths.length; i++) {

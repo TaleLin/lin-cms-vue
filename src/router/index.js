@@ -68,8 +68,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // 路由发生变化重新计时
-  store.commit('SET_STOP_TIME', new Date().getTime())
-  // store.dispatch('ROUTE_CHANGE')
+  Vue.prototype.$_jump()
 
   // 路由发生变化修改页面title
   if (to.meta.title) {

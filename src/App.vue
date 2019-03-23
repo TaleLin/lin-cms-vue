@@ -5,9 +5,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import Vue from 'vue'
-import Config from '@/config'
 
 export default {
   data() {
@@ -21,23 +20,6 @@ export default {
     return {
       eventBus: this.eventBus,
     }
-  },
-  computed: {
-    ...mapGetters(['stopTime']),
-  },
-  watch: {
-    stopTime() {
-      if (!Config.openAutoJumpOut) {
-        return
-      }
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.loginOut()
-        // this.$router.push('/login')
-        const { origin } = window.location
-        window.location.href = origin
-      }, Config.stagnateTime)
-    },
   },
   methods: {
     ...mapActions(['loginOut']),

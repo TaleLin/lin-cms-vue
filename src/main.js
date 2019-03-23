@@ -10,6 +10,7 @@ import GlobalMixin from 'lin/mixin/global'
 import AuthorizeDirective from 'lin/directives/authorize'
 import filters from 'lin/filter'
 
+import plugins from 'lin/utils/plugins'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -21,6 +22,7 @@ Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+Vue.use(plugins)
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 
