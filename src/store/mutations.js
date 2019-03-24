@@ -62,4 +62,8 @@ export default {
     }
     state.auths = _auths
   },
+
+  [types.SET_REFERSH_OPTION](state, option) {
+    state.refreshOptions = option
+  },
 }

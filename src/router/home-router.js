@@ -1,3 +1,4 @@
+
 import stageConfig from '@/config/stage' // 引入舞台配置
 
 // 深度遍历配置树, 摘取叶子节点作为路由部分

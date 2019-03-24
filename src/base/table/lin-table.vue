@@ -386,11 +386,48 @@ export default {
       deep: true,
       immediate: true,
     },
+    customColumn: {
+      handler(val, oldVal) {
+        if (val.length > 1) {
+          this.filterTableColumn = this.tableColumn.filter(
+            v => val.indexOf(v.label) > -1,
+          )
+        } else {}
+      },
+      deep: true,
+    },
+    tableData: {
+      handler(val, oldVal) {
+        // 传了分页配置
+        if (this.pagination && this.pagination.pageSize) {
+          this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize)
+        } else {
+          this.currentData = this.tableData
+        }
+      },
+      deep: true,
+      immediate: true
+    },
+    tableColumn: {
+      handler(val, oldVal) {
+        // 如果一开始没有传要展示的列 就默认全展示
+        if (this.customColumn.length > 1) {
+          this.filterTableColumn = this.tableColumn.filter(
+            v => this.customColumn.indexOf(v.label) > -1,
+          )
+        } else {
+          this.filterTableColumn = this.tableColumn
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
 }
 </script>
 
 <style lang="scss" scoped>
+
 .lin-table {
   position: relative;
 }

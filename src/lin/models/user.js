@@ -78,6 +78,7 @@ export default class User {
     saveAccessToken(res.access_token)
   }
 
+
   /**
    * 用户修改密码
    * @param {string} newPassword 新密码

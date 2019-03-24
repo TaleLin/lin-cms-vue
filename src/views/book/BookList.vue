@@ -53,8 +53,9 @@ export default {
       this.tableData = books
     },
     handleEdit(val) {
+      console.log('val', val)
       this.showEdit = true
-      this.editBookID = val.row[val.index].id
+      this.editBookID = val.row.id
     },
     handleDelete(val) {
       this.$confirm('此操作将永久删除该图书, 是否继续?', '提示', {
@@ -62,7 +63,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
-        const res = await book.delectBook(val.row[val.index].id)
+        const res = await book.delectBook(val.row.id)
         if (res.error_code === 0) {
           this.getBooks()
           this.$message({
@@ -77,6 +78,7 @@ export default {
     },
     editClose() {
       this.showEdit = false
+      this.getBooks()
     },
   },
 }
