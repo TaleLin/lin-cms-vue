@@ -1,20 +1,25 @@
 <template>
   <div>
-    组件: <%= camelCaseName %>test
+    <div>组件: <%= camelCaseName %>test</div>
+    <div><img :src="logo" alt="logo" /></div>
   </div>
 </template>
 
 <script>
+import logo from '../assets/img/logo.png'
+
 export default {
   name: '<%= camelCaseName %>Test',
   components: {},
   data() {
-    return {}
+    return {
+      logo,
+    }
   },
   props: {
     // 组件属性定义, 参考 https://cn.vuejs.org/v2/guide/components-props.html#Prop-验证
     // propName: {
-    //   type: Array,
+    //  type: Array,
     //   default: () => [],
     // },
   },

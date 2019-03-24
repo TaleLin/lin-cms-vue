@@ -1,7 +1,6 @@
 import adminConfig from './admin'
 import bookConfig from './book' // 引入图书管理路由文件
-// TODO: 添加对插件配置的处理
-// import pluginsConfig from '@/plugins/configs.json'
+import pluginsConfig from './plugins'
 import Utils from '@/lin/utils/util'
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -29,6 +28,7 @@ let homeRouter = [
   },
   bookConfig,
   adminConfig,
+  ...pluginsConfig,
 ]
 
 // TODO: 插入插件的配置内容

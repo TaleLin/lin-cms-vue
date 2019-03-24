@@ -1,20 +1,6 @@
----
-icon: iconfont icon-demo
-name: TestTestView
-route: /test/TestView
-order: null
-inNav: true
-title: 舞台页
-auths:
-  role: null
-  right: null
-needLogin: true
----
-
-
 <template>
   <div class="lin-container">
-    <div class="lin-title">插件Test舞台页面</div>
+    <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
     <lin-1px></lin-1px>
     <div class="lin-wrap">
       <test />
@@ -26,7 +12,7 @@ needLogin: true
 import Test from '../components/Test'
 
 export default {
-  name: 'TestTestView',
+  name: '<%= camelCaseName %>Stage2',
   components: {
     Test,
   },
