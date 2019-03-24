@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint",
     "plugin-new": "node script/plugin-new.js",
     "plugin-init": "node script/plugin-init.js",
+    "plugin-reconfig": "node script/plugin-get-config.js",
     "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact"
   },
   "dependencies": {
@@ -17,13 +18,15 @@
     "element-ui": "~2.4.6",
     "event-source-polyfill": "^0.0.16",
     "fastscan": "^1.0.4",
+    "file-saver": "^2.0.1",
     "good-storage": "^1.1.0",
     "js-cookie": "^2.2.0",
     "vue": "^2.6.8",
     "vue-awesome-swiper": "^3.1.3",
     "vue-router": "~3.0.1",
     "vuex": "~3.0.1",
-    "vuex-persist": "^2.0.0"
+    "vuex-persist": "^2.0.0",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",

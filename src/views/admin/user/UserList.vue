@@ -68,8 +68,8 @@
       </div>
       <!-- 按键操作 -->
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirmEdit">确 定</el-button>
-        <el-button @click="resetForm">重 置</el-button>
+        <l-button type="primary" @click="confirmEdit">确 定</l-button>
+        <l-button @click="resetForm">重 置</l-button>
 
       </div>
     </el-dialog>
@@ -248,7 +248,7 @@ export default {
     await this.getAdminUsers()
     await this.getAllGroups()
     this.tableColumn = [{ prop: 'nickname', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
+    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     // 监听添加用户是否成功
     this.eventBus.$on('addUser', async (flag) => {
       if (flag === true) {
@@ -267,7 +267,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/styles/variable.scss";
 
 .container {
   padding: 0 30px;

@@ -1,8 +1,26 @@
 const fs = require('fs-extra')
 const path = require('path')
+const chalk = require('chalk')
 
+// 验证是否是插件
 function isPlugin(source) {
-  return fs.lstatSync(source).isDirectory()
+  let result = true
+  if (!fs.lstatSync(source).isDirectory()) {
+    return false
+  }
+  const configPath = path.resolve(source, './stage-config.js')
+  const packagePath = path.resolve(source, './package.json')
+  if (result && !fs.existsSync(configPath)) {
+    result = false
+  }
+  if (result && !fs.existsSync(packagePath)) {
+    result = false
+  }
+  if (!result) {
+    console.log(chalk.yellow(`${source} 不符合 Lin-CMS 插件规范`))
+  }
+
+  return result
 }
 
 function getPlugins(source) {
@@ -17,12 +35,10 @@ function getPlugins(source) {
     const config = {}
     config.name = item
     config.path = path.resolve(__dirname, `../src/plugins/${item}/`)
-    config.package = JSON.parse(fs.readFileSync(path.resolve(itemPath, './package.json'), 'utf8'))
     pluginsList.push(config)
   })
 
   return pluginsList
 }
 
-const pluginsPath = path.resolve(__dirname, '../../src/plugins')
-module.exports = getPlugins(pluginsPath)
+module.exports = getPlugins

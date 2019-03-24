@@ -32,8 +32,8 @@
               </group-auths>
             </el-form-item>
             <el-form-item class="submit">
-              <el-button type="primary" @click="submitForm('form')">保 存</el-button>
-              <el-button @click="resetForm('form')">重 置</el-button>
+              <l-button type="primary" @click="submitForm('form')">保 存</l-button>
+              <l-button @click="resetForm('form')">重 置</l-button>
             </el-form-item>
           </el-form>
         </div>
@@ -118,7 +118,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/styles/variable.scss";
 
 .container {
   .title {

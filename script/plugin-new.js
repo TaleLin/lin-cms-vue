@@ -124,9 +124,13 @@ inquirer.prompt(questions).then((answers) => {
         viewConfig.route = path.join(config.name, path.relative(pluginViewsPath, item.path)).split(path.sep).join('/')
         viewConfig.route = `/${viewConfig.route.slice(0, -8)}`
         viewConfig.order = null
-        viewConfig.inSideNav = true
+        viewConfig.inNav = true
         viewConfig.title = '舞台页'
-        viewConfig.permission = []
+        viewConfig.type = 'view'
+        viewConfig.auths = {
+          role: null,
+          right: null,
+        }
         viewConfig.needLogin = true
         fileConfig.configYml = yaml.safeDump(viewConfig)
       }

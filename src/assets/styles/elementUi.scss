@@ -85,46 +85,6 @@
   margin-bottom: 15px !important;
 }
 
-// button
-.el-button {
-  padding: 10px 20px;
-}
-
-.el-button:hover,
-.el-button:focus {
-  color: #4c76af;
-}
-
-.el-button--primary {
-  background-color: $theme;
-
-  .el-button--primary {
-    border: 1px solid #4c76af;
-  }
-}
-
-.el-button--text {
-  border: 1px solid;
-  border-radius: 2px !important;
-  background: rgba(237, 243, 255, 1);
-  width: 50px;
-  height: 28px;
-  padding-top: 7px;
-  padding-bottom: 7px;
-  color: $theme;
-}
-
-.el-button--danger {
-  color: #fff;
-}
-
-.el-button--primary:hover,
-.el-button--primary:focus {
-  background: #273b6f;
-  border-color: #273b6f;
-  color: #fff;
-}
-
 // pagination
 .el-pagination__editor.el-input .el-input__inner {
   border-radius: 14px;

@@ -9,8 +9,8 @@
           :class="tag.path === $route.path? 'active':'' "
           :to="tag.path"
           @contextmenu.prevent.native="onTags">
-          <i v-if="test(tabIconList[tag.title])" :class="tabIconList[tag.title]"></i>
-          <img v-else :src="tabIconList[tag.title]" style="width:16px;">
+          <img v-if="tag.src" :src="tag.src" style="width:16px;">
+          <i v-else :class="tag.icon"></i>
           <span style="padding: 0 5px;">{{ tag.title | filterTitle }}</span>
           <span class="el-icon-close reMove" @click.prevent.stop="clean(index)" />
         </router-link>
@@ -49,7 +49,7 @@ export default {
   },
   created() {},
   computed: {
-    ...mapGetters(['tabs', 'tabIconList', 'sideBarList']),
+    ...mapGetters(['tabs', 'tabIconList']),
   },
   watch: {
     $route(to) {
@@ -60,8 +60,7 @@ export default {
         src: to.meta.src,
       }
 
-      const has = this.hasChildren(to.path)
-      if (has) {
+      if (to.meta.type !== 'view') {
         return
       }
 
@@ -76,23 +75,7 @@ export default {
       // }
       return true
     },
-    hasChildren(path) {
-      let has = false
-      this.sideBarList.forEach((element) => {
-        if (element.path === path
-          && element.children
-          && element.children.length > 0) {
-          has = true
-        } else if (element.children && element.children.length > 0) {
-          element.children.forEach((el) => {
-            if (el.path === path && el.children && el.children.length) {
-              has = true
-            }
-          })
-        }
-      })
-      return has
-    },
+
     clean(index) {
       this.REMOVE_TAB(index)
     },

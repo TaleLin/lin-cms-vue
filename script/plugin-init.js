@@ -148,7 +148,9 @@ async function handler() {
             console.log(chalk.red(`检查到插件 ${answer} 依赖 ${plugin} 有冲突, 请手动解决`))
             await exec(`npm install ${plugin}@${projectPackage.dependencies[plugin]}`)
           }
-        } catch(err) {}
+        } catch (err) {
+          console.log(err)
+        }
       } else {
         console.log(`当前已存在依赖 ${plugin}@${v}`)
       }

@@ -252,8 +252,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/styles/variable.scss";
-@import "~assets/styles/elementUi.scss";
+// @import "~assets/styles/elementUi.scss";
 
 .log {
   padding: 0 20px;

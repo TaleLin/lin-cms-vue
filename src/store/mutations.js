@@ -16,7 +16,6 @@ export default {
 
   async [types.ADD_TAB](state, payload) {
     if (!(payload instanceof Array)) {
-      console.log(payload)
       const { tabs } = state
       const flag = await tabs.find(el => el.path === payload.path)
       if (!flag) {
@@ -25,10 +24,6 @@ export default {
     } else {
       state.tabs = []
     }
-  },
-
-  [types.ADD_MENU_TAB](state, tabs) {
-    state.menuTabs = tabs
   },
 
   [types.REMOVE_TAB](state, payload) {
@@ -53,15 +48,6 @@ export default {
     const { unreadMessages } = state
     const index = unreadMessages.findIndex(el => el.id === payload)
     unreadMessages.splice(index, 1)
-  },
-
-  [types.SET_SIDEBAR_LIST](state, payload) {
-    // console.log(payload)
-    state.sideBarList = payload
-  },
-
-  [types.SET_STOP_TIME](state, currentTime) {
-    state.stopTime = currentTime
   },
 
   [types.SET_USER_AUTHS](state, auths) {

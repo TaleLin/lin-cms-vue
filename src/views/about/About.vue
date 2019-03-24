@@ -38,6 +38,7 @@
                   <li>Pedro</li>
                   <li>一飞同学</li>
                   <li>凉面</li>
+                  <li>圈圈</li>
                 </ul>
               </span>
             </li>
@@ -65,7 +66,6 @@
 </template>
 
 <style lang="scss" scoped>
-@import '~assets/styles/variable.scss';
 
 .about {
   padding: 30px;

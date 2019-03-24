@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Config from '@/config'
+import Vue from 'vue'
 import { getToken } from './cookie'
 import store from '../../store'
 import { handleException, handleError } from './exception'
@@ -42,7 +43,7 @@ http.interceptors.request.use(
 
 http.interceptors.request.use(
   (requestConfig) => {
-    store.commit('SET_STOP_TIME', new Date().getTime())
+    Vue.prototype.$_lin_jump()
     return requestConfig
   },
   error => Promise.reject(error),

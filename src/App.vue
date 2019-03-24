@@ -5,31 +5,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import Config from '@/config'
+import { mapActions } from 'vuex'
+import Vue from 'vue'
 
 export default {
   data() {
     return {
       timer: null,
+      eventBus: new Vue(),
     }
   },
-  computed: {
-    ...mapGetters(['stopTime']),
-  },
-  watch: {
-    stopTime() {
-      if (!Config.openAutoJumpOut) {
-        return
-      }
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.loginOut()
-        // this.$router.push('/login')
-        const { origin } = window.location
-        window.location.href = origin
-      }, Config.stagnateTime)
-    },
+  provide() {
+    // eventBus挂载的事件： addGroup addUser
+    return {
+      eventBus: this.eventBus,
+    }
   },
   methods: {
     ...mapActions(['loginOut']),

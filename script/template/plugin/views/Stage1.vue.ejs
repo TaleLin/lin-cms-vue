@@ -1,10 +1,7 @@
----
-<%- configYml %>---
-
 <template>
   <div class="lin-container" v-loading="loading">
     <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
-    <lin-1px></lin-1px>
+    <lin-1px />
     <div class="lin-wrap">
       <p>{{text}}</p>
     </div>
@@ -13,7 +10,7 @@
 
 <script>
 export default {
-  name: '<%= camelCaseName %>View1',
+  name: '<%= camelCaseName %>Stage1',
   components: {
   },
   data() {

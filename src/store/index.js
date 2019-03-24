@@ -9,8 +9,14 @@ import actions from './actions'
 
 Vue.use(Vuex)
 
+// TODO: 处理持久化
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
+  reducer: state => ({
+    tabs: state.tabs,
+    logined: state.logined,
+    user: state.user,
+  }),
 })
 
 
