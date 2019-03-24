@@ -28,13 +28,33 @@ let homeRouter = [
   },
   bookConfig,
   adminConfig,
-  ...pluginsConfig,
 ]
 
-// TODO: 插入插件的配置内容
-// Object.keys(pluginsConfig).forEach((plugin) => {
-//   homeRouter.push(pluginsConfig[plugin])
-// })
+const plugins = [...pluginsConfig]
+
+// 筛除已经被添加的插件
+function filterPlugin(data) {
+  if (plugins.length === 0) {
+    return
+  }
+  if (Array.isArray(data)) {
+    data.forEach((item) => {
+      filterPlugin(item)
+    })
+  } else {
+    const findResult = plugins.findIndex(item => (data === item))
+    if (findResult >= 0) {
+      plugins.splice(findResult, 1)
+    }
+    if (data.children) {
+      filterPlugin(data.children)
+    }
+  }
+}
+
+filterPlugin(homeRouter)
+
+homeRouter = homeRouter.concat(plugins)
 
 // 处理顺序
 homeRouter = Utils.sortByOrder(homeRouter)
