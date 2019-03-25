@@ -6,10 +6,10 @@
           <p class="title">日志信息</p>
         </div>
         <div class="header-right"
-            v-auth="['搜索日志','查询日志']">
+            v-auth="'搜索日志'">
           <lin-search @query="onQueryChange"
                       ref="searchKeyword" />
-          <el-dropdown style="margin: 0 10px;" @command="handleCommand">
+          <el-dropdown style="margin: 0 10px;" @command="handleCommand"  v-auth="'查询日志记录的用户'">
             <el-button>
               {{searchUser}}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -74,6 +74,7 @@ import LinSearch from '@/base/search/lin-search'
 import LinDatePicker from '@/base/date-picker/lin-date-picker'
 import { searchLogKeyword } from 'lin/utils/search'
 import StickyTop from '@/base/sticky-top/sticky-top'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -97,6 +98,9 @@ export default {
       keyword: null,
       totalCount: 0,
     }
+  },
+  computed: {
+    ...mapGetters(['auths']),
   },
   async created() {
     this.loading = true
@@ -169,7 +173,9 @@ export default {
     // 页面初始化
     async initPage() {
       try {
-        this.users = await log.getLoggedUsers({})
+        if (this.auths.includes('查询日志记录的用户')) {
+          this.users = await log.getLoggedUsers({})
+        }
         const res = await log.getLogs({ page: 0 })
         this.logs = res.collection
       } catch (err) {
