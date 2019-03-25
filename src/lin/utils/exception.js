@@ -27,9 +27,13 @@ export async function handleException(res) {
   }
   // 令牌相关，刷新令牌
   if (error_code === 10000 || error_code === 10040 || error_code === 10050) {
-    await User.getRefreshToken()
-    const result = await refreshRequest(store.state.refreshOptions)
-    return result
+    if (!sessionStorage.getItem('flag')) {
+      sessionStorage.setItem('flag', true)
+      await User.getRefreshToken()
+      const result = await refreshRequest(store.state.refreshOptions)
+      return result
+    }
+    sessionStorage.setItem('flag', '')
   }
 
 

@@ -108,7 +108,7 @@ export default {
   height: 100%;
   background-size: auto;
   background: #1b2c5f url("../../assets/img/login/login-ba.png") no-repeat center center;
-  
+
   .team-name {
     position: fixed;
     left: 40px;
