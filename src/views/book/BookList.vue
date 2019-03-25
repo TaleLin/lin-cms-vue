@@ -24,7 +24,7 @@
 
 <script>
 import book from '@/lin/models/book'
-import LinTable from '@/base/table/lin-table'
+import LinTable from '@/components/base/table/lin-table'
 import BookEdit from './BookEdit'
 
 export default {

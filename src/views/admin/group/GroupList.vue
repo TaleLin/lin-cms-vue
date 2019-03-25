@@ -55,7 +55,7 @@
 <script>
 import Utils from '@/lin/utils/util'
 import Admin from '@/lin/models/admin'
-import LinTable from '@/base/table/lin-table'
+import LinTable from '@/components/base/table/lin-table'
 import GroupAuths from './GroupAuths'
 
 export default {

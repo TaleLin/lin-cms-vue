@@ -78,7 +78,7 @@
 
 <script>
 import Admin from '@/lin/models/admin'
-import LinTable from '@/base/table/lin-table'
+import LinTable from '@/components/base/table/lin-table'
 import UserInfo from './UserInfo'
 import UserPassword from './UserPassword'
 

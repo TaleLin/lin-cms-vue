@@ -103,7 +103,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/styles/variable.scss";
 
 .app-sidebar {
   background: #192a5e;

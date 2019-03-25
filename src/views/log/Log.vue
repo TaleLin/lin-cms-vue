@@ -70,10 +70,10 @@
 
 <script>
 import log from 'lin/models/log'
-import LinSearch from '@/base/search/lin-search'
-import LinDatePicker from '@/base/date-picker/lin-date-picker'
+import LinSearch from '@/components/base/search/lin-search'
+import LinDatePicker from '@/components/base/date-picker/lin-date-picker'
 import { searchLogKeyword } from 'lin/utils/search'
-import StickyTop from '@/base/sticky-top/sticky-top'
+import StickyTop from '@/components/base/sticky-top/sticky-top'
 import { mapGetters } from 'vuex'
 
 export default {
