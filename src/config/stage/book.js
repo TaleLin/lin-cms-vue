@@ -16,7 +16,6 @@ const bookRouter = {
       filePath: 'views/book/BookAdd.vue',
       inNav: true,
       icon: 'iconfont icon-demo',
-      right: ['添加图书'],
     },
     {
       title: '图书列表',
@@ -25,7 +24,6 @@ const bookRouter = {
       route: '/book/list',
       filePath: 'views/book/BookList.vue',
       inNav: true,
-      right: ['图书列表'],
     },
   ],
 }

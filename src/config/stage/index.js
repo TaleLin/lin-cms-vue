@@ -24,7 +24,7 @@ let homeRouter = [
     inNav: true,
     icon: 'iconfont icon-rizhiguanli',
     order: 1,
-    right: ['查询所有日志', '搜索日志'],
+    right: ['查询所有日志'],
   },
   bookConfig,
   adminConfig,
