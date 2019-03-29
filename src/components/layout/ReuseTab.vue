@@ -88,7 +88,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~assets/styles/variable.scss";
 
 .swiper-slide {
   width: 130px;

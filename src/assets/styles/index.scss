@@ -1,9 +1,9 @@
-@import '../styles/font';
-@import '../styles/reset';
-@import '../styles/animation';
-@import '../styles/transition';
-@import '../styles/global';
-@import '../styles/elementUi';
+@import './realize/font';
+@import './realize/reset';
+@import './realize/animation';
+@import './realize/transition';
+@import './realize/global';
+@import './realize/elementUi';
 
 .lin-container {
   .lin-title {

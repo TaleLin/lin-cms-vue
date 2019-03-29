@@ -46,7 +46,7 @@
             :type="item.type"
             :key="index"
             v-auth="item.auth ? item.auth : ''"
-            @click.native.prevent.stop="buttonMethods(item.func, scope.$index, tableData)">{{item.name}}
+            @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}
           </lin-button>
         </template>
       </el-table-column>
@@ -67,6 +67,7 @@
 import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 import LinButton from '../button/lin-button'
+
 export default {
   components: {
     LinButton,
@@ -156,7 +157,7 @@ export default {
       oldVal: [], // 上一次选中的数据
       oldKey: [], // 上一次选中数据的key
       currentIndex: 1, // 当前索引，切换页面的时候需要重新计算
-      rowClassName: '' // 行样式
+      rowClassName: '', // 行样式
     }
   },
   created() {},
@@ -282,10 +283,10 @@ export default {
       let newIndex
       this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
       this.sortable = Sortable.create(el, {
-        setData: function (dataTransfer) {
+        setData(dataTransfer) {
           dataTransfer.setData('Text', '')
         },
-        onEnd: evt => {
+        onEnd: (evt) => {
           const dragData = [...this.currentData]
           let oldIndex
           let newIndex
@@ -299,22 +300,22 @@ export default {
           dragData[oldIndex] = this.currentData[newIndex]
           dragData[newIndex] = this.currentData[oldIndex]
           this.$emit('getDragData', { dragData, oldIndex, newIndex })
-        }
+        },
       })
     },
     // 导出excel
-    exportExcel(fileName = "sheet") {
+    exportExcel(fileName = 'sheet') {
       const targetTable = XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      var writeTable = XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      const writeTable = XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
       try {
         FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
       } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
       return writeTable
     },
     // 导出csv
-    exportCsv(fileName = "sheet") {
+    exportCsv(fileName = 'sheet') {
       const targetTable = XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      var writeTable = XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
+      const writeTable = XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
       try {
         FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.csv`)
       } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
@@ -406,7 +407,7 @@ export default {
         }
       },
       deep: true,
-      immediate: true
+      immediate: true,
     },
     tableColumn: {
       handler(val, oldVal) {
@@ -420,8 +421,8 @@ export default {
         }
       },
       deep: true,
-      immediate: true
-    }
+      immediate: true,
+    },
   },
 }
 </script>

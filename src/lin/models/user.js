@@ -59,7 +59,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.super)
+    return new User(info.active, info.email, info.group_id, info.nickname, info.admin)
   }
 
   /**
@@ -67,7 +67,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.super, info.auths)
+    return new User(info.active, info.email, info.group_id, info.nickname, info.admin, info.auths)
   }
 
   /**

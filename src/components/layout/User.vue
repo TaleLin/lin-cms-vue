@@ -175,7 +175,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "~assets/styles/variable.scss";
 
 .el-dropdown-link {
   cursor: pointer;

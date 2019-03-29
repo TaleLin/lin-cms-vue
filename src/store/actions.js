@@ -1,4 +1,5 @@
 import * as types from './mutation-types'
+import { removeToken } from '@/lin/utils/cookie'
 
 
 export default {
@@ -11,6 +12,7 @@ export default {
   },
 
   loginOut({ commit }) {
+    removeToken()
     commit(types.ADD_TAB, [])
     commit(types.REMOVE_LOGINED, false)
   },

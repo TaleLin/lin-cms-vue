@@ -24,7 +24,7 @@
 
 <script>
 import book from '@/lin/models/book'
-import LinTable from '@/base/table/lin-table'
+import LinTable from '@/components/base/table/lin-table'
 import BookEdit from './BookEdit'
 
 export default {
@@ -44,7 +44,9 @@ export default {
   async created() {
     this.loading = true
     this.getBooks()
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
+    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, {
+      name: '删除', func: 'handleDelete', type: 'danger', auth: '删除图书',
+    }]
     this.loading = false
   },
   methods: {

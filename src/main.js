@@ -4,10 +4,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 
-import Lin1px from '@/base/line/lin-1px'
-import LButton from '@/base/button/lin-button'
-import LButtonGroup from '@/base/button/lin-button-group'
-import LIcon from '@/base/icon/l-icon'
+import Lin1px from '@/components/base/line/lin-1px'
+import LButton from '@/components/base/button/lin-button'
+import LButtonGroup from '@/components/base/button/lin-button-group'
+import LIcon from '@/components/base/icon/l-icon'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import GlobalMixin from 'lin/mixin/global'

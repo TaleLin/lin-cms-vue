@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import stateCode from '@/config/error-code'
 import User from '../models/user'
 import { refreshRequest } from './http'
 import store from '../../store'
@@ -27,17 +26,21 @@ export async function handleException(res) {
   }
   // 令牌相关，刷新令牌
   if (error_code === 10000 || error_code === 10040 || error_code === 10050) {
-    await User.getRefreshToken()
-    const result = await refreshRequest(store.state.refreshOptions)
-    return result
+    // TODO: 重试一次，待优化
+    if (!sessionStorage.getItem('flag')) {
+      sessionStorage.setItem('flag', true)
+      await User.getRefreshToken()
+      const result = await refreshRequest(store.state.refreshOptions)
+      return result
+    }
   }
 
 
   Vue.prototype.$message({
-    message: stateCode[error_code] || '未知的error_code',
+    message: msg || '未知的error_code',
     type: 'error',
   })
-  return ''
+  throw new Error(res)
 }
 
 export function handleError(error) {
