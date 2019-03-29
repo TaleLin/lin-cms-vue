@@ -1,69 +1,54 @@
 <template>
   <div class="nav-title">
-    <a class="item"
-       v-for="(item) in titleArr"
-       style="cursor: default;"
-       :key="item.path">
+    <a
+      class="item"
+      v-for="(item, index) in titleArr"
+      style="cursor: default;"
+      :key="index">
       <!-- <i v-if="index===0"
          :class="item.meta.icon"></i> -->
-      <p>{{item.meta.title}}</p>
+      <p>{{item}}</p>
     </a>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 export default {
   data() {
-    return {
-      titleArr: [],
-    }
+    return {}
   },
-  created() { },
-  mounted() {
-    const to = this.$route
-    // eslint-disable-next-line
-    for (const i in to.matched) {
-      if (to.matched[i].path) {
-        this.titleArr.push({
-          path: to.matched[i].path,
-          meta: to.matched[i].meta,
-        })
-      }
-    }
-  },
-
-  watch: {
-    $route(to) {
-      this.titleArr = []
-      // eslint-disable-next-line
-      for (const i in to.matched) {
-        if (to.matched[i].path) {
-          this.titleArr.push({
-            path: to.matched[i].path,
-            meta: to.matched[i].meta,
-          })
-        }
-      }
+  computed: {
+    stageInfo() {
+      return this.$store.getters.getStageInfo(this.$route.name)
+    },
+    titleArr() {
+      return this.stageInfo.map(item => item.title).filter(item => !!item)
     },
   },
-  components: {},
+  // created() {},
+  // mounted() {},
+  // watch: {},
+  // components: {},
 }
 </script>
 
-<style type="text/scss" lang="scss" socped>
+<style lang="scss">
 .nav-title {
   display: flex;
   align-items: center;
   font-size: 14px;
+
   .item {
     i {
       margin-right: 4px;
     }
+
     display: flex;
     align-items: center;
     padding-right: 18px;
     position: relative;
     color: rgba(89, 108, 142, 1);
+
     &:after {
       content: "/";
       position: absolute;
@@ -71,9 +56,11 @@ export default {
       right: 6px;
     }
   }
+
   .item:last-child {
     color: #fff;
     padding-right: 0;
+
     &:after {
       content: "";
     }

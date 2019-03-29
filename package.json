@@ -3,25 +3,30 @@
   "version": "0.0.1-alpha.2",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "node script/plugin-get-config.js && vue-cli-service serve",
+    "build": "node script/plugin-get-config.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "plugin-new": "node script/plugin-new.js",
+    "plugin-init": "node script/plugin-init.js",
+    "plugin-reconfig": "node script/plugin-get-config.js",
     "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact"
   },
   "dependencies": {
-    "vue": "^2.6.6",
     "@babel/polyfill": "^7.2.5",
     "axios": "~0.18.0",
     "better-scroll": "^1.13.2",
     "element-ui": "~2.4.6",
     "event-source-polyfill": "^0.0.16",
     "fastscan": "^1.0.4",
+    "file-saver": "^2.0.1",
     "good-storage": "^1.1.0",
     "js-cookie": "^2.2.0",
+    "vue": "^2.6.8",
     "vue-awesome-swiper": "^3.1.3",
     "vue-router": "~3.0.1",
     "vuex": "~3.0.1",
-    "vuex-persist": "^2.0.0"
+    "vuex-persist": "^2.0.0",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
@@ -30,12 +35,23 @@
     "@vue/eslint-config-airbnb": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-component": "^1.1.1",
+    "chalk": "^2.4.2",
+    "child_process": "^1.0.2",
+    "cz-conventional-changelog": "^2.1.0",
+    "directory-tree": "^2.2.1",
+    "ejs": "^2.6.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
-    "cz-conventional-changelog": "^2.1.0",
+    "fs-extra": "^7.0.1",
+    "inquirer": "^6.2.2",
+    "js-yaml": "^3.12.2",
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.5.21"
+    "semver": "^5.6.0",
+    "shelljs": "^0.8.3",
+    "validate-npm-package-name": "^3.0.0",
+    "vue-template-compiler": "^2.6.8",
+    "yaml-front-matter": "^4.0.0"
   },
   "postcss": {
     "plugins": {

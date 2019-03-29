@@ -26,10 +26,6 @@ export default {
     }
   },
 
-  [types.ADD_MENU_TAB](state, tabs) {
-    state.menuTabs = tabs
-  },
-
   [types.REMOVE_TAB](state, payload) {
     state.tabs.splice(payload, 1)
   },
@@ -54,14 +50,6 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  [types.SET_SIDEBAR_LIST](state, payload) {
-    state.sideBarList = payload
-  },
-
-  [types.SET_STOP_TIME](state, currentTime) {
-    state.stopTime = currentTime
-  },
-
   [types.SET_USER_AUTHS](state, auths) {
     const _auths = []
     for (let i = 0; i < auths.length; i++) {
@@ -73,5 +61,9 @@ export default {
       }
     }
     state.auths = _auths
+  },
+
+  [types.SET_REFERSH_OPTION](state, option) {
+    state.refreshOptions = option
   },
 }

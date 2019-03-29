@@ -1,6 +1,22 @@
-@import '../styles/font';
-@import '../styles/reset';
-@import '../styles/animation';
-@import '../styles/transition';
-@import '../styles/global';
-@import '../styles/elementUi';
+@import './realize/font';
+@import './realize/reset';
+@import './realize/animation';
+@import './realize/transition';
+@import './realize/global';
+@import './realize/elementUi';
+
+.lin-container {
+  .lin-title {
+    height: 59px;
+    line-height: 59px;
+    color: $parent-title-color;
+    font-size: 16px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    text-indent: 40px;
+  }
+
+  .lin-wrap {
+    padding: 20px;
+  }
+}

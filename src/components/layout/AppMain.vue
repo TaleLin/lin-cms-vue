@@ -1,18 +1,15 @@
 <template>
   <section class="container">
-    <!-- <keep-alive :include="cachePage"> -->
-    <div class="wrapper">
+    <div class="wrapper" id="wrapper">
       <transition name="fade-transform"
                   mode="out-in">
         <router-view></router-view>
       </transition>
     </div>
-    <!-- </keep-alive> -->
   </section>
 </template>
 
 <script>
-
 export default {
   name: 'AppMain',
   data() {
@@ -21,10 +18,20 @@ export default {
       flag: true,
     }
   },
+  watch: {
+    $route(to) {
+      if (to.meta.blueBaseColor) {
+        console.log('blueBaseColor')
+        document.getElementById('wrapper').style.background = '#273B6F'
+      } else {
+        document.getElementById('wrapper').style.background = '#fff'
+      }
+    },
+  },
 }
 </script>
 
-<style scoped type="text/scss" lang="scss">
+<style lang="scss" scoped>
 .container {
   .wrapper {
     width: 100%;
@@ -33,6 +40,7 @@ export default {
     border-top-right-radius: 10px;
     background: #ffffff;
     text-align: left;
+    overflow-y: hidden;
   }
 }
 </style>

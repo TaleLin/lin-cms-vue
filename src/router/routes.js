@@ -1,8 +1,5 @@
 import Home from '@/views/home/Home'
-
 import homeRouter from './home-router'
-
-const Login = () => import('@/views/login/Login')
 
 const routes = [
   {
@@ -17,7 +14,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: Login,
+    component: () => import('@/views/login/Login'),
   },
 ]
 

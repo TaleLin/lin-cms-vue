@@ -1,29 +1,21 @@
 <template>
-  <div class="container"
-       v-loading="loading">
+  <div class="container" v-loading="loading">
     <div class="group">
       <div class="label">
         <label>{{title}}</label>
       </div>
       <div class="details">
 
-        <div class="permissions-box"
-             v-for="(auth,index) in allAuths"
-             :key="index">
+        <div class="permissions-box" v-for="(auth,index) in allAuths" :key="index">
           <el-checkbox-group v-model="auths">
             <div class="module-box">
-              <el-checkbox @change="moduleCheck($event, auth)"
-                           class="module"
-                           :label="index">
+              <el-checkbox @change="moduleCheck($event, auth)" class="module" :label="index">
               </el-checkbox>
             </div>
 
             <ul class="permissions-ul">
-              <li class="permissions-li"
-                  v-for="(item,key) in auth"
-                  :key="key">
-                <el-checkbox :label="key"
-                             @change="singleCheck($event, key, index)"></el-checkbox>
+              <li class="permissions-li" v-for="(item,key) in auth" :key="key">
+                <el-checkbox :label="key" @change="singleCheck($event, key, index)"></el-checkbox>
               </li>
             </ul>
           </el-checkbox-group>
@@ -79,14 +71,14 @@ export default {
       this.$emit('updateAllAuths', this.allAuths)
     },
     // 弹窗打开时，判断某一分类权限是否全部选中
-    initModuleCheck (moduleName) {
+    initModuleCheck(moduleName) {
       const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName])
       const intersect = Utils.getIntersect(currentModuleChildrenArr, this.auths)
       if (intersect.length === currentModuleChildrenArr.length) {
         this.auths.push(moduleName)
       }
     },
-    moduleCheck (checked, auth) {
+    moduleCheck(checked, auth) {
       const authArr = Object.keys(auth)
       if (checked) {
         this.auths.push(...authArr)
@@ -95,7 +87,7 @@ export default {
       }
       this.$emit('updateAuths', this.auths)
     },
-    singleCheck (checked, singleAuth, moduleName) {
+    singleCheck(checked, singleAuth, moduleName) {
       const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName])
       const intersect = Utils.getIntersect(currentModuleChildrenArr, this.auths)
       if (intersect.length === currentModuleChildrenArr.length) {
@@ -109,7 +101,7 @@ export default {
       this.$emit('updateAuths', this.auths)
     },
   },
-  async created () {
+  async created() {
     try {
       this.loading = true
       await this.getGroupAuths()
@@ -122,15 +114,17 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .group {
   margin-left: -95px;
+
   .label {
     margin-bottom: 10px;
     width: 70px;
     margin-left: 20px;
     float: left;
     font-weight: 500;
+
     label {
       color: #333333;
       font-size: 14px;
@@ -139,6 +133,7 @@ export default {
       height: 20px;
       line-height: 20px;
     }
+
     .necessary {
       color: #e46a76;
       font-size: 14px;
@@ -147,11 +142,13 @@ export default {
       font-size: 16px;
     }
   }
+
   .details {
     display: inline-block;
     width: calc(100% - 95px);
     margin-top: 5px;
     margin-left: 5px;
+
     .text-input {
       height: 40px;
       width: 780px;
@@ -159,6 +156,7 @@ export default {
       border-radius: 2px;
       border: 1px solid #dee2e6;
       text-indent: 20px;
+
       &::placeholder {
         font-size: 14px;
         font-family: PingFangSC-Regular;
@@ -167,6 +165,7 @@ export default {
         text-indent: 20px;
       }
     }
+
     .permissions-box {
       .module {
         height: 20px;
@@ -176,6 +175,7 @@ export default {
         line-height: 20px;
         margin-bottom: 10px;
       }
+
       .permissions-ul {
         display: flex;
         flex-direction: row;
@@ -183,6 +183,7 @@ export default {
         padding: 20px 20px 0;
         background: #f5f5f6;
         margin-bottom: 20px;
+
         .permissions-li {
           width: 333px;
           height: 20px;
@@ -192,10 +193,12 @@ export default {
           flex-direction: row;
           justify-content: flex-start;
           vertical-align: text-top;
+
           .check {
             transform: translateY(2px);
             margin-right: 5px;
           }
+
           .permissions-name {
             height: 20px;
             font-size: 14px;

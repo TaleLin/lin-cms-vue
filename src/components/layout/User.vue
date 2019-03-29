@@ -2,74 +2,57 @@
   <div class="user">
     <el-dropdown>
       <span class="el-dropdown-link">
-        <img src="../../assets/img/user/user.png"
-             alt="管理员头像"
-             class="nav-avatar">
+        <img src="../../assets/img/user/user.png" alt="管理员头像" class="nav-avatar">
       </span>
-      <el-dropdown-menu slot="dropdown"
-                        class="user-box"
-                        style="border:none;
-                        background-color:none;
-                        background:transparent;
-                        margin-bottom:0;
-                        padding-bottom:0;">
+      <el-dropdown-menu slot="dropdown" class="user-box" style="border:none;
+        background-color:none;
+        background:transparent;
+        margin-bottom:0;
+        padding-bottom:0;">
         <div class="user-info">
-          <img src="../../assets/img/user/user.png"
-               class="avatar"
-               alt="管理员头像">
+          <img src="../../assets/img/user/user.png" class="avatar" alt="管理员头像">
           <div class="text">
             <div class="username">{{nickname}}</div>
             <div class="desc">{{title}}</div>
           </div>
         </div>
         <ul class="dropdown-box">
-          <li class=" password"
-              @click="changePassword">
+          <li class=" password" @click="changePassword">
             <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i>
             <span>修改登录密码</span>
           </li>
-          <li class="account"
-              @click="outLogin">
+          <li class="account" @click="outLogin">
             <i class="iconfont icon-tuichu"></i>
             <span>退出账户</span>
           </li>
         </ul>
       </el-dropdown-menu>
     </el-dropdown>
-    <el-dialog title="修改密码"
-               :append-to-body="true"
-               :before-close="handleClose"
-               :visible.sync="dialogFormVisible">
+    <el-dialog
+      title="修改密码"
+      :append-to-body="true"
+      :before-close="handleClose"
+      :visible.sync="dialogFormVisible">
       <lin-1px style="margin-top:-20px;margin-bottom:20px;"></lin-1px>
-      <el-form :model="form"
-               status-icon
-               :rules="rules"
-               label-position="left"
-               ref="form"
-               label-width="100px">
-        <el-form-item label="原始密码"
-                      prop="old_password">
-          <el-input type="password"
-                    v-model="form.old_password"
-                    autocomplete="off"></el-input>
+      <el-form
+        :model="form"
+        status-icon
+        :rules="rules"
+        label-position="left"
+        ref="form"
+        label-width="100px">
+        <el-form-item label="原始密码" prop="old_password">
+          <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="新密码"
-                      prop="new_password">
-          <el-input type="password"
-                    v-model="form.new_password"
-                    autocomplete="off"></el-input>
+        <el-form-item label="新密码" prop="new_password">
+          <el-input type="password" v-model="form.new_password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码"
-                      prop="confirm_password"
-                      label-position="top">
-          <el-input type="password"
-                    v-model="form.confirm_password"
-                    autocomplete="off"></el-input>
+        <el-form-item label="确认密码" prop="confirm_password" label-position="top">
+          <el-input type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary"
-                     @click="submitForm('form')">保存</el-button>
-          <el-button @click="resetForm('form')">重置</el-button>
+          <l-button type="primary" @click="submitForm('form')">保存</l-button>
+          <l-button @click="resetForm('form')">重置</l-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -132,9 +115,8 @@ export default {
   },
   methods: {
     init() {
-      this.nickname = this.$store.state.user
-        ? this.$store.state.user.nickname
-        : '未登录'
+      const { user } = this.$store.state
+      this.nickname = user ? user.nickname : '未登录'
     },
     changePassword() {
       this.dialogFormVisible = true
@@ -178,7 +160,7 @@ export default {
   },
   computed: {
     title() {
-      const { isSuper } = this.user
+      const { isSuper } = this.user || {}
       if (isSuper) {
         return '超级管理员'
       }
@@ -192,11 +174,11 @@ export default {
 }
 </script>
 
-<style type="text/scss" lang="scss" socped>
-@import "~assets/styles/variable.scss";
+<style lang="scss">
 
 .el-dropdown-link {
   cursor: pointer;
+
   .nav-avatar {
     width: 40px;
     height: 40px;
@@ -207,6 +189,7 @@ export default {
 .user-box {
   width: 326px;
   border: none;
+
   .user-info {
     background-image: url("../../assets/img/user/user-bg.png");
     background-size: 100% 100%;
@@ -217,26 +200,31 @@ export default {
     flex-direction: row;
     padding: 35px 20px 25px 30px;
     z-index: 100;
+
     .avatar {
       width: 80px;
       height: 80px;
     }
+
     .text {
       margin-left: 20px;
       color: #fff;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
       .username {
         margin-bottom: 10px;
         font-size: 16px;
       }
+
       .desc {
         font-size: 14px;
         color: rgba(222, 226, 230, 1);
       }
     }
   }
+
   .dropdown-box {
     display: flex;
     flex-direction: column;
@@ -247,19 +235,25 @@ export default {
     font-size: 14px;
     background: white;
     margin-top: -3px;
+
     li {
       cursor: pointer;
+
       &:nth-child(1) {
         margin-top: 20px;
       }
+
       &:nth-child(2) {
         margin-bottom: 20px;
       }
+
       i {
         margin-right: 10px;
       }
+
       &:hover {
         color: $theme !important;
+
         i {
           color: $theme !important;
         }
@@ -267,6 +261,7 @@ export default {
     }
   }
 }
+
 .popper__arrow {
   display: none !important;
 }

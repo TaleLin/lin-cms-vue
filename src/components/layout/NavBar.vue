@@ -2,11 +2,10 @@
   <div class="app-nav-bar">
 
     <div class="nav-content">
-      <breadcrumb></breadcrumb>
+      <breadcrumb />
       <!-- 暂时放这里 -->
       <div class="right-info">
-        <notify v-auth="'消息推送'"
-                v-show="false" />
+        <notify v-auth="'消息推送'" v-show="false" />
         <user></user>
       </div>
     </div>
@@ -20,7 +19,7 @@ import User from './User'
 
 export default {
   name: 'NavBar',
-  created() { },
+  created() {},
   components: {
     Breadcrumb,
     User,
@@ -29,18 +28,20 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .app-nav-bar {
   width: 100%;
   height: $navbar-height;
   background-color: $navbar-background;
   display: flex;
   align-items: center;
+
   .logo.js-min-logo {
     width: 64px;
     font-size: 16px;
     color: #fff;
   }
+
   .nav-content {
     flex: 1;
     height: 100%;
@@ -49,6 +50,7 @@ export default {
     justify-content: space-between;
     padding-left: 10px;
     padding-right: $navbar-padding;
+
     .right-info {
       display: flex;
       align-items: center;

@@ -5,70 +5,71 @@
       <!-- 分组选择下拉框 -->
       <el-dropdown @command="handleCommand">
         <el-button>
-          {{groupType}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{groupType}}
+          <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item :command="[undefined,'全部分组']">全部分组</el-dropdown-item>
-          <el-dropdown-item v-for="(group, index) in groups"
-                            :key="index"
-                            :command="[group.id,group.name]">{{group.name}}</el-dropdown-item>
+          <el-dropdown-item
+          v-for="(group, index) in groups"
+          :key="index"
+          :command="[group.id,group.name]">
+            {{group.name}}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <!-- 表格 -->
-    <lin-table :tableColumn="tableColumn"
-               :tableData="tableData"
-               :operate="operate"
-               @handleEdit="handleEdit"
-               @handleDelete="handleDelete"
-               @row-click="rowClick"
-               v-loading="loading"></lin-table>
+    <lin-table
+      :tableColumn="tableColumn"
+      :tableData="tableData"
+      :operate="operate"
+      @handleEdit="handleEdit"
+      @handleDelete="handleDelete"
+      @row-click="rowClick"
+      v-loading="loading"></lin-table>
     <!-- 分页 -->
     <div class="pagination">
-      <el-pagination @current-change="handleCurrentChange"
-                     :background="true"
-                     :page-size="pageCount"
-                     :current-page="currentPage"
-                     v-if="refreshPagination"
-                     layout="prev, pager, next, jumper"
-                     :total="total_nums">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :background="true"
+        :page-size="pageCount"
+        :current-page="currentPage"
+        v-if="refreshPagination"
+        layout="prev, pager, next, jumper"
+        :total="total_nums">
       </el-pagination>
     </div>
     <!-- 弹窗 -->
-    <el-dialog :append-to-body="true"
-               :before-close="handleClose"
-               :visible.sync="dialogFormVisible">
+    <el-dialog :append-to-body="true" :before-close="handleClose" :visible.sync="dialogFormVisible">
       <div style="margin-top:-25px;">
-        <el-tabs v-model="activeTab"
-                 @tab-click="handleClick">
-          <el-tab-pane label="修改信息"
-                       name="修改信息">
-            <user-info ref="userInfo"
-                       v-if="dialogFormVisible"
-                       @handleInfoResult="handleInfoResult"
-                       labelPosition="right"
-                       pageType="edit"
-                       :id="id"
-                       :groups="groups"
-                       :info="form"
-                       :submit="false"
-                       class="info" />
+        <el-tabs v-model="activeTab" @tab-click="handleClick">
+          <el-tab-pane label="修改信息" name="修改信息">
+            <user-info
+              ref="userInfo"
+              v-if="dialogFormVisible"
+              @handleInfoResult="handleInfoResult"
+              labelPosition="right"
+              pageType="edit"
+              :id="id"
+              :groups="groups"
+              :info="form"
+              :submit="false"
+              class="info" />
           </el-tab-pane>
-          <el-tab-pane label="修改密码"
-                       name="修改密码">
-            <user-password @handlePasswordResult="handlePasswordResult"
-                           ref="password"
-                           :id="id"
-                           class="password" />
+          <el-tab-pane label="修改密码" name="修改密码">
+            <user-password
+              @handlePasswordResult="handlePasswordResult"
+              ref="password"
+              :id="id"
+              class="password" />
           </el-tab-pane>
         </el-tabs>
       </div>
       <!-- 按键操作 -->
-      <div slot="footer"
-           class="dialog-footer">
-        <el-button type="primary"
-                   @click="confirmEdit">确 定</el-button>
-        <el-button @click="resetForm">重 置</el-button>
+      <div slot="footer" class="dialog-footer">
+        <l-button type="primary" @click="confirmEdit">确 定</l-button>
+        <l-button @click="resetForm">重 置</l-button>
 
       </div>
     </el-dialog>
@@ -77,7 +78,7 @@
 
 <script>
 import Admin from '@/lin/models/admin'
-import LinTable from '@/base/table/lin-table'
+import LinTable from '@/components/base/table/lin-table'
 import UserInfo from './UserInfo'
 import UserPassword from './UserPassword'
 
@@ -143,7 +144,7 @@ export default {
       let selectedData
       // 单击 编辑按键
       if (val.index >= 0) {
-        selectedData = val.row[val.index]
+        selectedData = val.row
       } else {
         // 单击 table row
         selectedData = val
@@ -178,7 +179,7 @@ export default {
       }).then(async () => {
         try {
           this.loading = true
-          res = await Admin.deleteOneUser(val.row[val.index].id)
+          res = await Admin.deleteOneUser(val.row.id)
         } catch (e) {
           this.loading = false
           console.log(e)
@@ -247,7 +248,7 @@ export default {
     await this.getAdminUsers()
     await this.getAllGroups()
     this.tableColumn = [{ prop: 'nickname', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
+    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     // 监听添加用户是否成功
     this.eventBus.$on('addUser', async (flag) => {
       if (flag === true) {
@@ -264,14 +265,17 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
-@import "~assets/styles/variable.scss";
+
 .container {
   padding: 0 30px;
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .title {
       height: 59px;
       line-height: 59px;
@@ -281,16 +285,19 @@ export default {
       font-weight: 500;
     }
   }
+
   .pagination {
     display: flex;
     justify-content: flex-end;
     margin: 20px;
   }
 }
+
 .info {
   margin-left: -55px;
   margin-bottom: -40px;
 }
+
 .password {
   margin-top: 20px;
   margin-left: -55px;
