@@ -84,10 +84,6 @@ export default {
       this.showReuseTab = !this.showReuseTab
       this.upState = !this.upState
       this.$refs.appMain.$el.style.minHeight = this.showReuseTab === false ? `${this.clientHeight - navBarHeight - marginHeight + 20}px` : `${this.clientHeight - totalHeight + 20}px`
-      // 因为动画效果有延时，所以需要重新渲染scroll
-      setTimeout(() => {
-        this.$refs.scroll.refresh()
-      }, 400)
     },
     // 响应页面的宽度高度变化
     setResize() {
