@@ -14,7 +14,7 @@
               {{searchUser}}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="['全部人员']">全部分组</el-dropdown-item>
+              <el-dropdown-item :command="['全部人员']"></el-dropdown-item>
               <el-dropdown-item
                 v-for="(user, index) in users"
                 :key="index"
@@ -100,7 +100,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['auths']),
+    ...mapGetters(['auths', 'user']),
   },
   async created() {
     this.loading = true
@@ -173,7 +173,7 @@ export default {
     // 页面初始化
     async initPage() {
       try {
-        if (this.auths.includes('查询日志记录的用户')) {
+        if (this.user.isSuper || this.auths.includes('查询日志记录的用户')) {
           this.users = await log.getLoggedUsers({})
         }
         const res = await log.getLogs({ page: 0 })
