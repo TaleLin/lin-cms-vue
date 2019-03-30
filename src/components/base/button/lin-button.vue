@@ -151,7 +151,7 @@ export default {
     opacity: 0.5;
     cursor: not-allowed;
   }
-
+  
   .loading {
     opacity: 0.5;
     @include spin;
@@ -234,7 +234,7 @@ export default {
       border: 1px solid $button-danger-bg;
     }
   }
-
+  
   &.circle {
     border-radius: 50%;
     min-width: $button-height;
