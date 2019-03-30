@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import './iconfont.js'
 
 export default {
   name: 'LIcon',

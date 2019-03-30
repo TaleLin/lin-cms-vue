@@ -65,7 +65,6 @@
 
 <script>
 import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
 import LinButton from '../button/lin-button'
 
 export default {
@@ -305,8 +304,8 @@ export default {
     },
     // 导出excel
     exportExcel(fileName = 'sheet') {
-      const targetTable = XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+      const writeTable = this.$XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
       try {
         FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
       } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
@@ -314,8 +313,8 @@ export default {
     },
     // 导出csv
     exportCsv(fileName = 'sheet') {
-      const targetTable = XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
+      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+      const writeTable = this.$XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
       try {
         FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.csv`)
       } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }

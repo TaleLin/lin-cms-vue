@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
+import XLSX from 'xlsx'
 
 import Lin1px from '@/components/base/line/lin-1px'
 import LButton from '@/components/base/button/lin-button'
@@ -37,6 +37,7 @@ Vue.component('l-icon', LIcon)
 
 Vue.use(GlobalMixin)
 Vue.use(AuthorizeDirective)
+Vue.prototype.$XLSX = XLSX
 
 /* eslint no-unused-vars: 0 */
 new Vue({
