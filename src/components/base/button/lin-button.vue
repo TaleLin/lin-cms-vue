@@ -4,17 +4,25 @@
     :class="{[`icon-${iconPosition}`]: true, [`l-button--${type}`]: true,clearMargin: !$slots.default, disabled, ripple, plain, circle}"
     @click="onClick()"
     @mouseover="mouseover()"
-    @mouseout="mouseout()"
-  >
-    <l-icon ref="icon" class="icon" v-if="icon && !loading" :name="icon"/>
-    <l-icon ref="icon" class="loading icon" v-if="loading" name="icon-sync"/>
+    @mouseout="mouseout()">
+    <l-icon
+      ref="icon"
+      class="icon"
+      v-if="icon && !loading"
+      :name="icon" />
+    <l-icon
+      ref="icon"
+      class="loading icon"
+      v-if="loading"
+      name="icon-sync" />
     <div class="l-button-content">
-      <slot/>
+      <slot />
     </div>
   </button>
 </template>
+
 <script>
-import LIcon from "../icon/l-icon";
+import LIcon from "../icon/lin-icon";
 export default {
   name: "LinButton",
   components: {
@@ -23,29 +31,29 @@ export default {
   props: {
     type: {
       type: String,
-      default: "default"
+      default: "default"  // 按键背景色
     },
-    plain: {
+    plain: { 
       type: Boolean,
-      default: false
+      default: false // 线宽按钮
     },
     circle: {
       type: Boolean,
-      default: false
+      default: false // 圆形按钮
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false // 禁用按钮
     },
     icon: {
       type: String,
-      default: ""
+      default: "" // 图标
     },
     loading: {
       type: Boolean,
-      default: false
+      default: false // 加载效果
     },
-    iconPosition: {
+    iconPosition: { // icon位置
       type: String,
       default: "left",
       validator(value) {
@@ -82,8 +90,10 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 @import "./button.scss";
+
 .l-button {
   font-size: $font-size;
   height: $button-height;
@@ -98,142 +108,167 @@ export default {
   vertical-align: middle;
   min-width: $button-height;
   cursor: pointer;
+
   &:focus {
     outline: none;
   }
-  &:hover {
-    background: $button-primary-bg;
-    color: #fff;
-    border: 1px solid $button-primary-bg;
-  }
-  > .l-button-content {
+
+  >.l-button-content {
     order: 2;
   }
-  > .icon {
+
+  >.icon {
     order: 1;
     margin-right: 0.4em;
   }
 
   &.icon-right {
-    > .l-button-content {
+    >.l-button-content {
       order: 1;
     }
-    > .icon {
+
+    >.icon {
       order: 2;
       margin-right: 0;
       margin-left: 0.4em;
     }
   }
+
   &.clearMargin {
     padding: 0;
-    > .icon {
+
+    >.icon {
       margin-right: 0;
       margin-left: 0;
     }
   }
+
   &.circle {
     border-radius: 50%;
   }
+
   &.disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
+
   .loading {
     opacity: 0.5;
     @include spin;
   }
 }
-.l-button + .l-button {
+
+.l-button+.l-button {
   margin-left: 10px;
 }
+
 .l-button--primary {
   background: $button-primary-bg;
   color: #fff;
   border: 1px solid $button-primary-bg;
+
   &.plain {
     color: $button-primary-plain-color;
     background: #fff;
     border: 1px solid $button-primary-plain-color;
-    &:hover {
+
+    &:hover:not(.disabled) {
       background: $button-primary-bg;
       color: #fff;
       border: 1px solid $button-primary-bg;
     }
   }
+
   &.circle {
     border-radius: 50%;
     min-width: $button-height;
   }
-  &:hover {
+
+  &:hover:not(.disabled) {
     background: #0037ad;
     border: 1px solid #0037ad;
   }
 }
+
 .l-button--success {
   background: $button-success-bg;
   color: #fff;
   border: 1px solid $button-success-bg;
+
   &.plain {
     color: $button-success-plain-color;
     background: #fff;
     border: 1px solid $button-success-plain-color;
-    &:hover {
+
+    &:hover:not(.disabled) {
       background: $button-success-bg;
       color: #fff;
       border: 1px solid $button-success-bg;
     }
   }
+
   &.circle {
     border-radius: 50%;
     min-width: $button-height;
   }
-  &:hover {
+
+  &:hover:not(.disabled) {
     background: #009d72;
     border: 1px solid #009d72;
   }
 }
+
 .l-button--danger {
   background: $button-danger-bg;
   color: #fff;
   border: 1px solid $button-danger-bg;
+
   &.plain {
     color: $button-danger-plain-color;
     background: #fff;
     border: 1px solid $button-danger-plain-color;
-    &:hover {
+
+    &:hover:not(.disabled) {
       background: $button-danger-bg;
       color: #fff;
       border: 1px solid $button-danger-bg;
     }
   }
+
   &.circle {
     border-radius: 50%;
     min-width: $button-height;
   }
-  &:hover {
+
+  &:hover:not(.disabled) {
     background: #d62f40;
     border: 1px solid #d62f40;
   }
 }
+
 .l-button--info {
   background: $button-info-bg;
   color: #fff;
   border: 1px solid $button-info-bg;
+
   &.plain {
     color: $button-info-plain-color;
     background: #fff;
     border: 1px solid $button-info-plain-color;
-    &:hover {
+
+    &:hover:not(.disabled) {
       background: $button-info-bg;
       color: #fff;
       border: 1px solid $button-info-bg;
     }
   }
+
   &.circle {
     border-radius: 50%;
     min-width: $button-height;
   }
-  &:hover {
+
+  &:hover:not(.disabled) {
     background: #bfcbd7;
     border: 1px solid #bfcbd7;
   }
@@ -243,6 +278,7 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
 /*button 水波纹点击效果*/
 .ripple:after {
   content: "";

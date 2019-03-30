@@ -7,7 +7,7 @@ import XLSX from 'xlsx'
 import Lin1px from '@/components/base/line/lin-1px'
 import LButton from '@/components/base/button/lin-button'
 import LButtonGroup from '@/components/base/button/lin-button-group'
-import LIcon from '@/components/base/icon/l-icon'
+import LIcon from '@/components/base/icon/lin-icon'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import GlobalMixin from 'lin/mixin/global'

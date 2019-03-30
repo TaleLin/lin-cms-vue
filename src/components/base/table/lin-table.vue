@@ -41,13 +41,13 @@
         fixed="right"
         width="175">
         <template slot-scope="scope">
-          <lin-button
+          <l-button
             v-for="(item,index) in operate"
             :type="item.type"
             :key="index"
             v-auth="item.auth ? item.auth : ''"
             @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}
-          </lin-button>
+          </l-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,12 +65,8 @@
 
 <script>
 import FileSaver from 'file-saver'
-import LinButton from '../button/lin-button'
 
 export default {
-  components: {
-    LinButton,
-  },
   props: {
     tableColumn: {
       // 表头名称
@@ -142,9 +138,6 @@ export default {
       type: [Object, Boolean],
       default: false,
     },
-  },
-  components: { // eslint-disable-line
-    LinButton,
   },
   data() {
     return {
