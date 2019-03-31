@@ -18,7 +18,8 @@
             :model="form"
             status-icon
             ref="form"
-            label-width="100px">
+            label-width="100px"
+            @submit.native.prevent>
             <el-form-item label="书名" prop="title">
               <el-input v-model="form.title" placeholder="请填写书名"></el-input>
             </el-form-item>
