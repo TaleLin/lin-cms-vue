@@ -41,13 +41,13 @@
         fixed="right"
         width="175">
         <template slot-scope="scope">
-          <lin-button
+          <l-button
             v-for="(item,index) in operate"
             :type="item.type"
             :key="index"
             v-auth="item.auth ? item.auth : ''"
             @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}
-          </lin-button>
+          </l-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,13 +65,8 @@
 
 <script>
 import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
-import LinButton from '../button/lin-button'
 
 export default {
-  components: {
-    LinButton,
-  },
   props: {
     tableColumn: {
       // 表头名称
@@ -143,9 +138,6 @@ export default {
       type: [Object, Boolean],
       default: false,
     },
-  },
-  components: { // eslint-disable-line
-    LinButton,
   },
   data() {
     return {
@@ -305,8 +297,8 @@ export default {
     },
     // 导出excel
     exportExcel(fileName = 'sheet') {
-      const targetTable = XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
+      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+      const writeTable = this.$XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
       try {
         FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
       } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
@@ -314,8 +306,8 @@ export default {
     },
     // 导出csv
     exportCsv(fileName = 'sheet') {
-      const targetTable = XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
+      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+      const writeTable = this.$XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
       try {
         FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.csv`)
       } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
