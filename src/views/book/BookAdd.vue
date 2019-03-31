@@ -13,7 +13,8 @@
             :model="form"
             status-icon
             ref="form"
-            label-width="100px">
+            label-width="100px"
+            @submit.native.prevent>
             <el-form-item label="书名" prop="title">
               <el-input v-model="form.title" placeholder="请填写书名"></el-input>
             </el-form-item>
@@ -60,10 +61,14 @@ export default {
   },
   methods: {
     async submitForm(formName) {
-      const res = await book.addBook(this.form)
-      if (res.error_code === 0) {
-        this.$message.success(`${res.msg}`)
-        this.resetForm(formName)
+      try {
+        const res = await book.addBook(this.form)
+        if (res.error_code === 0) {
+          this.$message.success(`${res.msg}`)
+          this.resetForm(formName)
+        }
+      } catch (error) {
+        console.log(error)
       }
     },
     // 重置表单

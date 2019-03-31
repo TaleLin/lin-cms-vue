@@ -13,7 +13,8 @@
           :label-position="labelPosition"
           ref="form"
           v-loading="loading"
-          label-width="100px">
+          label-width="100px"
+          @submit.native.prevent>
           <el-form-item label="用户名" prop="nickname">
             <el-input clearable v-model="form.nickname" :disabled="isEdited"></el-input>
           </el-form-item>
