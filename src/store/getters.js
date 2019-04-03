@@ -44,7 +44,7 @@ export const sideBarList = (state) => {
   const { stageConfig, auths, user } = state // eslint-disable-line
   const shookConfig = permissionShaking(stageConfig, auths, user)
 
-  function deepTravel(target, level = 2) {
+  function deepTravel(target, level = 3) {
     // 集合节点处理
     if (Array.isArray(target)) {
       const acc = target.map(item => deepTravel(item, (level - 1)))

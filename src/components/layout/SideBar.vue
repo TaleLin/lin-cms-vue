@@ -24,22 +24,47 @@
             :index="indexToString(index++)"
             popper-class="abc">
             <template slot="title">
-              <!-- <img v-if="item.meta.src" :src="item.meta.src" class="imgIcon" />
-              <i v-else :class="item.meta.icon"></i> -->
-              <i :class="item.icon"/>
+              <i v-if="!filterIcon(item.icon)" :class="item.icon" ></i>
+              <img v-else :src="item.icon" class="imgIcon" />
               <span slot="title">{{item.title}}</span>
             </template>
+            <!-- 二级 -->
             <el-menu-item-group>
-              <router-link
-                v-for="(subItem, subIndex) in item.children"
-                :to="subItem.path"
-                :key="'sidenav_' + index + subIndex">
-                <el-menu-item
-                  :index="index - 1 + '-' + indexToString(subIndex++)"
-                  style="padding-left: 60px;">
-                  {{subItem.title}}
-                </el-menu-item>
-              </router-link>
+              <template v-for="(subItem, subIndex) in item.children">
+                <el-submenu
+                  v-if="subItem.children"
+                  :key="subIndex"
+                >
+                <template slot="title">
+                  <i class="iconfont icon-erjizhibiao"></i>
+                  <span slot="title">{{subItem.title}}</span>
+                </template>
+                <!-- 三级 -->
+                <el-menu-item-group style="background: #122150">
+                  <router-link
+                  v-for="(grandchildItem, grandchildIndex) in subItem.children"
+                  :key="grandchildIndex"
+                  :to="grandchildItem.path">
+                    <el-menu-item
+                      :index="index - 1 + '-' + indexToString(subIndex++) + indexToString(grandchildIndex++)"
+                      style="padding-left: 60px;transform: translateX(20px)">
+                      {{grandchildItem.title}}
+                    </el-menu-item>
+                  </router-link>
+                </el-menu-item-group>
+
+                </el-submenu>
+                <router-link
+                  :to="subItem.path"
+                  :key="'sidenav_' + index + subIndex"
+                  v-else>
+                  <el-menu-item
+                    :index="index - 1 + '-' + indexToString(subIndex++)"
+                    style="padding-left: 60px;">
+                    {{subItem.title}}
+                  </el-menu-item>
+                </router-link>
+              </template>
             </el-menu-item-group>
           </el-submenu>
           <!-- 分割线 -->
