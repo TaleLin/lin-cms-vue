@@ -42,7 +42,8 @@ function permissionShaking(stageConfig, auths, user) { // eslint-disable-line
 
 export const sideBarList = (state) => {
   const { stageConfig, auths, user } = state // eslint-disable-line
-  const shookConfig = permissionShaking(stageConfig, auths, user)
+  const tempStageConfig = Util.deepClone(stageConfig)
+  const shookConfig = permissionShaking(tempStageConfig, auths, user)
 
   function deepTravel(target, level = 2) {
     // 集合节点处理
