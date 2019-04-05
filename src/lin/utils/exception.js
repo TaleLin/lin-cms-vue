@@ -27,8 +27,9 @@ export async function handleException(res) {
   // 令牌相关，刷新令牌
   if (error_code === 10000 || error_code === 10040 || error_code === 10050) {
     // TODO: 重试一次，待优化
-    if (!sessionStorage.getItem('flag')) {
-      sessionStorage.setItem('flag', true)
+    const cache = {}
+    if (cache.url !== url) {
+      cache.url = url
       await User.getRefreshToken()
       const result = await refreshRequest(store.state.refreshOptions)
       return result

@@ -28,46 +28,46 @@
               <img v-else :src="item.icon" class="imgIcon" />
               <span slot="title">{{item.title}}</span>
             </template>
-            <!-- 二级 -->
-            <el-menu-item-group>
-              <template v-for="(subItem, subIndex) in item.children">
-                <el-submenu
-                  v-if="subItem.children"
-                  :key="subIndex"
-                >
+
+            <!-- 二级菜单 -->
+            <template  v-for="(subItem, subIndex) in item.children">
+              <el-submenu v-if="subItem.children" :key="subItem.title"
+              :index="index + '-' + indexToString(subIndex++)" test>
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
                   <span slot="title">{{subItem.title}}</span>
                 </template>
-                <!-- 三级 -->
-                <el-menu-item-group style="background: #122150">
-                  <router-link
-                  v-for="(grandchildItem, grandchildIndex) in subItem.children"
-                  :key="grandchildIndex"
-                  :to="grandchildItem.path">
-                    <el-menu-item
-                      :index="index - 1 + '-' + indexToString(subIndex++) + indexToString(grandchildIndex++)"
-                      style="padding-left: 60px;transform: translateX(20px)">
-                      {{grandchildItem.title}}
-                    </el-menu-item>
-                  </router-link>
-                </el-menu-item-group>
 
-                </el-submenu>
+                <!-- 三级菜单 -->
                 <router-link
-                  :to="subItem.path"
-                  :key="'sidenav_' + index + subIndex"
-                  v-else>
+                v-for="(grandchildItem, grandchildIndex) in subItem.children"
+                :key="grandchildIndex"
+                :to="grandchildItem.path"
+                class="circle">
                   <el-menu-item
-                    :index="index - 1 + '-' + indexToString(subIndex++)"
-                    style="padding-left: 60px;">
-                    {{subItem.title}}
+                    :index="index + '-' + indexToString(subIndex) + '-' + indexToString(grandchildIndex++)"
+                    style="padding-left: 60px;transform: translateX(20px)">
+                    {{grandchildItem.title}}
                   </el-menu-item>
                 </router-link>
-              </template>
-            </el-menu-item-group>
+              </el-submenu>
+              <!-- 二级else -->
+              <router-link
+                :to="subItem.path"
+                :key="'sidenav_' + index + subIndex"
+                class="circle"
+                v-else>
+                <el-menu-item
+                  :index="index + '-' + indexToString(subIndex++)"
+                  style="padding-left: 60px;">
+                  {{subItem.title}}
+                </el-menu-item>
+              </router-link>
+
+            </template>
           </el-submenu>
-          <!-- 分割线 -->
+
+          <!-- 一级else -->
           <el-menu-item
             :index="indexToString(index++)"
             @click="goto(item.path)"
@@ -96,6 +96,7 @@ export default {
       itemIndex: 0,
     }
   },
+
   methods: {
     goto(path) {
       this.$router.push({
