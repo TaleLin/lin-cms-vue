@@ -1,0 +1,6 @@
+/builds/
+/public/
+/dist/
+/script/.cache
+/*.js
+/node_modules/

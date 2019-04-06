@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <el-date-picker v-model="value"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    align="right"
-                    popper-class="date-box"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    :picker-options="pickerOptions">
+      type="daterange"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
+      align="right"
+      popper-class="date-box"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      :picker-options="pickerOptions">
     </el-date-picker>
   </div>
 </template>

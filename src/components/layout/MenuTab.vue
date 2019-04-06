@@ -8,8 +8,6 @@
           :key="tab.path"
           ref="menuTabs">
           <li ref="tabList" class="menu-li">
-            <!-- <img v-if="tab.src" :src="tab.src" class="imgIcon" />
-            <i v-else :class="tab.icon"></i> -->
             <i :class="tab.icon"/>
             <span class="title">{{tab.title | filterTitle}}</span>
           </li>
