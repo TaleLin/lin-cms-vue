@@ -68,13 +68,11 @@ export default {
     }
   },
   mounted() {
-    this.disabled ? (this.ripple = false) : (this.ripple = true)
+    this.ripple = !!this.disabled
   },
   methods: {
     onClick() {
-      if (this.disabled) {
-
-      } else {
+      if (!this.disabled) {
         this.$emit('click')
       }
     },
