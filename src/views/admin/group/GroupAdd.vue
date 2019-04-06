@@ -16,7 +16,8 @@
             ref="form"
             label-position="right"
             label-width="100px"
-            v-loading="loading">
+            v-loading="loading"
+            @submit.native.prevent>
             <el-form-item label="分组名称" prop="name">
               <el-input clearable v-model="form.name"></el-input>
             </el-form-item>
