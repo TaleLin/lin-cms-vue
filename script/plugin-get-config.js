@@ -5,7 +5,7 @@ const ejs = require('ejs')
 const getAllPlugin = require('./lib/plugin-get-all')
 
 // eslint-disable-next-line
-console.log(chalk.green('开始自动构建插件配置...'));
+console.log(chalk.green('配置插件...'));
 
 const targetDir = path.resolve(__dirname, '../src/config/stage/plugins.js')
 const pluginsPath = path.resolve(__dirname, '../src/plugins')
