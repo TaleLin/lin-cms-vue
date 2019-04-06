@@ -23,7 +23,7 @@ module.exports = {
     'no-plusplus': 0, // 禁止使用++，--
     // 'no-tabs': [o],
     'guard-for-in': 0,
-    // "max-len": ["error", { "code": 200 }],
+    "max-len": ["error", { "code": 200 }],
     "no-restricted-syntax": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["script/**/*.js"]}],
     'no-restricted-syntax': 0,

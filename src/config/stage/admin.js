@@ -14,8 +14,8 @@ const adminRouter = {
       route: '/admin/user/list',
       name: null,
       title: '用户管理',
-      type: 'tab', // 取 route 为默认加载页
-      icon: null,
+      type: 'folder', // 取 route 为默认加载页
+      icon: 'iconfont icon-huiyuanguanli',
       filePath: 'views/admin/user/',
       inNav: true,
       children: [

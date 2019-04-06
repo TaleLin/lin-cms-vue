@@ -1,4 +1,3 @@
-// import pluginConfig from '@/plugins/configs.json'
 import Util from '@/lin/utils/util'
 
 export const logined = state => state.logined
@@ -45,7 +44,7 @@ export const sideBarList = (state) => {
   const tempStageConfig = Util.deepClone(stageConfig)
   const shookConfig = permissionShaking(tempStageConfig, auths, user)
 
-  function deepTravel(target, level = 2) {
+  function deepTravel(target, level = 3) {
     // 集合节点处理
     if (Array.isArray(target)) {
       const acc = target.map(item => deepTravel(item, (level - 1)))

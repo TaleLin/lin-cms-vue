@@ -225,7 +225,7 @@ table {
   width: $sidebar-width;
   text-align: left;
 
-  .el-menu-item-group {
+  .circle {
     .el-menu-item {
       position: relative;
 
@@ -258,6 +258,42 @@ table {
         position: absolute;
         left: 45px;
         top: 23px;
+      }
+    }
+    &.third { // 3级
+      .el-menu-item {
+        position: relative;
+  
+        &:before {
+          content: '';
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          border: 1px solid $submenu-title;
+          position: absolute;
+          left: 65px;
+          top: 23px;
+        }
+      }
+  
+      .el-menu-item-group__title {
+        padding: 0;
+      }
+  
+      .el-menu-item.is-active {
+        position: relative;
+  
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          border: none;
+          background: $theme;
+          position: absolute;
+          left: 65px;
+          top: 23px;
+        }
       }
     }
   }
@@ -314,6 +350,20 @@ table {
   .el-submenu__title {
     height: $menuItem-height;
     transition: border-color 0s, background-color 0s, color 0s;
+  }
+  
+  .el-menu--inline{
+    background: $menuItem-bg !important;
+    &:hover {
+      background-color: $menuItem-hover !important;
+    }
+  }
+
+  .el-submenu__title {
+    background: $menuItem-bg !important;
+    &:hover {
+      background-color: $menuItem-hover !important;
+    }
   }
 
   .el-menu-item {

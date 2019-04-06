@@ -24,25 +24,50 @@
             :index="indexToString(index++)"
             popper-class="abc">
             <template slot="title">
-              <!-- <img v-if="item.meta.src" :src="item.meta.src" class="imgIcon" />
-              <i v-else :class="item.meta.icon"></i> -->
-              <i :class="item.icon"/>
+              <i v-if="!filterIcon(item.icon)" :class="item.icon" ></i>
+              <img v-else :src="item.icon" class="imgIcon" />
               <span slot="title">{{item.title}}</span>
             </template>
-            <el-menu-item-group>
+
+            <!-- 二级菜单 -->
+            <template  v-for="(subItem, subIndex) in item.children">
+              <el-submenu v-if="subItem.children" :key="subItem.title"
+              :index="index - 1 + '-' + indexToString(subIndex++)">
+                <template slot="title">
+                  <i class="iconfont icon-erjizhibiao"></i>
+                  <span slot="title">{{subItem.title}}</span>
+                </template>
+
+                <!-- 三级菜单 -->
+                <router-link
+                v-for="(grandchildItem, grandchildIndex) in subItem.children"
+                :key="grandchildIndex"
+                :to="grandchildItem.path"
+                class="circle third">
+                  <el-menu-item
+                    :index="index - 1 + '-' + indexToString(subIndex - 1) + '-' + indexToString(grandchildIndex++)"
+                    style="padding-left: 80px;">
+                    {{grandchildItem.title}}
+                  </el-menu-item>
+                </router-link>
+              </el-submenu>
+              <!-- 二级else -->
               <router-link
-                v-for="(subItem, subIndex) in item.children"
                 :to="subItem.path"
-                :key="'sidenav_' + index + subIndex">
+                :key="'sidenav_' + index + subIndex"
+                class="circle"
+                v-else>
                 <el-menu-item
                   :index="index - 1 + '-' + indexToString(subIndex++)"
                   style="padding-left: 60px;">
                   {{subItem.title}}
                 </el-menu-item>
               </router-link>
-            </el-menu-item-group>
+
+            </template>
           </el-submenu>
-          <!-- 分割线 -->
+
+          <!-- 一级else -->
           <el-menu-item
             :index="indexToString(index++)"
             @click="goto(item.path)"
@@ -71,6 +96,7 @@ export default {
       itemIndex: 0,
     }
   },
+
   methods: {
     goto(path) {
       this.$router.push({
