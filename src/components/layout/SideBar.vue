@@ -43,10 +43,10 @@
                 v-for="(grandchildItem, grandchildIndex) in subItem.children"
                 :key="grandchildIndex"
                 :to="grandchildItem.path"
-                class="circle">
+                class="circle third">
                   <el-menu-item
                     :index="index - 1 + '-' + indexToString(subIndex - 1) + '-' + indexToString(grandchildIndex++)"
-                    style="padding-left: 60px;transform: translateX(20px)">
+                    style="padding-left: 80px;">
                     {{grandchildItem.title}}
                   </el-menu-item>
                 </router-link>
