@@ -74,12 +74,19 @@ export const sideBarList = (state) => {
       sideConfig.path = target.route
       return sideConfig
     }
+
     // 处理 appTab 情况
     if (target.type === 'tab') {
       const sideConfig = {}
       sideConfig.title = target.title
       sideConfig.icon = target.icon
       sideConfig.path = target.route
+      // 如果 Tab 没有设置默认打开的路由, 则设置为第一个子节点路由
+      if (!sideConfig.path) {
+        if (target.children && target.children.length > 0 && target.children[0].route) {
+          sideConfig.path = target.children[0].route
+        }
+      }
       return sideConfig
     }
     // 最后一层, 都当做子节点处理
