@@ -24,15 +24,14 @@
             :index="indexToString(index++)"
             popper-class="abc">
             <template slot="title">
-              <i v-if="!filterIcon(item.icon)" :class="item.icon" ></i>
+              <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
               <img v-else :src="item.icon" class="imgIcon" />
               <span slot="title">{{item.title}}</span>
             </template>
 
             <!-- 二级菜单 -->
-            <template  v-for="(subItem, subIndex) in item.children">
-              <el-submenu v-if="subItem.children" :key="subItem.title"
-              :index="index - 1 + '-' + indexToString(subIndex++)">
+            <template v-for="(subItem, subIndex) in item.children">
+              <el-submenu v-if="subItem.children" :key="subItem.title" :index="index - 1 + '-' + indexToString(subIndex++)">
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
                   <span slot="title">{{subItem.title}}</span>
@@ -40,13 +39,11 @@
 
                 <!-- 三级菜单 -->
                 <router-link
-                v-for="(grandchildItem, grandchildIndex) in subItem.children"
-                :key="grandchildIndex"
-                :to="grandchildItem.path"
-                class="circle third">
-                  <el-menu-item
-                    :index="index - 1 + '-' + indexToString(subIndex - 1) + '-' + indexToString(grandchildIndex++)"
-                    style="padding-left: 80px;">
+                  v-for="(grandchildItem, grandchildIndex) in subItem.children"
+                  :key="grandchildIndex"
+                  :to="grandchildItem.path"
+                  class="circle third">
+                  <el-menu-item :index="index - 1 + '-' + indexToString(subIndex - 1) + '-' + indexToString(grandchildIndex++)" style="padding-left: 80px;">
                     {{grandchildItem.title}}
                   </el-menu-item>
                 </router-link>
@@ -57,9 +54,7 @@
                 :key="'sidenav_' + index + subIndex"
                 class="circle"
                 v-else>
-                <el-menu-item
-                  :index="index - 1 + '-' + indexToString(subIndex++)"
-                  style="padding-left: 60px;">
+                <el-menu-item :index="index - 1 + '-' + indexToString(subIndex++)" style="padding-left: 60px;">
                   {{subItem.title}}
                 </el-menu-item>
               </router-link>
@@ -73,7 +68,7 @@
             @click="goto(item.path)"
             v-else
             :key="item.path">
-            <i v-if="!filterIcon(item.icon)" :class="item.icon" ></i>
+            <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
             <img v-else :src="item.icon" class="imgIcon" />
             <span slot="title">{{item.title}}</span>
           </el-menu-item>
@@ -90,13 +85,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   props: ['isCollapse'],
-  data() {
-    return {
-      arr: [],
-      itemIndex: 0,
-    }
-  },
-
   methods: {
     goto(path) {
       this.$router.push({
@@ -112,7 +100,6 @@ export default {
     },
     // 路由标志位
     indexToString(num) {
-      this.itemIndex = num
       return num.toString()
     },
     filterIcon(icon) {
@@ -129,7 +116,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .app-sidebar {
   background: #192a5e;
   padding-right: 0px;
