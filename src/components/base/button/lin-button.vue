@@ -22,73 +22,72 @@
 </template>
 
 <script>
-import LIcon from "../icon/lin-icon";
+import LIcon from '../icon/lin-icon'
+
 export default {
-  name: "LinButton",
+  name: 'LinButton',
   components: {
-    "l-icon": LIcon
+    'l-icon': LIcon,
   },
   props: {
     type: {
       type: String,
-      default: "default"  // 按键背景色
+      default: 'default', // 按键背景色
     },
     plain: { 
       type: Boolean,
-      default: false // 线宽按钮
+      default: false, // 线宽按钮
     },
     circle: {
       type: Boolean,
-      default: false // 圆形按钮
+      default: false, // 圆形按钮
     },
     disabled: {
       type: Boolean,
-      default: false // 禁用按钮
+      default: false, // 禁用按钮
     },
     icon: {
       type: String,
-      default: "" // 图标
+      default: '', // 图标
     },
     loading: {
       type: Boolean,
-      default: false // 加载效果
+      default: false, // 加载效果
     },
     iconPosition: { // icon位置
       type: String,
-      default: "left",
+      default: 'left',
       validator(value) {
-        return value === "left" || value === "right";
-      }
-    }
+        return value === 'left' || value === 'right'
+      },
+    },
   },
   data() {
     return {
-      ripple: true
-    };
+      ripple: true,
+    }
   },
   mounted() {
-    this.disabled ? (this.ripple = false) : (this.ripple = true);
+    this.ripple = !!this.disabled
   },
   methods: {
     onClick() {
-      if (this.disabled) {
-        return;
-      } else {
-        this.$emit("click");
+      if (!this.disabled) {
+        this.$emit('click')
       }
     },
     mouseover() {
       if (this.$refs.icon) {
-        this.$refs.icon.mouseover();
+        this.$refs.icon.mouseover()
       }
     },
     mouseout() {
       if (this.$refs.icon) {
-        this.$refs.icon.mouseout();
+        this.$refs.icon.mouseout()
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -151,7 +150,7 @@ export default {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  
+
   .loading {
     opacity: 0.5;
     @include spin;
@@ -234,7 +233,7 @@ export default {
       border: 1px solid $button-danger-bg;
     }
   }
-  
+
   &.circle {
     border-radius: 50%;
     min-width: $button-height;
