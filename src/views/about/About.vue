@@ -36,9 +36,10 @@
               <span class="team-name">
                 <ul>
                   <li>Pedro</li>
-                  <li>一飞同学</li>
+                  <li>一飞</li>
                   <li>凉面</li>
                   <li>圈圈</li>
+                  <li>家乐</li>
                 </ul>
               </span>
             </li>
