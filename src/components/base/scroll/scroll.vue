@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 import BetterScroll from 'better-scroll'
 
 const DIRECTION_H = 'horizontal'
@@ -105,34 +105,34 @@ export default {
       }
     },
     /**
-       * 代理better-scroll的方法
-       * 启用 better-scroll, 默认 开启。
-       */
+     * 代理better-scroll的方法
+     * 启用 better-scroll, 默认 开启。
+     */
     enable() {
       this.scroll && this.scroll.enable() // eslint-disable-line
     },
     /**
-       * 启用 better-scroll, 默认 开启。
-       */
+     * 启用 better-scroll, 默认 开启。
+     */
     disable() {
       this.scroll && this.scroll.disable() // eslint-disable-line
     },
     /**
-       * 重新计算 better-scroll，
-       * 当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
-       */
+     * 重新计算 better-scroll，
+     * 当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
+     */
     refresh() {
       this.scroll && this.scroll.refresh() // eslint-disable-line
     },
     /**
-       * 滑动到指定位置
-       */
+     * 滑动到指定位置
+     */
     scrollTo() {
       this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments) // eslint-disable-line
     },
     /**
-       * 滚动到指定的目标元素
-       */
+     * 滚动到指定的目标元素
+     */
     scrollToElement() {
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments) // eslint-disable-line
     },

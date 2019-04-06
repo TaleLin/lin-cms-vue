@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .wrapper {
   position: sticky;
   top: 0;

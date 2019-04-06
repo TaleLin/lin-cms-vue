@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import Sortable from 'sortablejs'
 import FileSaver from 'file-saver'
 
 export default {
@@ -271,8 +272,6 @@ export default {
     // 拖拽
     setDrag() {
       const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-      let oldIndex
-      let newIndex
       this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
       this.sortable = Sortable.create(el, {
         setData(dataTransfer) {
@@ -280,14 +279,10 @@ export default {
         },
         onEnd: (evt) => {
           const dragData = [...this.currentData]
-          let oldIndex
-          let newIndex
+          let { oldIndex, newIndex } = evt
           if (this.pagination) {
             oldIndex = evt.oldIndex * this.currentPage
             newIndex = evt.newIndex * this.currentPage
-          } else {
-            oldIndex = evt.oldIndex
-            newIndex = evt.newIndex
           }
           dragData[oldIndex] = this.currentData[newIndex]
           dragData[newIndex] = this.currentData[oldIndex]
@@ -344,7 +339,7 @@ export default {
       immediate: true,
     },
     customColumn: {
-      handler(val, oldVal) { // eslint-disable-line
+      handler(val) {
         if (val.length > 1) {
           this.filterTableColumn = this.tableColumn.filter(
             v => val.indexOf(v.label) > -1,
@@ -354,43 +349,7 @@ export default {
       deep: true,
     },
     tableData: {
-      handler(val, oldVal) { // eslint-disable-line
-        // 传了分页配置
-        if (this.pagination && this.pagination.pageSize) {
-          this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize) // eslint-disable-line
-        } else {
-          this.currentData = this.tableData
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-    tableColumn: {
-      handler(val, oldVal) { // eslint-disable-line
-        // 如果一开始没有传要展示的列 就默认全展示
-        if (this.customColumn.length > 1) {
-          this.filterTableColumn = this.tableColumn.filter(
-            v => this.customColumn.indexOf(v.label) > -1,
-          )
-        } else {
-          this.filterTableColumn = this.tableColumn
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-    customColumn: {
-      handler(val, oldVal) {
-        if (val.length > 1) {
-          this.filterTableColumn = this.tableColumn.filter(
-            v => val.indexOf(v.label) > -1,
-          )
-        } else {}
-      },
-      deep: true,
-    },
-    tableData: {
-      handler(val, oldVal) {
+      handler() {
         // 传了分页配置
         if (this.pagination && this.pagination.pageSize) {
           this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize)
@@ -402,7 +361,7 @@ export default {
       immediate: true,
     },
     tableColumn: {
-      handler(val, oldVal) {
+      handler() {
         // 如果一开始没有传要展示的列 就默认全展示
         if (this.customColumn.length > 1) {
           this.filterTableColumn = this.tableColumn.filter(
@@ -420,7 +379,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .lin-table {
   position: relative;
 }

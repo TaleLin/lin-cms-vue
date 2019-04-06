@@ -1,8 +1,7 @@
 <template>
-  <div class="lin-line"
-       :style="{ height: height + 'px',
-       width: 'calc(100% + ' + addWidth + 'px'+ ')',
-       marginLeft: - addWidth / 2 + 'px', color: color }">
+  <div class="lin-line" :style="{ height: height + 'px',
+    width: 'calc(100% + ' + addWidth + 'px'+ ')',
+    marginLeft: - addWidth / 2 + 'px', color: color }">
   </div>
 </template>
 
@@ -25,8 +24,7 @@ export default {
 }
 </script>
 
-
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .lin-line {
   height: 1px;
   width: 100%;
