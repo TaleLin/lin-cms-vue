@@ -6,7 +6,7 @@ function resolve(dir) {
 
 module.exports = {
   lintOnSave: true,
-  baseUrl: '/',
+  publicPath: '/',
   productionSourceMap: false,
   // assetsDir: 'static',
   chainWebpack: (config) => {
@@ -23,7 +23,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "src/assets/styles/share.scss";',
+        data: '@import "@/assets/styles/share.scss";',
       },
     },
   },

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Config from '@/config'
-import { getToken } from '../utils/cookie'
-import store from '../../store'
-import tip from './exception'
+import Vue from 'vue'
+import { getToken } from './cookie'
+import { handleException, handleError } from './exception'
 
 // 创建一个拥有通用配置的axios实例
 const http = axios.create({
@@ -11,9 +11,9 @@ const http = axios.create({
   timeout: 5000, // 请求超时
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
-  // validateStatus(status) {
-  //   return status >= 200 && status < 500
-  // },
+  validateStatus(status) {
+    return status >= 200 && status < 500
+  },
 })
 
 // 添加一个请求拦截器
@@ -42,17 +42,21 @@ http.interceptors.request.use(
 
 http.interceptors.request.use(
   (requestConfig) => {
-    store.commit('SET_STOP_TIME', new Date().getTime())
+    Vue.prototype.$_lin_jump()
     return requestConfig
   },
   error => Promise.reject(error),
 )
 // 返回结果处理
 http.interceptors.response.use(
-  res => res.data,
-  (error) => {
-    tip(error)
+  async (res) => {
+    if (res.status.toString().charAt(0) !== '2') {
+      const result = await handleException(res)
+      return result
+    }
+    return res.data
   },
+  error => handleError(error),
 )
 
 // http instance
@@ -108,4 +112,8 @@ export function _delete(url, params = {}) {
     url,
     params,
   })
+}
+
+export async function refreshRequest(response) {
+  return http(response)
 }

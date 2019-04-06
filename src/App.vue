@@ -5,31 +5,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import Config from '@/config'
+import { mapActions } from 'vuex'
+import Vue from 'vue'
 
 export default {
   data() {
     return {
       timer: null,
+      eventBus: new Vue(),
     }
   },
-  computed: {
-    ...mapGetters(['stopTime']),
-  },
-  watch: {
-    stopTime() {
-      if (!Config.openAutoJumpOut) {
-        return
-      }
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.loginOut()
-        // this.$router.push('/login')
-        const { origin } = window.location
-        window.location.href = origin
-      }, Config.stagnateTime)
-    },
+  provide() {
+    // eventBus挂载的事件： addGroup addUser
+    return {
+      eventBus: this.eventBus,
+    }
   },
   methods: {
     ...mapActions(['loginOut']),
@@ -37,29 +27,32 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
   #nav {
     padding: 30px;
+
     a {
       font-weight: bold;
       color: #2c3e50;
+
       &.router-link-exact-active {
         color: #42b983;
       }
     }
   }
+
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    -webkit-transition-delay: 99999s;
-    -webkit-transition: color 99999s ease-out, background-color 99999s ease-out;
+    transition-delay: 99999s;
+    transition: color 99999s ease-out, background-color 99999s ease-out;
   }
 }
 </style>
@@ -68,14 +61,17 @@ export default {
 ::-webkit-scrollbar-track-piece {
   background-color: #273b6f;
 }
+
 ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: rgba(22, 37, 87, 0.7);
   background-clip: padding-box;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background-color: #bbb;
 }

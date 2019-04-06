@@ -1,26 +1,20 @@
 import Home from '@/views/home/Home'
-
 import homeRouter from './home-router'
-
-const Login = () => import('@/views/login/Login')
 
 const routes = [
   {
-    path: '',
+    path: '/',
     name: 'Home',
+    redirect: '/about',
     component: Home,
     children: [
-      {
-        path: '/',
-        redirect: '/about',
-      },
       ...homeRouter,
     ],
   },
   {
     path: '/login',
     name: 'login',
-    component: Login,
+    component: () => import('@/views/login/Login'),
   },
 ]
 

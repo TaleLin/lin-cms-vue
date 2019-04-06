@@ -6,11 +6,21 @@ const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
 
 export default class User {
-  isActive = null // 当前用户是否在激活状态
-  email = null // 邮箱
-  groupId = null // 权限分组id
-  nickname = null // 昵称
-  isSuper = null // 是否为超级管理员
+  isActive = null
+
+  // 当前用户是否在激活状态
+  email = null
+
+  // 邮箱
+  groupId = null
+
+  // 权限分组id
+  nickname = null
+
+  // 昵称
+  isSuper = null
+
+  // 是否为超级管理员
   auths = [] // 拥有的权限
 
   constructor(active, email, groupId, nickname, _super, auths) {
@@ -49,7 +59,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.super)
+    return new User(info.active, info.email, info.group_id, info.nickname, info.admin)
   }
 
   /**
@@ -57,7 +67,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.super, info.auths)
+    return new User(info.active, info.email, info.group_id, info.nickname, info.admin, info.auths)
   }
 
   /**
@@ -67,6 +77,7 @@ export default class User {
     const res = await get('cms/user/refresh')
     saveAccessToken(res.access_token)
   }
+
 
   /**
    * 用户修改密码

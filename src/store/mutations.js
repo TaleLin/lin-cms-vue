@@ -14,20 +14,16 @@ export default {
     state.user = payload
   },
 
-  async [types.ADD_TAB](state, payload) {
+  [types.ADD_TAB](state, payload) {
     if (!(payload instanceof Array)) {
       const { tabs } = state
-      const flag = await tabs.find(el => el.path === payload.path)
+      const flag = tabs.find(el => el.path === payload.path)
       if (!flag) {
         state.tabs = [payload, ...tabs]
       }
     } else {
       state.tabs = []
     }
-  },
-
-  [types.ADD_MENU_TAB](state, tabs) {
-    state.menuTabs = tabs
   },
 
   [types.REMOVE_TAB](state, payload) {
@@ -54,14 +50,6 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  [types.SET_SIDEBAR_LIST](state, payload) {
-    state.sideBarList = payload
-  },
-
-  [types.SET_STOP_TIME](state, currentTime) {
-    state.stopTime = currentTime
-  },
-
   [types.SET_USER_AUTHS](state, auths) {
     const _auths = []
     for (let i = 0; i < auths.length; i++) {
@@ -73,5 +61,9 @@ export default {
       }
     }
     state.auths = _auths
+  },
+
+  [types.SET_REFERSH_OPTION](state, option) {
+    state.refreshOptions = option
   },
 }

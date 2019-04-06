@@ -5,7 +5,9 @@ import Sse from '../utils/sse'
 
 export default class Notify {
   url = null;
+
   events = null;
+
   sse = null;
 
   constructor(url) {

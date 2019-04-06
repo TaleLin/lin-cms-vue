@@ -1,63 +1,52 @@
 <template>
   <div class="container">
     <div class="title">分组列表信息</div>
-    <lin-table :tableColumn="tableColumn"
-               :tableData="tableData"
-               :operate="operate"
-               @handleEdit="handleEdit"
-               @handleDelete="handleDelete"
-               @row-click="rowClick"
-               v-loading="loading">
+    <lin-table
+      :tableColumn="tableColumn"
+      :tableData="tableData"
+      :operate="operate"
+      @handleEdit="handleEdit"
+      @handleDelete="handleDelete"
+      @row-click="rowClick"
+      v-loading="loading">
     </lin-table>
-    <el-dialog :append-to-body="true"
-               :visible.sync="dialogFormVisible"
-               :before-close="handleClose">
+    <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible" :before-close="handleClose">
       <div style="margin-top:-25px;">
-        <el-tabs v-model="activeTab"
-                 @tab-click="handleClick">
-          <el-tab-pane label="修改信息"
-                       name="修改信息"
-                       style="margin-top:10px;">
-            <el-form status-icon
-                     v-if="dialogFormVisible"
-                     ref="form"
-                     label-width="120px"
-                     :model="form"
-                     label-position="labelPosition"
-                     :rules="rules"
-                     style="margin-left:-35px;margin-bottom:-35px;margin-top:15px;">
-              <el-form-item label="分组名称"
-                            prop="name">
-                <el-input clearable
-                          v-model="form.name"></el-input>
+        <el-tabs v-model="activeTab" @tab-click="handleClick">
+          <el-tab-pane label="修改信息" name="修改信息" style="margin-top:10px;">
+            <el-form
+              status-icon
+              v-if="dialogFormVisible"
+              ref="form"
+              label-width="120px"
+              :model="form"
+              label-position="labelPosition"
+              :rules="rules"
+              style="margin-left:-35px;margin-bottom:-35px;margin-top:15px;">
+              <el-form-item label="分组名称" prop="name">
+                <el-input clearable v-model="form.name"></el-input>
               </el-form-item>
-              <el-form-item label="分组描述"
-                            prop="info">
-                <el-input clearable
-                          v-model="form.info"></el-input>
+              <el-form-item label="分组描述" prop="info">
+                <el-input clearable v-model="form.info"></el-input>
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="配置权限"
-                       name="配置权限"
-                       style="margin-top:10px;">
-            <group-auths v-if="dialogFormVisible"
-                         :id="id"
-                         ref="groupAuths"
-                         @updateAuths="updateAuths"
-                         @updateCacheAuths="updateCacheAuths"
-                         @updateAllAuths="updateAllAuths"
-                         style="margin-right:-30px;margin-left:-25px;margin-bottom:-10px;">
+          <el-tab-pane label="配置权限" name="配置权限" style="margin-top:10px;">
+            <group-auths
+              v-if="dialogFormVisible"
+              :id="id"
+              ref="groupAuths"
+              @updateAuths="updateAuths"
+              @updateCacheAuths="updateCacheAuths"
+              @updateAllAuths="updateAllAuths"
+              style="margin-right:-30px;margin-left:-25px;margin-bottom:-10px;">
             </group-auths>
           </el-tab-pane>
         </el-tabs>
       </div>
-      <div slot="footer"
-           class="dialog-footer"
-           style="padding-left:5px;">
-        <el-button type="primary"
-                   @click="confirmEdit">确 定</el-button>
-        <el-button @click="resetForm('form')">重 置</el-button>
+      <div slot="footer" class="dialog-footer" style="padding-left:5px;">
+        <l-button type="primary" @click="confirmEdit">确 定</l-button>
+        <l-button @click="resetForm('form')">重 置</l-button>
       </div>
     </el-dialog>
   </div>
@@ -66,14 +55,12 @@
 <script>
 import Utils from '@/lin/utils/util'
 import Admin from '@/lin/models/admin'
-import LinTable from '@/base/table/lin-table'
-import LinButton from '@/base/button/lin-button'
+import LinTable from '@/components/base/table/lin-table'
 import GroupAuths from './GroupAuths'
 
 export default {
   components: {
     LinTable,
-    LinButton,
     GroupAuths,
   },
   inject: ['eventBus'],
@@ -180,7 +167,7 @@ export default {
       let selectedData
       // 单击 编辑按键
       if (val.index >= 0) {
-        selectedData = val.row[val.index]
+        selectedData = val.row
       } else {
         // 单机 table row
         selectedData = val
@@ -200,7 +187,7 @@ export default {
       }).then(async () => {
         try {
           this.loading = true
-          res = await Admin.deleteOneGroup(val.row[val.index].id)
+          res = await Admin.deleteOneGroup(val.row.id)
         } catch (e) {
           this.loading = false
           console.log(e)
@@ -256,7 +243,7 @@ export default {
   async created() {
     await this.getAllGroups()
     this.tableColumn = [{ prop: 'name', label: '姓名' }, { prop: 'info', label: '信息' }] // 设置表头信息
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'edit' }, { name: '删除', func: 'handleDelete', type: 'del' }]
+    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     // 监听分组是否成功
     this.eventBus.$on('addGroup', async (flag) => {
       if (flag === true) {
@@ -266,10 +253,12 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
-@import "~assets/styles/variable.scss";
+
 .container {
   padding: 0 30px;
+
   .title {
     height: 59px;
     line-height: 59px;
