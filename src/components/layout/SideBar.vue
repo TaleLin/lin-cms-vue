@@ -32,7 +32,7 @@
             <!-- 二级菜单 -->
             <template  v-for="(subItem, subIndex) in item.children">
               <el-submenu v-if="subItem.children" :key="subItem.title"
-              :index="index + '-' + indexToString(subIndex++)" test>
+              :index="index - 1 + '-' + indexToString(subIndex++)">
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
                   <span slot="title">{{subItem.title}}</span>
@@ -45,7 +45,7 @@
                 :to="grandchildItem.path"
                 class="circle">
                   <el-menu-item
-                    :index="index + '-' + indexToString(subIndex) + '-' + indexToString(grandchildIndex++)"
+                    :index="index - 1 + '-' + indexToString(subIndex - 1) + '-' + indexToString(grandchildIndex++)"
                     style="padding-left: 60px;transform: translateX(20px)">
                     {{grandchildItem.title}}
                   </el-menu-item>
@@ -58,7 +58,7 @@
                 class="circle"
                 v-else>
                 <el-menu-item
-                  :index="index + '-' + indexToString(subIndex++)"
+                  :index="index - 1 + '-' + indexToString(subIndex++)"
                   style="padding-left: 60px;">
                   {{subItem.title}}
                 </el-menu-item>
