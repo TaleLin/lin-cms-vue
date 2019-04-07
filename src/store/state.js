@@ -6,7 +6,6 @@ export default {
   logined: false, // 是否登录
   user: null, // 当前用户
   sideBarLevel: AppConfig.sideBarLevel || 3,
-  histories: [], // 浏览历史
   defaultRoute: AppConfig.defaultRoute || '/about',
 
   // 推送消息
