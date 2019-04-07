@@ -142,7 +142,7 @@ async function handler() {
         try {
           await exec(`npm install ${plugin}@${itemPk.dependencies[plugin]}`)
           const v2 = (JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --prod`)).dependencies[plugin].version)
-          if (!semver.satisfies(v2, projectPackage.dependencies[plugin])) {
+          if (projectPackage.dependencies[plugin] && !semver.satisfies(v2, projectPackage.dependencies[plugin])) {
             console.log(chalk.red(`检查到插件 ${answer} 依赖 ${plugin} 有冲突, 请手动解决`))
             await exec(`npm install ${plugin}@${projectPackage.dependencies[plugin]}`)
           }
