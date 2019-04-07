@@ -34,7 +34,7 @@ export default {
       type: String,
       default: 'default', // 按键背景色
     },
-    plain: { 
+    plain: {
       type: Boolean,
       default: false, // 线宽按钮
     },
