@@ -10,18 +10,16 @@
       <el-menu
         class="el-menu-vertical-demo"
         ref="meun"
-        @open="handleOpen"
-        @close="handleClose"
         :default-active="defaultActive"
         :collapse="isCollapse"
         background-color="#192A5E"
         text-color="rgba(196,201,210,1)"
         active-text-color="#1890ff">
-        <template v-for="(item, index) in sideBarList">
+        <template v-for="(item) in sideBarList">
           <el-submenu
             v-if="item.children"
-            :key="'sidenav_' + index"
-            :index="indexToString(index++)"
+            :key="idMap[item.name]"
+            :index="idMap[item.name]"
             popper-class="abc">
             <template slot="title">
               <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
@@ -30,8 +28,8 @@
             </template>
 
             <!-- 二级菜单 -->
-            <template v-for="(subItem, subIndex) in item.children">
-              <el-submenu v-if="subItem.children" :key="subItem.title" :index="index - 1 + '-' + indexToString(subIndex++)">
+            <template v-for="(subItem) in item.children">
+              <el-submenu v-if="subItem.children" :key="idMap[subItem.name]" :index="idMap[subItem.name]">
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
                   <span slot="title">{{subItem.title}}</span>
@@ -39,11 +37,11 @@
 
                 <!-- 三级菜单 -->
                 <router-link
-                  v-for="(grandchildItem, grandchildIndex) in subItem.children"
-                  :key="grandchildIndex"
+                  v-for="(grandchildItem) in subItem.children"
+                  :key="idMap[grandchildItem.name]"
                   :to="grandchildItem.path"
                   class="circle third">
-                  <el-menu-item :index="index - 1 + '-' + indexToString(subIndex - 1) + '-' + indexToString(grandchildIndex++)" style="padding-left: 80px;">
+                  <el-menu-item :index="idMap[grandchildItem.name]" style="padding-left: 80px;">
                     {{grandchildItem.title}}
                   </el-menu-item>
                 </router-link>
@@ -51,10 +49,10 @@
               <!-- 二级else -->
               <router-link
                 :to="subItem.path"
-                :key="'sidenav_' + index + subIndex"
+                :key="subItem.name"
                 class="circle"
                 v-else>
-                <el-menu-item :index="index - 1 + '-' + indexToString(subIndex++)" style="padding-left: 60px;">
+                <el-menu-item :index="idMap[subItem.name]" style="padding-left: 60px;">
                   {{subItem.title}}
                 </el-menu-item>
               </router-link>
@@ -64,10 +62,10 @@
 
           <!-- 一级else -->
           <el-menu-item
-            :index="indexToString(index++)"
+            :index="idMap[item.name]"
             @click="goto(item.path)"
             v-else
-            :key="item.path">
+            :key="idMap[item.name]">
             <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
             <img v-else :src="item.icon" class="imgIcon" />
             <span slot="title">{{item.title}}</span>
@@ -80,6 +78,7 @@
 </template>
 
 <script>
+import Utils from '@/lin/utils/util'
 /* eslint-disable no-restricted-syntax */
 import { mapGetters } from 'vuex'
 
@@ -91,26 +90,53 @@ export default {
         path,
       })
     },
-
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    // 路由标志位
-    indexToString(num) {
-      return num.toString()
-    },
     filterIcon(icon) {
       return icon.indexOf('/') !== -1
     },
   },
   computed: {
+    // 根据当前路由设置激活侧边栏
+    defaultActive() {
+      for (let i = (this.stageInfo.length - 1); i >= 0; i -= 1) {
+        if (this.idMap[this.stageInfo[i].name]) {
+          return this.idMap[this.stageInfo[i].name]
+        }
+      }
+      return ''
+    },
+    stageInfo() {
+      return this.$store.getters.getStageInfo(this.$route.name)
+    },
+    // 由于index不支持symbol格式, 因此使用 idMap 进行映射
+    idMap() {
+      const { sideBarList } = this
+      const mapData = {}
+      const deepTravel = (obj, fuc) => {
+        if (Array.isArray(obj)) {
+          obj.forEach((item) => {
+            deepTravel(item, fuc)
+          })
+          return
+        }
+        if (obj && obj.children) {
+          fuc(obj)
+          deepTravel(obj.children, fuc)
+          return
+        }
+        if (obj.name) {
+          fuc(obj)
+        }
+      }
+      deepTravel(sideBarList, (item) => {
+        mapData[item.name] = Utils.getRandomStr()
+      })
+
+      return mapData
+    },
     imgSrc() {
       return this.isCollapse === false ? '../../assets/img/left-logo.png' : '../../assets/img/logo.png'
     },
-    ...mapGetters(['defaultActive', 'sideBarList', 'auths', 'user']),
+    ...mapGetters(['sideBarList']),
   },
 }
 </script>
