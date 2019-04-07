@@ -162,13 +162,13 @@ export default {
       }
 
       .form-item.nickname {
-        background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/nickname.png") no-repeat;
+        background: url("../../assets/img/login/nickname.png") no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
 
       .form-item.password {
-        background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/password.png") no-repeat;
+        background: url("../../assets/img/login/password.png") no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
@@ -183,7 +183,7 @@ export default {
         box-sizing: border-box;
         padding: 0 10px;
         padding-left: 74px;
-        background: url("https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/login-btn.png") no-repeat;
+        background: url("../../assets/img/login/login-btn.png") no-repeat;
         background-size: 90% auto;
         background-position: center bottom;
         border: none;

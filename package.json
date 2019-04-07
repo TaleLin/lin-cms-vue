@@ -1,6 +1,6 @@
 {
   "name": "lin-cms",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "private": true,
   "scripts": {
     "serve": "node script/plugin-get-config.js && vue-cli-service serve",
