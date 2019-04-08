@@ -38,7 +38,6 @@ import {
   MenuTab,
   BackTop,
 } from '@/components/layout'
-import layoutMixin from 'lin/mixin/layout.js'
 
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
@@ -109,7 +108,6 @@ export default {
       }
     },
   },
-  mixins: [layoutMixin],
   components: {
     NavBar,
     SideBar,

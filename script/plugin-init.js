@@ -8,23 +8,29 @@ const shell = require('shelljs')
 const inquirer = require('inquirer')
 const semver = require('semver')
 const getPluginDep = require('./lib/plugin-get-dep')
-const pluginList = require('./lib/plugin-get-all')
+const getAllPlugin = require('./lib/plugin-get-all')
 
 let hasError = false
 const projectPackage = require('../package.json')
 
+const pluginsPath = path.resolve(__dirname, '../src/plugins')
+const puginList = getAllPlugin(pluginsPath)
+
+// 执行命令
 function exec(cmd) {
   return new Promise((resolve, reject) => {
     child_process.exec(cmd, (error, stdout) => {
-      if (error) {
+      if (error && error.code !== 1) {
         hasError = true
         reject(error)
+        return
       }
       resolve(stdout)
     })
   })
 }
 
+// 将数组 forEach 异步化
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     // eslint-disable-next-line
@@ -32,7 +38,7 @@ async function asyncForEach(array, callback) {
   }
 }
 
-// 安装插件
+// 监测 npm 是否已安装
 if (!shell.which('npm')) {
   console.log(chalk.red('检测到未安装 npm, 请先安装 npm 再重新执行, 查看: https://www.npmjs.com/get-npm'))
   process.exit(1)
@@ -40,44 +46,36 @@ if (!shell.which('npm')) {
 
 async function handler() {
   let answer
-  const questions = []
-  if (!process.argv[2]) {
+  if (!process.argv[2]) { // 是否已使用命令行传入参数
+    const questions = []
     questions.push({
-      type: 'input',
+      type: 'list',
       name: 'name',
-      message: '如需要初始化特定插件, 请输入插件名, 如需初始化所有插件请直接回车\n',
-      validate(value) {
-        const done = this.async()
-        setTimeout(() => {
-          if (!value) {
-            done(null, true)
-            return
-          }
-
-          const filePath = path.resolve(__dirname, `../src/plugins/${value}`)
-          if (!fs.existsSync(filePath)) {
-            done('项目中不存在该插件, 请输入项目中已有插件名')
-            return
-          }
-          done(null, true)
-        })
-      },
+      choices: puginList.map(item => item.name),
+      message: '请选择需要初始化的插件\n',
     })
     answer = await inquirer.prompt(questions)
     answer = answer.name
   } else {
     // eslint-disable-next-line
     answer = process.argv[2]
+    const filePath = path.resolve(__dirname, `../src/plugins/${answer}`)
+    if (!fs.existsSync(filePath)) {
+      console.log(chalk.red('项目中不存在该插件', answer))
+      process.exit(1)
+      return
+    }
   }
 
-  if (!answer) {
+  // 判断支持所有插件还是特定插件
+  if (answer === 'ALL') {
     console.log(chalk.green('开始初始化所有插件'))
   } else {
     console.log(chalk.green(`开始初始化插件${answer}`))
   }
 
-  if (!answer) {
-    await asyncForEach(pluginList, async (item) => {
+  if (answer === 'ALL') {
+    await asyncForEach(puginList, async (item) => {
       console.log(`- 初始化插件 ${item.name}...`)
       const itemPk = item.package
       await asyncForEach(Object.keys(itemPk.dependencies), async (plugin) => {
@@ -144,7 +142,7 @@ async function handler() {
         try {
           await exec(`npm install ${plugin}@${itemPk.dependencies[plugin]}`)
           const v2 = (JSON.parse(await exec(`npm ls ${plugin} --json --depth=0 --prod`)).dependencies[plugin].version)
-          if (!semver.satisfies(v2, projectPackage.dependencies[plugin])) {
+          if (projectPackage.dependencies[plugin] && !semver.satisfies(v2, projectPackage.dependencies[plugin])) {
             console.log(chalk.red(`检查到插件 ${answer} 依赖 ${plugin} 有冲突, 请手动解决`))
             await exec(`npm install ${plugin}@${projectPackage.dependencies[plugin]}`)
           }
@@ -191,4 +189,5 @@ async function handler() {
     console.log(chalk.yellow('插件初始化结束, 但存在问题, 请手动解决'))
   }
 }
+
 handler()
