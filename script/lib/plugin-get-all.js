@@ -35,6 +35,7 @@ function getPlugins(source) {
     const config = {}
     config.name = item
     config.path = path.resolve(__dirname, `../src/plugins/${item}/`)
+    config.packageCtx = JSON.parse(fs.readFileSync(path.resolve(itemPath, './package.json'), 'utf8'))
     pluginsList.push(config)
   })
 
