@@ -24,6 +24,10 @@ function isPlugin(source) {
 }
 
 function getPlugins(source) {
+  if (!fs.existsSync(source)) {
+    console.log(chalk.yellow(`目录不存在: ${source}`))
+    return []
+  }
   const folders = fs.readdirSync(source)
   const pluginsList = []
 

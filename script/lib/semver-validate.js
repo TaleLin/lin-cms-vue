@@ -1,7 +1,6 @@
 // 预计算一下版本是否有冲突
 const semver = require('semver')
 
-
 const validateSemver = (range1, range2) => {
   if (!range1 || !range2) {
     return false
