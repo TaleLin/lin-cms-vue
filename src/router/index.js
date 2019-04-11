@@ -51,9 +51,9 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  // tab 模式重复点击验证
+  // TODO: tab 模式重复点击验证
 
-  // TODO: 权限验证
+  // 权限验证
   if (store && store.state && store.getters) {
     const { auths, user } = store.getters
     if (to.path !== '/about' && !Util.hasPermission(auths, to.meta, user)) {

@@ -13,7 +13,6 @@ export default {
 
   loginOut({ commit }) {
     removeToken()
-    commit(types.ADD_TAB, [])
     commit(types.REMOVE_LOGINED, false)
   },
 
@@ -22,5 +21,4 @@ export default {
     commit(types.ADD_READED_MESSAGE, message)
   },
 
-  // getRouteInfo({ status }, path)
 }

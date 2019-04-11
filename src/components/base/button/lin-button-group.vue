@@ -36,13 +36,11 @@ export default {
     &:not(:first-child) {
       margin-left: -1px;
     }
-
     &:first-child {
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
       border-left: none;
     }
-
     &:last-child {
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;

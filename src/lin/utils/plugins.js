@@ -2,7 +2,7 @@ import Config from '@/config'
 import store from '@/store'
 
 const plugins = {
-  install(Vue, options) { // eslint-disable-line
+  install(Vue) {
     Vue.prototype.$_lin_jump = () => { // eslint-disable-line
       if (!Config.openAutoJumpOut) {
         return

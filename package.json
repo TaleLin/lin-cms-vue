@@ -1,6 +1,6 @@
 {
   "name": "lin-cms",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "private": true,
   "scripts": {
     "serve": "node script/plugin-get-config.js && vue-cli-service serve",
@@ -52,6 +52,7 @@
     "shelljs": "^0.8.3",
     "validate-npm-package-name": "^3.0.0",
     "vue-template-compiler": "^2.6.8",
+    "vue-markdown-loader": "^2.4.1",
     "yaml-front-matter": "^4.0.0"
   },
   "postcss": {
