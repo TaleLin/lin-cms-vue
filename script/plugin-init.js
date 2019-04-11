@@ -11,7 +11,6 @@ const installDep = require('./lib/install-dep')
 const projectPackage = require('../package.json')
 
 const pluginsPath = path.resolve(__dirname, '../src/plugins')
-
 // 检测是否有插件文件夹
 if (!fs.existsSync(pluginsPath)) {
   console.log(chalk.red('未找到插件文件夹目录, 请确认 src 文件夹中是否有 plugins 目录'))
