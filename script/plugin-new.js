@@ -86,6 +86,12 @@ const cachePluginPath = path.resolve(__dirname, './.cache/plugin')
 const pluginTmpPath = path.resolve(__dirname, './template/plugin')
 const pluginViewsPath = path.resolve(__dirname, './template/plugin/views')
 const pluginStrPos = __dirname.length + '/template/'.length
+const pluginsPath = path.resolve(__dirname, '../src/plugins')
+
+// 检测是否有插件文件夹
+if (!fs.existsSync(pluginsPath)) {
+  fs.mkdirSync(pluginsPath)
+}
 
 inquirer.prompt(questions).then((answers) => {
   const result = answers

@@ -1,20 +1,22 @@
 // 手动添加完插件后执行此脚本进行初始化动作
-
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const shell = require('shelljs')
 const inquirer = require('inquirer')
-const semver = require('semver')
-const getPluginDep = require('./lib/plugin-get-dep')
 const getAllPlugin = require('./lib/plugin-get-all')
-const exec = require('./lib/exec-promise')
 const semverValidate = require('./lib/semver-validate')
 const installDep = require('./lib/install-dep')
 
 const projectPackage = require('../package.json')
 
 const pluginsPath = path.resolve(__dirname, '../src/plugins')
+// 检测是否有插件文件夹
+if (!fs.existsSync(pluginsPath)) {
+  console.log(chalk.red('未找到插件文件夹目录, 请确认 src 文件夹中是否有 plugins 目录'))
+  process.exit(1)
+}
+
 const puginList = getAllPlugin(pluginsPath)
 
 // 将数组 forEach 异步化
