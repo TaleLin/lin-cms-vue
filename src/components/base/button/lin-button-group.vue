@@ -36,31 +36,36 @@ export default {
     &:not(:first-child) {
       margin-left: -1px;
     }
+
     &:first-child {
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
       border-left: none;
     }
+
     &:last-child {
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
       border-right: none;
     }
 
-    &:hover:not(:first-child):not(:last-child) {
+    &:hover:not(:first-child):not(:last-child),
+    &:focus:not(:first-child):not(:last-child) {
       position: relative;
       z-index: 1;
       border-right: 1px solid white;
       border-left: 1px solid white;
     }
 
-    &:hover:first-child {
+    &:hover:first-child,
+    &:focus:first {
       position: relative;
       z-index: 1;
       border-right: 1px solid white;
     }
 
-    &:hover:last-child {
+    &:hover:last-child,
+    &:focus:last-child {
       position: relative;
       z-index: 1;
       border-left: 1px solid white;
