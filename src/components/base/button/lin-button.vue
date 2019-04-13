@@ -1,10 +1,5 @@
 <template>
-  <button
-    class="l-button"
-    :class="{[`icon-${iconPosition}`]: true, [`l-button--${type}`]: true,clearMargin: !$slots.default, disabled, ripple, plain, circle}"
-    @click="onClick()"
-    @mouseover="mouseover()"
-    @mouseout="mouseout()">
+  <button :class="classes" @click="onClick()">
     <l-icon
       ref="icon"
       class="icon"
@@ -32,29 +27,33 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'default', // 按键背景色
+      default: 'default',
     },
     plain: {
       type: Boolean,
-      default: false, // 线宽按钮
+      default: false,
     },
     circle: {
       type: Boolean,
-      default: false, // 圆形按钮
+      default: false,
     },
     disabled: {
       type: Boolean,
-      default: false, // 禁用按钮
+      default: false,
+    },
+    ripple: {
+      type: Boolean,
+      default: true,
     },
     icon: {
       type: String,
-      default: '', // 图标
+      default: '',
     },
     loading: {
       type: Boolean,
-      default: false, // 加载效果
+      default: false,
     },
-    iconPosition: { // icon位置
+    iconPosition: {
       type: String,
       default: 'left',
       validator(value) {
@@ -62,28 +61,33 @@ export default {
       },
     },
   },
-  data() {
-    return {
-      ripple: true,
-    }
-  },
-  mounted() {
-    this.ripple = !!this.disabled
+  computed: {
+    classes() {
+      const {
+        iconPosition,
+        type,
+        disabled,
+        ripple,
+        plain,
+        circle,
+        $slots,
+      } = this
+      return {
+        'l-button': true,
+        [`icon-${iconPosition}`]: true,
+        [`l-button--${type}`]: true,
+        disabled,
+        ripple: !disabled && ripple,
+        plain,
+        circle,
+        clearMargin: !$slots.default,
+      }
+    },
   },
   methods: {
     onClick() {
       if (!this.disabled) {
         this.$emit('click')
-      }
-    },
-    mouseover() {
-      if (this.$refs.icon) {
-        this.$refs.icon.mouseover()
-      }
-    },
-    mouseout() {
-      if (this.$refs.icon) {
-        this.$refs.icon.mouseout()
       }
     },
   },
@@ -93,7 +97,8 @@ export default {
 <style lang="scss" scoped>
 @import "./button.scss";
 
-.l-button {
+.l-button,
+.l-button--default {
   font-size: $font-size;
   height: $button-height;
   padding: 0 1.15em;
@@ -108,8 +113,16 @@ export default {
   min-width: $button-height;
   cursor: pointer;
 
-  &:focus {
+  &:focus,
+  &:hover {
     outline: none;
+  }
+
+  &:focus:not(.disabled),
+  &:hover:not(.disabled) {
+    outline: none;
+    color: $button-primary-plain-color;
+    border: 1px solid $button-primary-plain-color;
   }
 
   >.l-button-content {
@@ -155,6 +168,10 @@ export default {
     opacity: 0.5;
     @include spin;
   }
+
+  svg {
+    fill: #fff;
+  }
 }
 
 .l-button+.l-button {
@@ -171,10 +188,19 @@ export default {
     background: #fff;
     border: 1px solid $button-primary-plain-color;
 
-    &:hover:not(.disabled) {
+    svg {
+      fill: $button-primary-plain-color;
+    }
+
+    &:hover:not(.disabled),
+    &:focus:not(.disabled) {
       background: $button-primary-bg;
       color: #fff;
       border: 1px solid $button-primary-bg;
+
+      svg {
+        fill: #fff;
+      }
     }
   }
 
@@ -183,9 +209,15 @@ export default {
     min-width: $button-height;
   }
 
-  &:hover:not(.disabled) {
+  &:hover:not(.disabled),
+  &:focus:not(.disabled) {
+    color: #fff;
     background: #0037ad;
     border: 1px solid #0037ad;
+
+    svg {
+      fill: #fff;
+    }
   }
 }
 
@@ -199,10 +231,19 @@ export default {
     background: #fff;
     border: 1px solid $button-success-plain-color;
 
-    &:hover:not(.disabled) {
+    svg {
+      fill: $button-success-plain-color;
+    }
+
+    &:hover:not(.disabled),
+    &:focus:not(.disabled) {
       background: $button-success-bg;
       color: #fff;
       border: 1px solid $button-success-bg;
+
+      svg {
+        fill: #fff;
+      }
     }
   }
 
@@ -211,9 +252,15 @@ export default {
     min-width: $button-height;
   }
 
-  &:hover:not(.disabled) {
+  &:hover:not(.disabled),
+  &:focus:not(.disabled) {
+    color: #fff;
     background: #009d72;
     border: 1px solid #009d72;
+
+    svg {
+      fill: #fff;
+    }
   }
 }
 
@@ -227,10 +274,19 @@ export default {
     background: #fff;
     border: 1px solid $button-danger-plain-color;
 
-    &:hover:not(.disabled) {
+    svg {
+      fill: $button-danger-plain-color;
+    }
+
+    &:hover:not(.disabled),
+    &:focus:not(.disabled) {
       background: $button-danger-bg;
       color: #fff;
       border: 1px solid $button-danger-bg;
+
+      svg {
+        fill: #fff;
+      }
     }
   }
 
@@ -239,26 +295,45 @@ export default {
     min-width: $button-height;
   }
 
-  &:hover:not(.disabled) {
+  &:hover:not(.disabled),
+  &:focus:not(.disabled) {
+    color: #fff;
     background: #d62f40;
     border: 1px solid #d62f40;
+
+    svg {
+      fill: #fff;
+    }
   }
 }
 
-.l-button--info {
-  background: $button-info-bg;
-  color: #fff;
-  border: 1px solid $button-info-bg;
+.l-button--reverse {
+  background: $button-reverse-bg;
+  color: #8C98AE;
+  border: 1px solid $button-reverse-bg;
+
+  svg {
+    fill: #8C98AE;
+  }
 
   &.plain {
-    color: $button-info-plain-color;
+    color: $button-reverse-plain-color;
     background: #fff;
-    border: 1px solid $button-info-plain-color;
+    border: 1px solid $button-reverse-plain-color;
 
-    &:hover:not(.disabled) {
-      background: $button-info-bg;
+    svg {
+      fill: $button-reverse-plain-color;
+    }
+
+    &:hover:not(.disabled),
+    &:focus:not(.disabled) {
+      background: #8C98AE;
       color: #fff;
-      border: 1px solid $button-info-bg;
+      border: 1px solid #8C98AE;
+
+      svg {
+        fill: #fff;
+      }
     }
   }
 
@@ -267,9 +342,15 @@ export default {
     min-width: $button-height;
   }
 
-  &:hover:not(.disabled) {
+  &:hover:not(.disabled),
+  &:focus:not(.disabled) {
+    color: #8C98AE;
     background: #bfcbd7;
-    border: 1px solid #bfcbd7;
+    border: 1px solid #BFCBD7;
+
+    svg {
+      fill: #8C98AE;
+    }
   }
 }
 
