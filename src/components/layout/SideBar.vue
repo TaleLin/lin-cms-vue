@@ -32,7 +32,7 @@
               <el-submenu v-if="subItem.children" :key="idMap[subItem.name]" :index="idMap[subItem.name]">
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
-                  <span slot="title">{{subItem.title}}</span>
+                  <span slot="title" class="two-folder">{{subItem.title}}</span>
                 </template>
 
                 <!-- 三级菜单 -->
