@@ -307,6 +307,13 @@ table {
   left: 70px !important;
 }
 
+.el-menu--vertical /deep/ .icon-erjizhibiao {
+  display: none;
+}
+.el-menu--vertical /deep/ .two-folder {
+  margin-left: 40px;
+}
+
 .is-active {
   color: $theme !important;
 }
