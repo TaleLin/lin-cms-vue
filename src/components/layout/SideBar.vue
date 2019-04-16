@@ -6,7 +6,7 @@
     <div class="mobile-logo" v-else>
       <img src="../../assets/img/mobile-logo.png" alt="">
     </div>
-    <div class="app-sidebar-second">
+    <div>
       <el-menu
         class="el-menu-vertical-demo"
         ref="meun"
@@ -144,10 +144,10 @@ export default {
 <style lang="scss">
 .app-sidebar {
   background: #192a5e;
-  padding-right: 0px;
 
   .logo {
     width: $sidebar-width;
+    height: 66px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -159,46 +159,38 @@ export default {
 
     img {
       width: 110px;
-      height: 60px;
-      padding: 3px 0px;
       transition: all 0.3s linear;
     }
   }
 
   .mobile-logo {
-    width: 50px;
+    width: 64px;
+    height: 66px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #122150;
     transition: all 0.3s linear;
 
     img {
       width: 40px;
       height: 40px;
-      padding: 13px 5px;
       transition: all 0.3s linear;
     }
-  }
-
-  .app-sidebar-second {
-    width: $sidebar-width + 30px;
-    position: absolute;
-    top: 66px;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
   }
 
   .imgIcon {
     width: 16px;
     height: 16px;
     margin-right: 10px;
+    margin-left: 5px;
     display: inline-block;
     transform: translateY(21px);
   }
 
   .iconfont {
     margin-right: 10px;
+    margin-left: 5px;
     color: $submenu-title;
     height: $menuItem-height;
   }
