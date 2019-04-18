@@ -301,6 +301,7 @@ table {
 
 .el-menu-vertical-demo {
   padding-top: 20px;
+  border-right: 1px solid #1d2a60;
 }
 
 .el-menu--vertical .abc {
@@ -406,11 +407,6 @@ table {
       padding-bottom: 0px;
     }
   }
-}
-
-.el-menu-vertical-demo {
-  border-right: 1px solid #1d2a60;
-  margin-left: -2.5px;
 }
 
 .el-submenu__title {

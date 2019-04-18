@@ -1,27 +1,23 @@
 <template>
   <div style="height:100%;">
     <el-container>
-      <el-aside :width="sideBarWidth">
+      <el-aside :width="sideBarWidth" class="aside">
         <side-bar :isCollapse="isCollapse" class="sidebar"></side-bar>
       </el-aside>
-      <el-container class="el-container-right">
+      <el-container>
         <el-header>
           <div class="operate">
-            <i
-            class="iconfont icon-fold"
-            :class="{rotate: foldState}"
-            @click="changeSlidebarState"/>
-            <i class="iconfont icon-up" :class="{rotate: upState}" @click="changeReuseState"/>
+            <i class="iconfont icon-fold" :class="{rotate: foldState}" @click="changeSlidebarState" />
+            <i class="iconfont icon-up" :class="{rotate: upState}" @click="changeReuseState" />
             <nav-bar></nav-bar>
           </div>
           <el-collapse-transition>
             <reuse-tab v-show="showReuseTab"></reuse-tab>
           </el-collapse-transition>
         </el-header>
-            <menu-tab></menu-tab>
+        <menu-tab></menu-tab>
         <el-main ref="main">
-          <app-main ref="appMain"
-                    class="app-main"></app-main>
+          <app-main ref="appMain" class="app-main"></app-main>
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="24"></back-top>
       </el-container>
@@ -93,7 +89,7 @@ export default {
   },
   watch: {
     isCollapse() {
-      this.sideBarWidth = this.isCollapse === false ? '170px' : '50px'
+      this.sideBarWidth = this.isCollapse === false ? '170px' : '64px'
     },
     $route(to) {
       this.showBackTop = false
@@ -120,11 +116,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
+.aside {
+  background: rgb(25, 42, 94);
   overflow: hidden;
 }
 
@@ -154,13 +147,6 @@ export default {
   }
 }
 
-.wrapper {
-  height: 100%;
-  overflow: hidden;
-}
-// .el-container-right {
-//   padding-bottom: 20px;
-// }
 .app-main {
   background: white;
   border-top-left-radius: 10px;
