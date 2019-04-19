@@ -11,6 +11,7 @@ const stateCode = {
   10050: '令牌过期',
   10060: '字段重复',
   10070: '不可操作',
+  10100: 'refreshToken异常',
 }
 
 export default stateCode
