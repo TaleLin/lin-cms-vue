@@ -25,7 +25,11 @@ Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内�
 
 Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
 
-Lin-CMS 是一套前后端完整的解决方案，后端部署请移步[后端仓库](https://github.com/TaleLin/lin-cms-flask)。
+Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
+
+[lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
+
+[lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
 
 ### 文档地址
 
