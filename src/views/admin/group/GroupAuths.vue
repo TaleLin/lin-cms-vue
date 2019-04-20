@@ -178,13 +178,15 @@ export default {
 
       .permissions-ul {
         display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 20px 20px 0;
         background: #f5f5f6;
         margin-bottom: 20px;
 
         .permissions-li {
+          width: 333px;
           height: 20px;
           line-height: 20px;
           margin-bottom: 20px;
