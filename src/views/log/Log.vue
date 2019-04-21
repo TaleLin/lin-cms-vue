@@ -328,7 +328,6 @@ export default {
   .content {
     padding: 40px 60px;
     font-family: "PingFangSC-Regular";
-    background: #ffffff;
 
     article {
       position: relative;
