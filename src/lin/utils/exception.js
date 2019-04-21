@@ -24,8 +24,14 @@ export async function handleException(res) {
     })
     msg = showMsg
   }
+  // 如果令牌无效或者是refreshToken相关异常
+  if (error_code === 10000 || error_code === 10100) {
+    store.dispatch('loginOut')
+    const { origin } = window.location
+    window.location.href = origin
+  }
   // 令牌相关，刷新令牌
-  if (error_code === 10000 || error_code === 10040 || error_code === 10050) {
+  if (error_code === 10040 || error_code === 10050) {
     // TODO: 重试一次，待优化
     const cache = {}
     if (cache.url !== url) {
