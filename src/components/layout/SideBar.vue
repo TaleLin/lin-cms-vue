@@ -147,7 +147,7 @@ export default {
 
   .logo {
     width: $sidebar-width;
-    height: 66px;
+    height: $header-height;
     display: flex;
     justify-content: center;
     align-items: center;

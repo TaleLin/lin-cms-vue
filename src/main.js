@@ -36,7 +36,6 @@ Vue.component('l-icon', LIcon)
 
 Vue.use(GlobalMixin)
 Vue.use(AuthorizeDirective)
-console.log(Window)
 Vue.prototype.$XLSX = Window.XLSX
 
 /* eslint no-unused-vars: 0 */

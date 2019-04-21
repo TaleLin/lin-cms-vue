@@ -5,18 +5,23 @@
         <side-bar :isCollapse="isCollapse" class="sidebar"></side-bar>
       </el-aside>
       <el-container>
-        <el-header>
-          <div class="operate">
-            <i class="iconfont icon-fold" :class="{rotate: foldState}" @click="changeSlidebarState" />
-            <i class="iconfont icon-up" :class="{rotate: upState}" @click="changeReuseState" />
-            <nav-bar></nav-bar>
+        <el-header class="header">
+          <div class="left">
+            <div class="operate" ref="operate">
+              <i class="iconfont icon-fold" :class="{rotate: foldState}" @click="changeSlidebarState" />
+              <nav-bar></nav-bar>
+            </div>
+            <el-collapse-transition>
+              <reuse-tab ref="reuse"></reuse-tab>
+            </el-collapse-transition>
           </div>
-          <el-collapse-transition>
-            <reuse-tab v-show="showReuseTab"></reuse-tab>
-          </el-collapse-transition>
+          <div class="right-info">
+            <notify v-auth="'消息推送'" v-if="false" />
+            <user></user>
+          </div>
         </el-header>
-        <menu-tab></menu-tab>
         <el-main ref="main">
+          <menu-tab></menu-tab>
           <app-main ref="appMain" class="app-main"></app-main>
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="24"></back-top>
@@ -32,8 +37,10 @@ import {
   AppMain,
   ReuseTab,
   MenuTab,
+  User,
   BackTop,
 } from '@/components/layout'
+import Notify from '@/components/notify/notify'
 
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
@@ -49,8 +56,6 @@ export default {
       clientWidth: 0, // 页面宽度
       clientHeight: 0, // 页面高度
       foldState: false, // 控制左侧菜单栏按键
-      upState: false, // 控制历史记录栏按键
-      showReuseTab: true, // 是否显示历史记录栏
     }
   },
   mounted() {
@@ -67,29 +72,37 @@ export default {
         _this.isCollapse = false
       }
     }
+    this.$nextTick(() => {
+      this.eventBus.$on('noReuse', () => {
+        this.$refs.operate.style.height = '71px'
+      })
+      this.eventBus.$on('hasReuse', () => {
+        this.$refs.operate.style.height = '46px'
+      })
+    })
   },
+  inject: ['eventBus'],
   methods: {
     // 控制菜单折叠
     changeSlidebarState() {
       this.isCollapse = !this.isCollapse
       this.foldState = !this.foldState
     },
-    // 控制历史记录折叠
-    changeReuseState() {
-      this.showReuseTab = !this.showReuseTab
-      this.upState = !this.upState
-      this.$refs.appMain.$el.style.minHeight = this.showReuseTab === false ? `${this.clientHeight - navBarHeight - marginHeight + 20}px` : `${this.clientHeight - totalHeight + 20}px`
-    },
     // 响应页面的宽度高度变化
     setResize() {
       this.clientHeight = document.body.clientHeight
       this.clientWidth = document.body.clientWidth
       this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
+      // 页面缩放重新计算reuse宽度
+      this.$refs.reuse.setReuseTabWidth()
     },
   },
   watch: {
     isCollapse() {
       this.sideBarWidth = this.isCollapse === false ? '170px' : '64px'
+      const sideWidth = this.isCollapse === false ? 170 : 64
+      // 页面缩放重新计算reuse宽度
+      this.$refs.reuse.setReuseTabWidth(sideWidth)
     },
     $route(to) {
       this.showBackTop = false
@@ -100,7 +113,7 @@ export default {
       if (to.meta.blueBaseColor) {
         this.$refs.appMain.$el.style.background = '#273B6F'
       } else {
-        this.$refs.appMain.$el.style.background = '#fff'
+        this.$refs.appMain.$el.style.background = '#EEF4F9'
       }
     },
   },
@@ -111,6 +124,12 @@ export default {
     ReuseTab,
     MenuTab,
     BackTop,
+    User,
+    Notify,
+  },
+  beforeDestroy() {
+    this.eventBus.$off('noReuse')
+    this.eventBus.$off('hasReuse')
   },
 }
 </script>
@@ -121,45 +140,57 @@ export default {
   overflow: hidden;
 }
 
-.operate {
+.header {
+  padding: 0;
+  background: $appmain-background;
+  height: $header-height !important;
   display: flex;
   align-items: center;
-  background: $navbar-background;
-  padding-left: 20px;
+  justify-content: space-between;
+  box-shadow:0px 2px 6px 0px rgba(190,204,216,0.4);
+  border-bottom: 1px solid rgba(190,204,216,0.4);
 
-  .iconfont {
-    font-size: 16px;
-    font-weight: 500;
-    color: #fff;
-    cursor: pointer;
-    transform: rotate(0deg);
-    transition: all 0.3s linear;
-    margin-right: 10px;
+  .left {
+    height: 100%;
 
-    &:hover {
-      color: #3963bc;
+    .operate {
+      display: flex;
+      align-items: center;
+      background: $appmain-background;
+      padding-left: 20px;
+      height: 46px;
+
+      .iconfont {
+        font-size: 16px;
+        font-weight: 500;
+        color: $right-side-font-color;
+        cursor: pointer;
+        transform: rotate(0deg);
+        transition: all 0.3s linear;
+        margin-right: 10px;
+
+        &:hover {
+          color: #3963bc;
+        }
+      }
+
+      .rotate {
+        transform: rotate(180deg);
+        transition: all 0.3s linear;
+      }
     }
   }
 
-  .rotate {
-    transform: rotate(180deg);
-    transition: all 0.3s linear;
+  .right-info {
+    display: flex;
+    align-items: center;
   }
-}
-
-.app-main {
-  background: white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
 
 .el-main {
   overflow-y: auto;
   position: relative;
   padding: 0;
-  margin: 0 20px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
 
 .backTop {

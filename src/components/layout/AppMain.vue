@@ -24,7 +24,7 @@ export default {
         console.log('blueBaseColor')
         document.getElementById('wrapper').style.background = '#273B6F'
       } else {
-        document.getElementById('wrapper').style.background = '#fff'
+        document.getElementById('wrapper').style.background = '#EEF4F9'
       }
     },
   },
@@ -36,9 +36,6 @@ export default {
   .wrapper {
     width: 100%;
     height: 100%;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background: #ffffff;
     text-align: left;
   }
 }
