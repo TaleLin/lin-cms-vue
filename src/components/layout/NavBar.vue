@@ -23,7 +23,7 @@ export default {
 .app-nav-bar {
   width: 100%;
   height: $navbar-height;
-  background-color: $appmain-background;
+  background-color: $header-background;
   display: flex;
   align-items: center;
 

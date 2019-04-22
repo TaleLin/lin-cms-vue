@@ -113,7 +113,7 @@ export default {
       if (to.meta.blueBaseColor) {
         this.$refs.appMain.$el.style.background = '#273B6F'
       } else {
-        this.$refs.appMain.$el.style.background = '#EEF4F9'
+        this.$refs.appMain.$el.style.background = '#FFF'
       }
     },
   },
@@ -142,7 +142,7 @@ export default {
 
 .header {
   padding: 0;
-  background: $appmain-background;
+  background: $header-background;
   height: $header-height !important;
   display: flex;
   align-items: center;
@@ -156,7 +156,7 @@ export default {
     .operate {
       display: flex;
       align-items: center;
-      background: $appmain-background;
+      background: $header-background;
       padding-left: 20px;
       height: 46px;
 
