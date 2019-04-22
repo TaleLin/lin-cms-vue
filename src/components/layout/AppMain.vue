@@ -12,22 +12,6 @@
 <script>
 export default {
   name: 'AppMain',
-  data() {
-    return {
-      cachePage: [], // keep-alive生效的组件，
-      flag: true,
-    }
-  },
-  watch: {
-    $route(to) {
-      if (to.meta.blueBaseColor) {
-        console.log('blueBaseColor')
-        document.getElementById('wrapper').style.background = '#273B6F'
-      } else {
-        document.getElementById('wrapper').style.background = '#EEF4F9'
-      }
-    },
-  },
 }
 </script>
 

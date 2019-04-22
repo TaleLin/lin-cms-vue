@@ -91,8 +91,8 @@ export default {
     return `${year}-${month}-${date} ${hour}:${min}:${se}`
   },
 
-  filterTitle(value) {
-    return Utils.cutString(value, 9)
+  filterTitle(value, len = 9) {
+    return Utils.cutString(value, len)
   },
 
 }

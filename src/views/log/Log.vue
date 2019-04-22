@@ -1,37 +1,27 @@
 <template>
   <div class="log">
-    <sticky-top>
-      <div class="log-header">
-        <div class="header-left">
-          <p class="title">日志信息</p>
-        </div>
-        <div class="header-right"
-            v-auth="'搜索日志'">
-          <lin-search @query="onQueryChange"
-                      ref="searchKeyword" />
-          <el-dropdown style="margin: 0 10px;" @command="handleCommand"  v-auth="'查询日志记录的用户'">
-            <el-button>
-              {{searchUser}}<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="['全部人员']"></el-dropdown-item>
-              <el-dropdown-item
-                v-for="(user, index) in users"
-                :key="index"
-                :command="[user]"
-                >{{user}}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <lin-date-picker
-              @dateChange="handleDateChange"
-              ref="searchDate"
-              class="date">
-          </lin-date-picker>
-        </div>
+    <div class="log-header">
+      <div class="header-left">
+        <p class="title">日志信息</p>
       </div>
-      <lin-1px v-if="!keyword" :addWidth="40"></lin-1px>
-    </sticky-top>
+      <div class="header-right" v-auth="'搜索日志'">
+        <lin-search @query="onQueryChange" ref="searchKeyword" />
+        <el-dropdown style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
+          <el-button>
+            {{searchUser}}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="['全部人员']"></el-dropdown-item>
+            <el-dropdown-item v-for="(user, index) in users" :key="index" :command="[user]">{{user}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date">
+        </lin-date-picker>
+      </div>
+    </div>
+    <lin-1px v-if="!keyword" :addWidth="40"></lin-1px>
     <transition name="fade">
       <div class="search" v-if="keyword">
         <p class="search-tip">
@@ -73,14 +63,12 @@ import log from 'lin/models/log'
 import LinSearch from '@/components/base/search/lin-search'
 import LinDatePicker from '@/components/base/date-picker/lin-date-picker'
 import { searchLogKeyword } from 'lin/utils/search'
-import StickyTop from '@/components/base/sticky-top/sticky-top'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     LinSearch,
     LinDatePicker,
-    StickyTop,
   },
   data() {
     return {
@@ -262,6 +250,7 @@ export default {
 
 .log {
   padding: 0 20px;
+
   .log-header {
     display: flex;
     justify-content: space-between;

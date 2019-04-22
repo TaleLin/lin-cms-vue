@@ -15,10 +15,6 @@
               <reuse-tab ref="reuse"></reuse-tab>
             </el-collapse-transition>
           </div>
-          <div class="right-info">
-            <notify v-auth="'消息推送'" v-if="false" />
-            <user></user>
-          </div>
         </el-header>
         <el-main ref="main">
           <menu-tab></menu-tab>
@@ -37,10 +33,8 @@ import {
   AppMain,
   ReuseTab,
   MenuTab,
-  User,
   BackTop,
 } from '@/components/layout'
-import Notify from '@/components/notify/notify'
 
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
@@ -72,13 +66,12 @@ export default {
         _this.isCollapse = false
       }
     }
-    this.$nextTick(() => {
-      this.eventBus.$on('noReuse', () => {
-        this.$refs.operate.style.height = '71px'
-      })
-      this.eventBus.$on('hasReuse', () => {
-        this.$refs.operate.style.height = '46px'
-      })
+
+    this.eventBus.$on('noReuse', () => {
+      this.$refs.operate.style.height = '71px'
+    })
+    this.eventBus.$on('hasReuse', () => {
+      this.$refs.operate.style.height = '45px'
     })
   },
   inject: ['eventBus'],
@@ -93,27 +86,16 @@ export default {
       this.clientHeight = document.body.clientHeight
       this.clientWidth = document.body.clientWidth
       this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
-      // 页面缩放重新计算reuse宽度
-      this.$refs.reuse.setReuseTabWidth()
     },
   },
   watch: {
     isCollapse() {
       this.sideBarWidth = this.isCollapse === false ? '170px' : '64px'
-      const sideWidth = this.isCollapse === false ? 170 : 64
-      // 页面缩放重新计算reuse宽度
-      this.$refs.reuse.setReuseTabWidth(sideWidth)
     },
-    $route(to) {
+    $route() {
       this.showBackTop = false
       if (this.scrollY <= 70) { // MenuTab组件高度
         this.backTop()
-      }
-
-      if (to.meta.blueBaseColor) {
-        this.$refs.appMain.$el.style.background = '#273B6F'
-      } else {
-        this.$refs.appMain.$el.style.background = '#EEF4F9'
       }
     },
   },
@@ -124,8 +106,6 @@ export default {
     ReuseTab,
     MenuTab,
     BackTop,
-    User,
-    Notify,
   },
   beforeDestroy() {
     this.eventBus.$off('noReuse')
@@ -142,23 +122,25 @@ export default {
 
 .header {
   padding: 0;
-  background: $appmain-background;
+  background: $header-background;
   height: $header-height !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow:0px 2px 6px 0px rgba(190,204,216,0.4);
   border-bottom: 1px solid rgba(190,204,216,0.4);
+  z-index: 1;
 
   .left {
     height: 100%;
+    width: 100%;
 
     .operate {
       display: flex;
       align-items: center;
-      background: $appmain-background;
+      background: $header-background;
       padding-left: 20px;
-      height: 46px;
+      height: 72px;
 
       .iconfont {
         font-size: 16px;

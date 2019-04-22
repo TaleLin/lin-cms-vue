@@ -15,7 +15,7 @@
 
             <ul class="permissions-ul">
               <li class="permissions-li" v-for="(item,key) in auth" :key="key">
-                <el-checkbox :label="key" @change="singleCheck($event, key, index)"></el-checkbox>
+                <el-checkbox :label="key | filterTitle(32)" @change="singleCheck($event, key, index)"></el-checkbox>
               </li>
             </ul>
           </el-checkbox-group>
@@ -178,14 +178,14 @@ export default {
 
       .permissions-ul {
         display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
+        flex-wrap: wrap;
+        justify-content: space-between;
         padding: 20px 20px 0;
         background: #f5f5f6;
         margin-bottom: 20px;
 
         .permissions-li {
-          width: 333px;
+          width: 290px;
           height: 20px;
           line-height: 20px;
           margin-bottom: 20px;
