@@ -66,13 +66,12 @@ export default {
         _this.isCollapse = false
       }
     }
-    this.$nextTick(() => {
-      this.eventBus.$on('noReuse', () => {
-        this.$refs.operate.style.height = '71px'
-      })
-      this.eventBus.$on('hasReuse', () => {
-        this.$refs.operate.style.height = '45px'
-      })
+
+    this.eventBus.$on('noReuse', () => {
+      this.$refs.operate.style.height = '71px'
+    })
+    this.eventBus.$on('hasReuse', () => {
+      this.$refs.operate.style.height = '45px'
     })
   },
   inject: ['eventBus'],
