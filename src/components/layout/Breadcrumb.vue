@@ -47,7 +47,7 @@ export default {
     align-items: center;
     padding-right: 18px;
     position: relative;
-    color: rgba(89, 108, 142, 1);
+    color: $right-side-font-color;
 
     &:after {
       content: "/";
@@ -58,7 +58,7 @@ export default {
   }
 
   .item:last-child {
-    color: #fff;
+    color: $theme;
     padding-right: 0;
 
     &:after {
