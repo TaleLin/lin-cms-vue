@@ -10,10 +10,7 @@
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item :command="[undefined,'全部分组']">全部分组</el-dropdown-item>
-          <el-dropdown-item
-          v-for="(group, index) in groups"
-          :key="index"
-          :command="[group.id,group.name]">
+          <el-dropdown-item v-for="(group, index) in groups" :key="index" :command="[group.id,group.name]">
             {{group.name}}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -186,7 +183,7 @@ export default {
         }
         if (res.error_code === 0) {
           this.loading = false
-          if (this.total_nums % this.pageCount === 1) { // 判断删除的是不是每一页的最后一条数据
+          if (this.total_nums % this.pageCount === 1 && this.currentPage !== 1) { // 判断删除的是不是每一页的最后一条数据
             this.currentPage--
           }
           await this.getAdminUsers()
@@ -243,14 +240,8 @@ export default {
         this.dialogFormVisible = false
       }
     },
-  },
-  async created() {
-    await this.getAdminUsers()
-    await this.getAllGroups()
-    this.tableColumn = [{ prop: 'nickname', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     // 监听添加用户是否成功
-    this.eventBus.$on('addUser', async (flag) => {
+    async addUser(flag) {
       if (flag === true) {
         if (this.total_nums % this.pageCount === 0) { // 判断当前页的数据是不是满了，需要增加新的页码
           this.currentPage++
@@ -261,13 +252,22 @@ export default {
           this.refreshPagination = true
         })
       }
-    })
+    },
+  },
+  async created() {
+    await this.getAdminUsers()
+    await this.getAllGroups()
+    this.tableColumn = [{ prop: 'nickname', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
+    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
+    this.eventBus.$on('addUser', this.addUser)
+  },
+  beforeDestroy() {
+    this.eventBus.$off('addUser', this.addUser)
   },
 }
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   padding: 0 30px;
 

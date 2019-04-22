@@ -25,7 +25,6 @@ import ripple from 'lin/directives/ripple'
 
 import "swiper/dist/css/swiper.css" // eslint-disable-line
 
-const headerRightWidth = 70
 
 export default {
   components: { swiper, swiperSlide },
@@ -100,7 +99,6 @@ export default {
   },
   mounted() {
     this.init()
-    this.setReuseTabWidth()
   },
   methods: {
     init() {
@@ -130,12 +128,6 @@ export default {
           stageId: findResult.name,
         })
         this.histories = histories
-      })
-    },
-    setReuseTabWidth(sideBarWidth = 170) {
-      this.$nextTick(() => {
-        const maxWidth = document.body.clientWidth - sideBarWidth - headerRightWidth
-        this.$refs.resueTab.style.maxWidth = `${maxWidth}px`
       })
     },
     filterIcon(icon) {

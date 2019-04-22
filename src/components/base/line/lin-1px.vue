@@ -30,6 +30,6 @@ export default {
   width: 100%;
   background: #dae1ed;
   margin-bottom: 10px;
-  box-shadow: 0 2px 5px #d4d4d4;
+  // box-shadow: 0 2px 5px #d4d4d4;
 }
 </style>

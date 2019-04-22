@@ -156,6 +156,10 @@ export default {
     transition: all 0.5s ease-in-out;
     background-color: #122150;
     transition: all 0.3s linear;
+    position:sticky;
+    top:0;
+    left:0;
+    z-index: 99;
 
     img {
       width: 110px;
