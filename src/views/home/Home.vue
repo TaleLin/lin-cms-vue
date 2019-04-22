@@ -137,7 +137,7 @@ export default {
 <style lang="scss" scoped>
 .aside {
   background: rgb(25, 42, 94);
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .header {
@@ -200,11 +200,12 @@ export default {
   cursor: pointer;
   right: 50px;
   bottom: 50px;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  line-height: 45px;
-
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  border-radius: 50%;
+  z-index:99;
+  background: #fff;
   .iconfont {
     font-size: 36px;
   }
