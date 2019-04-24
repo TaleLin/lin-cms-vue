@@ -29,8 +29,8 @@
           >
             <el-input clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item v-if="pageType !== 'password'" label="选择分组" class="user-info">
-            <el-radio-group v-model="form.group_id" label-position="top">
+          <el-form-item v-if="pageType !== 'password'" label="选择分组">
+            <el-radio-group v-model="form.group_id" label-position="top" class="user-info">
               <el-radio :label="item.id" v-for="(item, index) in groups" :key="index">{{item.name}}</el-radio>
             </el-radio-group>
           </el-form-item>
@@ -253,24 +253,28 @@ export default {
 </style>
 
 <style lang="scss">
-.user-info {
-  .el-radio-group {
+.el-radio-group {
+  &.user-info {
     display: flex;
     flex-wrap: wrap;
-    width:120%;
-  }
-  .el-radio {
-    width:30%;
-    margin-left: 0px !important;
-    margin-right:10px;
-    margin-bottom: 20px;
-    white-space: normal;
-    display: flex;
+    width: 120%;
+    > .el-radio {
+      width: 30%;
+      margin-left: 0px !important;
+      margin-right: 10px;
+      margin-bottom: 20px;
+      white-space: normal;
+      display: flex;
+    }
   }
 }
 @media screen and (max-width: 980px) {
-  .el-radio {
-    width: 50%;
+  .el-radio-group {
+    &.user-info {
+      > .el-radio {
+        width: 50%;
+      }
+    }
   }
 }
 </style>
