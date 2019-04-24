@@ -19,7 +19,7 @@
             <el-input clearable v-model="form.nickname" :disabled="isEdited"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
-            <el-input clearable v-model="form.email"></el-input>
+            <el-input clearable v-model="form.email" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item v-if="pageType === 'add'" label="密码" prop="password">
             <el-input

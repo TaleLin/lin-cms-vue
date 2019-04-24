@@ -1,3 +1,4 @@
+
 <template>
   <div class="app-nav-bar">
 
@@ -32,16 +33,13 @@ export default {
 .app-nav-bar {
   width: 100%;
   height: $navbar-height;
-  background-color: $navbar-background;
   display: flex;
   align-items: center;
-
   .logo.js-min-logo {
     width: 64px;
     font-size: 16px;
     color: #fff;
   }
-
   .nav-content {
     flex: 1;
     height: 100%;
@@ -50,7 +48,6 @@ export default {
     justify-content: space-between;
     padding-left: 10px;
     padding-right: $navbar-padding;
-
     .right-info {
       display: flex;
       align-items: center;

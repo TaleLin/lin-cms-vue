@@ -463,23 +463,16 @@ table {
 
 // layout
 .el-container.is-vertical {
-  background: #273b6f;
+  background: $appmain-background;
 }
 
 .el-aside {
   transition: all 0.3s linear;
 }
 
-.el-header {
-  padding: 0;
-  height: auto !important;
-  background: #2b3b71;
-  margin-bottom: 20px;
-}
-
 .el-main {
   padding: 0 20px 20px 20px;
-  background: #273b6f;
+  background: $appmain-background;
 }
 
 .el-container {
