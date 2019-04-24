@@ -38,12 +38,6 @@
   width: 100%;
 }
 
-.el-radio {
-  width: 33%;
-  margin-left: 0px !important;
-  margin-bottom: 20px;
-}
-
 .el-radio__inner {
   border: 1px solid #c4c0d2 !important;
 }
@@ -55,12 +49,6 @@
 
 .el-radio__input.is-checked + .el-radio__label {
   color: $theme;
-}
-
-@media screen and (max-width: 980px) {
-  .el-radio {
-    width: 50%;
-  }
 }
 
 // form
