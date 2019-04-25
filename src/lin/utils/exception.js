@@ -47,7 +47,8 @@ export async function handleException(res) {
     message: msg || '未知的error_code',
     type: 'error',
   })
-  throw new Error(res)
+  // throw new Error(res)
+  return false
 }
 
 export function handleError(error) {
