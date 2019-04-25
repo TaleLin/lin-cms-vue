@@ -1,7 +1,6 @@
 import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
 
 import Lin1px from '@/components/base/line/lin-1px'
 import LButton from '@/components/base/button/lin-button'
@@ -19,6 +18,7 @@ import router from './router'
 import store from './store'
 
 import '@/assets/styles/index.scss' // eslint-disable-line
+import '@/assets/styles/realize/element-variables.scss'
 
 // 全局过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))

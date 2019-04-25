@@ -1,4 +1,113 @@
-@import './variable.scss';
+/* 改变主题色变量 */
+$--color-primary: #3963bc;
+
+$--color-primary: #3963bc;
+$--color-success: #00c292 !default;
+$--color-warning: #dee2e6 !default;
+$--color-danger: #f4516c !default;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: "~element-ui/lib/theme-chalk/fonts";
+
+@import "~element-ui/packages/theme-chalk/src/index";
+
+@import "./lin-variables.scss";
+
+// button
+.el-button {
+  padding: 8px 16px;
+  border-radius: 2px;
+}
+.el-button--primary.is-plain,
+.el-button--success.is-plain,
+.el-button--info.is-plain,
+.el-button--danger.is-plain,
+.el-button--warning.is-plain {
+  background: #fff;
+}
+.el-button--primary {
+  &.is-plain {
+    color: #3963bc;
+    background: #fff;
+    border: 1px solid #3963bc;
+  }
+  &:hover,
+  &:focus {
+    background: #0037ad;
+    border: 1px solid #0037ad;
+  }
+}
+.el-button--success {
+  &.is-plain {
+    color: #34bfa3;
+    background: #fff;
+    border: 1px solid #34bfa3;
+  }
+  &:hover,
+  &:focus {
+    background: #009d72;
+    border: 1px solid #009d72;
+  }
+}
+.el-button--danger {
+  &.is-plain {
+    color: #f4516c;
+    background: #fff;
+    border: 1px solid #f4516c;
+  }
+  &:hover,
+  &:focus {
+    background: #d62f40;
+    border: 1px solid #d62f40;
+  }
+}
+.el-button--warning {
+  color: #8c98ae;
+  &.is-plain {
+    color: #8c98ae;
+    background: #fff;
+    border: 1px solid #8c98ae;
+    &:hover,
+    &:focus {
+      background: #8c98ae;
+      color: #fff;
+      border: 1px solid #8c98ae;
+    }
+    &.is-disabled {
+      color: #8c98ae;
+      background: #fff;
+      border: 1px solid #8c98ae;
+      opacity: 0.5;
+      &:hover,
+      &:focus {
+        color: #8c98ae;
+        background: #fff;
+        border: 1px solid #8c98ae;
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &:hover,
+  &:focus {
+    color: #8c98ae;
+    background: #bfcbd7;
+    border: 1px solid #bfcbd7;
+  }
+  &.is-disabled {
+    background: #dee2e6;
+    color: #8c98ae;
+    border: 1px solid #dee2e6;
+    opacity: 0.5;
+    &:hover,
+    &:focus {
+      background: #dee2e6;
+      color: #8c98ae;
+      border: 1px solid #dee2e6;
+      opacity: 0.5;
+    }
+  }
+}
 
 // checkbox
 .module-box .module .el-checkbox__label {
