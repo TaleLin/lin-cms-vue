@@ -16,6 +16,10 @@ const routes = [
     name: 'login',
     component: () => import('@/views/login/Login'),
   },
+  {
+    redirect: '/404',
+    path: '*',
+  },
 ]
 
 export default routes
