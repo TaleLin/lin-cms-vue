@@ -1,8 +1,9 @@
 <template>
   <div class="lin-table">
     <el-table
-      border
       ref="linTable"
+      stripe
+      border
       v-loading="loading"
       :data="currentData"
       :highlight-current-row="highlightCurrentRow ? true : false"
@@ -41,13 +42,14 @@
         fixed="right"
         width="175">
         <template slot-scope="scope">
-          <l-button
+          <el-button
             v-for="(item,index) in operate"
             :type="item.type"
             :key="index"
+            size="mini"
             v-auth="item.auth ? item.auth : ''"
             @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}
-          </l-button>
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
