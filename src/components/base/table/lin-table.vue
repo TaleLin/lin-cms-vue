@@ -2,9 +2,9 @@
   <div class="lin-table">
     <el-table
       ref="linTable"
-      stripe
-      border
       v-loading="loading"
+      stripe
+      :border="border"
       :data="currentData"
       :highlight-current-row="highlightCurrentRow ? true : false"
       :element-loading-text="loadingText"
@@ -45,6 +45,7 @@
           <el-button
             v-for="(item,index) in operate"
             :type="item.type"
+            plain
             :key="index"
             size="mini"
             v-auth="item.auth ? item.auth : ''"
@@ -139,6 +140,11 @@ export default {
     pagination: {
       // 分页
       type: [Object, Boolean],
+      default: false,
+    },
+    border: {
+      // 边框
+      type: Boolean,
       default: false,
     },
   },

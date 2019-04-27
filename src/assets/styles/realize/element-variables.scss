@@ -17,6 +17,9 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 .el-button {
   padding: 8px 16px;
   border-radius: 2px;
+  &.el-button--mini {
+    padding:5px 12px;
+  }
 }
 .el-button--primary.is-plain,
 .el-button--success.is-plain,
@@ -246,7 +249,7 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 
 .el-table:not(.el-table--border) {
   td {
-    border:none;
+    border: none;
   }
 }
 .el-table--border {
@@ -281,23 +284,22 @@ thead tr {
 .el-table__body tr {
   height: 54px;
 }
-.el-table--striped {
-  .el-table__body {
-    tr {
-      &.el-table__row {
-        td {
-          background: #f8f9fa;
-        }
-      }
-      &.el-table__row--striped {
-        td {
-          background-color: #fff;
-        }
-      }
-    }
-  }
+.el-table th, .el-table td {
+  padding: 9px 0px;
 }
-
+.el-table--striped .el-table__body tr {
+  background: #f8f9fa;
+}
+.el-table--striped .el-table__body tr.el-table__row--striped td {
+  background: #fff;
+}
+.el-table__body tr.current-row > td,
+.el-table__body tr.hover-row.current-row > td,
+.el-table__body tr.hover-row.el-table__row--striped.current-row > td,
+.el-table__body tr.hover-row.el-table__row--striped > td,
+.el-table__body tr.hover-row > td {
+  background-color: #ecf5ff;
+}
 // dialog
 .el-dialog__footer {
   text-align: left;
