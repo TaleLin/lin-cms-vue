@@ -8,6 +8,7 @@
       align="right"
       popper-class="date-box"
       value-format="yyyy-MM-dd HH:mm:ss"
+      :default-time="['00:00:00', '23:59:59']"
       :picker-options="pickerOptions">
     </el-date-picker>
   </div>
