@@ -5,7 +5,6 @@
       :tableColumn="tableColumn"
       :tableData="tableData"
       :operate="operate"
-      highlight-current-row
       @handleEdit="handleEdit"
       @handleDelete="handleDelete"
       @row-click="rowClick"

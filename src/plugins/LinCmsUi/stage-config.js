@@ -18,6 +18,16 @@ const LinCmsUiRouter = {
       icon: 'iconfont icon-demo',
       right: null,
     },
+    {
+      title: 'Table ',
+      type: 'view',
+      name: 'LinCmsUiStage1',
+      route: '/lin-cms-ui/table',
+      filePath: 'plugins/LinCmsUi/views/Table.vue',
+      inNav: true,
+      icon: 'iconfont icon-demo',
+      right: null,
+    },
   ],
 }
 
