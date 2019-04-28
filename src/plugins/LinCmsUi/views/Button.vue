@@ -1,9 +1,7 @@
 <template>
   <div class="lin-container">
-    <sticky-top>
-      <div class="lin-title">Button 按钮</div>
-      <lin-1px />
-    </sticky-top>
+    <div class="lin-title">Button 按钮</div>
+    <lin-1px />
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
         <div slot="header">
