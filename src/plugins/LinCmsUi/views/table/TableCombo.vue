@@ -46,7 +46,7 @@
           <el-button type="primary" @click="dialogTableVisible=!dialogTableVisible">列操作</el-button>
           <!-- <el-button type="primary" :disabled="enableDrag" @click="drag()">开启拖拽</el-button> -->
         </div>
-        <el-select
+        <!-- <el-select
           style="width: 151px;"
           v-model="value"
           @change="selectChange"
@@ -56,7 +56,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"></el-option>
-        </el-select>
+        </el-select> -->
       </div>
       <el-table
         :row-class-name="rowClassName"
@@ -179,9 +179,9 @@
 </template>
 
 <script>
-import Sortable from 'sortablejs' // eslint-disable-line
-import FileSaver from 'file-saver' // eslint-disable-line
-import XLSX from 'xlsx' // eslint-disable-line
+// import Sortable from 'sortablejs' // eslint-disable-line
+// import FileSaver from 'file-saver' // eslint-disable-line
+// import XLSX from 'xlsx' // eslint-disable-line
 import LinButton from '@/components/base/button/lin-button'
 import LinSearch from '@/components/base/search/lin-search'
 
@@ -386,71 +386,71 @@ export default {
     },
 
     // 拖拽
-    drag() {
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 1000)
-      this.enableDrag = true
-      const el = document.querySelectorAll(
-        '.el-table__body-wrapper > table > tbody',
-      )[0]
-      this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
-      this.sortable = Sortable.create(el, {
-        setData(dataTransfer) {
-          dataTransfer.setData('Text', '')
-        },
-        onEnd: (evt) => {
-          const copy = [...this.tableData]
-          this.tableData[evt.oldIndex] = copy[evt.newIndex]
-          this.tableData[evt.newIndex] = copy[evt.oldIndex]
-        },
-      })
-    },
+    // drag() {
+    //   this.loading = true
+    //   setTimeout(() => {
+    //     this.loading = false
+    //   }, 1000)
+    //   this.enableDrag = true
+    //   const el = document.querySelectorAll(
+    //     '.el-table__body-wrapper > table > tbody',
+    //   )[0]
+    //   this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
+    //   this.sortable = Sortable.create(el, {
+    //     setData(dataTransfer) {
+    //       dataTransfer.setData('Text', '')
+    //     },
+    //     onEnd: (evt) => {
+    //       const copy = [...this.tableData]
+    //       this.tableData[evt.oldIndex] = copy[evt.newIndex]
+    //       this.tableData[evt.newIndex] = copy[evt.oldIndex]
+    //     },
+    //   })
+    // },
 
-    selectChange(val) {
-      val === 'excel' ? this.exportExcel() : this.exportCsv() // eslint-disable-line
-    },
-    // 导出excel
-    exportExcel(fileName = 'sheet') {
-      const targetTable = XLSX.utils.table_to_book(
-        document.querySelectorAll('.el-table__body-wrapper > table')[0],
-      )
-      const writeTable = XLSX.write(targetTable, {
-        bookType: 'xlsx',
-        bookSST: true,
-        type: 'array',
-      })
-      try {
-        FileSaver.saveAs(
-          new Blob([writeTable], { type: 'application/octet-stream' }),
-          `${fileName}.xlsx`,
-        )
-      } catch (e) {
-        if (typeof console !== 'undefined') console.log(e, writeTable)
-      }
-      return writeTable
-    },
-    // 导出csv
-    exportCsv(fileName = 'sheet') {
-      const targetTable = XLSX.utils.table_to_book(
-        document.querySelectorAll('.el-table__body-wrapper > table')[0],
-      )
-      const writeTable = XLSX.write(targetTable, {
-        bookType: 'csv',
-        bookSST: true,
-        type: 'array',
-      })
-      try {
-        FileSaver.saveAs(
-          new Blob([writeTable], { type: 'application/octet-stream' }),
-          `${fileName}.csv`,
-        )
-      } catch (e) {
-        if (typeof console !== 'undefined') console.log(e, writeTable)
-      }
-      return writeTable
-    },
+    // selectChange(val) {
+    //   val === 'excel' ? this.exportExcel() : this.exportCsv() // eslint-disable-line
+    // },
+    // // 导出excel
+    // exportExcel(fileName = 'sheet') {
+    //   const targetTable = XLSX.utils.table_to_book(
+    //     document.querySelectorAll('.el-table__body-wrapper > table')[0],
+    //   )
+    //   const writeTable = XLSX.write(targetTable, {
+    //     bookType: 'xlsx',
+    //     bookSST: true,
+    //     type: 'array',
+    //   })
+    //   try {
+    //     FileSaver.saveAs(
+    //       new Blob([writeTable], { type: 'application/octet-stream' }),
+    //       `${fileName}.xlsx`,
+    //     )
+    //   } catch (e) {
+    //     if (typeof console !== 'undefined') console.log(e, writeTable)
+    //   }
+    //   return writeTable
+    // },
+    // // 导出csv
+    // exportCsv(fileName = 'sheet') {
+    //   const targetTable = XLSX.utils.table_to_book(
+    //     document.querySelectorAll('.el-table__body-wrapper > table')[0],
+    //   )
+    //   const writeTable = XLSX.write(targetTable, {
+    //     bookType: 'csv',
+    //     bookSST: true,
+    //     type: 'array',
+    //   })
+    //   try {
+    //     FileSaver.saveAs(
+    //       new Blob([writeTable], { type: 'application/octet-stream' }),
+    //       `${fileName}.csv`,
+    //     )
+    //   } catch (e) {
+    //     if (typeof console !== 'undefined') console.log(e, writeTable)
+    //   }
+    //   return writeTable
+    // },
   },
 
   watch: {
