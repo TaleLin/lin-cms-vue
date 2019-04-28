@@ -15,6 +15,7 @@
             <div class="username">{{nickname}}</div>
             <div class="desc">{{title}}</div>
           </div>
+          <img src="../../assets/img/user/corner.png" class="corner" />
         </div>
         <ul class="dropdown-box">
           <li class=" password" @click="changePassword">
@@ -193,13 +194,22 @@ export default {
   .user-info {
     background-image: url("../../assets/img/user/user-bg.png");
     background-size: 100% 100%;
-    transform: translateY(-3px);
+    transform: translateY(-10px);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     display: flex;
     flex-direction: row;
     padding: 35px 20px 25px 30px;
     z-index: 100;
+    position: relative;
+
+    .corner {
+      position: absolute;
+      right: 18px;
+      top: -9px;
+      width: 27px;
+      height: 10px;
+    }
 
     .avatar {
       width: 80px;
@@ -234,7 +244,7 @@ export default {
     color: #596c8e;
     font-size: 14px;
     background: white;
-    margin-top: -3px;
+    margin-top: -10px;
 
     li {
       cursor: pointer;
