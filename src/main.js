@@ -7,6 +7,7 @@ import StickyTop from '@/components/base/sticky-top/sticky-top'
 import LButton from '@/components/base/button/lin-button'
 import LButtonGroup from '@/components/base/button/lin-button-group'
 import LIcon from '@/components/base/icon/lin-icon'
+import SourceCode from '@/components/base/source-code/source-code'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import GlobalMixin from 'lin/mixin/global'
@@ -35,6 +36,7 @@ Vue.component('sticky-top', StickyTop)
 Vue.component('l-button', LButton)
 Vue.component('l-button-group', LButtonGroup)
 Vue.component('l-icon', LIcon)
+Vue.component('source-code', SourceCode)
 
 Vue.use(GlobalMixin)
 Vue.use(AuthorizeDirective)
