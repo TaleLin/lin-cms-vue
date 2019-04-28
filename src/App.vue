@@ -56,23 +56,3 @@ export default {
   }
 }
 </style>
-
-<style>
-::-webkit-scrollbar-track-piece {
-  background-color: #273b6f;
-}
-
-::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(22, 37, 87, 0.7);
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #bbb;
-}
-</style>

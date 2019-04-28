@@ -164,7 +164,7 @@ export default {
 
 <style lang="scss" scoped>
 .swiper-slide {
-  width: 110px;
+  width: 120px;
   display: flex;
   height: 26px;
   flex-direction: column;
@@ -189,7 +189,7 @@ export default {
     box-sizing: border-box;
     width: auto;
     height: 26px;
-    width: 110px;
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
