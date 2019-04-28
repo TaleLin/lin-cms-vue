@@ -253,6 +253,7 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   }
 }
 .el-table--border {
+  border-right: none !important;
   table {
     border-top: none !important;
   }
