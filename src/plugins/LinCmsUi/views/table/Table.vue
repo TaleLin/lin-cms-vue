@@ -16,7 +16,7 @@
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
           </el-table>
         </el-row>
         <el-collapse>
@@ -37,7 +37,7 @@
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
           </el-table>
         </el-row>
         <el-collapse>
@@ -58,7 +58,7 @@
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
           </el-table>
         </el-row>
         <el-collapse>
@@ -81,7 +81,7 @@
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址" width="300"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="300"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120" fixed="right"></el-table-column>
           </el-table>
         </el-row>
@@ -102,7 +102,7 @@
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址" width="300"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="300"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
             <el-table-column label="操作" width="140" fixed="right">
               <template slot-scope="scope">
@@ -175,7 +175,7 @@ export default {
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
           </el-table>`,
       border: `
           <el-table :data="tableData" stripe border>
@@ -184,7 +184,7 @@ export default {
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
           </el-table>`,
       header: `
           <el-table :data="tableData" height="200" stripe>
@@ -193,7 +193,7 @@ export default {
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true"></el-table-column>
           </el-table>`,
       column: `
           <el-table :data="tableData" border style="width:800px;margin-left:auto;margin-right:auto;">
@@ -201,7 +201,7 @@ export default {
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址" width="300"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="300"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120" fixed="right"></el-table-column>
           </el-table>`,
       operate: `
@@ -210,7 +210,7 @@ export default {
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址" width="300"></el-table-column>
+            <el-table-column prop="address" label="地址" :show-overflow-tooltip="true" width="300"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
             <el-table-column label="操作" width="150">
               <template slot-scope="scope">

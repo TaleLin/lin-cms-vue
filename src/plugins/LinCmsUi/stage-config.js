@@ -1,7 +1,7 @@
 const LinCmsUiRouter = {
   route: null,
   name: null,
-  title: 'lin-cms-ui',
+  title: 'UI',
   type: 'folder',
   icon: 'iconfont icon-jiemiansheji',
   filePath: 'views/LinCmsUi/',
