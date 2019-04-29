@@ -611,6 +611,9 @@ export default {
     justify-content: flex-end;
     margin: 20px;
   }
+  .pagination /deep/ .el-pagination__editor.el-input .el-input__inner{
+      border-radius: 4px;
+  }
 }
 </style>
 <style>

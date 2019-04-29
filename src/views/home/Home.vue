@@ -181,7 +181,7 @@ export default {
   overflow-y: auto;
   position: relative;
   padding: 0;
-   &::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     width: 2px;
     height: 0px;
   }

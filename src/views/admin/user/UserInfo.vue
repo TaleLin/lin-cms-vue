@@ -257,9 +257,9 @@ export default {
   &.user-info {
     display: flex;
     flex-wrap: wrap;
-    width: 120%;
+    justify-content: space-between;
     > .el-radio {
-      width: 30%;
+      width: 150px;
       margin-left: 0px !important;
       margin-right: 10px;
       margin-bottom: 20px;

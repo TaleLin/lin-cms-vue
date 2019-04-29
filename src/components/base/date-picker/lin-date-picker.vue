@@ -66,8 +66,14 @@ export default {
   margin-top: 10px;
 }
 .el-input__inner{
-  height: 36px;
-  line-height: 36px;
+  height: 32px;
+  line-height: 32px;
+}
+.el-date-editor .el-range__icon {
+  height: 32px;
+}
+.el-date-editor .el-range-separator{
+  height: 32px;
 }
 .el-date-table td.start-date span, .el-date-table td.end-date span{
   background-color: #3963BC;
