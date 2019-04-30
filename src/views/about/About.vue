@@ -74,7 +74,7 @@
   .header {
     width: 100%;
     height: 180px;
-    background-color: #F3F6FF;
+    background-color: #E9F0FF;
     background-image: url('../../assets/img/about/header-bg.png');
     background-position: 100%;
     background-repeat: no-repeat;
@@ -139,7 +139,7 @@
 
     .team-detail {
       position: relative;
-      background-color: #F3F6FF;
+      background-color: #E9F0FF;
       width: 600px;
       height: 100%;
 
@@ -231,7 +231,7 @@
       flex: 1;
       flex-direction: column;
       justify-content: center;
-      background-color: #F3F6FF;
+      background-color: #E9F0FF;
       height: 100%;
 
       .official-account-box {
