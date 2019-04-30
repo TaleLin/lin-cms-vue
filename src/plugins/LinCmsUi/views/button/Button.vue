@@ -1,8 +1,8 @@
 <template>
   <div class="lin-container">
     <sticky-top>
-    <div class="lin-title">Button 按钮</div>
-    <lin-1px />
+      <div class="lin-title">Button 按钮</div>
+      <lin-1px/>
     </sticky-top>
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
@@ -143,6 +143,29 @@
           </el-collapse-item>
         </el-collapse>
       </el-card>
+
+      <el-card class="box-card" style="margin-bottom:50px;">
+        <div slot="header">
+          <span>不同尺寸</span>
+        </div>
+        <el-row>
+          <el-button>默认按钮</el-button>
+          <el-button size="medium">中等按钮</el-button>
+          <el-button size="small">小型按钮</el-button>
+          <el-button size="mini">超小按钮</el-button>
+        </el-row>
+        <el-row style="margin-top:10px;">
+          <el-button round>默认按钮</el-button>
+          <el-button size="medium" round>中等按钮</el-button>
+          <el-button size="small" round>小型按钮</el-button>
+          <el-button size="mini" round>超小按钮</el-button>
+        </el-row>
+        <el-collapse>
+          <el-collapse-item title="查看代码" name="2">
+            <div style="white-space: pre-wrap;">{{size}}</div>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
     </div>
   </div>
 </template>
@@ -209,6 +232,16 @@ export default {
           <el-button type="primary" icon="el-icon-share"></el-button>
           <el-button type="primary" icon="el-icon-delete"></el-button>
         </el-button-group>`,
+      size: `
+        <el-button>默认按钮</el-button>
+        <el-button size="medium">中等按钮</el-button>
+        <el-button size="small">小型按钮</el-button>
+        <el-button size="mini">超小按钮</el-button>
+
+        <el-button round>默认按钮</el-button>
+        <el-button size="medium" round>中等按钮</el-button>
+        <el-button size="small" round>小型按钮</el-button>
+        <el-button size="mini" round>超小按钮</el-button>`,
     }
   },
   // 计算属性设置
@@ -227,8 +260,7 @@ export default {
   // },
   methods: {
     // 执行获取数据等初始化动作
-    init() {
-    },
+    init() {},
   },
 }
 </script>
@@ -248,13 +280,13 @@ export default {
 
     .el-collapse-item__header {
       border-bottom: none;
-      color:#2f4e8c;
+      color: #2f4e8c;
       padding-left: calc(100% - 77px);
     }
 
     .el-collapse-item__content {
       background: #e9f0f8;
-      color:#2f4e8c;
+      color: #2f4e8c;
       border-radius: 4px;
       padding: 0px 20px 20px 20px;
       margin-bottom: 20px;

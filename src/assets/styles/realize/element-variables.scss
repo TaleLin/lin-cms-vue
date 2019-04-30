@@ -17,8 +17,17 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 .el-button {
   padding: 8px 16px;
   border-radius: 2px;
+  &.is-round {
+    padding:8px 16px;
+  }
   &.el-button--mini {
-    padding:5px 12px;
+    padding: 5px 12px;
+  }
+  &.el-button--medium {
+    padding: 7px 12px;
+  }
+  &.el-button--small {
+    padding: 6px 12px;
   }
 }
 .el-button--primary.is-plain,
@@ -285,7 +294,8 @@ thead tr {
 .el-table__body tr {
   height: 52px;
 }
-.el-table th, .el-table td {
+.el-table th,
+.el-table td {
   padding: 9px 0px;
 }
 .el-table--striped .el-table__body tr {
@@ -301,6 +311,13 @@ thead tr {
 .el-table__body tr.hover-row > td {
   background-color: #ecf5ff;
 }
+
+.el-table__expand-icon {
+  color:#3963bc;
+  font-size: 18px;
+  top:-5px;
+}
+
 // dialog
 .el-dialog__footer {
   text-align: left;

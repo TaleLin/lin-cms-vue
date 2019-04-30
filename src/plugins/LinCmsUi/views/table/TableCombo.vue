@@ -151,12 +151,13 @@
         <!-- 操作列 -->
         <el-table-column label="操作" fixed="right" width="170">
           <template slot-scope="scope">
-            <lin-button
+            <el-button
               v-for="(item,index) in operate"
               :type="item.type"
               plain
+              size="mini"
               :key="index"
-              @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}</lin-button>
+              @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -182,15 +183,12 @@
 // import Sortable from 'sortablejs' // eslint-disable-line
 // import FileSaver from 'file-saver' // eslint-disable-line
 // import XLSX from 'xlsx' // eslint-disable-line
-import LinButton from '@/components/base/button/lin-button'
 import LinSearch from '@/components/base/search/lin-search'
-
 import { tableColumn } from './data'
 import movie from '../../models/movie.js'
 
 export default {
   components: {
-    LinButton,
     LinSearch,
   },
   data() {
