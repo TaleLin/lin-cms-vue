@@ -127,7 +127,7 @@ export default {
   background: rgb(25, 42, 94);
   overflow-x: hidden;
    &::-webkit-scrollbar {
-    width: 2px;
+    width: 0px;
     height: 0px;
   }
 }
@@ -185,10 +185,6 @@ export default {
   overflow-y: auto;
   position: relative;
   padding: 0;
-   &::-webkit-scrollbar {
-    width: 2px;
-    height: 0px;
-  }
 }
 
 .backTop {

@@ -8,12 +8,12 @@
         <lin-search @query="onQueryChange" ref="searchKeyword" />
         <el-dropdown style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
           <el-button>
-            {{searchUser}}
+            {{searchUser ? searchUser : '全部人员'}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="['全部人员']"></el-dropdown-item>
-            <el-dropdown-item v-for="(user, index) in users" :key="index" :command="[user]">{{user}}
+            <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-user-solid" v-for="(user, index) in users" :key="index" :command="[user]">{{user}}
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -43,15 +43,17 @@
           </aside>
         </section>
       </article>
-      <lin-1px></lin-1px>
-      <div class="more">
-        <i v-if="more" class="iconfont icon-loading"></i>
-        <div v-show="!more && !finished" @click="nextPage">
-          <span>查看更多</span>
-          <i class="iconfont icon-gengduo" style="font-size:14px"></i>
-        </div>
-        <div v-if="finished">
-          <span>没有更多数据了</span>
+      <div v-if="!error">
+        <lin-1px></lin-1px>
+        <div class="more">
+          <i v-if="more" class="iconfont icon-loading"></i>
+          <div v-show="!more && !finished" @click="nextPage">
+            <span>查看更多</span>
+            <i class="iconfont icon-gengduo" style="font-size:14px"></i>
+          </div>
+          <div v-if="finished">
+            <span>{{totalCount === 0 ? '暂无数据' : '没有更多数据了'}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -76,11 +78,12 @@ export default {
       value: '',
       logs: [],
       users: [],
-      searchUser: '全部人员',
+      searchUser: '',
       more: false,
       loading: false,
       finished: false,
       isSearch: false,
+      error: false,
       searchKeyword: '',
       searchDate: [],
       keyword: null,
@@ -176,25 +179,33 @@ export default {
       this.logs = []
       this.loading = true
       this.finished = false
-      const res = await log.searchLogs({
-        page: 0, // 初始化
-        keyword: this.searchKeyword,
-        name: this.searchUser,
-        start: this.searchDate[0],
-        end: this.searchDate[1],
-      })
-      if (res) {
-        let logs = res.collection
-        this.totalCount = res.total_nums
-        if (this.searchKeyword) {
-          logs = await searchLogKeyword(this.searchKeyword, logs)
+      const name = this.searchUser === '全部人员' ? '' : this.searchUser
+      try {
+        const res = await log.searchLogs({
+          page: 0, // 初始化
+          keyword: this.searchKeyword,
+          name,
+          start: this.searchDate[0],
+          end: this.searchDate[1],
+        })
+        if (res) {
+          let logs = res.collection
+          this.totalCount = res.total_nums
+          if (this.searchKeyword) {
+            logs = await searchLogKeyword(this.searchKeyword, logs)
+          }
+          this.logs = logs
+        } else {
+          this.finished = true
         }
-        this.logs = logs
-      } else {
-        this.finished = true
+        this.isSearch = true
+        this.loading = false
+      } catch (error) {
+        this.loading = false
+        this.error = true
+        console.log('1111')
+        console.log('error', error)
       }
-      this.isSearch = true
-      this.loading = false
     },
     // 下一页
     async nextPage() {
@@ -303,7 +314,7 @@ export default {
 
     .search-back {
       margin: 8px 20px;
-      height: 36px;
+      height: 32px;
       background: #f4516c;
       border: none;
       border-radius: 2px;

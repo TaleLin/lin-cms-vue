@@ -26,13 +26,11 @@ export async function handleException(res) {
   }
   // 如果令牌无效或者是refreshToken相关异常
   if (error_code === 10000 || error_code === 10100) {
-    Vue.prototype.$message({
-      message: '令牌无效,请重新登录',
-      type: 'error',
-    })
-    store.dispatch('loginOut')
-    const { origin } = window.location
-    window.location.href = origin
+    setTimeout(() => {
+      store.dispatch('loginOut')
+      const { origin } = window.location
+      window.location.href = origin
+    }, 1500)
   }
   // 令牌相关，刷新令牌
   if (error_code === 10040 || error_code === 10050) {

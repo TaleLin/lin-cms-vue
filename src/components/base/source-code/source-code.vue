@@ -29,7 +29,7 @@ export default {
   position: fixed;
   z-index: 9999;
   right: -11.5px;
-  bottom: 20px;
+  bottom: 145px;
   font-size: 12px;
   line-height: 12px;
   font-weight: 700;
