@@ -142,8 +142,16 @@ export default {
 </script>
 
 <style lang="scss">
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
 .app-sidebar {
   background: #192a5e;
+   &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 
   .logo {
     width: $sidebar-width;

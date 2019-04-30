@@ -122,12 +122,17 @@ export default {
         intersect.length > 0 &&
         intersect.length < currentModuleChildrenArr.length
       ) {
-        // this.auths.splice(this.auths.indexOf(moduleName),1)
+        if (this.auths.indexOf(moduleName) > -1) {
+          this.auths.splice(this.auths.indexOf(moduleName), 1);
+        }
         this.halfAuths.push(moduleName);
-      } else {
-
-        this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1);
-        this.auths.splice(this.auths.indexOf(moduleName), 1);
+      } else if (intersect.length === 0){
+        if (this.halfAuths.indexOf(moduleName) > -1) {
+          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1);
+        }
+        if (this.auths.indexOf(moduleName) > -1) {
+          this.auths.splice(this.auths.indexOf(moduleName), 1);
+        }
       }
       this.halfAuths = Array.from(new Set(this.halfAuths));
       this.auths = Array.from(new Set(this.auths));

@@ -2,13 +2,17 @@
   <div style="height:100%;">
     <el-container>
       <el-aside :width="sideBarWidth" class="aside">
-        <side-bar :isCollapse="isCollapse" class="sidebar"></side-bar>
+        <side-bar :isCollapse="isCollapse"></side-bar>
       </el-aside>
       <el-container>
         <el-header class="header">
           <div class="left">
             <div class="operate" ref="operate">
-              <i class="iconfont icon-fold" :class="{rotate: foldState}" @click="changeSlidebarState" />
+              <i
+                class="iconfont icon-fold"
+                :class="{rotate: foldState}"
+                @click="changeSlidebarState"
+              />
               <nav-bar></nav-bar>
             </div>
             <el-collapse-transition>
@@ -18,7 +22,7 @@
         </el-header>
         <el-main ref="main">
           <menu-tab></menu-tab>
-          <app-main ref="appMain" class="app-main"></app-main>
+          <app-main ref="appMain"></app-main>
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="24"></back-top>
       </el-container>
@@ -58,7 +62,8 @@ export default {
     // 监测屏幕宽度 折叠左侧菜单栏
     window.onresize = function temp() {
       _this.setResize()
-      if (_this.clientWidth <= 768) { // 页面宽度 768
+      if (_this.clientWidth <= 768) {
+        // 页面宽度 768
         if (_this.isCollapse === false) {
           _this.isCollapse = true
         }
@@ -85,7 +90,9 @@ export default {
     setResize() {
       this.clientHeight = document.body.clientHeight
       this.clientWidth = document.body.clientWidth
-      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
+      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight
+        - totalHeight
+        + 20}px`
     },
   },
   watch: {
@@ -94,7 +101,8 @@ export default {
     },
     $route() {
       this.showBackTop = false
-      if (this.scrollY <= 70) { // MenuTab组件高度
+      if (this.scrollY <= 70) {
+        // MenuTab组件高度
         this.backTop()
       }
     },
@@ -118,6 +126,10 @@ export default {
 .aside {
   background: rgb(25, 42, 94);
   overflow-x: hidden;
+   &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 }
 
 .header {
@@ -127,8 +139,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow:0px 2px 6px 0px rgba(190,204,216,0.4);
-  border-bottom: 1px solid rgba(190,204,216,0.4);
+  box-shadow: 0px 2px 6px 0px rgba(190, 204, 216, 0.4);
+  border-bottom: 1px solid rgba(190, 204, 216, 0.4);
   z-index: 1;
 
   .left {
@@ -186,7 +198,7 @@ export default {
   height: 22px;
   line-height: 22px;
   border-radius: 50%;
-  z-index:99;
+  z-index: 99;
   background: #fff;
   .iconfont {
     font-size: 36px;

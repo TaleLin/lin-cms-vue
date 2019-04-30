@@ -45,8 +45,8 @@
         </el-tabs>
       </div>
       <div slot="footer" class="dialog-footer" style="padding-left:5px;">
-        <l-button type="primary" @click="confirmEdit">确 定</l-button>
-        <l-button @click="resetForm('form')">重 置</l-button>
+        <el-button type="primary" @click="confirmEdit">确 定</el-button>
+        <el-button @click="resetForm('form')">重 置</el-button>
       </div>
     </el-dialog>
   </div>
