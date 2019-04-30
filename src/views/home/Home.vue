@@ -2,7 +2,7 @@
   <div style="height:100%;">
     <el-container>
       <el-aside :width="sideBarWidth" class="aside">
-        <side-bar :isCollapse="isCollapse" class="sidebar"></side-bar>
+        <side-bar :isCollapse="isCollapse"></side-bar>
       </el-aside>
       <el-container>
         <el-header class="header">
@@ -126,6 +126,10 @@ export default {
 .aside {
   background: rgb(25, 42, 94);
   overflow-x: hidden;
+   &::-webkit-scrollbar {
+    width: 2px;
+    height: 0px;
+  }
 }
 
 .header {
