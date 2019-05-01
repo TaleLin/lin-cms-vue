@@ -58,7 +58,6 @@ export default {
   line-height: 38px;
   background: $reuse-tab-item-background;
   font-size: 14px;
-  font-family: "PingFangSC-Regular";
   font-weight: 400;
   color: rgba(140, 152, 174, 1);
   display: flex;

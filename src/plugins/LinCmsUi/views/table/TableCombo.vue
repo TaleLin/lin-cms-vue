@@ -505,7 +505,6 @@ export default {
         line-height: 59px;
         color: $parent-title-color;
         font-size: 16px;
-        font-family: "PingFangSC-Medium";
         font-weight: 500;
       }
     }

@@ -275,7 +275,6 @@ export default {
         line-height: 59px;
         color: #4c76af;
         font-size: 16px;
-        font-family: 'PingFangSC-Medium';
         font-weight: 500;
       }
     }
@@ -327,7 +326,6 @@ export default {
 
   .content {
     padding: 40px 60px;
-    font-family: "PingFangSC-Regular";
 
     article {
       position: relative;
@@ -407,7 +405,6 @@ export default {
     line-height: 40px;
     color: $theme;
     font-size: 14px;
-    font-family: "PingFangSC-Regular";
     margin-left: 28px;
     cursor: pointer;
 

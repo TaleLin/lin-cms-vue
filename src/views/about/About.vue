@@ -120,7 +120,6 @@
         line-height: 20px;
         font-size: 14px;
         color: #8C98AE;
-        font-family: 'PingFangSC-Regular';
 
         span {
           color: $theme;
@@ -181,13 +180,11 @@
               display: inline-block;
               width: 30px;
               margin-right: 15px;
-              font-family: 'PingFangSC-Regular';
               font-weight: 400;
               color: #45526B;
             }
 
             .team-name {
-              font-family: 'PingFangSC-Regular';
               font-weight: 400;
               color: #8C98AE;
 

@@ -135,7 +135,6 @@ export default {
         box-sizing: border-box;
         text-align: left;
         color: #8c98ae;
-        font-family: "HYYiSongW";
       }
     }
 
@@ -157,7 +156,6 @@ export default {
           font-size: 14px;
           padding-left: 74px;
           box-sizing: border-box;
-          font-family: "HYYiSongW";
         }
       }
 
@@ -177,7 +175,6 @@ export default {
         width: 100%;
         height: 70px;
         color: #c4c9d2;
-        font-family: "HYYiSongW";
         font-size: 16px;
         text-align: left;
         box-sizing: border-box;
