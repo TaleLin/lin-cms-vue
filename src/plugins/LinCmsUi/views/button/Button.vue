@@ -1,9 +1,7 @@
 <template>
   <div class="lin-container">
-    <sticky-top>
-      <div class="lin-title">Button 按钮</div>
-      <lin-1px/>
-    </sticky-top>
+    <div class="lin-title">Button 按钮</div>
+    <lin-1px />
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
         <div slot="header">
@@ -52,10 +50,26 @@
           <el-button type="warning" icon="el-icon-star-off" circle></el-button>
           <el-button type="danger" icon="el-icon-delete" circle></el-button>
           <el-button icon="el-icon-search" plain circle></el-button>
-          <el-button type="primary" icon="el-icon-edit" plain circle></el-button>
-          <el-button type="success" icon="el-icon-check" plain circle></el-button>
-          <el-button type="warning" icon="el-icon-star-off" plain circle></el-button>
-          <el-button type="danger" icon="el-icon-delete" plain circle></el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-edit"
+            plain
+            circle></el-button>
+          <el-button
+            type="success"
+            icon="el-icon-check"
+            plain
+            circle></el-button>
+          <el-button
+            type="warning"
+            icon="el-icon-star-off"
+            plain
+            circle></el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            plain
+            circle></el-button>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">

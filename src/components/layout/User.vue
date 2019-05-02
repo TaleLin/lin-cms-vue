@@ -41,7 +41,8 @@
         :rules="rules"
         label-position="left"
         ref="form"
-        label-width="100px">
+        label-width="100px"
+        @submit.native.prevent>
         <el-form-item label="原始密码" prop="old_password">
           <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
         </el-form-item>

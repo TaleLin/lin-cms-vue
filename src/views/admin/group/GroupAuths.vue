@@ -166,7 +166,6 @@ export default {
     label {
       color: #333333;
       font-size: 14px;
-      font-family: PingFangSC-Medium;
       font-weight: 500;
       height: 20px;
       line-height: 20px;
@@ -197,7 +196,6 @@ export default {
 
       &::placeholder {
         font-size: 14px;
-        font-family: PingFangSC-Regular;
         font-weight: 400;
         color: #c4c9d2;
         text-indent: 20px;
@@ -208,7 +206,6 @@ export default {
       .module {
         height: 20px;
         font-size: 13px;
-        font-family: PingFangSC-Medium;
         color: #45526b;
         line-height: 20px;
         margin-bottom: 10px;
@@ -241,7 +238,6 @@ export default {
           .permissions-name {
             height: 20px;
             font-size: 14px;
-            font-family: PingFangSC-Regular;
             font-weight: 400;
             color: #596c8e;
             line-height: 20px;
