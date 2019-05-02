@@ -8,6 +8,9 @@
         </div>
         <div class="header-right">
           <lin-search @query="onQueryChange" placeholder="请输入电影名" />
+          <div style="margin-left:30px">
+            <el-button type="primary" @click="dialogTableVisible=!dialogTableVisible">列操作</el-button>
+        </div>
         </div>
       </div>
       <lin-1px></lin-1px>
@@ -41,23 +44,6 @@
             :key="item" />
         </el-checkbox-group>
       </el-dialog>
-      <div class="top-operate">
-        <div>
-          <el-button type="primary" @click="dialogTableVisible=!dialogTableVisible">列操作</el-button>
-          <!-- <el-button type="primary" :disabled="enableDrag" @click="drag()">开启拖拽</el-button> -->
-        </div>
-        <!-- <el-select
-          style="width: 151px;"
-          v-model="value"
-          @change="selectChange"
-          placeholder="导出数据">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"></el-option>
-        </el-select> -->
-      </div>
       <el-table
         :row-class-name="rowClassName"
         :data="tableData"
@@ -180,9 +166,6 @@
 </template>
 
 <script>
-// import Sortable from 'sortablejs' // eslint-disable-line
-// import FileSaver from 'file-saver' // eslint-disable-line
-// import XLSX from 'xlsx' // eslint-disable-line
 import LinSearch from '@/components/base/search/lin-search'
 import { tableColumn } from './data'
 import movie from '../../models/movie.js'
@@ -383,72 +366,6 @@ export default {
       this.tableData = movie.getDataByQuery(this.searchKeyword)
     },
 
-    // 拖拽
-    // drag() {
-    //   this.loading = true
-    //   setTimeout(() => {
-    //     this.loading = false
-    //   }, 1000)
-    //   this.enableDrag = true
-    //   const el = document.querySelectorAll(
-    //     '.el-table__body-wrapper > table > tbody',
-    //   )[0]
-    //   this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
-    //   this.sortable = Sortable.create(el, {
-    //     setData(dataTransfer) {
-    //       dataTransfer.setData('Text', '')
-    //     },
-    //     onEnd: (evt) => {
-    //       const copy = [...this.tableData]
-    //       this.tableData[evt.oldIndex] = copy[evt.newIndex]
-    //       this.tableData[evt.newIndex] = copy[evt.oldIndex]
-    //     },
-    //   })
-    // },
-
-    // selectChange(val) {
-    //   val === 'excel' ? this.exportExcel() : this.exportCsv() // eslint-disable-line
-    // },
-    // // 导出excel
-    // exportExcel(fileName = 'sheet') {
-    //   const targetTable = XLSX.utils.table_to_book(
-    //     document.querySelectorAll('.el-table__body-wrapper > table')[0],
-    //   )
-    //   const writeTable = XLSX.write(targetTable, {
-    //     bookType: 'xlsx',
-    //     bookSST: true,
-    //     type: 'array',
-    //   })
-    //   try {
-    //     FileSaver.saveAs(
-    //       new Blob([writeTable], { type: 'application/octet-stream' }),
-    //       `${fileName}.xlsx`,
-    //     )
-    //   } catch (e) {
-    //     if (typeof console !== 'undefined') console.log(e, writeTable)
-    //   }
-    //   return writeTable
-    // },
-    // // 导出csv
-    // exportCsv(fileName = 'sheet') {
-    //   const targetTable = XLSX.utils.table_to_book(
-    //     document.querySelectorAll('.el-table__body-wrapper > table')[0],
-    //   )
-    //   const writeTable = XLSX.write(targetTable, {
-    //     bookType: 'csv',
-    //     bookSST: true,
-    //     type: 'array',
-    //   })
-    //   try {
-    //     FileSaver.saveAs(
-    //       new Blob([writeTable], { type: 'application/octet-stream' }),
-    //       `${fileName}.csv`,
-    //     )
-    //   } catch (e) {
-    //     if (typeof console !== 'undefined') console.log(e, writeTable)
-    //   }
-    //   return writeTable
-    // },
   },
 
   watch: {
@@ -505,7 +422,6 @@ export default {
         line-height: 59px;
         color: $parent-title-color;
         font-size: 16px;
-        font-family: "PingFangSC-Medium";
         font-weight: 500;
       }
     }
@@ -520,6 +436,7 @@ export default {
 
   .table-main {
     padding: 0 30px;
+    margin-top: 30px;
   }
 
   .top-operate {

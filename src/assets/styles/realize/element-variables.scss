@@ -445,10 +445,19 @@ thead tr {
 
 .is-active {
   color: $theme !important;
+  &.el-menu-item
+    .iconfont{
+      color: $theme !important;
+    }
 }
 
 .el-submenu__icon-arrow {
   top: 53%;
+}
+
+.el-input__inner{
+  height: 32px;
+  line-height: 32px;
 }
 
 .app-sidebar .el-menu-item-group .el-menu-item {

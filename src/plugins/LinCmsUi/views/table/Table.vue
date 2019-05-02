@@ -1,9 +1,7 @@
 <template>
   <div class="lin-container">
-    <sticky-top>
-      <div class="lin-title">Table</div>
-      <lin-1px/>
-    </sticky-top>
+    <div class="lin-title">Table</div>
+    <lin-1px />
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
         <div slot="header">
@@ -11,7 +9,11 @@
         </div>
         <el-row>
           <el-table :data="tableData" style="width: 100%" stripe>
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -31,8 +33,16 @@
           <span>带边框表格</span>
         </div>
         <el-row>
-          <el-table :data="tableData" style="width: 100%" border stripe>
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+          <el-table
+            :data="tableData"
+            style="width: 100%"
+            border
+            stripe>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -53,7 +63,11 @@
         </div>
         <el-row>
           <el-table :data="tableData" height="200" stripe>
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -73,16 +87,21 @@
           <span>固定列</span>
         </div>
         <el-row>
-          <el-table
-            :data="tableData"
-            style="width:800px;margin-left:auto;margin-right:auto;"
-          >
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+          <el-table :data="tableData" style="width:800px;margin-left:auto;margin-right:auto;">
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="address" label="地址" width="300"></el-table-column>
-            <el-table-column prop="zip" label="邮编" width="120" fixed="right"></el-table-column>
+            <el-table-column
+              prop="zip"
+              label="邮编"
+              width="120"
+              fixed="right"></el-table-column>
           </el-table>
         </el-row>
         <el-collapse>
@@ -98,7 +117,11 @@
         </div>
         <el-row>
           <el-table :data="tableData" style="width: 100%">
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -106,7 +129,11 @@
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
             <el-table-column label="操作" width="140" fixed="right">
               <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="primary" plain size="mini">编辑</el-button>
+                <el-button
+                  @click="handleClick(scope.row)"
+                  type="primary"
+                  plain
+                  size="mini">编辑</el-button>
                 <el-button type="danger" size="mini" plain>删除</el-button>
               </template>
             </el-table-column>
@@ -126,51 +153,54 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1517 弄',
-          zip: 200333,
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1519 弄',
-          zip: 200333,
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333,
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1516 弄',
-          zip: 200333,
-        },
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1518 弄',
+        zip: 200333,
+      },
+      {
+        date: '2016-05-04',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1517 弄',
+        zip: 200333,
+      },
+      {
+        date: '2016-05-01',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1519 弄',
+        zip: 200333,
+      },
+      {
+        date: '2016-05-03',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333,
+      },
+      {
+        date: '2016-05-03',
+        name: '王小虎',
+        province: '上海',
+        city: '普陀区',
+        address: '上海市普陀区金沙江路 1516 弄',
+        zip: 200333,
+      },
       ],
       basic: `
           <el-table :data="tableData" stripe>
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -179,7 +209,11 @@ export default {
           </el-table>`,
       border: `
           <el-table :data="tableData" stripe border>
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -188,7 +222,11 @@ export default {
           </el-table>`,
       header: `
           <el-table :data="tableData" height="200" stripe>
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -197,16 +235,28 @@ export default {
           </el-table>`,
       column: `
           <el-table :data="tableData" border style="width:800px;margin-left:auto;margin-right:auto;">
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
             <el-table-column prop="address" label="地址" width="300"></el-table-column>
-            <el-table-column prop="zip" label="邮编" width="120" fixed="right"></el-table-column>
+            <el-table-column
+              prop="zip"
+              label="邮编"
+              width="120"
+              fixed="right"></el-table-column>
           </el-table>`,
       operate: `
          <el-table :data="tableData" style="width: 100%">
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column
+              fixed
+              prop="date"
+              label="日期"
+              width="150"></el-table-column>
             <el-table-column prop="name" label="姓名" width="120"></el-table-column>
             <el-table-column prop="province" label="省份" width="120"></el-table-column>
             <el-table-column prop="city" label="市区" width="120"></el-table-column>
@@ -214,9 +264,14 @@ export default {
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
             <el-table-column label="操作" width="150">
               <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="primary" plain size="mini">编辑</el-button>
+                <el-button
+                  @click="handleClick(scope.row)"
+                  type="primary"
+                  plain
+                  size="mini">编辑</el-button>
                 <el-button type="danger" size="mini" plain>删除</el-button>
               </template>
+
             </el-table-column>
           </el-table>
       `,
@@ -257,11 +312,11 @@ export default {
   }
 }
 
-.el-table__body tr.current-row > td,
-.el-table__body tr.hover-row.current-row > td,
-.el-table__body tr.hover-row.el-table__row--striped.current-row > td,
-.el-table__body tr.hover-row.el-table__row--striped > td,
-.el-table__body tr.hover-row > td {
+.el-table__body tr.current-row>td,
+.el-table__body tr.hover-row.current-row>td,
+.el-table__body tr.hover-row.el-table__row--striped.current-row>td,
+.el-table__body tr.hover-row.el-table__row--striped>td,
+.el-table__body tr.hover-row>td {
   background-color: #ecf5ff;
 }
 </style>

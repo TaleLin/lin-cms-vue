@@ -257,7 +257,6 @@ export default {
   &.user-info {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     > .el-radio {
       width: 150px;
       margin-left: 0px !important;
@@ -265,15 +264,6 @@ export default {
       margin-bottom: 20px;
       white-space: normal;
       display: flex;
-    }
-  }
-}
-@media screen and (max-width: 980px) {
-  .el-radio-group {
-    &.user-info {
-      > .el-radio {
-        width: 50%;
-      }
     }
   }
 }
