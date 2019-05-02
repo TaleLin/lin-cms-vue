@@ -1,30 +1,29 @@
 <template>
   <!-- 列表页面 -->
   <div class="tableSample">
-    <sticky-top>
       <div class="header">
         <div class="header-left">
           <p class="title">豆瓣电影TOP250</p>
         </div>
         <div class="header-right">
-          <lin-search @query="onQueryChange" placeholder="请输入电影名" />
+          <lin-search @query="onQueryChange" placeholder="请输入电影名"/>
           <div style="margin-left:30px">
             <el-button type="primary" @click="dialogTableVisible=!dialogTableVisible">列操作</el-button>
-        </div>
+          </div>
         </div>
       </div>
       <lin-1px></lin-1px>
-    </sticky-top>
     <div class="table-main">
       <el-dialog top="5vh" width="60%" :visible.sync="dialogTableVisible">
         <!-- 定制列 -->
         <span>选择要展示的列:</span>
         <el-checkbox-group v-model="checkList" @change="handleChange" class="m-20">
           <el-checkbox
-            :disabled="item === '电影名'"
+            :disabled="item === '电影名' || item === '排名'"
             :label="item"
             v-for="item in tempCheckList"
-            :key="item" />
+            :key="item"
+          />
         </el-checkbox-group>
         <!-- 固定列 -->
         <span>选择固定在左侧的列:</span>
@@ -33,7 +32,8 @@
             :disabled="fixedRightList.indexOf(item) > -1 || checkList.indexOf(item) ===  -1"
             :label="item"
             v-for="item in tempCheckList"
-            :key="item" />
+            :key="item"
+          />
         </el-checkbox-group>
         <span>选择固定在右侧的列:</span>
         <el-checkbox-group v-model="fixedRightList" class="m-20">
@@ -41,16 +41,17 @@
             :disabled="fixedLeftList.indexOf(item) > -1 || checkList.indexOf(item) === -1"
             :label="item"
             v-for="item in tempCheckList"
-            :key="item" />
+            :key="item"
+          />
         </el-checkbox-group>
       </el-dialog>
       <el-table
-        :row-class-name="rowClassName"
         :data="tableData"
         @row-dblclick="rowClick"
         @expand-change="expandChange"
         v-loading="loading"
-        id="out-table'">
+        id="out-table'"
+      >
         <!-- 展示摘要 -->
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -79,7 +80,8 @@
                 type="number"
                 class="sort-input"
                 v-model="props.row.sorting"
-                @blur="handleSort(props.row.sorting, props.row)">
+                @blur="handleSort(props.row.sorting, props.row)"
+              >
             </template>
           </el-table-column>
           <!-- 正常表单列 -->
@@ -90,7 +92,8 @@
             :label="item.label"
             :show-overflow-tooltip="true"
             :fixed="item.fixed ? item.fixed : false"
-            :width="item.width ? item.width : ''"></el-table-column>
+            :width="item.width ? item.width : ''"
+          ></el-table-column>
           <!-- 排序 评分 -->
           <el-table-column
             label="评分"
@@ -99,17 +102,20 @@
             v-bind:key="item.label"
             :fixed="item.fixed ? item.fixed : false"
             :width="item.width ? item.width : ''"
-            v-if="item.label === '评分'"></el-table-column>
+            v-if="item.label === '评分'"
+          ></el-table-column>
           <!-- 单元格编辑 -->
           <el-table-column
             v-bind:key="item.label"
             label="备注"
+            prop="remark"
             :width="item.width"
-            :show-overflow-tooltip="showTooltip"
-            v-if="item.label === '备注'">
+            show-overflow-tooltip
+            v-if="item.label === '备注'"
+          >
             <template slot-scope="props">
               <div v-if="!props.row.editFlag" class="table-edit">
-                <div @click="handleEdit(props.row)">{{ props.row.remark }}</div>
+                <div @click="handleEdit(props.row)" class="content">{{ props.row.remark }}</div>
                 <div class="cell-icon" @click="handleCellEdit(props.row)">
                   <i class="el-icon-edit"></i>
                 </div>
@@ -130,7 +136,11 @@
           <!-- 推荐 -->
           <el-table-column label="推荐" v-if="item.label === '推荐'" v-bind:key="item.label">
             <template slot-scope="props">
-              <el-switch v-model="props.row.recommend" active-color="#3963bc" @change="handleRecommend($event, props.row)"></el-switch>
+              <el-switch
+                v-model="props.row.recommend"
+                active-color="#3963bc"
+                @change="handleRecommend($event, props.row)"
+              ></el-switch>
             </template>
           </el-table-column>
         </template>
@@ -143,7 +153,8 @@
               plain
               size="mini"
               :key="index"
-              @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}</el-button>
+              @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
+            >{{item.name}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -157,12 +168,12 @@
           :current-page="currentPage"
           v-if="refreshPagination"
           layout="prev, pager, next, jumper"
-          :total="total_nums"></el-pagination>
+          :total="total_nums"
+        ></el-pagination>
       </div>
     </div>
     <source-code></source-code>
   </div>
-
 </template>
 
 <script>
@@ -192,19 +203,6 @@ export default {
       dialogTableVisible: false,
       fixedLeftList: [],
       fixedRightList: [],
-      // 拖拽相关
-      enableDrag: false,
-      rowClassName: '', // 行样式
-      // 数据导出相关
-      options: [{
-        value: 'excel',
-        label: '导出 Excel',
-      },
-      {
-        value: 'csv',
-        label: '导出 Csv',
-      },
-      ],
       value: '',
       // 单元格编辑相关
       editRow: 0,
@@ -234,7 +232,6 @@ export default {
       const res = movie.getTop250(start, count)
       res.map((item) => {
         const temp = item
-        temp.remark = '这是一部不错的电影'
         temp.editFlag = false
         return ''
       })
@@ -292,16 +289,13 @@ export default {
     // 单元格编辑
     handleCellEdit(row) {
       row.editFlag = true; // eslint-disable-line
-      this.showTooltip = false
-      this.$set(this.filterTableColumn[7], 'width', 330)
+      this.$set(this.filterTableColumn[7], 'width', 200)
       this.tempEditRemark = row.remark
       this.editRow++
     },
     handleCellSave(row) {
-      this.loading = true
+      row.editFlag = false; // eslint-disable-line
       setTimeout(() => {
-        this.loading = false
-        row.editFlag = false; // eslint-disable-line
         this.editRow--
         this.$message({
           type: 'success',
@@ -311,6 +305,7 @@ export default {
     },
     handleCellCancel(row) {
       row.editFlag = false; // eslint-disable-line
+      console.log(this.tempEditRemark)
       row.remark = this.tempEditRemark; // eslint-disable-line
       this.editRow--
     },
@@ -347,10 +342,10 @@ export default {
           type: 'warning',
         })
         .then(async () => {
-          self.loading = true // eslint-disable-line
+          self.loading = true; // eslint-disable-line
           setTimeout(() => {
             self.tableData.splice(index, 1)
-            self.loading = false // eslint-disable-line
+            self.loading = false; // eslint-disable-line
           }, 1000)
         })
     },
@@ -362,10 +357,12 @@ export default {
         this._getTableData(0, 20)
         return
       }
-      // 处理带空格的情况
-      this.tableData = movie.getDataByQuery(this.searchKeyword)
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+        this.tableData = movie.getDataByQuery(this.searchKeyword)
+      }, 1000)
     },
-
   },
 
   watch: {
@@ -395,8 +392,8 @@ export default {
     editRow() {
       if (this.filterTableColumn[7]) {
         this.editRow === 0 // eslint-disable-line
-          ?          this.$set(this.filterTableColumn[7], 'width', 200) // eslint-disable-line
-          :          null // eslint-disable-line
+          ? this.$set(this.filterTableColumn[7], "width", 200) // eslint-disable-line
+          : null; // eslint-disable-line
       }
       return ''
     },
@@ -458,6 +455,11 @@ export default {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    .content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     .cell-icon {
       cursor: pointer;
@@ -526,8 +528,8 @@ export default {
     justify-content: flex-end;
     margin: 20px;
   }
-  .pagination /deep/ .el-pagination__editor.el-input .el-input__inner{
-      border-radius: 4px;
+  .pagination /deep/ .el-pagination__editor.el-input .el-input__inner {
+    border-radius: 4px;
   }
 }
 </style>
@@ -535,9 +537,5 @@ export default {
 .tableSample .el-table .cell {
   display: inline-block;
   width: 100%;
-}
-
-.tableSample .rowClassName {
-  cursor: move !important;
 }
 </style>
