@@ -28,6 +28,7 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['script/**/*.js'] }],
     'no-restricted-syntax': 0,
     'class-methods-use-this': 'off',
+    'consistent-return': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',

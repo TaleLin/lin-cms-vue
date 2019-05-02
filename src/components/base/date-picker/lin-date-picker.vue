@@ -61,7 +61,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .el-popper[x-placement^="bottom"]{
   margin-top: 10px;
 }

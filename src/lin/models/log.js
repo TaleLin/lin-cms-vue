@@ -51,7 +51,6 @@ class Log {
 
   increseSpage() {
     this.sPage += 1
-    console.log(this.sPage)
   }
 
   init() {
@@ -104,20 +103,24 @@ class Log {
     end,
     next = false,
   }) {
-    if (!next) {
-      this.setBaseInfo(name, start, end)
+    try {
+      if (!next) {
+        this.setBaseInfo(name, start, end)
+      }
+      if (page === 0) {
+        this.lPage = 0
+      }
+      const res = await get('cms/log/', {
+        count: count || this.lCount,
+        page: page || this.lPage,
+        name: name || this.name,
+        start: start || this.start,
+        end: end || this.end,
+      })
+      return res
+    } catch (error) {
+      console.log('error', error)
     }
-    if (page === 0) {
-      this.lPage = 0
-    }
-    const res = await get('cms/log/', {
-      count: count || this.lCount,
-      page: page || this.lPage,
-      name: name || this.name,
-      start: start || this.start,
-      end: end || this.end,
-    })
-    return res
   }
 
   /**
@@ -145,15 +148,19 @@ class Log {
     if (page === 0) {
       this.sPage = 0
     }
-    const res = await get('cms/log/search', {
-      count: count || this.sCount,
-      page: page || this.sPage,
-      keyword: keyword || this.keyword,
-      name: name || this.name,
-      start: start || this.start,
-      end: end || this.end,
-    })
-    return res
+    try {
+      const res = await get('cms/log/search', {
+        count: count || this.sCount,
+        page: page || this.sPage,
+        keyword: keyword || this.keyword,
+        name: name || this.name,
+        start: start || this.start,
+        end: end || this.end,
+      })
+      return res
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async moreUserPage() {

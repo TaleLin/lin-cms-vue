@@ -1,5 +1,6 @@
 <template>
   <div class="log">
+    <sticky-top>
     <div class="log-header">
       <div class="header-left">
         <p class="title">日志信息</p>
@@ -13,7 +14,11 @@
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-user-solid" v-for="(user, index) in users" :key="index" :command="[user]">{{user}}
+            <el-dropdown-item
+              icon="el-icon-user-solid"
+              v-for="(user, index) in users"
+              :key="index"
+              :command="[user]">{{user}}
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -22,6 +27,7 @@
       </div>
     </div>
     <lin-1px v-if="!keyword" :addWidth="40"></lin-1px>
+    </sticky-top>
     <transition name="fade">
       <div class="search" v-if="keyword">
         <p class="search-tip">
@@ -43,19 +49,19 @@
           </aside>
         </section>
       </article>
-      <div v-if="!error">
-        <lin-1px></lin-1px>
-        <div class="more">
-          <i v-if="more" class="iconfont icon-loading"></i>
-          <div v-show="!more && !finished" @click="nextPage">
-            <span>查看更多</span>
-            <i class="iconfont icon-gengduo" style="font-size:14px"></i>
-          </div>
-          <div v-if="finished">
-            <span>{{totalCount === 0 ? '暂无数据' : '没有更多数据了'}}</span>
-          </div>
+
+      <lin-1px></lin-1px>
+      <div class="more">
+        <i v-if="more" class="iconfont icon-loading"></i>
+        <div v-show="!more && !finished" @click="nextPage">
+          <span>查看更多</span>
+          <i class="iconfont icon-gengduo" style="font-size:14px"></i>
+        </div>
+        <div v-if="finished">
+          <span>{{totalCount === 0 ? '暂无数据' : '没有更多数据了'}}</span>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -180,32 +186,25 @@ export default {
       this.loading = true
       this.finished = false
       const name = this.searchUser === '全部人员' ? '' : this.searchUser
-      try {
-        const res = await log.searchLogs({
-          page: 0, // 初始化
-          keyword: this.searchKeyword,
-          name,
-          start: this.searchDate[0],
-          end: this.searchDate[1],
-        })
-        if (res) {
-          let logs = res.collection
-          this.totalCount = res.total_nums
-          if (this.searchKeyword) {
-            logs = await searchLogKeyword(this.searchKeyword, logs)
-          }
-          this.logs = logs
-        } else {
-          this.finished = true
+      const res = await log.searchLogs({
+        page: 0, // 初始化
+        keyword: this.searchKeyword,
+        name,
+        start: this.searchDate[0],
+        end: this.searchDate[1],
+      })
+      if (res) {
+        let logs = res.collection
+        this.totalCount = res.total_nums
+        if (this.searchKeyword) {
+          logs = await searchLogKeyword(this.searchKeyword, logs)
         }
-        this.isSearch = true
-        this.loading = false
-      } catch (error) {
-        this.loading = false
-        this.error = true
-        console.log('1111')
-        console.log('error', error)
+        this.logs = logs
+      } else {
+        this.finished = true
       }
+      this.isSearch = true
+      this.loading = false
     },
     // 下一页
     async nextPage() {
@@ -257,15 +256,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "~assets/styles/elementUi.scss";
 
 .log {
-  padding: 0 20px;
 
   .log-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px;
 
     .header-left {
       float: left;
