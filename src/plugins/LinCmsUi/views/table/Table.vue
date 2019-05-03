@@ -1,7 +1,6 @@
 <template>
   <div class="lin-container">
     <div class="lin-title">Table</div>
-    <lin-1px />
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
         <div slot="header">
