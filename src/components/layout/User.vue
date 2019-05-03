@@ -34,7 +34,7 @@
       :append-to-body="true"
       :before-close="handleClose"
       :visible.sync="dialogFormVisible">
-      <lin-1px style="margin-top:-20px;margin-bottom:20px;"></lin-1px>
+      <el-divider style="margin-top:-20px;margin-bottom:20px;"></el-divider>
       <el-form
         :model="form"
         status-icon
@@ -53,8 +53,8 @@
           <el-input type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <l-button type="primary" @click="submitForm('form')">保存</l-button>
-          <l-button @click="resetForm('form')">重置</l-button>
+          <el-button type="primary" @click="submitForm('form')">保存</el-button>
+          <el-button @click="resetForm('form')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -135,6 +135,10 @@ export default {
       window.location.href = origin
     },
     submitForm(formName) {
+      if (this.form.old_password === '' && this.form.new_password === '' && this.form.confirm_password === '') {
+        this.dialogFormVisible = false
+        return
+      }
       if (this.form.old_password === this.form.new_password) {
         this.$message.error('新密码不能与原始密码一样')
         return

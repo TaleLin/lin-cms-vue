@@ -65,8 +65,8 @@
       </div>
       <!-- 按键操作 -->
       <div slot="footer" class="dialog-footer">
-        <l-button type="primary" @click="confirmEdit">确 定</l-button>
-        <l-button @click="resetForm">重 置</l-button>
+        <el-button type="primary" @click="confirmEdit">确 定</el-button>
+        <el-button @click="resetForm">重 置</el-button>
 
       </div>
     </el-dialog>
@@ -256,7 +256,7 @@ export default {
   },
   async created() {
     await this.getAdminUsers()
-    await this.getAllGroups()
+    this.getAllGroups()
     this.tableColumn = [{ prop: 'nickname', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     this.eventBus.$on('addUser', this.addUser)
