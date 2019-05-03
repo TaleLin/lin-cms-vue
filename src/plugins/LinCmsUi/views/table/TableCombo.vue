@@ -12,7 +12,6 @@
           </div>
         </div>
       </div>
-      <lin-1px></lin-1px>
     <div class="table-main">
       <el-dialog top="5vh" width="60%" :visible.sync="dialogTableVisible">
         <!-- 定制列 -->
@@ -124,10 +123,10 @@
                 <el-input v-model="props.row.remark" placeholder></el-input>
                 <div class="cell-icon-edit">
                   <div class="cell-save" @click="handleCellSave(props.row)">
-                    <i class="el-icon-circle-check-outline"></i>
+                    <i class="el-icon-check"></i>
                   </div>
                   <div class="cell-cancel" @click="handleCellCancel(props.row)">
-                    <i class="el-icon-circle-close-outline"></i>
+                    <i class="el-icon-close"></i>
                   </div>
                 </div>
               </div>
@@ -301,7 +300,7 @@ export default {
           type: 'success',
           message: '修改成功',
         })
-      }, 1000)
+      }, 100)
     },
     handleCellCancel(row) {
       row.editFlag = false; // eslint-disable-line
@@ -410,6 +409,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 30px;
+    border-bottom: 1px solid #dae1ed;
 
     .header-left {
       float: left;
