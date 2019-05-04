@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <el-row>
-      <el-col :lg="16" :md="20" :sm="24" :xs="24">
         <el-form
           :model="form"
           status-icon
@@ -39,8 +37,6 @@
             <el-button @click="resetForm('form')">重 置</el-button>
           </el-form-item>
         </el-form>
-      </el-col>
-    </el-row>
   </div>
 </template>
 
@@ -245,6 +241,7 @@ export default {
 .container {
   margin-top: 20px;
   margin-left: -5px;
+  max-width:800px;
 
   .submit {
     float: left;
