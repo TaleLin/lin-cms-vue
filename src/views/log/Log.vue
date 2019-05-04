@@ -26,7 +26,7 @@
         </lin-date-picker>
       </div>
     </div>
-    <lin-1px v-if="!keyword" :addWidth="40"></lin-1px>
+    <el-divider v-if="!keyword"></el-divider>
     </sticky-top>
     <transition name="fade">
       <div class="search" v-if="keyword">
@@ -50,7 +50,7 @@
         </section>
       </article>
 
-      <lin-1px></lin-1px>
+      <el-divider></el-divider>
       <div class="more">
         <i v-if="more" class="iconfont icon-loading"></i>
         <div v-show="!more && !finished" @click="nextPage">
@@ -264,6 +264,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    margin-bottom: -24px;
 
     .header-left {
       float: left;
@@ -292,6 +293,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top:24px;
 
     .search-tip {
       margin-left: 40px;
@@ -327,6 +329,7 @@ export default {
 
     article {
       position: relative;
+      margin-bottom: -24px;
 
       section {
         padding: 0 0 36px;

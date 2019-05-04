@@ -300,7 +300,7 @@ export default {
           type: 'success',
           message: '修改成功',
         })
-      }, 100)
+      }, 1000)
     },
     handleCellCancel(row) {
       row.editFlag = false; // eslint-disable-line
