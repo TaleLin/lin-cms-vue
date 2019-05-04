@@ -2,7 +2,6 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 
-import Lin1px from '@/components/base/line/lin-1px'
 import StickyTop from '@/components/base/sticky-top/sticky-top'
 import SourceCode from '@/components/base/source-code/source-code'
 
@@ -28,7 +27,6 @@ Vue.use(plugins)
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 
-Vue.component('lin-1px', Lin1px)
 Vue.component('sticky-top', StickyTop)
 Vue.component('source-code', SourceCode)
 
