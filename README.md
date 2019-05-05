@@ -13,11 +13,10 @@
 ![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
 ![](https://img.shields.io/badge/vue-~2.5.17-3963bc.svg)
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
-![](https://img.shields.io/badge/element-~2.4.6-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@vanoneang-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@GongJS-3963bc.svg)
-
+![](https://img.shields.io/badge/developer-@quanquan-3963bc.svg)
 
 ## 简介
 
