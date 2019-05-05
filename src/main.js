@@ -1,13 +1,9 @@
 import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import XLSX from 'xlsx'
 
-import Lin1px from '@/components/base/line/lin-1px'
-import LButton from '@/components/base/button/lin-button'
-import LButtonGroup from '@/components/base/button/lin-button-group'
-import LIcon from '@/components/base/icon/lin-icon'
+import StickyTop from '@/components/base/sticky-top/sticky-top'
+import SourceCode from '@/components/base/source-code/source-code'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import GlobalMixin from 'lin/mixin/global'
@@ -20,6 +16,7 @@ import router from './router'
 import store from './store'
 
 import '@/assets/styles/index.scss' // eslint-disable-line
+import '@/assets/styles/realize/element-variables.scss'
 
 // 全局过滤器
 Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
@@ -30,14 +27,12 @@ Vue.use(plugins)
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 
-Vue.component('lin-1px', Lin1px)
-Vue.component('l-button', LButton)
-Vue.component('l-button-group', LButtonGroup)
-Vue.component('l-icon', LIcon)
+Vue.component('sticky-top', StickyTop)
+Vue.component('source-code', SourceCode)
 
 Vue.use(GlobalMixin)
 Vue.use(AuthorizeDirective)
-Vue.prototype.$XLSX = XLSX
+Vue.prototype.$XLSX = Window.XLSX
 
 /* eslint no-unused-vars: 0 */
 new Vue({

@@ -45,8 +45,8 @@
         </el-tabs>
       </div>
       <div slot="footer" class="dialog-footer" style="padding-left:5px;">
-        <l-button type="primary" @click="confirmEdit">确 定</l-button>
-        <l-button @click="resetForm('form')">重 置</l-button>
+        <el-button type="primary" @click="confirmEdit">确 定</el-button>
+        <el-button @click="resetForm('form')">重 置</el-button>
       </div>
     </el-dialog>
   </div>
@@ -239,23 +239,27 @@ export default {
     handleClick(tab) {
       this.activeTab = tab.name
     },
+    // 监听分组是否成功
+    async addGroup(flag) {
+      if (flag === true) {
+        await this.getAllGroups()
+      }
+    },
   },
   async created() {
     await this.getAllGroups()
     this.tableColumn = [{ prop: 'name', label: '姓名' }, { prop: 'info', label: '信息' }] // 设置表头信息
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     // 监听分组是否成功
-    this.eventBus.$on('addGroup', async (flag) => {
-      if (flag === true) {
-        await this.getAllGroups()
-      }
-    })
+    this.eventBus.$on('addGroup', this.addGroup)
+  },
+  beforeDestroy() {
+    this.eventBus.$off('addUser', this.addGroup)
   },
 }
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   padding: 0 30px;
 
@@ -264,7 +268,6 @@ export default {
     line-height: 59px;
     color: $parent-title-color;
     font-size: 16px;
-    font-family: PingFangSC-Medium;
     font-weight: 500;
   }
 }

@@ -3,7 +3,7 @@ const bookRouter = {
   name: null,
   title: '图书管理',
   type: 'folder', // 类型: folder, tab, view
-  icon: 'iconfont icon-kecheng',
+  icon: 'iconfont icon-tushuguanli',
   filePath: 'views/book/', // 文件路径
   order: null,
   inNav: true,
@@ -15,7 +15,7 @@ const bookRouter = {
       route: '/book/add',
       filePath: 'views/book/BookAdd.vue',
       inNav: true,
-      icon: 'iconfont icon-kecheng',
+      icon: 'iconfont icon-tushuguanli',
     },
     {
       title: '图书列表',
@@ -24,7 +24,7 @@ const bookRouter = {
       route: '/book/list',
       filePath: 'views/book/BookList.vue',
       inNav: true,
-      icon: 'iconfont icon-kecheng',
+      icon: 'iconfont icon-tushuguanli',
     },
   ],
 }

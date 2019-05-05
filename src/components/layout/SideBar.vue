@@ -6,7 +6,7 @@
     <div class="mobile-logo" v-else>
       <img src="../../assets/img/mobile-logo.png" alt="">
     </div>
-    <div class="app-sidebar-second">
+    <div>
       <el-menu
         class="el-menu-vertical-demo"
         ref="meun"
@@ -32,7 +32,7 @@
               <el-submenu v-if="subItem.children" :key="idMap[subItem.name]" :index="idMap[subItem.name]">
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
-                  <span slot="title">{{subItem.title}}</span>
+                  <span slot="title" class="two-folder">{{subItem.title}}</span>
                 </template>
 
                 <!-- 三级菜单 -->
@@ -141,13 +141,21 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
 .app-sidebar {
   background: #192a5e;
-  padding-right: 0px;
+   &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 
   .logo {
     width: $sidebar-width;
+    height: $header-height;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -156,49 +164,45 @@ export default {
     transition: all 0.5s ease-in-out;
     background-color: #122150;
     transition: all 0.3s linear;
+    position:sticky;
+    top:0;
+    left:0;
+    z-index: 99;
 
     img {
       width: 110px;
-      height: 60px;
-      padding: 3px 0px;
       transition: all 0.3s linear;
     }
   }
 
   .mobile-logo {
-    width: 50px;
+    width: 64px;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #122150;
     transition: all 0.3s linear;
 
     img {
       width: 40px;
       height: 40px;
-      padding: 13px 5px;
       transition: all 0.3s linear;
     }
-  }
-
-  .app-sidebar-second {
-    width: $sidebar-width + 30px;
-    position: absolute;
-    top: 66px;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
   }
 
   .imgIcon {
     width: 16px;
     height: 16px;
     margin-right: 10px;
+    margin-left: 5px;
     display: inline-block;
     transform: translateY(21px);
   }
 
   .iconfont {
     margin-right: 10px;
+    margin-left: 5px;
     color: $submenu-title;
     height: $menuItem-height;
   }

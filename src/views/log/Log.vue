@@ -1,36 +1,32 @@
 <template>
   <div class="log">
     <sticky-top>
-      <div class="log-header">
-        <div class="header-left">
-          <p class="title">日志信息</p>
-        </div>
-        <div class="header-right"
-            v-auth="'搜索日志'">
-          <lin-search @query="onQueryChange"
-                      ref="searchKeyword" />
-          <el-dropdown style="margin: 0 10px;" @command="handleCommand"  v-auth="'查询日志记录的用户'">
-            <el-button>
-              {{searchUser}}<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="['全部人员']"></el-dropdown-item>
-              <el-dropdown-item
-                v-for="(user, index) in users"
-                :key="index"
-                :command="[user]"
-                >{{user}}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <lin-date-picker
-              @dateChange="handleDateChange"
-              ref="searchDate"
-              class="date">
-          </lin-date-picker>
-        </div>
+    <div class="log-header">
+      <div class="header-left">
+        <p class="title">日志信息</p>
       </div>
-      <lin-1px v-if="!keyword" :addWidth="40"></lin-1px>
+      <div class="header-right" v-auth="'搜索日志'">
+        <lin-search @query="onQueryChange" ref="searchKeyword" />
+        <el-dropdown style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
+          <el-button>
+            {{searchUser ? searchUser : '全部人员'}}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
+            <el-dropdown-item
+              icon="el-icon-user-solid"
+              v-for="(user, index) in users"
+              :key="index"
+              :command="[user]">{{user}}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date">
+        </lin-date-picker>
+      </div>
+    </div>
+    <el-divider v-if="!keyword"></el-divider>
     </sticky-top>
     <transition name="fade">
       <div class="search" v-if="keyword">
@@ -53,17 +49,19 @@
           </aside>
         </section>
       </article>
-      <lin-1px></lin-1px>
-      <div class="more">
+
+      <el-divider></el-divider>
+      <div class="more" :class="{nothing: finished}">
         <i v-if="more" class="iconfont icon-loading"></i>
         <div v-show="!more && !finished" @click="nextPage">
           <span>查看更多</span>
           <i class="iconfont icon-gengduo" style="font-size:14px"></i>
         </div>
         <div v-if="finished">
-          <span>没有更多数据了</span>
+          <span>{{totalCount === 0 ? '暂无数据' : '没有更多数据了'}}</span>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -73,14 +71,12 @@ import log from 'lin/models/log'
 import LinSearch from '@/components/base/search/lin-search'
 import LinDatePicker from '@/components/base/date-picker/lin-date-picker'
 import { searchLogKeyword } from 'lin/utils/search'
-import StickyTop from '@/components/base/sticky-top/sticky-top'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     LinSearch,
     LinDatePicker,
-    StickyTop,
   },
   data() {
     return {
@@ -88,11 +84,12 @@ export default {
       value: '',
       logs: [],
       users: [],
-      searchUser: '全部人员',
+      searchUser: '',
       more: false,
       loading: false,
       finished: false,
       isSearch: false,
+      error: false,
       searchKeyword: '',
       searchDate: [],
       keyword: null,
@@ -188,10 +185,11 @@ export default {
       this.logs = []
       this.loading = true
       this.finished = false
+      const name = this.searchUser === '全部人员' ? '' : this.searchUser
       const res = await log.searchLogs({
         page: 0, // 初始化
         keyword: this.searchKeyword,
-        name: this.searchUser,
+        name,
         start: this.searchDate[0],
         end: this.searchDate[1],
       })
@@ -258,14 +256,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "~assets/styles/elementUi.scss";
 
 .log {
-  padding: 0 20px;
+
   .log-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px;
+    margin-bottom: -24px;
 
     .header-left {
       float: left;
@@ -275,7 +274,6 @@ export default {
         line-height: 59px;
         color: #4c76af;
         font-size: 16px;
-        font-family: 'PingFangSC-Medium';
         font-weight: 500;
       }
     }
@@ -295,6 +293,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top:24px;
 
     .search-tip {
       margin-left: 40px;
@@ -314,7 +313,7 @@ export default {
 
     .search-back {
       margin: 8px 20px;
-      height: 36px;
+      height: 32px;
       background: #f4516c;
       border: none;
       border-radius: 2px;
@@ -327,11 +326,10 @@ export default {
 
   .content {
     padding: 40px 60px;
-    font-family: "PingFangSC-Regular";
-    background: #ffffff;
 
     article {
       position: relative;
+      margin-bottom: -24px;
 
       section {
         padding: 0 0 36px;
@@ -408,9 +406,11 @@ export default {
     line-height: 40px;
     color: $theme;
     font-size: 14px;
-    font-family: "PingFangSC-Regular";
     margin-left: 28px;
     cursor: pointer;
+    &.nothing {
+      cursor: text;
+    }
 
     .icon-gengduo {
       display: inline;

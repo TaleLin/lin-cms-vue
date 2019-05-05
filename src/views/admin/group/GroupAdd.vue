@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="title">新建分组信息</div>
-    <lin-1px></lin-1px>
     <el-row>
       <el-col
         :lg="16"
@@ -33,8 +32,8 @@
               </group-auths>
             </el-form-item>
             <el-form-item class="submit">
-              <l-button type="primary" @click="submitForm('form')">保 存</l-button>
-              <l-button @click="resetForm('form')">重 置</l-button>
+              <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+              <el-button @click="resetForm('form')">重 置</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -126,9 +125,9 @@ export default {
     line-height: 59px;
     color: $parent-title-color;
     font-size: 16px;
-    font-family: PingFangSC-Medium;
     font-weight: 500;
     text-indent: 40px;
+    border-bottom: 1px solid #dae1ec;
   }
 
   .content {

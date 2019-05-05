@@ -1,9 +1,10 @@
 <template>
   <div class="lin-table">
     <el-table
-      border
       ref="linTable"
       v-loading="loading"
+      stripe
+      :border="border"
       :data="currentData"
       :highlight-current-row="highlightCurrentRow ? true : false"
       :element-loading-text="loadingText"
@@ -41,13 +42,15 @@
         fixed="right"
         width="175">
         <template slot-scope="scope">
-          <l-button
+          <el-button
             v-for="(item,index) in operate"
             :type="item.type"
+            plain
             :key="index"
+            size="mini"
             v-auth="item.auth ? item.auth : ''"
             @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}
-          </l-button>
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -64,8 +67,8 @@
 </template>
 
 <script>
-import Sortable from 'sortablejs'
-import FileSaver from 'file-saver'
+// import Sortable from 'sortablejs'
+// import FileSaver from 'file-saver'
 
 export default {
   props: {
@@ -137,6 +140,11 @@ export default {
     pagination: {
       // 分页
       type: [Object, Boolean],
+      default: false,
+    },
+    border: {
+      // 边框
+      type: Boolean,
       default: false,
     },
   },
@@ -270,44 +278,44 @@ export default {
       this.oldVal = [...val]
     },
     // 拖拽
-    setDrag() {
-      const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-      this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
-      this.sortable = Sortable.create(el, {
-        setData(dataTransfer) {
-          dataTransfer.setData('Text', '')
-        },
-        onEnd: (evt) => {
-          const dragData = [...this.currentData]
-          let { oldIndex, newIndex } = evt
-          if (this.pagination) {
-            oldIndex = evt.oldIndex * this.currentPage
-            newIndex = evt.newIndex * this.currentPage
-          }
-          dragData[oldIndex] = this.currentData[newIndex]
-          dragData[newIndex] = this.currentData[oldIndex]
-          this.$emit('getDragData', { dragData, oldIndex, newIndex })
-        },
-      })
-    },
+    // setDrag() {
+    //   const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+    //   this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
+    //   this.sortable = Sortable.create(el, {
+    //     setData(dataTransfer) {
+    //       dataTransfer.setData('Text', '')
+    //     },
+    //     onEnd: (evt) => {
+    //       const dragData = [...this.currentData]
+    //       let { oldIndex, newIndex } = evt
+    //       if (this.pagination) {
+    //         oldIndex = evt.oldIndex * this.currentPage
+    //         newIndex = evt.newIndex * this.currentPage
+    //       }
+    //       dragData[oldIndex] = this.currentData[newIndex]
+    //       dragData[newIndex] = this.currentData[oldIndex]
+    //       this.$emit('getDragData', { dragData, oldIndex, newIndex })
+    //     },
+    //   })
+    // },
     // 导出excel
-    exportExcel(fileName = 'sheet') {
-      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = this.$XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
-      try {
-        FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
-      } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
-      return writeTable
-    },
+    // exportExcel(fileName = 'sheet') {
+    //   const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+    //   const writeTable = this.$XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
+    //   try {
+    //     FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
+    //   } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
+    //   return writeTable
+    // },
     // 导出csv
-    exportCsv(fileName = 'sheet') {
-      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = this.$XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
-      try {
-        FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.csv`)
-      } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
-      return writeTable
-    },
+    // exportCsv(fileName = 'sheet') {
+    //   const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+    //   const writeTable = this.$XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
+    //   try {
+    //     FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.csv`)
+    //   } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
+    //   return writeTable
+    // },
   },
   watch: {
     fixedLeftList: {

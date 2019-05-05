@@ -1,5 +1,5 @@
 <template>
-  <div v-if="histories.length > 1">
+  <div v-if="histories.length > 1" ref="resueTab">
     <swiper :options="swiperOption" class="reuse-tab-wrap">
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
@@ -25,6 +25,7 @@ import ripple from 'lin/directives/ripple'
 
 import "swiper/dist/css/swiper.css" // eslint-disable-line
 
+
 export default {
   components: { swiper, swiperSlide },
   data() {
@@ -38,7 +39,7 @@ export default {
         slidesPerView: 'auto',
         initialSlide: 0,
         effect: 'slide',
-        spaceBetween: 10,
+        spaceBetween: 1,
         preventClicks: false,
         freeMode: true,
         mousewheel: {
@@ -71,7 +72,15 @@ export default {
     stageList() {
       this.init()
     },
+    histories(arr) {
+      if (arr.length < 2) {
+        this.eventBus.$emit('noReuse')
+      } else {
+        this.eventBus.$emit('hasReuse')
+      }
+    },
   },
+  inject: ['eventBus'],
   created() {
     // 关闭窗口时执行
     window.onbeforeunload = () => {
@@ -154,21 +163,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .swiper-slide {
-  width: 130px;
+  width: 120px;
   display: flex;
-  height: 30px;
+  height: 26px;
   flex-direction: column;
   justify-content: center;
+  background-color: $reuse-tab-item-background;
+  color: $right-side-font-color;
 }
 
 .reuse-tab-wrap {
-  width: calc(100% -40px);
-  margin: 0 20px;
-  height: 30px;
-  padding: 20px 0 0;
-  background: #2b3b71;
+  bottom: 0;
+  left: 0;
+  // width: calc(100% -40px);
+  height: 26px;
+  background: $header-background;
   font-size: 14px;
   color: #8c98ae;
   display: flex;
@@ -178,15 +188,13 @@ export default {
   .reuse-tab-item {
     box-sizing: border-box;
     width: auto;
-    border: 1px solid;
-    border-radius: 2px;
-    height: 30px;
-    width: 130px;
+    height: 26px;
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 1em;
-    margin-right: 10px;
+    margin-right: 1px;
     position: relative;
 
     .el-icon-close {

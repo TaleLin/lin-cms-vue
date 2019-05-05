@@ -8,6 +8,7 @@
       align="right"
       popper-class="date-box"
       value-format="yyyy-MM-dd HH:mm:ss"
+      :default-time="['00:00:00', '23:59:59']"
       :picker-options="pickerOptions">
     </el-date-picker>
   </div>
@@ -65,8 +66,14 @@ export default {
   margin-top: 10px;
 }
 .el-input__inner{
-  height: 36px;
-  line-height: 36px;
+  height: 32px;
+  line-height: 32px;
+}
+.el-date-editor .el-range__icon {
+  height: 32px;
+}
+.el-date-editor .el-range-separator{
+  height: 32px;
 }
 .el-date-table td.start-date span, .el-date-table td.end-date span{
   background-color: #3963BC;

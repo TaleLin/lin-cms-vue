@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="menuTabs.length || show"  style="margin: 0 20px 20px;">
+    <div v-if="menuTabs.length || show" >
       <ul class="menu-tab">
         <router-link
           :to="tab.path"
@@ -54,10 +54,10 @@ export default {
 
 .menu-tab {
   width: 100%;
-  height: 50px;
-  background: rgba(25, 42, 94, 0.5);
+  height: 38px;
+  line-height: 38px;
+  background: $reuse-tab-item-background;
   font-size: 14px;
-  font-family: "PingFangSC-Regular";
   font-weight: 400;
   color: rgba(140, 152, 174, 1);
   display: flex;
@@ -66,32 +66,24 @@ export default {
 
   .router-link-exact-active,
   .router-link-active {
-    height: 47px;
-    border-top: 3px solid $theme;
-    background: rgba(255, 255, 255, 1);
-    color: rgba(57, 99, 188, 1);
-
-    .menu-li {
-      margin-top: -3px;
-    }
+    background: $appmain-background;
+    color: $theme;
   }
 
   .menu-li {
     width: 120px;
-    height: 50px;
+    height: 38px;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
 
     .imgIcon {
       width: 16px;
       height: 16px;
       margin: 0 auto;
     }
-
     .title {
-      margin-top: -9px;
+      margin-left: 5px;
     }
   }
 }
