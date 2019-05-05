@@ -4,21 +4,17 @@
       <span class="el-dropdown-link">
         <img src="../../assets/img/user/user.png" alt="管理员头像" class="nav-avatar">
       </span>
-      <el-dropdown-menu slot="dropdown" class="user-box" style="border:none;
-        background-color:none;
-        background:transparent;
-        margin-bottom:0;
-        padding-bottom:0;">
+      <el-dropdown-menu slot="dropdown" class="user-box">
         <div class="user-info">
           <img src="../../assets/img/user/user.png" class="avatar" alt="管理员头像">
           <div class="text">
             <div class="username">{{nickname}}</div>
             <div class="desc">{{title}}</div>
           </div>
-          <img src="../../assets/img/user/corner.png" class="corner" />
+          <img src="../../assets/img/user/corner.png" class="corner">
         </div>
         <ul class="dropdown-box">
-          <li class=" password" @click="changePassword">
+          <li class="password" @click="changePassword">
             <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i>
             <span>修改登录密码</span>
           </li>
@@ -29,19 +25,19 @@
         </ul>
       </el-dropdown-menu>
     </el-dropdown>
-    <el-dialog
+       <el-dialog
       title="修改密码"
       :append-to-body="true"
       :before-close="handleClose"
-      :visible.sync="dialogFormVisible">
-      <el-divider style="margin-top:-20px;margin-bottom:20px;"></el-divider>
+      :visible.sync="dialogFormVisible"
+      class="user-dialog">
       <el-form
         :model="form"
         status-icon
         :rules="rules"
         label-position="left"
         ref="form"
-        label-width="100px"
+        label-width="90px"
         @submit.native.prevent>
         <el-form-item label="原始密码" prop="old_password">
           <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
@@ -58,6 +54,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
   </div>
 </template>
 
@@ -67,7 +64,8 @@ import User from '@/lin/models/user'
 
 export default {
   data() {
-    const oldPassword = (rule, value, callback) => { // eslint-disable-line
+    const oldPassword = (rule, value, callback) => {
+      // eslint-disable-line
       if (!value) {
         return callback(new Error('原始密码不能为空'))
       }
@@ -135,7 +133,11 @@ export default {
       window.location.href = origin
     },
     submitForm(formName) {
-      if (this.form.old_password === '' && this.form.new_password === '' && this.form.confirm_password === '') {
+      if (
+        this.form.old_password === ''
+        && this.form.new_password === ''
+        && this.form.confirm_password === ''
+      ) {
         this.dialogFormVisible = false
         return
       }
@@ -143,7 +145,8 @@ export default {
         this.$message.error('新密码不能与原始密码一样')
         return
       }
-      this.$refs[formName].validate(async (valid) => { // eslint-disable-line
+      this.$refs[formName].validate(async (valid) => {
+        // eslint-disable-line
         if (valid) {
           const res = await User.updatePassword(this.form)
           if (res.error_code === 0) {
@@ -180,20 +183,34 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.user-dialog /deep/ .el-dialog .el-dialog__header {
+  border-bottom: 1px solid #dae1ed;
+  padding-bottom:20px;
+}
 
-.el-dropdown-link {
-  cursor: pointer;
+.user-dialog /deep/ .el-dialog .el-dialog__body {
+  padding-bottom:00px;
+}
 
-  .nav-avatar {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+.user {
+  .el-dropdown-link {
+    cursor: pointer;
+
+    .nav-avatar {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
   }
 }
 
 .user-box {
   width: 326px;
+  background-color: none;
+  background: transparent;
+  margin-bottom: 0;
+  padding-bottom: 0;
   border: none;
 
   .user-info {

@@ -300,7 +300,7 @@ export default {
           type: 'success',
           message: '修改成功',
         })
-      }, 100)
+      }, 1000)
     },
     handleCellCancel(row) {
       row.editFlag = false; // eslint-disable-line
@@ -528,14 +528,5 @@ export default {
     justify-content: flex-end;
     margin: 20px;
   }
-  .pagination /deep/ .el-pagination__editor.el-input .el-input__inner {
-    border-radius: 4px;
-  }
-}
-</style>
-<style>
-.tableSample .el-table .cell {
-  display: inline-block;
-  width: 100%;
 }
 </style>
