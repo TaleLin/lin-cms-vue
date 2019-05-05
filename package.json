@@ -1,6 +1,6 @@
 {
   "name": "lin-cms",
-  "version": "0.0.1-alpha.4",
+  "version": "0.1.0-beta.1",
   "private": true,
   "scripts": {
     "serve": "node script/plugin-get-config.js && vue-cli-service serve",
@@ -14,7 +14,6 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "axios": "~0.18.0",
-    "better-scroll": "^1.13.2",
     "element-ui": "^2.8.2",
     "event-source-polyfill": "^0.0.16",
     "fastscan": "^1.0.4",
