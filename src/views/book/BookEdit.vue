@@ -19,6 +19,7 @@
             status-icon
             ref="form"
             label-width="100px"
+            v-loading="loading"
             @submit.native.prevent>
             <el-form-item label="书名" prop="title">
               <el-input v-model="form.title" placeholder="请填写书名"></el-input>
@@ -60,6 +61,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       form: {
         title: '',
         author: '',
@@ -69,7 +71,9 @@ export default {
     }
   },
   async mounted() {
+    this.loading = true
     this.form = await book.getBook(this.editBookID)
+    this.loading = false
   },
   methods: {
     async submitForm() {

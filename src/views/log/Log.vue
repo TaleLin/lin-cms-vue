@@ -51,7 +51,7 @@
       </article>
 
       <el-divider></el-divider>
-      <div class="more">
+      <div class="more" :class="{nothing: finished}">
         <i v-if="more" class="iconfont icon-loading"></i>
         <div v-show="!more && !finished" @click="nextPage">
           <span>查看更多</span>
@@ -408,6 +408,9 @@ export default {
     font-size: 14px;
     margin-left: 28px;
     cursor: pointer;
+    &.nothing {
+      cursor: text;
+    }
 
     .icon-gengduo {
       display: inline;
