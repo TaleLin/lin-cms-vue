@@ -13,7 +13,6 @@ Vue.use(Vuex)
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   reducer: state => ({ // eslint-disable-line
-    tabs: state.tabs,
     logined: state.logined,
     user: state.user,
     auths: state.auths,
@@ -27,4 +26,5 @@ export default new Vuex.Store({
   mutations,
   actions,
   plugins: [vuexLocal.plugin],
+  strict: process.env.NODE_ENV !== 'production',
 })

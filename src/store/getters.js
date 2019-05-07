@@ -1,18 +1,31 @@
-// import pluginConfig from '@/plugins/configs.json'
 import Util from '@/lin/utils/util'
+
+let stageMap = {}
+
+const deepTravel = (obj, fuc) => {
+  if (Array.isArray(obj)) {
+    obj.forEach((item) => {
+      deepTravel(item, fuc)
+    })
+    return
+  }
+  if (obj && obj.children) {
+    fuc(obj)
+    deepTravel(obj.children, fuc)
+    return
+  }
+  if (obj.name) {
+    fuc(obj)
+  }
+}
 
 export const logined = state => state.logined
 
 export const user = state => state.user
 
-export const tabs = state => state.tabs
-
 export const readedMessages = state => state.readedMessages
 
 export const unreadMessages = state => state.unreadMessages
-
-export const defaultActive = state => state.defaultActive
-
 
 function IterationDelateMenuChildren(arr) {
   if (arr.length) {
@@ -40,14 +53,30 @@ function permissionShaking(stageConfig, auths, user) { // eslint-disable-line
   return IterationDelateMenuChildren(shookConfig)
 }
 
-export const sideBarList = (state) => {
+// 获取有权限的舞台配置
+export const authStageConfig = (state) => {
   const { stageConfig, auths, user } = state // eslint-disable-line
-  const shookConfig = permissionShaking(stageConfig, auths, user)
+  const tempStageConfig = Util.deepClone(stageConfig)
+  const shookConfig = permissionShaking(tempStageConfig, auths, user)
 
-  function deepTravel(target, level = 2) {
+  // 设置舞台缓存
+  const list = {}
+  deepTravel(shookConfig, (item) => {
+    list[item.name] = (item)
+  })
+  stageMap = list
+  return shookConfig
+}
+
+// 获取侧边栏配置
+export const sideBarList = (state, getter) => {
+  const { sideBarLevel } = state // eslint-disable-line
+  const { authStageConfig } = getter // eslint-disable-line
+
+  function deepGetSideBar(target, level = 3) {
     // 集合节点处理
     if (Array.isArray(target)) {
-      const acc = target.map(item => deepTravel(item, (level - 1)))
+      const acc = target.map(item => deepGetSideBar(item, (level - 1)))
       return acc.filter(item => (item !== null))
     }
 
@@ -58,10 +87,11 @@ export const sideBarList = (state) => {
 
     if (target.type === 'folder' && level !== 0) { // 处理 folder 模式
       const sideConfig = {}
+      sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
       sideConfig.path = target.route || Util.getRandomStr(6)
-      sideConfig.children = target.children.map(item => deepTravel(item, (level - 1)))
+      sideConfig.children = target.children.map(item => deepGetSideBar(item, (level - 1)))
       sideConfig.children = sideConfig.children.filter(item => (item !== null))
       return sideConfig
     }
@@ -69,22 +99,32 @@ export const sideBarList = (state) => {
     // 处理一级就是 view 的情况
     if (target.type === 'view') {
       const sideConfig = {}
+      sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
       sideConfig.path = target.route
       return sideConfig
     }
+
     // 处理 appTab 情况
     if (target.type === 'tab') {
       const sideConfig = {}
+      sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
       sideConfig.path = target.route
+      // 如果 Tab 没有设置默认打开的路由, 则设置为第一个子节点路由
+      if (!sideConfig.path) {
+        if (target.children && target.children.length > 0 && target.children[0].route) {
+          sideConfig.path = target.children[0].route
+        }
+      }
       return sideConfig
     }
     // 最后一层, 都当做子节点处理
     if (level <= 0) {
       const sideConfig = {}
+      sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
       sideConfig.path = Util.getRandomStr(6)
@@ -96,31 +136,26 @@ export const sideBarList = (state) => {
     return null
   }
 
-  const sideBar = deepTravel(shookConfig)
+  const sideBar = deepGetSideBar(authStageConfig, sideBarLevel)
   return sideBar
 }
 
-export const tabIconList = (state) => {
-  const iconList = {}
-  // eslint-disable-next-line
-  const { sideBarList } = state
-
-  function inherit(data) {
-    data.forEach((item) => {
-      if (item.children) {
-        inherit(item.children)
-      }
-      iconList[item.title] = item.icon
-    })
-    return iconList
-  }
-  if (sideBarList) {
-    inherit(sideBarList)
-  }
-
-  // console.log(iconList)
-  return iconList
+// 获取有权限的所有节点配置对象
+// eslint-disable-next-line
+export const getStageByName = () => {
+  return name => stageMap[name]
 }
+
+// 获取有权限的所有节点配置对象
+// eslint-disable-next-line
+export const getStageByRoute = () => {
+  return (path) => {
+    const result = Object.getOwnPropertySymbols(stageMap).find(key => (stageMap[key].route === path))
+    return stageMap[result]
+  }
+}
+
+export const stageList = () => stageMap
 
 export const auths = state => state.auths
 

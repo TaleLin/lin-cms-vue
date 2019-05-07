@@ -26,6 +26,15 @@ let homeRouter = [
     order: 1,
     right: ['查询所有日志'],
   },
+  {
+    title: '404',
+    type: 'view',
+    name: Symbol('404'),
+    route: '/404',
+    filePath: 'views/error-page/404.vue',
+    inNav: false,
+    icon: 'iconfont icon-rizhiguanli',
+  },
   bookConfig,
   adminConfig,
 ]

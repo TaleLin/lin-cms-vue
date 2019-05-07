@@ -6,18 +6,16 @@
 </p>
 
 <p align="center">
-  <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#下个版本开发计划">下个版本开发计划</a>
+  <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#版本日志">版本日志</a>
 </p>
 
-![](https://img.shields.io/badge/版本-0.0.1.alpha.1-3963bc.svg)
+![](https://img.shields.io/badge/版本-0.1.0.beta.1-3963bc.svg)
 ![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
-![](https://img.shields.io/badge/vue-~2.5.17-3963bc.svg)
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
-![](https://img.shields.io/badge/element-~2.4.6-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@vanoneang-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@GongJS-3963bc.svg)
-
+![](https://img.shields.io/badge/developer-@quanquan-3963bc.svg)
 
 ## 简介
 
@@ -25,7 +23,11 @@ Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内�
 
 Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
 
-Lin-CMS 是一套前后端完整的解决方案，后端部署请移步[后端仓库](https://github.com/TaleLin/lin-cms-flask)。
+Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
+
+[lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
+
+[lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
 
 ### 文档地址
 
@@ -85,9 +87,28 @@ QQ群搜索：Lin CMS 或 814597236
 
 <img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qqgroup.jpg" width="150" height="205" >
 
-## 下个版本开发计划
+## 版本日志
 
-- [ ]  完成插件机制
-- [ ]  添加消息推送机制
-- [ ]  完善表单组件
+最新版本 `0.1.0-beta.1`
+
+### 0.1.0-beta.1
+
+1. `U` 新UI界面
+2. `A` button组件、table组件
+3. `F` 修复令牌刷新异常
+
+### 0.0.1-alpha.3
+
+1.  `A` 添加插件机制
+2.  `U` 重构路由设计
+2.  `A` 可配置三级路由导航
+
+### 0.0.1-alpha.2
+
+1.  `U` 升级到 `vue-cli3.4` 
+2.  `A` 慕课网专题插件
+
+### 0.0.1-alpha.1
+
+1.  `A` 初始化内测版
 

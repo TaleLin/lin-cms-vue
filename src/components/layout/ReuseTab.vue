@@ -1,18 +1,17 @@
 <template>
-  <div v-if="tabs.length">
+  <div v-if="histories.length > 1" ref="resueTab">
     <swiper :options="swiperOption" class="reuse-tab-wrap">
-      <swiper-slide v-for="(tag, index) in tabs" :key="tag.path">
+      <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
-          ref="tag"
           v-ripple
-          :class="tag.path === $route.path? 'active':'' "
-          :to="tag.path"
+          :class="item.path === $route.path ? 'active' : ''"
+          :to="item.path"
           @contextmenu.prevent.native="onTags">
-          <img v-if="tag.src" :src="tag.src" style="width:16px;">
-          <i v-else :class="tag.icon"></i>
-          <span style="padding: 0 5px;">{{ tag.title | filterTitle }}</span>
-          <span class="el-icon-close reMove" @click.prevent.stop="clean(index)" />
+          <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
+          <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
+          <span style="padding: 0 5px;">{{ stageList[item.stageId].title | filterTitle }}</span>
+          <span class="el-icon-close" @click.prevent.stop="close(index)" />
         </router-link>
       </swiper-slide>
     </swiper>
@@ -20,16 +19,18 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import ripple from 'lin/directives/ripple'
 
 import "swiper/dist/css/swiper.css" // eslint-disable-line
 
+
 export default {
   components: { swiper, swiperSlide },
   data() {
     return {
+      histories: [],
       visible: false,
       top: 0,
       left: 0,
@@ -38,7 +39,7 @@ export default {
         slidesPerView: 'auto',
         initialSlide: 0,
         effect: 'slide',
-        spaceBetween: 10,
+        spaceBetween: 1,
         preventClicks: false,
         freeMode: true,
         mousewheel: {
@@ -47,39 +48,113 @@ export default {
       },
     }
   },
-  created() {},
-  computed: {
-    ...mapGetters(['tabs', 'tabIconList']),
-  },
   watch: {
     $route(to) {
-      const o = {
-        path: to.path,
-        title: to.meta.title,
-        icon: to.meta.icon,
-        src: to.meta.src,
-      }
-
-      if (to.meta.type !== 'view') {
+      // 对路由变化作出响应...
+      const { histories } = this
+      const flag = histories.find(item => (item.path === to.path))
+      if (flag) {
         return
       }
-
-      this.ADD_TAB(o)
+      const ele = {}
+      ele.stageId = to.name
+      ele.path = to.path
+      ele.routePath = to.matched[to.matched.length - 1].path
+      this.histories = [ele, ...histories]
+    },
+    logined(val) {
+      if (val) {
+        return
+      }
+      this.closeAll()
+    },
+    // 舞台改变时触发
+    stageList() {
+      this.init()
+    },
+    histories(arr) {
+      if (arr.length < 2) {
+        this.eventBus.$emit('noReuse')
+      } else {
+        this.eventBus.$emit('hasReuse')
+      }
     },
   },
-  mounted() {},
+  inject: ['eventBus'],
+  created() {
+    // 关闭窗口时执行
+    window.onbeforeunload = () => {
+      // 缓存历史记录
+      window.localStorage.setItem('history', JSON.stringify(this.histories))
+    }
+  },
+  computed: {
+    logined() {
+      return this.$store.state.logined
+    },
+    defaultRoute() {
+      return this.$store.state.defaultRoute
+    },
+    ...mapGetters(['getStageByRoute', 'getStageByName', 'stageList']),
+  },
+  mounted() {
+    this.init()
+  },
   methods: {
-    test() {
-      // if (icon.slice(0, 8)) {
-      //   return true
-      // }
-      return true
-    },
+    init() {
+      const histories = []
 
-    clean(index) {
-      this.REMOVE_TAB(index)
+      // 获取当前的历史记录, 可能从本地存储, 可能直接获取当前的
+      let localHistory
+      if (this.histories.length > 0) {
+        localHistory = [...this.histories]
+      } else {
+        localHistory = window.localStorage.getItem('history') || '[]'
+        localHistory = JSON.parse(localHistory)
+      }
+
+      localHistory.forEach((item) => {
+        let findResult
+        if (item.name) {
+          findResult = this.getStageByName(item.name)
+        } else {
+          findResult = this.getStageByRoute(item.routePath)
+        }
+        if (!findResult) {
+          return
+        }
+        histories.push({
+          ...item,
+          stageId: findResult.name,
+        })
+        this.histories = histories
+      })
     },
-    ...mapMutations(['ADD_TAB', 'REMOVE_TAB']),
+    filterIcon(icon) {
+      if (!icon) {
+        return false
+      }
+      return icon.indexOf('/') !== -1
+    },
+    closeAll() {
+      this.histories = []
+      this.$router.push(this.defaultRoute)
+    },
+    close(index) {
+      // 检测是否是当前页, 如果是当前页则自动切换路由
+      if (this.$route.path === this.histories[index].path) {
+        if (index > 0) {
+          this.$router.push(this.histories[index - 1].path)
+        } else if (this.histories.length > 1) {
+          this.$router.push(this.histories[1].path)
+        } else {
+          this.$router.push(this.defaultRoute)
+        }
+      }
+      // 删除该历史记录
+      this.histories.splice(index, 1)
+      this.histories = [...this.histories]
+    },
   },
   directives: {
     ripple,
@@ -88,21 +163,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .swiper-slide {
-  width: 130px;
+  width: 120px;
   display: flex;
-  height: 30px;
+  height: 26px;
   flex-direction: column;
   justify-content: center;
+  background-color: $reuse-tab-item-background;
+  color: $right-side-font-color;
 }
 
 .reuse-tab-wrap {
-  width: calc(100% -40px);
-  margin: 0 20px;
-  height: 30px;
-  padding: 20px 0 0;
-  background: #2b3b71;
+  bottom: 0;
+  left: 0;
+  // width: calc(100% -40px);
+  height: 26px;
+  background: $header-background;
   font-size: 14px;
   color: #8c98ae;
   display: flex;
@@ -112,15 +188,13 @@ export default {
   .reuse-tab-item {
     box-sizing: border-box;
     width: auto;
-    border: 1px solid;
-    border-radius: 2px;
-    height: 30px;
-    width: 130px;
+    height: 26px;
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 1em;
-    margin-right: 10px;
+    margin-right: 1px;
     position: relative;
 
     .el-icon-close {

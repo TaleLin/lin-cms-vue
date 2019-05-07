@@ -1,14 +1,15 @@
 <template>
   <div class="container">
     <el-date-picker v-model="value"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    align="right"
-                    popper-class="date-box"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    :picker-options="pickerOptions">
+      type="daterange"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
+      align="right"
+      popper-class="date-box"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      :default-time="['00:00:00', '23:59:59']"
+      :picker-options="pickerOptions">
     </el-date-picker>
   </div>
 </template>
@@ -65,8 +66,14 @@ export default {
   margin-top: 10px;
 }
 .el-input__inner{
-  height: 36px;
-  line-height: 36px;
+  height: 32px;
+  line-height: 32px;
+}
+.el-date-editor .el-range__icon {
+  height: 32px;
+}
+.el-date-editor .el-range-separator{
+  height: 32px;
 }
 .el-date-table td.start-date span, .el-date-table td.end-date span{
   background-color: #3963BC;

@@ -14,26 +14,6 @@ export default {
     state.user = payload
   },
 
-  async [types.ADD_TAB](state, payload) {
-    if (!(payload instanceof Array)) {
-      const { tabs } = state
-      const flag = await tabs.find(el => el.path === payload.path)
-      if (!flag) {
-        state.tabs = [payload, ...tabs]
-      }
-    } else {
-      state.tabs = []
-    }
-  },
-
-  [types.REMOVE_TAB](state, payload) {
-    state.tabs.splice(payload, 1)
-  },
-
-  [types.SET_DEFAULT_ACTIVE_TAB](state, payload) {
-    state.defaultActive = payload
-  },
-
   [types.ADD_READED_MESSAGE](state, payload) {
     state.readedMessages.push(payload)
   },
@@ -66,4 +46,5 @@ export default {
   [types.SET_REFERSH_OPTION](state, option) {
     state.refreshOptions = option
   },
+
 }

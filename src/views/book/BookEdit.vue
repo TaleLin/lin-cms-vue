@@ -19,6 +19,7 @@
             status-icon
             ref="form"
             label-width="100px"
+            v-loading="loading"
             @submit.native.prevent>
             <el-form-item label="书名" prop="title">
               <el-input v-model="form.title" placeholder="请填写书名"></el-input>
@@ -38,8 +39,8 @@
               </el-input>
             </el-form-item>
             <el-form-item class="submit">
-              <l-button type="primary" @click="submitForm('form')">保 存</l-button>
-              <l-button @click="resetForm('form')">重 置</l-button>
+              <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+              <el-button @click="resetForm('form')">重 置</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -60,6 +61,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       form: {
         title: '',
         author: '',
@@ -69,7 +71,9 @@ export default {
     }
   },
   async mounted() {
+    this.loading = true
     this.form = await book.getBook(this.editBookID)
+    this.loading = false
   },
   methods: {
     async submitForm() {
@@ -98,7 +102,6 @@ export default {
     line-height: 59px;
     color: $parent-title-color;
     font-size: 16px;
-    font-family: PingFangSC-Medium;
     font-weight: 500;
     text-indent: 40px;
 

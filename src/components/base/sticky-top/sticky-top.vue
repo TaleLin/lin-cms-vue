@@ -4,11 +4,11 @@
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .wrapper {
   position: sticky;
   top: 0;
-  background: #fff;
-  z-index: 1;
+  z-index: 9;
+  background:#fff;
 }
 </style>

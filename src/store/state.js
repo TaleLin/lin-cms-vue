@@ -1,11 +1,12 @@
 
 import stageConfig from '@/config/stage' // 引入舞台配置
+import AppConfig from '@/config/index' // 引入项目配置
 
 export default {
   logined: false, // 是否登录
   user: null, // 当前用户
-  tabs: [], // 浏览历史
-  defaultActive: '',
+  sideBarLevel: AppConfig.sideBarLevel || 3,
+  defaultRoute: AppConfig.defaultRoute || '/about',
 
   // 推送消息
   readedMessages: [],

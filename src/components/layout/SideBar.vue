@@ -6,49 +6,67 @@
     <div class="mobile-logo" v-else>
       <img src="../../assets/img/mobile-logo.png" alt="">
     </div>
-    <div class="app-sidebar-second">
+    <div>
       <el-menu
         class="el-menu-vertical-demo"
         ref="meun"
-        @open="handleOpen"
-        @close="handleClose"
         :default-active="defaultActive"
         :collapse="isCollapse"
         background-color="#192A5E"
         text-color="rgba(196,201,210,1)"
         active-text-color="#1890ff">
-        <template v-for="(item, index) in sideBarList">
+        <template v-for="(item) in sideBarList">
           <el-submenu
             v-if="item.children"
-            :key="'sidenav_' + index"
-            :index="indexToString(index++)"
+            :key="idMap[item.name]"
+            :index="idMap[item.name]"
             popper-class="abc">
             <template slot="title">
-              <!-- <img v-if="item.meta.src" :src="item.meta.src" class="imgIcon" />
-              <i v-else :class="item.meta.icon"></i> -->
-              <i :class="item.icon"/>
+              <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+              <img v-else :src="item.icon" class="imgIcon" />
               <span slot="title">{{item.title}}</span>
             </template>
-            <el-menu-item-group>
+
+            <!-- 二级菜单 -->
+            <template v-for="(subItem) in item.children">
+              <el-submenu v-if="subItem.children" :key="idMap[subItem.name]" :index="idMap[subItem.name]">
+                <template slot="title">
+                  <i class="iconfont icon-erjizhibiao"></i>
+                  <span slot="title" class="two-folder">{{subItem.title}}</span>
+                </template>
+
+                <!-- 三级菜单 -->
+                <router-link
+                  v-for="(grandchildItem) in subItem.children"
+                  :key="idMap[grandchildItem.name]"
+                  :to="grandchildItem.path"
+                  class="circle third">
+                  <el-menu-item :index="idMap[grandchildItem.name]" style="padding-left: 80px;">
+                    {{grandchildItem.title}}
+                  </el-menu-item>
+                </router-link>
+              </el-submenu>
+              <!-- 二级else -->
               <router-link
-                v-for="(subItem, subIndex) in item.children"
                 :to="subItem.path"
-                :key="'sidenav_' + index + subIndex">
-                <el-menu-item
-                  :index="index - 1 + '-' + indexToString(subIndex++)"
-                  style="padding-left: 60px;">
+                :key="subItem.name"
+                class="circle"
+                v-else>
+                <el-menu-item :index="idMap[subItem.name]" style="padding-left: 60px;">
                   {{subItem.title}}
                 </el-menu-item>
               </router-link>
-            </el-menu-item-group>
+
+            </template>
           </el-submenu>
-          <!-- 分割线 -->
+
+          <!-- 一级else -->
           <el-menu-item
-            :index="indexToString(index++)"
+            :index="idMap[item.name]"
             @click="goto(item.path)"
             v-else
-            :key="item.path">
-            <i v-if="!filterIcon(item.icon)" :class="item.icon" ></i>
+            :key="idMap[item.name]">
+            <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
             <img v-else :src="item.icon" class="imgIcon" />
             <span slot="title">{{item.title}}</span>
           </el-menu-item>
@@ -60,56 +78,84 @@
 </template>
 
 <script>
+import Utils from '@/lin/utils/util'
 /* eslint-disable no-restricted-syntax */
 import { mapGetters } from 'vuex'
 
 export default {
   props: ['isCollapse'],
-  data() {
-    return {
-      arr: [],
-      itemIndex: 0,
-    }
-  },
   methods: {
     goto(path) {
       this.$router.push({
         path,
       })
     },
-
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath)
-    },
-    // 路由标志位
-    indexToString(num) {
-      this.itemIndex = num
-      return num.toString()
-    },
     filterIcon(icon) {
       return icon.indexOf('/') !== -1
     },
   },
   computed: {
+    // 根据当前路由设置激活侧边栏
+    defaultActive() {
+      for (let i = (this.stageInfo.length - 1); i >= 0; i -= 1) {
+        if (this.idMap[this.stageInfo[i].name]) {
+          return this.idMap[this.stageInfo[i].name]
+        }
+      }
+      return ''
+    },
+    stageInfo() {
+      return this.$store.getters.getStageInfo(this.$route.name)
+    },
+    // 由于index不支持symbol格式, 因此使用 idMap 进行映射
+    idMap() {
+      const { sideBarList } = this
+      const mapData = {}
+      const deepTravel = (obj, fuc) => {
+        if (Array.isArray(obj)) {
+          obj.forEach((item) => {
+            deepTravel(item, fuc)
+          })
+          return
+        }
+        if (obj && obj.children) {
+          fuc(obj)
+          deepTravel(obj.children, fuc)
+          return
+        }
+        if (obj.name) {
+          fuc(obj)
+        }
+      }
+      deepTravel(sideBarList, (item) => {
+        mapData[item.name] = Utils.getRandomStr()
+      })
+
+      return mapData
+    },
     imgSrc() {
       return this.isCollapse === false ? '../../assets/img/left-logo.png' : '../../assets/img/logo.png'
     },
-    ...mapGetters(['defaultActive', 'sideBarList', 'auths', 'user']),
+    ...mapGetters(['sideBarList']),
   },
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
 .app-sidebar {
   background: #192a5e;
-  padding-right: 0px;
+   &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 
   .logo {
     width: $sidebar-width;
+    height: $header-height;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,49 +164,45 @@ export default {
     transition: all 0.5s ease-in-out;
     background-color: #122150;
     transition: all 0.3s linear;
+    position:sticky;
+    top:0;
+    left:0;
+    z-index: 99;
 
     img {
       width: 110px;
-      height: 60px;
-      padding: 3px 0px;
       transition: all 0.3s linear;
     }
   }
 
   .mobile-logo {
-    width: 50px;
+    width: 64px;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #122150;
     transition: all 0.3s linear;
 
     img {
       width: 40px;
       height: 40px;
-      padding: 13px 5px;
       transition: all 0.3s linear;
     }
-  }
-
-  .app-sidebar-second {
-    width: $sidebar-width + 30px;
-    position: absolute;
-    top: 66px;
-    left: 0;
-    bottom: 0;
-    padding-bottom: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
   }
 
   .imgIcon {
     width: 16px;
     height: 16px;
     margin-right: 10px;
+    margin-left: 5px;
     display: inline-block;
     transform: translateY(21px);
   }
 
   .iconfont {
     margin-right: 10px;
+    margin-left: 5px;
     color: $submenu-title;
     height: $menuItem-height;
   }
