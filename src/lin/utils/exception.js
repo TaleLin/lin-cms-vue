@@ -42,6 +42,7 @@ export async function handleException(res) {
         await User.getRefreshToken()
         const result = await refreshRequest(store.state.refreshOptions)
         resolve(result)
+        return
       }
     }
 

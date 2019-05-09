@@ -4,6 +4,7 @@
       ref="linTable"
       v-loading="loading"
       stripe
+      row-key="id"
       :border="border"
       :data="currentData"
       :highlight-current-row="highlightCurrentRow ? true : false"
