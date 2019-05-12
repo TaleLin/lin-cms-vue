@@ -242,11 +242,11 @@
         }
 
         p {
-          height: 20xp;
+          height: 20px;
           line-height: 20px;
           margin-top: 10px;
           font-size: 14px;
-          font-weight: 400px;
+          font-weight: 400;
           color: #45526B;
         }
       }
