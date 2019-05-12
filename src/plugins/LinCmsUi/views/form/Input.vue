@@ -38,14 +38,16 @@
         <div slot="header">
           <span>带icon的输入框</span>
         </div>
-        <el-row :gutter="20">
+        <el-row>
           <el-col :span="12">
             <el-input placeholder="请选择日期" size="medium" suffix-icon="el-icon-date"></el-input>
           </el-col>
+        </el-row>
+           <el-row style="margin-top:20px">
           <el-col :span="12">
             <el-input placeholder="请输入内容" size="medium" prefix-icon="el-icon-search"></el-input>
           </el-col>
-        </el-row>
+            </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
             <div style="white-space: pre-wrap;">{{icon}}</div>
@@ -75,7 +77,7 @@
           <el-col>
             <el-col :span="12">
               <el-input placeholder="请输入内容" size="medium" class="input-with-select">
-                <el-select size="medium" slot="prepend" placeholder="请选择">
+                <el-select size="medium" slot="prepend" placeholder="请选择" value="">
                   <el-option label="餐厅名" value="1"></el-option>
                   <el-option label="订单号" value="2"></el-option>
                   <el-option label="用户电话" value="3"></el-option>
@@ -98,16 +100,16 @@
         </div>
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-input placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input1"></el-input>
+            <el-input placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
           </el-col>
           <el-col :span="6">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2"></el-input>
+            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
           </el-col>
            <el-col :span="6">
-            <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input3"></el-input>
+            <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
              </el-col>
                <el-col :span="6">
-            <el-input size="mini" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input4"></el-input>
+            <el-input size="mini" placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
           </el-col>
         </el-row>
         <el-collapse>
@@ -150,7 +152,16 @@ export default {
                 <el-option label="用户电话" value="3"></el-option>
             </el-select>
             <el-button slot="append" icon="el-icon-search"></el-button>
-        </el-input>`,
+        </el-input>
+        
+        .input-with-select .el-input-group__prepend {
+            background-color: #fff;
+            width: 100px;
+            border-top: 1px solid #dcdfe6;
+            border-left: 1px solid #dcdfe6;
+            border-bottom: 1px solid #dcdfe6;
+            border-right: none;
+        }`,
       size: `
         <el-input placeholder="请输入内容" suffix-icon="el-icon-date"></el-input>
         <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date"></el-input>
@@ -179,34 +190,11 @@ export default {
 }
 </script>
 
-<style lang="scss" >
-.lin-wrap-ui {
-  padding: 30px 40px;
 
-  .el-card__body {
-    padding-top: 30px;
-    padding-bottom: 0px;
-  }
+<style lang="scss" scoped>
+@import '../../assets/style/container.scss';
 
-  .el-collapse {
-    border-top: none;
-    border-bottom: none;
-
-    .el-collapse-item__header {
-      border-bottom: none;
-      color: #2f4e8c;
-      padding-left: calc(100% - 77px);
-    }
-
-    .el-collapse-item__content {
-      background: #e9f0f8;
-      color: #2f4e8c;
-      border-radius: 4px;
-      padding: 0px 20px 20px 20px;
-      margin-bottom: 20px;
-    }
-  }
-  .input-with-select .el-input-group__prepend {
+ .input-with-select /deep/ .el-input-group__prepend {
     background-color: #fff;
     width: 100px;
     border-top: 1px solid #dcdfe6;
@@ -214,5 +202,4 @@ export default {
     border-bottom: 1px solid #dcdfe6;
     border-right: none;
   }
-}
 </style>

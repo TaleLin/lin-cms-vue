@@ -163,6 +163,10 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 
 .el-radio__inner {
   border: 1px solid #c4c0d2 !important;
+  &::after {
+    width:7px;
+    height:7px;
+  }
 }
 
 .el-radio__input.is-checked .el-radio__inner {

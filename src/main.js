@@ -3,6 +3,7 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 
 import StickyTop from '@/components/base/sticky-top/sticky-top'
+import LIcon from '@/components/base/icon/lin-icon'
 import SourceCode from '@/components/base/source-code/source-code'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
@@ -28,6 +29,7 @@ Vue.use(plugins)
 Vue.component(CollapseTransition.name, CollapseTransition)
 
 Vue.component('sticky-top', StickyTop)
+Vue.component('l-icon', LIcon)
 Vue.component('source-code', SourceCode)
 
 Vue.use(GlobalMixin)

@@ -17,6 +17,7 @@
           <li class="password" @click="changePassword">
             <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i>
             <span>修改登录密码</span>
+             <l-icon name="icon-star" color="#aaa"  width="20px" height="20px"></l-icon>
           </li>
           <li class="account" @click="outLogin">
             <i class="iconfont icon-tuichu"></i>

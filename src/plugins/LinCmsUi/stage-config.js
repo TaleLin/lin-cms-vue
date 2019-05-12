@@ -70,6 +70,26 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
 
         },
+        {
+          title: 'Radio',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/radio',
+          filePath: 'plugins/LinCmsUi/views/form/Radio.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
+          title: 'Checkbox',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/checkbox',
+          filePath: 'plugins/LinCmsUi/views/form/Checkbox.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
       ],
     },
   ],
