@@ -19,6 +19,16 @@ const LinCmsUiRouter = {
       right: null,
     },
     {
+      title: 'Icon 图标',
+      type: 'view',
+      name: null,
+      route: '/lin-cms-ui/icon',
+      filePath: 'plugins/LinCmsUi/views/icon/Icon.vue',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+    },
+    {
       title: 'Table 表格',
       type: 'folder',
       name: null,
