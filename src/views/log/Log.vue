@@ -256,7 +256,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.log /deep/ .el-button {
+  padding-top:12px;
+  padding-bottom:12px;
+}
 .log {
 
   .log-header {
