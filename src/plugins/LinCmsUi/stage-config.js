@@ -90,6 +90,16 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
 
         },
+        {
+          title: 'Select',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/select',
+          filePath: 'plugins/LinCmsUi/views/form/Select.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
       ],
     },
   ],

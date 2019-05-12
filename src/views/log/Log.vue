@@ -7,8 +7,8 @@
       </div>
       <div class="header-right" v-auth="'搜索日志'">
         <lin-search @query="onQueryChange" ref="searchKeyword" />
-        <el-dropdown style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
-          <el-button>
+        <el-dropdown  size="medium" style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
+          <el-button  size="medium">
             {{searchUser ? searchUser : '全部人员'}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
@@ -257,8 +257,8 @@ export default {
 
 <style lang="scss" scoped>
 .log /deep/ .el-button {
-  padding-top:12px;
-  padding-bottom:12px;
+  padding-top:10px;
+  padding-bottom:10px;
 }
 .log {
 
