@@ -24,10 +24,10 @@
               :rules="rules"
               style="margin-left:-35px;margin-bottom:-35px;margin-top:15px;">
               <el-form-item label="分组名称" prop="name">
-                <el-input clearable v-model="form.name"></el-input>
+                <el-input size="medium"  clearable v-model="form.name"></el-input>
               </el-form-item>
               <el-form-item label="分组描述" prop="info">
-                <el-input clearable v-model="form.info"></el-input>
+                <el-input size="medium"  clearable v-model="form.info"></el-input>
               </el-form-item>
             </el-form>
           </el-tab-pane>

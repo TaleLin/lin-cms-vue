@@ -19,6 +19,16 @@ const LinCmsUiRouter = {
       right: null,
     },
     {
+      title: 'Icon 图标',
+      type: 'view',
+      name: null,
+      route: '/lin-cms-ui/icon',
+      filePath: 'plugins/LinCmsUi/views/icon/Icon.vue',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+    },
+    {
       title: 'Table 表格',
       type: 'folder',
       name: null,
@@ -86,6 +96,16 @@ const LinCmsUiRouter = {
           name: null,
           route: '/lin-cms-ui/form/checkbox',
           filePath: 'plugins/LinCmsUi/views/form/Checkbox.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
+          title: 'Select',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/select',
+          filePath: 'plugins/LinCmsUi/views/form/Select.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
 
