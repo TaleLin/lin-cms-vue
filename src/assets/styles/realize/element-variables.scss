@@ -6,6 +6,8 @@ $--color-success: #00c292 !default;
 $--color-warning: #dee2e6 !default;
 $--color-danger: #f4516c !default;
 
+$--background-color-base: #F6F7FA !default;
+
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: "~element-ui/lib/theme-chalk/fonts";
 
@@ -161,6 +163,10 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 
 .el-radio__inner {
   border: 1px solid #c4c0d2 !important;
+  &::after {
+    width:7px;
+    height:7px;
+  }
 }
 
 .el-radio__input.is-checked .el-radio__inner {
@@ -195,8 +201,11 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 }
 
 // pagination
-.el-pagination__editor.el-input .el-input__inner {
-  border-radius: 4px;
+.el-pagination__editor.el-input {
+  .el-input__inner  {
+    border-radius: 4px;
+  }
+  
 }
 
 .el-pagination.is-background .el-pager li:not(.disabled).active {
@@ -205,48 +214,10 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 }
 
 // input
-.el-input-group__append {
-  padding: 0 8px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+.el-input-group__append, .el-input-group__prepend {
   background: $theme;
-  color: #ffffff;
-  border: 1px solid $theme;
-}
-
-.el-input-group--append .el-input__inner {
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-right: none;
-  width: 150px;
-  transition: all 0.2s linear;
-
-  &:focus {
-    width: 250px;
-    transition: all 0.3s linear;
-  }
-}
-
-.el-input-group__append,
-.el-input-group__prepend {
-  padding: 0 8px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  background: $theme;
-  color: #ffffff;
-  border: 1px solid $theme;
-
-  .el-icon-search {
-    font-size: 18px;
-  }
-}
-
-.el-input .el-input__inner {
-  border: 1px solid #c4c0d2 !important;
-}
-
-.input-with-select > input.el-input__inner {
-  border-right: none !important;
+  border:1px solid $theme;
+  color:#fff;
 }
 
 // table
@@ -453,11 +424,6 @@ thead tr {
 
 .el-submenu__icon-arrow {
   top: 53%;
-}
-
-.el-input__inner{
-  height: 32px;
-  line-height: 32px;
 }
 
 .app-sidebar .el-menu-item-group .el-menu-item {
