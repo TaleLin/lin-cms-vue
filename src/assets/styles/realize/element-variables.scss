@@ -157,7 +157,7 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 }
 
 .el-radio-group {
-  padding-top: 15px;
+  // padding-top: 15px;
   width: 100%;
 }
 
@@ -191,7 +191,6 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 }
 
 .el-form--label-top .el-form-item__label {
-  padding-bottom: 0px !important;
   color: $title-color;
   font-weight: 500;
 }
@@ -205,7 +204,6 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   .el-input__inner  {
     border-radius: 4px;
   }
-  
 }
 
 .el-pagination.is-background .el-pager li:not(.disabled).active {

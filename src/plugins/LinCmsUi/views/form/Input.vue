@@ -40,7 +40,7 @@
         </div>
         <el-row>
           <el-col :span="12">
-            <el-input placeholder="请选择日期" size="medium" suffix-icon="el-icon-date"></el-input>
+            <el-input placeholder="请输入内容" size="medium" suffix-icon="el-icon-edit"></el-input>
           </el-col>
         </el-row>
            <el-row style="margin-top:20px">
@@ -76,8 +76,8 @@
         <el-row>
           <el-col>
             <el-col :span="12">
-              <el-input placeholder="请输入内容" size="medium" class="input-with-select">
-                <el-select size="medium" slot="prepend" placeholder="请选择" value="">
+              <el-input v-model="input" placeholder="请输入内容" size="medium" class="input-with-select">
+                <el-select v-model="select" size="medium" slot="prepend" placeholder="请选择">
                   <el-option label="餐厅名" value="1"></el-option>
                   <el-option label="订单号" value="2"></el-option>
                   <el-option label="用户电话" value="3"></el-option>
@@ -129,6 +129,8 @@ export default {
   data() {
     return {
       text: '',
+      input: '',
+      select: '',
       base: `
         <el-input placeholder="请输入内容" size="medium"></el-input>`,
       disabled: `
