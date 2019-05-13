@@ -9,7 +9,7 @@
   <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#版本日志">版本日志</a>
 </p>
 
-![](https://img.shields.io/badge/版本-0.1.0.beta.1-3963bc.svg)
+![](https://img.shields.io/badge/版本-0.1.0.beta.2-3963bc.svg)
 ![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
@@ -89,7 +89,14 @@ QQ群搜索：Lin CMS 或 814597236
 
 ## 版本日志
 
-最新版本 `0.1.0-beta.1`
+最新版本 `0.1.0-beta.2`
+
+### 0.1.0-beta.2
+
+1. `F` 修复无感知刷新令牌异常
+2. `A` 新增入场动画
+3. `A` 新增全屏功能
+2. `A` 新增Icon、Form组件
 
 ### 0.1.0-beta.1
 
