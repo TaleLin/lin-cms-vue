@@ -24,7 +24,7 @@
           <menu-tab></menu-tab>
           <app-main ref="appMain"></app-main>
         </el-main>
-        <back-top :right="50" :bottom="50" :fontSize="24"></back-top>
+        <back-top :right="50" :bottom="50" :fontSize="34"></back-top>
       </el-container>
     </el-container>
   </div>
