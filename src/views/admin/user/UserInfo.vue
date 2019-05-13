@@ -250,18 +250,18 @@ export default {
 </style>
 
 <style lang="scss">
-.el-radio-group {
-  &.user-info {
-    display: flex;
-    flex-wrap: wrap;
-    > .el-radio {
-      width: 150px;
-      margin-left: 0px !important;
-      margin-right: 10px;
-      margin-bottom: 20px;
-      white-space: normal;
-      display: flex;
-    }
-  }
-}
+// .el-radio-group {
+//   &.user-info {
+//     display: flex;
+//     flex-wrap: wrap;
+//     > .el-radio {
+//       width: 150px;
+//       margin-left: 0px !important;
+//       margin-right: 10px;
+//       margin-bottom: 20px;
+//       white-space: normal;
+//       display: flex;
+//     }
+//   }
+// }
 </style>

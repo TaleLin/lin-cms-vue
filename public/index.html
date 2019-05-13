@@ -21,6 +21,12 @@
         align-items: center;
         transition: display 1s ease .5s;
       }
+      .loader-logo {
+        width: 60px;
+        height: 98px;
+        position: fixed;
+        left: 20%;
+      }
       .spinner {
         position: relative;
         line-height: 0;
@@ -90,6 +96,7 @@
 
     <div id="loader">
         <div class="spinner spinner--rotate-square-2"></div>
+        <img src="./static/img/logo.png" alt="" class="loader-logo">
     </div>
     <div id="app"></div>
     <!-- built files will be auto injected -->

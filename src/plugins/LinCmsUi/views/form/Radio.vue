@@ -70,7 +70,7 @@
                 <el-radio-button label="深圳"></el-radio-button>
               </el-radio-group>
             </div>
-            <div>
+            <div style="margin:20px 0px;">
               <el-radio-group v-model="radio2" size="medium">
                 <el-radio-button label="上海"></el-radio-button>
                 <el-radio-button label="北京"></el-radio-button>
@@ -78,7 +78,7 @@
                 <el-radio-button label="深圳"></el-radio-button>
               </el-radio-group>
             </div>
-            <div>
+            <div style="margin:20px 0px;">
               <el-radio-group v-model="radio3" size="small">
                 <el-radio-button label="上海"></el-radio-button>
                 <el-radio-button label="北京" disabled></el-radio-button>
@@ -114,11 +114,11 @@
               <el-radio v-model="radio5" label="1" border>备选项1</el-radio>
               <el-radio v-model="radio5" label="2" border>备选项2</el-radio>
             </div>
-            <div style="margin-top: 20px">
+            <div style="margin: 20px 0px;">
               <el-radio v-model="radio6" label="1" border size="medium">备选项1</el-radio>
               <el-radio v-model="radio6" label="2" border size="medium">备选项2</el-radio>
             </div>
-            <div>
+            <div style="margin: 20px 0px;">
               <el-radio-group v-model="radio7" size="small">
                 <el-radio label="1" border>备选项1</el-radio>
                 <el-radio label="2" border disabled>备选项2</el-radio>

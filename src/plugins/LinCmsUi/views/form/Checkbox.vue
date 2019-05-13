@@ -39,8 +39,8 @@
         <div slot="header">
           <span>多选框组</span>
         </div>
-        <el-row :gutter="20">
-          <el-col :span="12">
+        <el-row>
+          <el-col>
             <el-checkbox-group v-model="checkList1">
               <el-checkbox label="复选框 A"></el-checkbox>
               <el-checkbox label="复选框 B"></el-checkbox>

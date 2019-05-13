@@ -11,7 +11,10 @@
             <a href="https://github.com/TaleLin/lin-cms-vue" target="block">前端仓库</a>
           </span>
           <span>
-            <a href="https://github.com/TaleLin/lin-cms-flask" target="block">后端仓库</a>
+            <a href="https://github.com/TaleLin/lin-cms-flask" target="block">后端仓库(flask)</a>
+          </span>
+          <span>
+            <a href="https://github.com/TaleLin/lin-cms-koa" target="block">后端仓库(koa)</a>
           </span>
         </p>
       </div>
@@ -40,6 +43,7 @@
                   <li>凉面</li>
                   <li>圈圈</li>
                   <li>家乐</li>
+                  <li>jokky</li>
                 </ul>
               </span>
             </li>
