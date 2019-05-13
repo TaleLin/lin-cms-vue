@@ -6,7 +6,7 @@
         <i class="iconfont icon-fanhui"></i> 返回
       </span>
     </div>
-    <lin-1px></lin-1px>
+    <el-divider></el-divider>
     <div class="wrap">
       <el-row>
         <el-col
@@ -22,16 +22,17 @@
             v-loading="loading"
             @submit.native.prevent>
             <el-form-item label="书名" prop="title">
-              <el-input v-model="form.title" placeholder="请填写书名"></el-input>
+              <el-input size="medium" v-model="form.title" placeholder="请填写书名"></el-input>
             </el-form-item>
             <el-form-item label="作者" prop="author">
-              <el-input v-model="form.author" placeholder="请填写作者"></el-input>
+              <el-input size="medium" v-model="form.author" placeholder="请填写作者"></el-input>
             </el-form-item>
             <el-form-item label="封面" prop="image">
-              <el-input v-model="form.image" placeholder="请填写封面地址"></el-input>
+              <el-input size="medium" v-model="form.image" placeholder="请填写封面地址"></el-input>
             </el-form-item>
             <el-form-item label="简介" prop="summary">
               <el-input
+                size="medium"
                 type="textarea"
                 :rows="4"
                 placeholder="请输入简介"
@@ -95,6 +96,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-divider--horizontal {
+  margin: 0
+}
 
 .container {
   .title {

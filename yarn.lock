@@ -1560,7 +1560,7 @@ babel-plugin-dynamic-import-node@^2.2.0:
   dependencies:
     object.assign "^4.1.0"
 
-babel-runtime@6.x, babel-runtime@^6.0.0:
+babel-runtime@6.x:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
@@ -1602,13 +1602,6 @@ bcrypt-pbkdf@^1.0.0:
   integrity sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=
   dependencies:
     tweetnacl "^0.14.3"
-
-better-scroll@^1.13.2:
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/better-scroll/-/better-scroll-1.13.2.tgz#31e6e088cf2d23ce48e52fad6cc59134ffeb2f56"
-  integrity sha512-JUt5aQYuHMjHNOD5JpIvNT502MlHAPXZsHoA6P2rNgLKX6WPQIoHhpwo0gT9FHgm9uTJ8wEg1HN9ZmRFJYjZLg==
-  dependencies:
-    babel-runtime "^6.0.0"
 
 bfj@^6.1.1:
   version "6.1.1"
@@ -8072,6 +8065,11 @@ schema-utils@^1.0.0:
     ajv "^6.1.0"
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
+
+screenfull@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-4.2.0.tgz#d5252a5a0f56504719abbed9ebbcd9208115da03"
+  integrity sha512-qpyI9XbwuMJElWRP5vTgxkFAl4k7HpyhIqBFOZEwX9QBXn0MAuRSpn7LOc6/4CeSwoz61oBu1VPV+2fbIWC+5Q==
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"

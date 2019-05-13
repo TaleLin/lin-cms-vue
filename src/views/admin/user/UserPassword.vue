@@ -10,6 +10,7 @@
       label-width="100px">
       <el-form-item label="密码" prop="new_password">
         <el-input
+          size="medium"
           clearable
           type="password"
           v-model="form.new_password"
@@ -17,6 +18,7 @@
       </el-form-item>
       <el-form-item label="确认密码" prop="confirm_password" label-position="top">
         <el-input
+          size="medium"
           clearable
           type="password"
           v-model="form.confirm_password"

@@ -72,5 +72,9 @@ export default {
   line-height: 50px;
   z-index: 3;
   color: $theme;
+  opacity: 0.7;
+  &:hover{
+    opacity: 1;
+  }
 }
 </style>

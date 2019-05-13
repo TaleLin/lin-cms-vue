@@ -8,6 +8,7 @@ export default {
 
   [types.REMOVE_LOGINED](state) {
     state.logined = false
+    state.user = null
   },
 
   [types.SET_USER](state, payload) {
