@@ -5,7 +5,7 @@ describe('LIcon', () => {
   let wrapper, vm;
   beforeEach(() => {
     wrapper = mount(LIcon);
-    vm = wrapper.vmI
+    vm = wrapper.vm
   });
   it('Icon.vue', () => {
     mount(LIcon)
@@ -16,14 +16,12 @@ describe('LIcon', () => {
     const elements = vm.$el.querySelectorAll('use')
     expect(elements.length).toBe(1)
     expect(elements[0].getAttribute('xlink:href')).toBe('#icon-loading')
-    vm.$destroy()
   })
   it('可以设置 color', () => {
     wrapper.setProps({ color: '#ccc' })
     const elements = vm.$el.querySelectorAll('use')
     expect(elements.length).toBe(1)
     expect(elements[0].getAttribute('fill')).toBe('#ccc')
-    vm.$destroy()
   })
   it('可以设置 width', () => {
     wrapper.setProps({ width: '30px' })
@@ -41,5 +39,6 @@ describe('LIcon', () => {
     expect(elements[0].getAttribute('fill')).toBe('#ccc')
     expect(wrapper.find('svg').element.style.height).toBe('30px')
     expect(wrapper.find('svg').element.style.width).toBe('30px')
+    vm.$destroy()
   })
 })
