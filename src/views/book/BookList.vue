@@ -45,14 +45,23 @@ export default {
     this.loading = true
     this.getBooks()
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, {
-      name: '删除', func: 'handleDelete', type: 'danger', auth: '删除图书',
+      name: '删除',
+      func: 'handleDelete',
+      type: 'danger',
+      auth: '删除图书',
     }]
     this.loading = false
   },
   methods: {
     async getBooks() {
-      const books = await book.getBooks()
-      this.tableData = books
+      try {
+        const books = await book.getBooks()
+        this.tableData = books
+      } catch (error) {
+        if (error.error_code === 10020) {
+          this.tableData = []
+        }
+      }
     },
     handleEdit(val) {
       console.log('val', val)
@@ -87,7 +96,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   padding: 0 30px;
 
