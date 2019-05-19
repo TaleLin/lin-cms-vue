@@ -1,15 +1,27 @@
 <template>
   <div class="user">
-    <el-dropdown>
+    <el-dropdown trigger="click">
       <span class="el-dropdown-link">
-        <img src="../../assets/img/user/user.png" alt="管理员头像" class="nav-avatar">
+        <div class="nav-avatar">
+          <img src="../../assets/img/user/user.jpg" alt="头像">
+        </div>
       </span>
       <el-dropdown-menu slot="dropdown" class="user-box">
         <div class="user-info">
-          <img src="../../assets/img/user/user.png" class="avatar" alt="管理员头像">
+          <div class="avatar" title="点击修改头像">
+            <img src="../../assets/img/user/user.jpg" alt="头像">
+            <label class="mask">
+              <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
+              <input
+                ref="avatarInput"
+                type="file"
+                accept="image/*"
+                @change="fileChange" />
+            </label>
+          </div>
           <div class="text">
-            <div class="username">{{nickname}}</div>
-            <div class="desc">{{title}}</div>
+            <div class="username">{{ nickname }}</div>
+            <div class="desc">{{ title }}</div>
           </div>
           <img src="../../assets/img/user/corner.png" class="corner">
         </div>
@@ -25,7 +37,40 @@
         </ul>
       </el-dropdown-menu>
     </el-dropdown>
-       <el-dialog
+    <!-- 修改头像 -->
+    <el-dialog
+      title="裁剪"
+      :visible.sync="cropVisible"
+      width="300px"
+      :append-to-body="true"
+      :close-on-click-modal="false"
+      custom-class="croppa-dialog"
+      center>
+      <div style="text-align: center;">
+        <div class="avatar-croppa-container">
+          <croppa
+            ref="croppa"
+            :width="cropRule.width"
+            :height="cropRule.height"
+            :placeholder="'loading'"
+            :zoom-speed="30"
+            :disable-drag-and-drop="false"
+            :show-remove-button="false"
+            :prevent-white-space="true"
+            :disable-click-to-choose="false"
+            :disable-scroll-to-zoom="false"
+            :show-loading="true"
+            :quality="quality"
+            :initial-image="cropImg">
+          </croppa>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cropVisible = false" size="small">取 消</el-button>
+        <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
       title="修改密码"
       :append-to-body="true"
       :before-close="handleClose"
@@ -61,8 +106,18 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import User from '@/lin/models/user'
+import Vue from 'vue'
+import Croppa from 'vue-croppa'
+import 'vue-croppa/dist/vue-croppa.css'
+
+Vue.use(Croppa)
+
+const width = 150
+const height = 150
 
 export default {
+  name: 'user',
+  components: {},
   data() {
     const oldPassword = (rule, value, callback) => {
       // eslint-disable-line
@@ -111,9 +166,91 @@ export default {
           { validator: validatePassword2, trigger: 'blur', required: true },
         ],
       },
+      cropRule: {
+        width,
+        height,
+      },
+      imgRule: {
+        minWidth: width,
+        minHeight: height,
+      },
+      cropVisible: false,
+      cropImg: '',
+      croppa: {},
+      imgInfo: null,
+      quality: 1,
     }
   },
+  computed: {
+    title() {
+      const { isSuper } = this.user || {}
+      if (isSuper) {
+        return '超级管理员'
+      }
+      return '管理员'
+    },
+    ...mapGetters(['user']),
+  },
+  watch: {
+    cropVisible(val) {
+      if (!val) {
+        this.$refs.croppa.remove()
+        this.cropImg = ''
+        this.imgInfo = null
+      }
+    },
+  },
+  created() {
+    this.init()
+  },
   methods: {
+    ...mapActions(['loginOut']),
+    fileChange(evt) {
+      if (evt.target.files.length !== 1) {
+        return
+      }
+      const imgFile = evt.target.files[0]
+      // 验证文件大小是否符合要求, 不大于2M
+      if (imgFile.size > 1024 * 1024 * 3) {
+        this.$message.error('文件过大超过3M')
+        // 清空输入框
+        this.clearFileInput(this.$refs.avatarInput)
+        return
+      }
+
+      // 验证图像是否符合要求
+      const imgSrc = window.URL.createObjectURL(imgFile)
+      const image = new Image()
+      image.src = imgSrc
+      image.onload = () => {
+        const w = image.width
+        const h = image.height
+        if (w < 50) {
+          this.$message.error('图像宽度过小, 请选择大于50px的图像')
+          // 清空输入框
+          this.clearFileInput(this.$refs.avatarInput)
+          return
+        }
+        if (h < 50) {
+          this.$message.error('图像高度过小, 请选择大于50px的图像')
+          // 清空输入框
+          this.clearFileInput(this.$refs.avatarInput)
+          return
+        }
+        // 验证通过, 打开裁剪框
+        this.cropImg = imgSrc
+        this.cropVisible = true
+        if (this.$refs.croppa) {
+          this.$refs.croppa.refresh()
+        }
+      }
+      image.onerror = () => {
+        this.$message.error('获取本地图片出现错误, 请重试')
+        // 清空输入框
+        this.clearFileInput(this.$refs.avatarInput)
+      }
+    },
+    handleCrop() {},
     init() {
       const { user } = this.$store.state
       this.nickname = user ? user.nickname : '未登录'
@@ -128,16 +265,10 @@ export default {
     },
     outLogin() {
       this.loginOut()
-      // this.$router.push('/login')
-      const { origin } = window.location
-      window.location.href = origin
+      window.location.reload(true)
     },
     submitForm(formName) {
-      if (
-        this.form.old_password === ''
-        && this.form.new_password === ''
-        && this.form.confirm_password === ''
-      ) {
+      if (this.form.old_password === '' && this.form.new_password === '' && this.form.confirm_password === '') {
         this.dialogFormVisible = false
         return
       }
@@ -165,20 +296,6 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
-    ...mapActions(['loginOut']),
-  },
-  computed: {
-    title() {
-      const { isSuper } = this.user || {}
-      if (isSuper) {
-        return '超级管理员'
-      }
-      return '管理员'
-    },
-    ...mapGetters(['user']),
-  },
-  created() {
-    this.init()
   },
 }
 </script>
@@ -186,11 +303,11 @@ export default {
 <style lang="scss" scoped>
 .user-dialog /deep/ .el-dialog .el-dialog__header {
   border-bottom: 1px solid #dae1ed;
-  padding-bottom:20px;
+  padding-bottom: 20px;
 }
 
 .user-dialog /deep/ .el-dialog .el-dialog__body {
-  padding-bottom:00px;
+  padding-bottom: 00px;
 }
 
 .user {
@@ -200,6 +317,8 @@ export default {
     .nav-avatar {
       width: 40px;
       height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
       margin-right: 10px;
     }
   }
@@ -236,6 +355,36 @@ export default {
     .avatar {
       width: 80px;
       height: 80px;
+      border-radius: 50%;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+
+      .mask {
+        opacity: 0;
+        transition: all .2s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: white;
+
+        input {
+          display: none;
+        }
+      }
+
+      &:hover {
+        .mask {
+          opacity: 1;
+        }
+      }
     }
 
     .text {
@@ -296,5 +445,13 @@ export default {
 
 .popper__arrow {
   display: none !important;
+}
+
+.avatar-croppa-container {
+  display: inline-block;
+  border-color: #3862bc;
+  border-style: dashed;
+  font-size: 0;
+  border-width: 2px;
 }
 </style>
