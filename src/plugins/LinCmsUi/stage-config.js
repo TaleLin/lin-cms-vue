@@ -49,6 +49,16 @@ const LinCmsUiRouter = {
       right: null,
     },
     {
+      title: 'Tabs 标签页',
+      type: 'view',
+      name: null,
+      route: '/lin-cms-ui/tab',
+      filePath: 'plugins/LinCmsUi/views/tab/Tab.vue',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+    },
+    {
       title: 'Table 表格',
       type: 'folder',
       name: null,
