@@ -1,12 +1,13 @@
-import {  mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import LIcon from '@/components/base/icon/lin-icon.vue'
 
 describe('LIcon', () => {
-  let wrapper, vm;
+  const wrapper
+  let vm
   beforeEach(() => {
-    wrapper = mount(LIcon);
+    wrapper = mount(LIcon)
     vm = wrapper.vm
-  });
+  })
   it('Icon.vue', () => {
     mount(LIcon)
     expect(LIcon).toBe.ok
@@ -32,7 +33,9 @@ describe('LIcon', () => {
     expect(wrapper.find('svg').element.style.height).toBe('30px')
   })
   it('综合测试', () => {
-    wrapper.setProps({ name: 'loading',color: '#ccc', width: '30px', height: '30px' })
+    wrapper.setProps({
+      name: 'loading', color: '#ccc', width: '30px', height: '30px',
+    })
     const elements = vm.$el.querySelectorAll('use')
     expect(elements.length).toBe(1)
     expect(elements[0].getAttribute('xlink:href')).toBe('#icon-loading')
