@@ -295,9 +295,9 @@ export default {
             </el-option>
           </el-select>`,
       disabled: `
-          <el-select  size="medium" v-model="value" placeholder="请选择">
+          <el-select  size="medium" v-model="value2" placeholder="请选择">
             <el-option
-              v-for="item in options"
+              v-for="item in options2"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -305,7 +305,7 @@ export default {
             </el-option>
           </el-select>`,
       clearable: `
-          <el-select  size="medium" clearable v-model="value" placeholder="请选择">
+          <el-select  size="medium" clearable v-model="value3" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -315,7 +315,7 @@ export default {
             </el-option>
           </el-select>`,
       multiple: `
-          <el-select  size="medium" multiple v-model="value" placeholder="请选择">
+          <el-select  size="medium" multiple v-model="value4" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -325,7 +325,7 @@ export default {
             </el-option>
           </el-select>`,
       template: `
-            <el-select v-model="value" placeholder="请选择">
+            <el-select v-model="value5" placeholder="请选择">
               <el-option
                 v-for="item in cities"
                 :key="item.value"
@@ -336,7 +336,7 @@ export default {
               </el-option>
             </el-select>`,
       group: `
-          <el-select v-model="value" placeholder="请选择">
+          <el-select v-model="value6" placeholder="请选择">
             <el-option-group v-for="group in options" :key="group.label" :label="group.label">
               <el-option
                 v-for="item in group.options"
@@ -347,7 +347,7 @@ export default {
             </el-option-group>
           </el-select>`,
       filterable: `
-          <el-select  size="medium" filterable v-model="value" placeholder="请选择">
+          <el-select  size="medium" filterable v-model="value7" placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -357,7 +357,7 @@ export default {
           </el-select>`,
       create: `
           <el-select
-            v-model="value"
+            v-model="value8"
             multiple
             filterable
             allow-create
