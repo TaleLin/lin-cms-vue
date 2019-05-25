@@ -34,7 +34,6 @@ Vue.component('source-code', SourceCode)
 
 Vue.use(GlobalMixin)
 Vue.use(AuthorizeDirective)
-Vue.prototype.$XLSX = Window.XLSX
 
 /* eslint no-unused-vars: 0 */
 new Vue({
