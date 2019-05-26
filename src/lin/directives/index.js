@@ -1,3 +1,2 @@
-// import ripple from './ripple/ripple';
-
-export default { }
+import './ripple'
+import './authorize'

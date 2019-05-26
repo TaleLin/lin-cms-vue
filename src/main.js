@@ -2,15 +2,14 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 
-import App from '@/App.vue'
+import '@/lin/mixin'
+import '@/lin/filter'
+import '@/lin/plugins'
+import '@/lin/directives'
+
 import router from '@/router'
 import store from '@/store'
-
-import '@/lin/plugins/axios'
-import '@/lin/plugins/autoJump'
-import '@/lin/mixin/global'
-import '@/lin/filter'
-import '@/lin/directives/authorize'
+import App from '@/App.vue'
 
 import StickyTop from '@/components/base/sticky-top/sticky-top'
 import LIcon from '@/components/base/icon/lin-icon'
