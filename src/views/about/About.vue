@@ -69,7 +69,9 @@
             <div class="quantity">711,590</div>
           </div>
         </div>
-        <div class="quantity-icon"></div>
+        <div class="quantity-icon">
+          <img src="../../assets/img/about/icon1.png" alt="">
+        </div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -79,7 +81,9 @@
             <div class="quantity">51,862</div>
           </div>
         </div>
-        <div class="quantity-icon"></div>
+        <div class="quantity-icon">
+          <img src="../../assets/img/about/icon2.png" alt="">
+        </div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -89,13 +93,15 @@
             <div class="quantity">31,862</div>
           </div>
         </div>
-        <div class="quantity-icon"></div>
+        <div class="quantity-icon">
+          <img src="../../assets/img/about/icon3.png" alt="">
+        </div>
       </div>
     </div>
     <div class="information">
       <div class="personal">
         <div class="personal-title">个人信息</div>
-        <img src="../../assets/img/about/open-source.jpg" class="personal-avatar" />
+        <img src="../../assets/img/about/avatar.png" class="personal-avatar" />
         <div class="personal-influence">
           <div class="personal-influence-item">
             <div class="personal-influence-num color1">5411</div>
@@ -115,14 +121,14 @@
               <div class="content">How to Contribute to Open Source?</div>
             </el-tab-pane>
             <el-tab-pane label="最热作品" name="second">
-              <div class="content">How to Contribute to Open Source?</div>
+              <div class="content">为什么程序员们愿意在GitHub上开源...</div>
             </el-tab-pane>
         </el-tabs>
       </div>
       <div class="article">
         <div class="article-title">文章</div>
         <div class="article-list">
-          <div class="article-item">
+          <div class="article-item" @click="handleArticle('https://opensource.guide/how-to-contribute/')">
             <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt="">
             <div class="article-detail">
               <p class="article-detail-title">How to Contribute to Open Source?</p>
@@ -143,14 +149,12 @@
               </div>
             </div>
           </div>
-          <div class="article-item">
+          <div class="article-item" @click="handleArticle('https://www.zhihu.com/question/269033309')">
             <img class="article-thumb" src="../../assets/img/about/open-source.jpg" alt="">
             <div class="article-detail article-last">
-              <p class="article-detail-title">How to Contribute to Open Source?</p>
+              <p class="article-detail-title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</p>
               <div class="article-detail-content">
-                Whether you just made your first open source contribution, or you’re looking for new ways to contribute, we hope you’re inspired to take action.
-                Even if your contribution wasn’t accepted, don’t forget to say thanks when a maintainer put effort into helping you.
-                Open source is made by people like you: one issue, pull request, comment, or high-five at a time.
+                “Git的精髓在于让所有人的贡献无缝合并。而GitHub的天才之处，在于理解了Git的精髓。”来一句我们程序员们接地气的话：分享是一种快乐~
               </div>
               <div class="article-tool">
                 <div class="pubdate">2019年5月26日</div>
@@ -177,8 +181,10 @@ export default {
       activeName: 'first',
     }
   },
-  components: {
-
+  methods: {
+    handleArticle(link) {
+      window.open(link)
+    },
   },
 }
 </script>
@@ -398,11 +404,18 @@ export default {
         }
       }
       .quantity-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width:140px;
         height:100%;
         background:rgba(69,119,255,0.1);
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
+        img {
+          width: 60px;
+          height: 60px;
+        }
       }
     }
   }
