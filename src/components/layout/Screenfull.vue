@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .container {
   width: 40px;
   height: 40px;
@@ -56,10 +56,12 @@ export default {
   align-items: center;
   margin-right: 10px;
   cursor: pointer;
+
   i {
     width: 40px;
     height: 40px;
     font-size: 20px;
+
     &:before {
       display: flex;
       justify-content: center;

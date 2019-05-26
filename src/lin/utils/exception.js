@@ -6,7 +6,7 @@ import store from '../../store'
 
 export async function handleException(res) {
   return new Promise(async (resolve, reject) => {
-  // 将本次失败请求保存
+    // 将本次失败请求保存
     const { params, url, method } = res.config
     store.commit('SET_REFERSH_OPTION', {
       params,

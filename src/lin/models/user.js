@@ -1,5 +1,10 @@
 /* eslint-disable class-methods-use-this */
-import { post, get, put } from '../utils/http'
+import {
+  post,
+  get,
+  put,
+// } from '@/lin/utils/http'
+} from '@/lin/plugins/axios'
 import { saveTokens, saveAccessToken } from '../utils/cookie'
 
 const SUPER_VALUE = 2

@@ -1,3 +1,5 @@
+import { cloneDeep, throttle, debounce } from 'lodash'
+
 /* eslint-disable */
 const Utils = {}
 
@@ -50,40 +52,14 @@ Utils.getIntersect = (a, b) => {
  * @param {*} func 函数体
  * @param {*} wait 延时
  */
-Utils.debounce = (func, wait = 50) => {
-  // 缓存一个定时器id
-  let timer = 0
-  // 这里返回的函数是每次用户实际调用的防抖函数
-  // 如果已经设定过定时器了就清空上一次的定时器
-  // 开始一个新的定时器，延迟执行用户传入的方法
-  return function(...args) {
-    if (timer) clearTimeout(timer)
-    timer = setTimeout(() => {
-      func.apply(this, args)
-    }, wait)
-  }
-}
+Utils.debounce = (func, wait = 50) => debounce(func, wait)
 
 /**
  * 节流函数
  * @param {*} func 函数体
  * @param {*} wait 延时
  */
-Utils.throttle = (func, wait = 50) => {
-  // 上一次执行该函数的时间
-  let lastTime = 0
-  return function(...args) {
-    // 当前时间
-    const now = +new Date()
-    // 将当前时间和上一次执行函数时间对比
-    // 如果差值大于设置的等待时间就执行函数
-    if (now - lastTime > wait) {
-      lastTime = now
-      func.apply(this, args)
-    }
-  }
-}
-
+Utils.throttle = (func, wait = 50) => throttle(func, wait)
 
 /**
  * 返回 n 位的随机字符串
@@ -111,6 +87,7 @@ function type(obj) {
     '[object Undefined]': 'undefined',
     '[object Null]': 'null',
     '[object Object]': 'object',
+    '[object Symbol]': 'symbol',
   }
   return map[toString.call(obj)]
 }
@@ -208,36 +185,7 @@ Utils.sortByOrder = (source = []) => {
  * 深度遍历，深拷贝
  * @param {*} data
  */
-Utils.deepClone = data => {
-  const t = type(data)
-  let o
-  let i
-  let ni
-
-  if (t === 'array') {
-    o = []
-  } else if (t === 'object') {
-    o = {}
-  } else {
-    return data
-  }
-
-  if (t === 'array') {
-    for (i = 0, ni = data.length; i < ni; i++) {
-      // eslint-disable-line
-      o.push(Utils.deepClone(data[i]))
-    }
-    return o
-  } else if (t === 'object') {
-    /* eslint-disable */
-    for (i in data) {
-      o[i] = Utils.deepClone(data[i])
-    }
-    /* eslint-enable */
-    return o
-  }
-  return data
-}
+Utils.deepClone = data => cloneDeep(data)
 
 /**
  * 判断权限
