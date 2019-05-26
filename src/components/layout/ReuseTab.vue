@@ -156,9 +156,6 @@ export default {
       this.histories = [...this.histories]
     },
   },
-  directives: {
-    ripple,
-  },
 }
 </script>
 

@@ -64,6 +64,7 @@
             :initial-image="cropImg">
           </croppa>
         </div>
+        <div style="margin-top: 1em;">通过鼠标滚轮调节头像大小</div>
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cropVisible = false" size="small">取 消</el-button>
@@ -109,6 +110,7 @@ import User from '@/lin/models/user'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
+import Config from '@/config'
 
 Vue.use(Croppa)
 
@@ -250,7 +252,22 @@ export default {
         this.clearFileInput(this.$refs.avatarInput)
       }
     },
-    handleCrop() {},
+    async handleCrop() {
+      // console.log(this.$refs.croppa)
+      const blob = await this.$refs.croppa.promisedBlob('image/jpeg', 0.8)
+
+      // debugger
+      // const res = await http({
+      const res = await this.$axios({
+        method: 'post',
+        url: `${Config.baseUrl}cms/file/`,
+        data: {
+          file: blob,
+        },
+      })
+      console.log(res)
+      // debugger
+    },
     init() {
       const { user } = this.$store.state
       this.nickname = user ? user.nickname : '未登录'

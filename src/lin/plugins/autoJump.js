@@ -1,7 +1,10 @@
+// 定时自动登出功能, 启用后一段时间无用户操作, 则自动登出. 需在项目 config 中配置
+import Vue from 'vue'
 import Config from '@/config'
 import store from '@/store'
 
-const plugins = {
+const Plugin = {
+  // eslint-disable-next-line
   install(Vue) {
     Vue.prototype.$_lin_jump = () => { // eslint-disable-line
       if (!Config.openAutoJumpOut) {
@@ -17,4 +20,6 @@ const plugins = {
   },
 }
 
-export default plugins
+Vue.use(Plugin)
+
+export default Plugin
