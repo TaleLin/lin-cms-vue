@@ -684,3 +684,140 @@ $typeMap: (primary:#3963BC,
     }
   }
  }
+
+ /* tag */
+ @include b(tag) {
+  background-color: #3963BC;
+  padding: 0 13px;
+  height: 24px;;
+  line-height: 22px;
+  color:rgba(255,255,255,1);
+  border-radius: 12px;
+  border: 1px solid #3963BC;
+
+  .el-icon-close {
+    border-radius: 50%;
+    font-size: 12px;
+    height: 12px;
+    width: 12px;
+    line-height: 12px;
+    top: -1px;
+    right: -5px;
+    color:#FFFFFF;
+
+    &::before {
+      display: block;
+    }
+
+    &:hover {
+      background-color: rgba(255,255,255,1);
+      color: #3963BC;
+    }
+  }
+
+  @include m(info) {
+    background-color: #716ACA;
+    border-color: #716ACA;
+    color: rgba(255,255,255,1);
+
+    @include when(hit) {
+      border-color: #716ACA;
+    }
+
+    .el-tag__close {
+      color:rgba(255,255,255,1);
+    }
+
+    .el-tag__close:hover {
+      background-color:rgba(255,255,255,1);
+      color: #716ACA;
+    }
+  }
+
+  @include m(success) {
+    background-color: #34BFA3;
+    border-color: #34BFA3;
+    color: rgba(255,255,255,1);
+
+    @include when(hit) {
+      border-color: #34BFA3;
+    }
+
+    .el-tag__close {
+      color: rgba(255,255,255,1);
+    }
+
+    .el-tag__close:hover {
+      background-color: rgba(255,255,255,1);
+      color: #34BFA3;
+    }
+  }
+
+  @include m(warning) {
+    background-color: #FFBE4D;
+    border-color: #FFBE4D;
+    color: rgba(255,255,255,1);
+
+    @include when(hit) {
+      border-color: #FFBE4D;
+    }
+
+    .el-tag__close {
+      color: rgba(255,255,255,1);
+    }
+
+    .el-tag__close:hover {
+      background-color: rgba(255,255,255,1);
+      color: #FFBE4D;
+    }
+  }
+
+  @include m(danger) {
+    background-color: #F4516C;
+    border-color: #F4516C;
+    color: rgba(255,255,255,1);
+
+    @include when(hit) {
+      border-color: #F4516C;
+    }
+
+    .el-tag__close {
+      color: rgba(255,255,255,1);
+    }
+
+    .el-tag__close:hover {
+      background-color: rgba(255,255,255,1);
+      color: #F4516C;
+    }
+  }
+
+  @include m(medium) {
+    height: 28px;
+    line-height: 26px;
+
+    .el-icon-close {
+      transform: scale(.8);
+    }
+  }
+
+  @include m(small) {
+    height: 24px;
+    padding: 0 8px;
+    line-height: 22px;
+
+    .el-icon-close {
+      transform: scale(.8);
+    }
+  }
+
+  @include m(mini) {
+    height: 20px;
+    padding: 0 5px;
+    line-height: 19px;
+
+    .el-icon-close {
+      margin-left: -3px;
+      transform: scale(.7);
+    }
+  }
+}
