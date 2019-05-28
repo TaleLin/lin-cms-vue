@@ -29,13 +29,16 @@
                 </span>
                 <span class="team-role">研发</span>
                 <span class="team-name">
-                  <ul>
+                  <ul v-if="!showTeam">
                     <li>Pedro</li>
                     <li>一飞</li>
                     <li>凉面</li>
                     <li>圈圈</li>
                     <li>家乐</li>
-                    <li>jokky</li>
+                    <li>Jocky</li>
+                  </ul>
+                  <ul v-else>
+                    <li>林间有风 CMS 组</li>
                   </ul>
                 </span>
               </li>
@@ -49,15 +52,10 @@
             </ul>
           </div>
           <div class="team-icon">
-            <img src="../../assets/img/about/team-icon.png" alt="">
+            <img src="../../assets/img/about/qrcode.jpg" alt="">
           </div>
+          <p class="team-label">林间有风公众号</p>
         </div>
-      <div class="official-account">
-        <div class="official-account-box">
-          <img src="../../assets/img/about/qrcode.jpg" alt="">
-          <p>扫码关注林间有风公众号</p>
-        </div>
-      </div>
       </div>
     </div>
     <div class="quantity-statistics">
@@ -66,7 +64,7 @@
           <div class="quantity-detail-box">
             <div class="quantity-title">总访问量</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">711,590</div>
+            <div class="quantity">11,590</div>
           </div>
         </div>
         <div class="quantity-icon">
@@ -90,11 +88,23 @@
           <div class="quantity-detail-box">
             <div class="quantity-title">新增访问量 (月)</div>
             <div class="quantity-border-line"></div>
-            <div class="quantity">31,862</div>
+            <div class="quantity">1,862</div>
           </div>
         </div>
         <div class="quantity-icon">
           <img src="../../assets/img/about/icon3.png" alt="">
+        </div>
+      </div>
+      <div class="quantity-item">
+        <div class="quantity-detail">
+          <div class="quantity-detail-box">
+            <div class="quantity-title">新增用户数</div>
+            <div class="quantity-border-line"></div>
+            <div class="quantity">1,323</div>
+          </div>
+        </div>
+        <div class="quantity-icon">
+          <img src="../../assets/img/about/icon4.png" alt="">
         </div>
       </div>
     </div>
@@ -179,6 +189,12 @@ export default {
   data() {
     return {
       activeName: 'first',
+      showTeam: false,
+    }
+  },
+  mounted() {
+    if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
+      this.showTeam = true
     }
   },
   methods: {
@@ -195,24 +211,25 @@ export default {
   .lin-info {
     display: flex;
     flex: 1;
-    height: 320px;
+    height: 160px;
     width: 100%;
     .lin-info-left {
       position: relative;
-      width: 700px;
+      width: 690px;
       height: 100%;
       background:rgba(69,119,255,1);
       box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
       border-radius:8px;
       .welcome {
-        margin: 40px 0 0 120px;
+        margin: 28px 0 0 30px;
         .welcome-title{
           width: 366px;
           height: 31px;
         }
         .subtitle {
           display: flex;
-          margin-top: 9px;
+          flex-direction: column;
+          margin-top: 16px;
           color: #fff;
           .guide {
             margin-right: 20px;
@@ -221,6 +238,7 @@ export default {
             line-height: 20px;
           }
           .link {
+            margin-top: 6px;
             width:160px;
             height:22px;
             background:rgba(44,95,233,1);
@@ -234,10 +252,9 @@ export default {
       .welcome-bg {
         position: absolute;
         bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 527px;
-        height: 161px;
+        right: 10px;
+        width: 393px;
+        height: 121px;
       }
     }
     .lin-info-right {
@@ -248,16 +265,16 @@ export default {
       flex-direction: column;
       .team-detail {
         position: relative;
-        height: 170px;
+        height: 160px;
         background:rgba(255,176,139,1);
         box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
         border-radius:8px;
 
         .team-box {
-          padding: 20px 22px;
+          margin: 20px 0 0 22px;
 
           .team-ul {
-            margin-top: 20px;
+            margin-top: 15px;
 
             li {
               height: 20px;
@@ -304,7 +321,7 @@ export default {
 
                   li {
                     display: inline;
-                    margin-right: 20px;
+                    margin-right: 15px;
                   }
                 }
               }
@@ -315,51 +332,29 @@ export default {
 
         .team-icon {
           position: absolute;
-          top: 20px;
-          right: 20px;
-          width: 80px;
-          height: 80px;
+          top: 25%;
+          right: 33px;
+          width: 70px;
+          height: 70px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           background-color: #fff;
-          border-radius: 40px;
-          box-shadow: 0 0 30px 0 #CFD5E3;
+          box-shadow: 0 0 10px 0 #CFD5E3;
 
           img {
-            position: absolute;
-            top: 14px;
-            left: 20px;
-            width: 40px;
-            height: 46px;
+            width: 62px;
+            height: 62px;
           }
         }
-      }
-      .official-account {
-        margin-top: 20px;
-        flex-direction: column;
-        justify-content: center;
-        background:rgba(255,176,139,1);
-        box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
-        border-radius:8px;
-        height: 130px;
-
-        .official-account-box {
-          padding: 0 35px;
-          margin: 0 auto;
-
-          img {
-            width: 80px;
-            height: 80px;
-            margin: 10px auto;
-          }
-
-          p {
-            height: 20px;
-            line-height: 20px;
-            margin-top: 10px;
-            font-size: 14px;
-            font-weight: 400;
-            color: #45526B;
-            text-align: center;
-          }
+        .team-label {
+          position: absolute;
+          top: 73%;
+          right: 20px;
+          font-size:13px;
+          font-weight:400;
+          color:rgba(69,82,107,1);
+          line-height:20px;
         }
       }
     }
@@ -368,10 +363,10 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    height: 140px;
+    height: 90px;
     .quantity-item {
       display: flex;
-      width: 32%;
+      width: 23%;
       height:100%;
       background:rgba(255,255,255,1);
       box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
@@ -379,7 +374,7 @@ export default {
       .quantity-detail {
         flex: 1;
         .quantity-detail-box{
-          margin: 30px 0 0 30px;
+          margin: 12px 0 0 30px;
           .quantity-title {
             margin-bottom: 2px;
             height: 20px;
@@ -396,9 +391,9 @@ export default {
           .quantity {
             margin-top: 7px;
             height:48px;
-            font-size:40px;
+            font-size:32px;
             color:rgba(73,84,104,1);
-            line-height:48px;
+            line-height:38px;
             letter-spacing:2px
           }
         }
@@ -407,14 +402,14 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        width:140px;
+        width: 90px;
         height:100%;
         background:rgba(69,119,255,0.1);
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
         img {
-          width: 60px;
-          height: 60px;
+          width: 48px;
+          height: 48px;
         }
       }
     }
@@ -425,6 +420,7 @@ export default {
     .personal {
       width: 320px;
       height: 100%;
+      margin-right: 20px;
       background:rgba(255,255,255,1);
       box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
       border-radius:8px;
@@ -487,7 +483,6 @@ export default {
     .article {
       flex: 1;
       height: 100%;
-      margin-left: 20px;
       padding: 20px;
       background:rgba(255,255,255,1);
       box-shadow:0px 2px 14px 0px rgba(243,243,243,1);
@@ -556,6 +551,30 @@ export default {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 1200px){
+  .container .lin-info .lin-info-right{
+    display: none;
+  }
+  .container .lin-info .lin-info-left{
+    width: 100%;
+  }
+  .container .quantity-statistics .quantity-item{
+    width: 32%;
+    &:last-child {
+      display: none;
+    }
+  }
+  .container .information .personal{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1200px){
+  .container .lin-info .lin-info-left{
+    width: 100%;
   }
 }
 </style>
