@@ -142,6 +142,16 @@ const LinCmsUiRouter = {
         },
       ],
     },
+    {
+      title: 'Link 文字链接',
+      type: 'view',
+      name: 'LinCmsUiButton',
+      route: '/lin-cms-ui/link',
+      filePath: 'plugins/LinCmsUi/views/link/Link.vue',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+    }
   ],
 }
 
