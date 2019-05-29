@@ -152,6 +152,16 @@ const LinCmsUiRouter = {
       icon: 'iconfont icon-jiemiansheji',
       right: null,
     },
+    {
+      title: 'Tag 标签',
+      type: 'view',
+      name: null,
+      route: '/lin-cms-ui/tag',
+      filePath: 'plugins/LinCmsUi/views/tag/Tag.vue',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+    },
   ],
 }
 
