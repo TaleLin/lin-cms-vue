@@ -151,7 +151,7 @@ const LinCmsUiRouter = {
       inNav: true,
       icon: 'iconfont icon-jiemiansheji',
       right: null,
-    }
+    },
   ],
 }
 
