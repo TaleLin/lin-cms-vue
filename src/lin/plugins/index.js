@@ -1,2 +1,2 @@
-import './autoJump'
+import './auto-jump'
 import './axios'

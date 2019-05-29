@@ -4,7 +4,6 @@
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
-          v-ripple
           :class="item.path === $route.path ? 'active' : ''"
           :to="item.path"
           @contextmenu.prevent.native="onTags">
@@ -21,7 +20,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import ripple from 'lin/directives/ripple'
 
 import "swiper/dist/css/swiper.css" // eslint-disable-line
 

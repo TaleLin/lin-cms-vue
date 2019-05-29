@@ -3,7 +3,6 @@ import {
   post,
   get,
   put,
-// } from '@/lin/utils/http'
 } from '@/lin/plugins/axios'
 import { saveTokens, saveAccessToken } from '../utils/cookie'
 
