@@ -3,13 +3,13 @@
     <el-dropdown trigger="click">
       <span class="el-dropdown-link">
         <div class="nav-avatar">
-          <img src="../../assets/img/user/user.jpg" alt="头像">
+          <img :src="user.avatar || '../../assets/img/user/user.jpg'" alt="头像">
         </div>
       </span>
       <el-dropdown-menu slot="dropdown" class="user-box">
         <div class="user-info">
           <div class="avatar" title="点击修改头像">
-            <img src="../../assets/img/user/user.jpg" alt="头像">
+            <img :src="user.avatar || '../../assets/img/user/user.jpg'" alt="头像">
             <label class="mask">
               <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
               <input
@@ -110,7 +110,6 @@ import User from '@/lin/models/user'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
-import Config from '@/config'
 
 Vue.use(Croppa)
 
@@ -206,7 +205,7 @@ export default {
     this.init()
   },
   methods: {
-    ...mapActions(['loginOut']),
+    ...mapActions(['loginOut', 'setUserAndState']),
     fileChange(evt) {
       if (evt.target.files.length !== 1) {
         return
@@ -253,20 +252,52 @@ export default {
       }
     },
     async handleCrop() {
-      // console.log(this.$refs.croppa)
+      // 获取裁剪数据
       const blob = await this.$refs.croppa.promisedBlob('image/jpeg', 0.8)
-
-      // debugger
-      // const res = await http({
-      const res = await this.$axios({
-        method: 'post',
-        url: `${Config.baseUrl}cms/file/`,
-        data: {
-          file: blob,
-        },
+      // 构造为文件对象
+      const file = new File([blob], 'avatar.jpg', {
+        type: 'image/jpeg',
       })
-      console.log(res)
-      // debugger
+
+      return this.$axios({
+        method: 'post',
+        url: '/cms/file/',
+        data: {
+          file,
+        },
+      }).then((res) => {
+        if (!Array.isArray(res) || res.length !== 1) {
+          this.$message.error('头像上传失败, 请重试')
+          return false
+        }
+        // TODO: 错误码处理
+        // if (res.error_code === 10110) {
+        //   throw new Error('文件体积过大')
+        // }
+        return this.$axios({
+          method: 'put',
+          url: '/cms/user/avatar',
+          data: {
+            avatar: res[0].url,
+          },
+        }).then((res) => { // eslint-disable-line
+          if (res.error_code === 0) {
+            this.$message({
+              type: 'success',
+              message: '更新头像成功',
+            })
+            this.cropVisible = false
+            // 触发重新获取用户信息
+            // this.$store.dispatch()
+            return User.getInformation()
+          }
+          return Promise.reject(new Error('更新头像失败'))
+        }).then((res) => { // eslint-disable-line
+          // 尝试获取当前用户信息
+          const user = res
+          this.setUserAndState(user)
+        })
+      })
     },
     init() {
       const { user } = this.$store.state
