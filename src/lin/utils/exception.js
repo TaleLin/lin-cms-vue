@@ -1,3 +1,4 @@
+// 已废弃
 import Vue from 'vue'
 import User from '../models/user'
 import { refreshRequest } from './http'

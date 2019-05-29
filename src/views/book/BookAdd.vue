@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import book from '@/lin/models/book'
+import book from '@/models/book'
 
 export default {
   data() {
