@@ -1,3 +1,4 @@
+// 已废弃
 import axios from 'axios'
 import Config from '@/config'
 import Vue from 'vue'

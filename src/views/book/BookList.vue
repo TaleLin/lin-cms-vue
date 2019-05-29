@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import book from '@/lin/models/book'
+import book from '@/models/book'
 import LinTable from '@/components/base/table/lin-table'
 import BookEdit from './BookEdit'
 

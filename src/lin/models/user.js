@@ -28,11 +28,12 @@ export default class User {
   // 是否为超级管理员
   auths = [] // 拥有的权限
 
-  constructor(active, email, groupId, nickname, _super, auths) {
+  constructor(active, email, groupId, nickname, _super, avatar, auths) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
     this.nickname = nickname
+    this.avatar = avatar
     this.isSuper = _super === SUPER_VALUE
     this.auths = auths || []
   }
@@ -64,7 +65,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.admin)
+    return new User(info.active, info.email, info.group_id, info.nickname, info.admin, info.avatar)
   }
 
   /**
@@ -72,7 +73,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.admin, info.auths)
+    return new User(info.active, info.email, info.group_id, info.nickname, info.admin, info.avatar, info.auths)
   }
 
   /**
