@@ -31,6 +31,7 @@
             v-for="tag in tags"
             :key="tag.name"
             closable
+            :disable-transitions="true"
             :type="tag.type">
             {{tag.name}}
             </el-tag>
