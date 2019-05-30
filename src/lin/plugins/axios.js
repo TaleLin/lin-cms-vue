@@ -30,8 +30,8 @@ const config = {
 // 创建请求实例
 const _axios = axios.create(config)
 
-_axios.interceptors.request.use((orignConfig) => {
-  const reqConfig = { ...orignConfig }
+_axios.interceptors.request.use((originConfig) => {
+  const reqConfig = { ...originConfig }
 
   // step1: 容错处理
   if (!reqConfig.url) {
