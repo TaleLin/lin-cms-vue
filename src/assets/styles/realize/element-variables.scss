@@ -698,9 +698,9 @@ $typeMap: (primary:#3963BC,
   .el-icon-close {
     border-radius: 50%;
     font-size: 12px;
-    height: 12px;
-    width: 12px;
-    line-height: 12px;
+    height: 14px;
+    width: 14px;
+    line-height: 14px;
     top: -1px;
     right: -5px;
     color:#FFFFFF;
@@ -716,12 +716,12 @@ $typeMap: (primary:#3963BC,
   }
 
   @include m(info) {
-    background-color: #716ACA;
-    border-color: #716ACA;
+    background-color: #8C98AE;
+    border-color: #8C98AE;
     color: rgba(255,255,255,1);
 
     @include when(hit) {
-      border-color: #716ACA;
+      border-color: #8C98AE;
     }
 
     .el-tag__close {
@@ -730,7 +730,7 @@ $typeMap: (primary:#3963BC,
 
     .el-tag__close:hover {
       background-color:rgba(255,255,255,1);
-      color: #716ACA;
+      color: #8C98AE;
     }
   }
 

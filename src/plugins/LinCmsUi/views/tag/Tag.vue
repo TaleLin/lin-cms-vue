@@ -31,6 +31,7 @@
             v-for="tag in tags"
             :key="tag.name"
             closable
+            @close="handleCloseTag(tag)"
             :type="tag.type">
             {{tag.name}}
             </el-tag>
@@ -58,15 +59,16 @@
           </el-tag>
           <el-input
             class="input-new-tag"
-            v-if="inputVisible"
             v-model="inputValue"
+            v-if="inputVisible"
             ref="saveTagInput"
             size="small"
             @keyup.enter.native="handleInputConfirm"
             @blur="handleInputConfirm"
           >
           </el-input>
-          <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+          <i v-else class="el-icon-circle-plus button-new-tag" @click="showInput" ></i>
+          <!-- <el-button  class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
         </div>
         </el-row>
         <el-collapse class="test" style="color:red;">
@@ -127,6 +129,7 @@ export default {
         v-for="tag in tags"
         :key="tag.name"
         closable
+        @close="handleCloseTag(tag)"
         :type="tag.type">
         {{tag.name}}
       </el-tag>
@@ -143,6 +146,10 @@ export default {
                 { name: '标签五', type: 'danger' }
               ]
             };
+          methods: {
+            handleCloseTag(tag) {
+              this.tags.splice(this.tags.indexOf(tag), 1);
+            },
           }
         }
       <\/script>`,
@@ -182,6 +189,9 @@ export default {
               width: 90px;
               margin-left: 10px;
               vertical-align: bottom;
+            }
+            .input-new-tag /deep/ .el-input__inner {
+              height: 24px;
             }
           </style>
 
@@ -233,6 +243,17 @@ export default {
     this.init()
   },
   methods: {
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
+    },
+    handleCloseTag(tag) {
+      this.tags.splice(this.tags.indexOf(tag), 1)
+    },
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
     },
@@ -254,15 +275,20 @@ export default {
   margin-left: 10px;
 }
 .button-new-tag {
+  cursor: pointer;
+  vertical-align: middle;
+  color: #3963BC;
   margin-left: 10px;
-  height: 32px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
+  font-size: 24px;
+  height: 24px;
+  line-height: 24px;
 }
 .input-new-tag {
   width: 90px;
   margin-left: 10px;
   vertical-align: bottom;
+}
+.input-new-tag /deep/ .el-input__inner {
+  height: 24px;
 }
 </style>
