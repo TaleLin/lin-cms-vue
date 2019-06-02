@@ -171,7 +171,7 @@
         ></el-pagination>
       </div>
     </div>
-    <source-code></source-code>
+    <source-code link="https://github.com/TaleLin/lin-cms-vue/blob/master/src/plugins/LinCmsUi/views/table/TableCombo.vue"></source-code>
   </div>
 </template>
 

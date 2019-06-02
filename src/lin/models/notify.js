@@ -1,5 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import { get, post, put } from '../utils/http'
+import {
+  post,
+  get,
+  put,
+} from '@/lin/plugins/axios'
 import Config from '../../config'
 import Sse from '../utils/sse'
 

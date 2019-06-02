@@ -1,4 +1,5 @@
-import store from '../../store'
+import Vue from 'vue'
+import store from '@/store'
 
 function isAllowed(_auth, user, auths) {
   if (user.isSuper) {
@@ -12,16 +13,15 @@ function isAllowed(_auth, user, auths) {
   return false
 }
 
-export default {
-  install(Vue) {
-    Vue.directive('auth', {
-      bind(el, binding) {
-        const isAllow = isAllowed(binding.value, (store.state.user || {}), store.state.auths)
-        const element = el
-        if (!isAllow && binding.value) {
-          element.style.display = 'none'
-        }
-      },
-    })
+
+Vue.directive('auth', {
+  bind(el, binding) {
+    const isAllow = isAllowed(binding.value, (store.state.user || {}), store.state.auths)
+    const element = el
+    if (!isAllow && binding.value) {
+      element.style.display = 'none'
+    }
   },
-}
+})
+
+export default Vue.directive('auth')

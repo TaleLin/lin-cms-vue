@@ -1,6 +1,9 @@
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
 
-export default {
+
+const globalMixin = {
+  // eslint-disable-next-line
   install(Vue) {
     Vue.mixin({
       methods: {
@@ -37,3 +40,7 @@ export default {
     })
   },
 }
+
+Vue.use(globalMixin)
+
+export default globalMixin

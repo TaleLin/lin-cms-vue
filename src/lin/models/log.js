@@ -1,5 +1,7 @@
 /* eslint-disable class-methods-use-this */
-import { get } from '../utils/http'
+import {
+  get,
+} from '@/lin/plugins/axios'
 
 class Log {
   name = null;
