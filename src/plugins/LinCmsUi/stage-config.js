@@ -111,6 +111,16 @@ const LinCmsUiRouter = {
 
         },
         {
+          title: 'MultipleInput',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/multiple-input',
+          filePath: 'plugins/LinCmsUi/views/form/MultipleInput.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
           title: 'Radio',
           type: 'view',
           name: null,
