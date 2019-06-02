@@ -3,13 +3,13 @@
     <el-dropdown trigger="click">
       <span class="el-dropdown-link">
         <div class="nav-avatar">
-          <img :src="user.avatar || '../../assets/img/user/user.jpg'" alt="头像">
+          <img :src="user.avatar1 || defaultAvarta" alt="头像">
         </div>
       </span>
       <el-dropdown-menu slot="dropdown" class="user-box">
         <div class="user-info">
           <div class="avatar" title="点击修改头像">
-            <img :src="user.avatar || '../../assets/img/user/user.jpg'" alt="头像">
+            <img :src="user.avatar1 || defaultAvarta" alt="头像">
             <label class="mask">
               <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
               <input
@@ -110,6 +110,7 @@ import User from '@/lin/models/user'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
 import 'vue-croppa/dist/vue-croppa.css'
+import defaultAvarta from '../../assets/img/user/user.jpg'
 
 Vue.use(Croppa)
 
@@ -180,6 +181,7 @@ export default {
       croppa: {},
       imgInfo: null,
       quality: 1,
+      defaultAvarta,
     }
   },
   computed: {
