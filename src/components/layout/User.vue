@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <el-dropdown trigger="click">
+    <el-dropdown>
       <span class="el-dropdown-link">
         <div class="nav-avatar">
           <img :src="user.avatar || defaultAvatar" alt="头像">
@@ -152,7 +152,6 @@ export default {
     return {
       nickname: null,
       dialogFormVisible: false,
-      defaultAvatar,
       form: {
         old_password: '',
         new_password: '',
@@ -182,7 +181,7 @@ export default {
       croppa: {},
       imgInfo: null,
       quality: 1,
-      defaultAvarta,
+      defaultAvatar,
     }
   },
   computed: {
