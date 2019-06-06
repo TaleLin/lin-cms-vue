@@ -5,6 +5,7 @@
       <el-card class="box-card" style="margin-bottom:50px;padding-bottom:20px;">
         <div class="label-title">示例</div>
         <div class="block-box">
+          <i class="iconfont icon-jia plus" v-if="!list.length" @click="addContent"></i>
           <el-row class="input-row" v-for="(item,index) in list" :key="index">
             <el-input
               v-model="item.text"
@@ -13,7 +14,7 @@
               class="input-detail"
               ></el-input>
             <div class="function">
-              <i class="iconfont icon-jian1 minus"></i>
+              <i class="iconfont icon-jian1 minus" @click="removeContent(index)"></i>
               <i class="iconfont icon-jia plus" v-if="index === list.length-1" @click="addContent"></i>
             </div>
           </el-row>
@@ -28,10 +29,7 @@ export default {
   data() {
     return {
       list: [
-        {
-          text: 'this is input value',
-          type: 'default',
-        },
+
       ],
     }
   },
@@ -41,6 +39,9 @@ export default {
         text: '',
         type: 'plus',
       })
+    },
+    removeContent(index) {
+      this.list.splice(index, 1)
     },
   },
 }
@@ -56,6 +57,12 @@ export default {
 .block-box {
   background: #f7f7f7;
   padding: 20px;
+  .plus {
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 550;
+    color: #7289b2;
+  }
 
   .input-row {
     display: flex;
