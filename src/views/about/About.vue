@@ -68,7 +68,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon1.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt="">
         </div>
       </div>
       <div class="quantity-item">
@@ -80,7 +80,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon2.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt="">
         </div>
       </div>
       <div class="quantity-item">
@@ -92,7 +92,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon3.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt="">
         </div>
       </div>
       <div class="quantity-item">
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div class="quantity-icon">
-          <img src="../../assets/img/about/icon4.png" alt="">
+          <img src="../../assets/img/about/icon.png" alt="">
         </div>
       </div>
     </div>
@@ -289,7 +289,7 @@ export default {
                 width: 14px;
                 height: 14px;
                 border-radius: 14px;
-                background-color: #DCE7FF;
+                background-color: #fff;
                 transform: translateY(2px);
 
                 .team-shadow {
@@ -408,8 +408,8 @@ export default {
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
         img {
-          width: 48px;
-          height: 48px;
+          width: 28px;
+          height: 33px;
         }
       }
     }

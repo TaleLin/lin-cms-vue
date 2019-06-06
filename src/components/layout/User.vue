@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <el-dropdown trigger="click">
+    <el-dropdown>
       <span class="el-dropdown-link">
         <div class="nav-avatar">
           <img :src="user.avatar || defaultAvatar" alt="头像">
@@ -152,7 +152,6 @@ export default {
     return {
       nickname: null,
       dialogFormVisible: false,
-      defaultAvatar,
       form: {
         old_password: '',
         new_password: '',
@@ -182,6 +181,7 @@ export default {
       croppa: {},
       imgInfo: null,
       quality: 1,
+      defaultAvatar,
     }
   },
   computed: {
@@ -213,9 +213,9 @@ export default {
         return
       }
       const imgFile = evt.target.files[0]
-      // 验证文件大小是否符合要求, 不大于2M
-      if (imgFile.size > 1024 * 1024 * 3) {
-        this.$message.error('文件过大超过3M')
+      // 验证文件大小是否符合要求, 不大于 5M
+      if (imgFile.size > 1024 * 1024 * 5) {
+        this.$message.error('文件过大超过5M')
         // 清空输入框
         this.clearFileInput(this.$refs.avatarInput)
         return
@@ -268,6 +268,8 @@ export default {
           file,
         },
       }).then((res) => {
+        // 清空输入框
+        this.clearFileInput(this.$refs.avatarInput)
         if (!Array.isArray(res) || res.length !== 1) {
           this.$message.error('头像上传失败, 请重试')
           return false
@@ -345,6 +347,10 @@ export default {
     // 重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    clearFileInput(ele) {
+      // eslint-disable-next-line
+      ele.value = ''
     },
   },
 }
