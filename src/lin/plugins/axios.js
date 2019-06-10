@@ -66,7 +66,7 @@ _axios.interceptors.request.use((originConfig) => {
       if (typeof reqConfig.data[key] === 'object') {
         if (reqConfig.data[key] instanceof FileList || reqConfig.data[key] instanceof File || reqConfig.data[key] instanceof Blob) {
           hasFile = true
-        } else {
+        } else if (reqConfig.data[key].constructor === Object)  {
           reqConfig.data[key] = JSON.stringify(reqConfig.data[key])
         }
       }
@@ -256,3 +256,6 @@ export function _delete(url, params = {}) {
     params,
   })
 }
+
+export default _axios
+
