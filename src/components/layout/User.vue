@@ -367,6 +367,7 @@ export default {
 }
 
 .user {
+  height: 40px;
   .el-dropdown-link {
     cursor: pointer;
 
