@@ -15,7 +15,7 @@
                 :total="50">
             </el-pagination>
             </div>
-            <div class="block">
+            <div class="block" :style="{ marginTop: 30 + 'px' }">
             <span class="demonstration">大于 7 页时的效果</span>
             <el-pagination
                 layout="prev, pager, next"
@@ -102,7 +102,7 @@
               :total="1000">
             </el-pagination>
           </div>
-          <div class="block">
+          <div class="block" :style="{ marginTop: 30 + 'px' }">
             <span class="demonstration">调整每页显示条数</span>
             <el-pagination
               @size-change="handleSizeChange"
@@ -114,8 +114,8 @@
               :total="1000">
             </el-pagination>
           </div>
-          <div class="block">
-            <span class="demonstration">直接前往</span>
+          <div class="block" :style="{ marginTop: 30 + 'px' }">
+            <span class="demonstration" >直接前往</span>
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -125,8 +125,8 @@
               :total="1000">
             </el-pagination>
           </div>
-          <div class="block">
-            <span class="demonstration">完整功能</span>
+          <div class="block" :style="{ marginTop: 30 + 'px' }">
+            <span class="demonstration" >完整功能</span>
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -329,5 +329,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/style/container.scss'
+@import '../../assets/style/container.scss';
+.el-pagination {
+  margin-top:10px;
+}
 </style>
