@@ -180,7 +180,6 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/style/container.scss';
 .item {
-  margin-top: 10px;
   margin-right: 40px;
 }
 </style>
