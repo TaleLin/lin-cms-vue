@@ -172,6 +172,26 @@ const LinCmsUiRouter = {
       icon: 'iconfont icon-jiemiansheji',
       right: null,
     },
+    {
+      title: 'Pagination 分页',
+      type: 'view',
+      name: null,
+      route: '/lin-cms-ui/pagination',
+      filePath: 'plugins/LinCmsUi/views/pagination/Pagination.vue',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+    },
+    {
+      title: 'Badge 标记',
+      type: 'view',
+      name: null,
+      route: '/lin-cms-ui/badge',
+      filePath: 'plugins/LinCmsUi/views/badge/Badge.vue',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+    },
   ],
 }
 
