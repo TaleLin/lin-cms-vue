@@ -48,7 +48,7 @@
             :fit="fit"
             style="width: 100%; height: 100%;"></el-image>
           <div class="control">
-            <i class="el-icon-close del" @click.prevent.stop="close(index)" title="删除"></i>
+            <i class="el-icon-close del" @click.prevent.stop="delItem(item.id)" title="删除"></i>
             <div class="preview" title="更换图片" @click.prevent.stop="handleClick(item.id)">
               <i class="el-icon-edit"></i>
             </div>
@@ -387,6 +387,12 @@ export default {
     // 初始化 Draggable
   },
   methods: {
+    delItem(id) {
+      const { itemList } = this
+      // 根据id找到对应项
+      const index = itemList.findIndex(item => (item.id === id))
+      itemList.splice(index, 1)
+    },
     previewImg(data) {
       this.$confirm(`<img src="${data.display}" style="width: 100%; height: 100%" />`, '预览', {
         dangerouslyUseHTMLString: true,
