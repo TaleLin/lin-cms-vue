@@ -399,8 +399,8 @@ export default {
     // 初始化 Draggable
   },
   methods: {
-    getValue() {
-
+    async getValue() {
+      // 获取需要上传
     },
     /**
      * 删除某项
@@ -409,6 +409,7 @@ export default {
       const { itemList, isStable } = this
       // 根据id找到对应项
       const index = itemList.findIndex(item => (item.id === id))
+      const blobUrl = itemList[index].display
       if (isStable) {
         // 固定数量图片, 删除后留下空项
         itemList[index] = createItem()
@@ -416,6 +417,8 @@ export default {
       } else {
         itemList.splice(index, 1)
       }
+      // 释放内存
+      window.URL.revokeObjectURL(blobUrl)
     },
     /**
      * 预览图像, 后续预览组件制作后替换
@@ -565,6 +568,8 @@ export default {
       const { max } = this
       // 找到特定图像位置
       const index = this.itemList.findIndex(item => (item.id === currentId))
+      // 释放内存
+      window.URL.revokeObjectURL(this.itemList[index].display)
       // 替换图片
       this.itemList[index] = createItem(imgInfoList[0], this.itemList[index])
       // 追加图片
