@@ -41,7 +41,7 @@
   <div class="imgs-upload-container" v-loading="loading">
     <template v-for="(item, i) in itemList">
       <template v-if="item.display">
-        <div class="thumb-item" :key="item.id" :style="boxStyle">
+        <div class="thumb-item" :key="item.id" :style="boxStyle" v-loading="item.loading">
           <el-image
             class="thumb-item-img"
             :src="item.display"
@@ -400,7 +400,75 @@ export default {
   },
   methods: {
     async getValue() {
-      // 获取需要上传
+      const { itemList, isStable, min } = this
+
+      // 检查是否有不符合要求的空项
+      const l = isStable ? itemList.length : (itemList.length - 1)
+      for (let i = 0; i < l; i += 1) {
+        if (itemList[i].status === 'input') {
+          this.$message.error('当前存在未选择图片, 请全部选择')
+          return false
+        }
+      }
+      if (l < min) {
+        this.$message.error(`至少选择${min}张图片`)
+        return false
+      }
+      // 提取需要上传文件
+      const asyncList = []
+      // 上传文件后获取对应key值
+      const getAsyncItem = (item) => {
+        if (!item.file) {
+          return Promise.resolve(item)
+        }
+        // eslint-disable-next-line
+        item.loading = true
+        return this.$axios({
+          method: 'post',
+          url: '/cms/file/',
+          data: {
+            file: item.file,
+          },
+        }).then((res) => {
+          if (!Array.isArray(res) || res.length !== 1) {
+            throw new Error('upload error')
+          }
+          // 释放内存
+          window.URL.revokeObjectURL(item.display)
+          // eslint-disable-next-line
+          item.display = res[0].url
+          // eslint-disable-next-line
+          item.src = res[0].key
+          // eslint-disable-next-line
+          item.file = null
+          // eslint-disable-next-line
+          item.loading = false
+          return item
+        }).catch((err) => {
+          // eslint-disable-next-line
+          item.loading = false
+          console.error(err)
+          this.$message.error('图像上传失败, 请重试')
+          return false
+        })
+      }
+      for (let i = 0; i < itemList.length; i += 1) {
+        // 跳过上传组件
+        if (itemList[i].status !== 'input') {
+          asyncList.push(getAsyncItem(itemList[i]))
+        }
+      }
+      const imgInfoList = await Promise.all(asyncList)
+      // 如果有失败的上传, 则返回错误
+      if (imgInfoList.some(item => !item)) {
+        return false
+      }
+      // 如无错误, 表示图像都以上传, 开始构造数据
+      return imgInfoList.map(item => ({
+        id: item.status === 'new' ? '' : item.id,
+        display: item.display,
+        src: item.src,
+      }))
     },
     /**
      * 删除某项
