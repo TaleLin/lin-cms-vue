@@ -38,7 +38,7 @@
 -->
 
 <template>
-  <div class="imgs-upload-container">
+  <div class="imgs-upload-container" v-loading="loading">
     <template v-for="(item, i) in itemList">
       <template v-if="item.display">
         <div class="thumb-item" :key="item.id" :style="boxStyle">
@@ -48,13 +48,13 @@
             :fit="fit"
             style="width: 100%; height: 100%;"></el-image>
           <div class="control">
-            <i class="el-icon-close del" @click.prevent.stop="delItem(item.id)" title="删除"></i>
-            <div class="preview" title="更换图片" @click.prevent.stop="handleClick(item.id)">
+            <i v-if="!disabled" class="el-icon-close del" @click.prevent.stop="delItem(item.id)" title="删除"></i>
+            <div v-if="!disabled" class="preview" title="更换图片" @click.prevent.stop="handleClick(item.id)">
               <i class="el-icon-edit"></i>
             </div>
             <div class="control-bottom" v-if="sortable || preview">
               <i
-                v-if="sortable"
+                v-if="sortable && !disabled"
                 title="前移"
                 class="control-bottom-btn el-icon-back"
                 :class="{disabled: (i === 0)}"
@@ -63,9 +63,10 @@
                 v-if="preview"
                 class="control-bottom-btn el-icon-view"
                 title="预览"
+                style="cursor: pointer;"
                 @click.stop="previewImg(item)"></i>
               <i
-                v-if="sortable"
+                v-if="sortable && !disabled"
                 title="后移"
                 class="control-bottom-btn el-icon-right"
                 :class="{disabled: (i === (itemList.length - 1))}"
@@ -387,25 +388,43 @@ export default {
     // 初始化 Draggable
   },
   methods: {
+    getValue() {
+
+    },
+    /**
+     * 删除某项
+     */
     delItem(id) {
-      const { itemList } = this
+      const { itemList, isStable } = this
       // 根据id找到对应项
       const index = itemList.findIndex(item => (item.id === id))
-      itemList.splice(index, 1)
+      if (isStable) {
+        // 固定数量图片, 删除后留下空项
+        itemList[index] = createItem()
+        this.itemList = [...itemList]
+      } else {
+        itemList.splice(index, 1)
+      }
     },
+    /**
+     * 预览图像, 后续预览组件制作后替换
+     */
     previewImg(data) {
       this.$confirm(`<img src="${data.display}" style="width: 100%; height: 100%" />`, '预览', {
         dangerouslyUseHTMLString: true,
       })
     },
+    /**
+     * 移动图像位置
+     */
     move(id, step) {
-      const { itemList } = this
+      const { itemList, isStable } = this
       // 找到操作的元素
       const index = itemList.findIndex(item => (item.id === id))
       // 边界检测
       if ((index + step) < 0 || (index + step) >= itemList.length) return
-      // 不可和最后一项输入换位子
-      if ((index + step) === (itemList.length - 1)) {
+      // 非固定项时, 不可和最后一项输入换位子
+      if (!isStable && (index + step) === (itemList.length - 1)) {
         if (itemList[itemList.length - 1].status === 'input') return
       }
       const i = itemList[index]

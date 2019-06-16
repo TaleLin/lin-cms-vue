@@ -17,6 +17,12 @@
         <el-form-item label="禁用">
           <upload-imgs :rules="rules2" :multiple="true" :disabled="true" />
         </el-form-item>
+        <el-form-item label="禁用+初始化">
+          <upload-imgs :rules="rules2" :multiple="true" :disabled="true" :value="initData" />
+        </el-form-item>
+        <el-form-item label="禁用+初始化+不预览">
+          <upload-imgs :rules="rules2" :multiple="true" :disabled="true" :value="initData" :preview="false" />
+        </el-form-item>
         <el-form-item label="排序+固定数量">
           <upload-imgs
             :rules="rules2"
