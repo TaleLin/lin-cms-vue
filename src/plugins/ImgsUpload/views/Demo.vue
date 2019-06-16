@@ -28,6 +28,12 @@
         <el-form-item label="最大数量">
           <upload-imgs :rules="rules" :multiple="true" :max-num="3" />
         </el-form-item>
+        <el-form-item label="定制宽高-排序">
+          <upload-imgs :rules="rules" :width="200" :height="150" :value="initData" :sortable="true" />
+        </el-form-item>
+        <el-form-item label="图像缩略图展示模式">
+          <upload-imgs :rules="rules" :width="200" :height="150" fit="cover" :value="initData" />
+        </el-form-item>
       </el-form>
     </div>
   </div>
@@ -60,6 +66,10 @@ export default {
         id: '12d3',
         display: 'http://img-home.7yue.pro/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
         src: 'http://img-home.7yue.pro/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
+      }, {
+        id: 'hahah',
+        display: 'http://img-home.7yue.pro/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
+        src: 'http://img-home.7yue.pro/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
       }],
     }
   },
