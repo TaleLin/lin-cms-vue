@@ -111,35 +111,46 @@ function createId() {
  * 创建项, 如不传入参数则创建空项
  * @returns {Item}
  */
-function createItem(data = null) {
-  const item = {
+function createItem(data = null, oldData = null) {
+  let item = {
     loading: false,
     id: createId(),
     status: 'input', // new/edit/del/init/input
     display: '',
     src: '',
-    imgInfo: null,
   }
+  // 未传入data, 说明是单纯新建, 单纯新建的值是输入框状态
   if (!data) {
     return item
   }
-  if (data.id) {
-    return data
-  }
+  // 没有id, 说明是用户点击选择的本地图片
+  if (!data.id) {
+    if (oldData) {
+      // 如果旧数据状态是输入框, 则为新图片
+      if (oldData.status === 'input') {
+        item.status = 'new'
+      }
+      // 如果旧数据状态是初始化 init, 则为修改
+      if (oldData.status === 'init' || oldData.status === 'edit') {
+        item.status = 'edit'
+      }
+    } else {
+      item.status = 'new'
+    }
 
-  // 新传入图片信息
-  if (data.localSrc) {
-    item.id = data.id || item.id
-    item.src = data.src || item.src
+    item.id = oldData.id || item.id
+    item.src = ''
     item.display = data.localSrc || item.display
-    item.status = 'new'
-  } else {
-    item.id = data.id || item.id
-    item.src = data.src || item.src
-    item.display = data.display || item.display
-    item.status = 'init'
+    item = Object.assign({}, data, item)
+    return item
   }
 
+  // 存在id, 说明是传入已存在数据
+  item.id = data.id
+  item.src = data.src || item.src
+  item.display = data.display || item.display
+  item.status = data.status || 'init'
+  item = Object.assign({}, data, item)
   return item
 }
 
@@ -165,7 +176,7 @@ function getRangeTip(prx, min, max, unit = '') {
 }
 
 export default {
-  name: 'UploadPicture',
+  name: 'UploadImgs',
   data() {
     return {
       itemList: [],
@@ -555,7 +566,7 @@ export default {
       // 找到特定图像位置
       const index = this.itemList.findIndex(item => (item.id === currentId))
       // 替换图片
-      this.itemList[index] = createItem(imgInfoList[0])
+      this.itemList[index] = createItem(imgInfoList[0], this.itemList[index])
       // 追加图片
       // 最大图片数量限制
       let l = imgInfoList.length
@@ -615,8 +626,8 @@ export default {
       for (let i = 0; i < val.length; i += 1) {
         result.push(createItem(val[i]))
       }
-      // 初始项小于最大数量限制, 并且处于可编辑状态
-      if ((max === 0 || val.length < max) && !disabled) {
+      // 初始项小于最大数量限制, 并且处于可编辑状态, 并且最后一项不是input
+      if ((max === 0 || val.length < max) && !disabled && val[val.length - 1].status !== 'input') {
         // 后面添加空项
         result.push(createItem())
       }
