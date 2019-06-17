@@ -182,6 +182,38 @@ const LinCmsUiRouter = {
       icon: 'iconfont icon-jiemiansheji',
       right: null,
     },
+    {
+      title: 'Notice 通知 ',
+      type: 'folder',
+      name: null,
+      route: '/lin-cms-ui/notice/base',
+      filePath: 'plugins/LinCmsUi/views/notice/',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+      children: [
+        {
+          title: 'Alert 警告',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/notice/alert',
+          filePath: 'plugins/LinCmsUi/views/notice/Alert.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
+          title: 'Message 消息提示',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/notice/message',
+          filePath: 'plugins/LinCmsUi/views/notice/Message.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+      ],
+    },
   ],
 }
 
