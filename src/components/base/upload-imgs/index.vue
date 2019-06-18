@@ -64,7 +64,7 @@
                 class="control-bottom-btn el-icon-view"
                 title="预览"
                 style="cursor: pointer;"
-                @click.stop="previewImg(item)"></i>
+                @click.stop="previewImg(item, i)"></i>
               <i
                 v-if="sortable && !disabled"
                 title="后移"
@@ -491,10 +491,20 @@ export default {
     /**
      * 预览图像, 后续预览组件制作后替换
      */
-    previewImg(data) {
-      this.$confirm(`<img src="${data.display}" style="width: 100%; height: 100%" />`, '预览', {
-        dangerouslyUseHTMLString: true,
+    previewImg(data, index) {
+      const images = []
+      this.itemList.forEach((element) => {
+        if (element.src) {
+          images.push(element.src)
+        }
       })
+      this.$imagePreview({
+        images,
+        index,
+      })
+      // this.$confirm(`<img src="${data.display}" style="width: 100%; height: 100%" />`, '预览', {
+      //   dangerouslyUseHTMLString: true,
+      // })
     },
     /**
      * 移动图像位置
