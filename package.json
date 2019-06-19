@@ -22,6 +22,7 @@
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
+    "photoswipe": "^4.1.2",
     "screenfull": "^4.2.0",
     "vue": "^2.6.8",
     "vue-awesome-swiper": "^3.1.3",
