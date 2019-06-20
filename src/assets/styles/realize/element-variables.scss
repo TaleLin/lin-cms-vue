@@ -100,31 +100,31 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 }
 
 .el-button--warning {
-  color: #8c98ae;
+  color: #FFFFFF;
 
   &.is-plain {
-    color: #8c98ae;
+    color: #ffcb71;
     background: #fff;
-    border: 1px solid #8c98ae;
+    border: 1px solid #ffcb71;
 
     &:hover,
     &:focus {
-      background: #8c98ae;
+      background: #ffcb71;
       color: #fff;
-      border: 1px solid #8c98ae;
+      border: 1px solid #ffcb71;
     }
 
     &.is-disabled {
-      color: #8c98ae;
-      background: #fff;
-      border: 1px solid #8c98ae;
+      color: #fff;
+      background: #FFBE4D;
+      border: 1px solid #FFBE4D;
       opacity: 0.5;
 
       &:hover,
       &:focus {
-        color: #8c98ae;
-        background: #fff;
-        border: 1px solid #8c98ae;
+        color: #fff;
+        background: #ffcb71;
+        border: 1px solid #ffcb71;
         opacity: 0.5;
       }
     }
@@ -132,22 +132,22 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
 
   &:hover,
   &:focus {
-    color: #8c98ae;
-    background: #bfcbd7;
-    border: 1px solid #bfcbd7;
+    color: #fff;
+    background: #FFBE4D;
+    border: 1px solid #FFBE4D;
   }
 
   &.is-disabled {
-    background: #dee2e6;
-    color: #8c98ae;
-    border: 1px solid #dee2e6;
+    background: #ffcb71;
+    color: #fff;
+    border: 1px solid #ffcb71;
     opacity: 0.5;
 
     &:hover,
     &:focus {
-      background: #dee2e6;
-      color: #8c98ae;
-      border: 1px solid #dee2e6;
+      background: #ffcb71;
+      color: #fff;
+      border: 1px solid #ffcb71;
       opacity: 0.5;
     }
   }
