@@ -270,7 +270,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/style/container.scss';
+@import '../../../assets/style/container.scss';
 .el-tag + .el-tag {
   margin-left: 10px;
 }
