@@ -144,11 +144,10 @@
 
 <script>
 export default {
-  name: 'LinCmsUiButton',
+  name: '',
   components: {},
   data() {
     return {
-      text: '',
       radio: '1',
       radio0: 3,
       radio1: '上海',

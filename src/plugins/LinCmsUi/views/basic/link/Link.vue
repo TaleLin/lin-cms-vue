@@ -85,7 +85,6 @@ export default {
   components: {},
   data() {
     return {
-      text: '',
       base: `     
           <el-link>默认链接</el-link>
           <el-link type="primary" disabled>主要链接</el-link>

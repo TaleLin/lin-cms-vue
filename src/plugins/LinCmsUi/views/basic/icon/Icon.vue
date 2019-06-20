@@ -88,11 +88,10 @@
 
 <script>
 export default {
-  name: 'LinCmsUiButton',
+  name: '',
   components: {},
   data() {
     return {
-      text: '',
       color: '#3963bc',
       width: '30px',
       height: '30px',
