@@ -102,7 +102,7 @@
 
 <script>
 export default {
-  name: 'LinCmsUiButton',
+  name: '',
   components: {},
   data() {
     return {

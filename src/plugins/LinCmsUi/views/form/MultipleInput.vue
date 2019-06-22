@@ -19,6 +19,11 @@
             </div>
           </el-row>
         </div>
+         <el-collapse>
+          <el-collapse-item title="查看代码" name="2">
+            <div style="white-space: pre-wrap;">{{base}}</div>
+          </el-collapse-item>
+        </el-collapse>
       </el-card>
     </div>
   </div>
@@ -28,6 +33,38 @@
 export default {
   data() {
     return {
+      /* eslint-disable */
+      base: `
+        <div class="block-box">
+          <i class="iconfont icon-jia plus" v-if="!list.length" @click="addContent"></i>
+          <el-row class="input-row" v-for="(item,index) in list" :key="index">
+            <el-input
+              v-model="item.text"
+              placeholder="请输入内容"
+              size="medium"
+              class="input-detail"
+              ></el-input>
+            <div class="function">
+              <i class="iconfont icon-jian1 minus" @click="removeContent(index)"></i>
+              <i class="iconfont icon-jia plus" v-if="index === list.length-1" @click="addContent"></i>
+            </div>
+          </el-row>
+        </div>
+        <script>
+        export default {
+          methods: {
+            addContent() {
+              this.list.push({
+                text: '',
+                type: 'plus',
+              })
+            },
+            removeContent(index) {
+              this.list.splice(index, 1)
+            }
+          },
+        }
+        <\/script>`,
       list: [
 
       ],
