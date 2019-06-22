@@ -122,6 +122,16 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
           right: null,
         },
+        {
+          title: 'Dropdown 下拉菜单',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/navigation/dropdown',
+          filePath: 'plugins/LinCmsUi/views/navigation/Dropdown.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
       ],
     },
     {
