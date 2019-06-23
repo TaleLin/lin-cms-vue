@@ -1,7 +1,6 @@
 <template>
   <div class="lin-container">
     <div class="lin-title">插件ImgsUpload舞台页面</div>
-    <el-divider></el-divider>
     <div class="lin-wrap">
       <el-form label-width="220px">
         <el-form-item label="带初始化至少4张, 至多5张">
