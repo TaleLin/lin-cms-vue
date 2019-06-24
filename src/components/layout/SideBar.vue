@@ -17,6 +17,7 @@
         active-text-color="#1890ff">
         <template v-for="(item) in sideBarList">
           <el-submenu
+            class="subMenuContent"
             v-if="item.children"
             :key="idMap[item.name]"
             :index="idMap[item.name]"
@@ -29,7 +30,7 @@
 
             <!-- 二级菜单 -->
             <template v-for="(subItem) in item.children">
-              <el-submenu v-if="subItem.children" :key="idMap[subItem.name]" :index="idMap[subItem.name]">
+              <el-submenu v-if="subItem.children" :key="idMap[subItem.name]" :index="idMap[subItem.name]" class="subMenuContent">
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
                   <span slot="title" class="two-folder">{{subItem.title}}</span>
@@ -41,7 +42,7 @@
                   :key="idMap[grandchildItem.name]"
                   :to="grandchildItem.path"
                   class="circle third">
-                  <el-menu-item :index="idMap[grandchildItem.name]" style="padding-left: 80px;">
+                  <el-menu-item :index="idMap[grandchildItem.name]" style="padding-left: 80px;" class="subMenuContent">
                     {{grandchildItem.title}}
                   </el-menu-item>
                 </router-link>
@@ -52,7 +53,7 @@
                 :key="subItem.name"
                 class="circle"
                 v-else>
-                <el-menu-item :index="idMap[subItem.name]" style="padding-left: 60px;">
+                <el-menu-item :index="idMap[subItem.name]" style="padding-left: 60px;" class="subMenuContent">
                   {{subItem.title}}
                 </el-menu-item>
               </router-link>
@@ -62,6 +63,7 @@
 
           <!-- 一级else -->
           <el-menu-item
+            class="subMenuContent"
             :index="idMap[item.name]"
             @click="goto(item.path)"
             v-else
@@ -152,7 +154,11 @@ export default {
     width: 0px;
     height: 0px;
   }
-
+  .subMenuContent {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .logo {
     width: $sidebar-width;
     height: $header-height;
