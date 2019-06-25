@@ -817,3 +817,33 @@ $typeMap: (primary:#3963BC,
     }
   }
 }
+
+/* message */
+@include b(message) {
+  @include m(info) {
+    background-color: #ECF1FF;
+    border-color: #97B8FF;
+    .el-message__content {
+      color: #3963bc;
+    }
+  }
+  & .el-icon-info {
+    color: #3963BC;
+  }
+}
+
+/* notification */
+@include b(notification) {
+  border: 1px solid #97B8FF;
+  background-color: #ECF1FF;
+  @include e(title) {
+    color: #3963BC;
+  }
+
+  @include e(content) {
+    color: #3963BC;
+  }
+  .el-icon-info {
+    color: #3963BC;
+  }
+}

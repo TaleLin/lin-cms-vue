@@ -273,8 +273,8 @@ export default {
       const h = this.$createElement
       this.$message({
         message: h('p', null, [
-          h('span', null, '内容可以是 '),
-          h('i', { style: 'color: teal' }, 'VNode'),
+          h('span', { style: 'color: #3963BC' }, '内容可以是 '),
+          h('i', { style: 'color: #3963BC' }, 'VNode'),
         ]),
       })
     },
