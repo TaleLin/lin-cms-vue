@@ -847,3 +847,30 @@ $typeMap: (primary:#3963BC,
     color: #3963BC;
   }
 }
+
+
+@include b(select) {
+  .el-tag {
+    background-color: #3963bc !important;
+    &__close.el-icon-close {
+      background-color: #3963bc;
+      right: -7px;
+      top: 0;
+      color: #fff;
+
+      &:hover {
+        background-color: #fff;
+        color: #3963bc;
+      }
+    }
+  }
+}
+
+/* Badge */
+
+@include b(badge) {
+  @include e(content) {
+    vertical-align: super;
+  }
+}
+
