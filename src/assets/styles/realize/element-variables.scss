@@ -837,9 +837,9 @@ $typeMap: (primary:#3963BC,
   border: 1px solid #97B8FF;
   background-color: #ECF1FF;
   @include e(title) {
-    line-height: 24px;
     color: #3963BC;
   }
+
   @include e(content) {
     color: #3963BC;
   }
@@ -848,7 +848,7 @@ $typeMap: (primary:#3963BC,
   }
 }
 
-
+/* select */
 @include b(select) {
   .el-tag {
     background-color: #3963bc !important;
