@@ -38,18 +38,30 @@
 -->
 
 <template>
-  <div class="imgs-upload-container" v-loading="loading">
+  <div class="upload-imgs-container" v-loading="loading">
     <template v-for="(item, i) in itemList">
       <template v-if="item.display">
-        <div class="thumb-item" :key="item.id" :style="boxStyle" v-loading="item.loading">
+        <div
+          class="thumb-item"
+          :key="item.id"
+          :style="boxStyle"
+          v-loading="item.loading">
           <el-image
             class="thumb-item-img"
             :src="item.display"
             :fit="fit"
             style="width: 100%; height: 100%;"></el-image>
           <div class="control">
-            <i v-if="!disabled" class="el-icon-close del" @click.prevent.stop="delItem(item.id)" title="删除"></i>
-            <div v-if="!disabled" class="preview" title="更换图片" @click.prevent.stop="handleClick(item.id)">
+            <i
+              v-if="!disabled"
+              class="el-icon-close del"
+              @click.prevent.stop="delItem(item.id)"
+              title="删除"></i>
+            <div
+              v-if="!disabled"
+              class="preview"
+              title="更换图片"
+              @click.prevent.stop="handleClick(item.id)">
               <i class="el-icon-edit"></i>
             </div>
             <div class="control-bottom" v-if="sortable || preview">
@@ -89,11 +101,11 @@
       </template>
     </template>
     <input
-      class="item__input"
+      class="upload-imgs__input"
       type="file"
       ref="input"
       @change="handleChange"
-      :multiple="!isStable && multiple"
+      :multiple="multiple"
       :accept="accept" />
   </div>
 </template>
@@ -111,7 +123,7 @@ function createId() {
  * 创建项, 如不传入参数则创建空项
  * @returns {Item}
  */
-function createItem(data = null, oldData = null) {
+function createItem(data = null, oldData = {}) {
   let item = {
     loading: false,
     id: createId(),
@@ -487,9 +499,10 @@ export default {
       }
       // 释放内存
       window.URL.revokeObjectURL(blobUrl)
+      this.initAll(this.itemList)
     },
     /**
-     * 预览图像, 后续预览组件制作后替换
+     * 预览图像
      */
     previewImg(data, index) {
       const images = []
@@ -498,13 +511,16 @@ export default {
           images.push(element.src)
         }
       })
-      this.$imagePreview({
-        images,
-        index,
-      })
-      // this.$confirm(`<img src="${data.display}" style="width: 100%; height: 100%" />`, '预览', {
-      //   dangerouslyUseHTMLString: true,
-      // })
+      if (this.$imagePreview) {
+        this.$imagePreview({
+          images,
+          index,
+        })
+      } else {
+        this.$confirm(`<img src="${data.display}" style="width: 100%; height: 100%" />`, '预览', {
+          dangerouslyUseHTMLString: true,
+        })
+      }
     },
     /**
      * 移动图像位置
@@ -627,6 +643,7 @@ export default {
       }
       try {
         imgInfoList = await Promise.all(asyncList)
+        console.log(imgInfoList)
         // 设置图片信息
         await this.setImgInfo(imgInfoList, currentId)
       } catch (err) {
@@ -643,7 +660,7 @@ export default {
      * 用户选择图片, 图片通过验证后设置图像数据
      */
     async setImgInfo(imgInfoList = [], currentId) {
-      const { max } = this
+      const { max, itemList } = this
       // 找到特定图像位置
       const index = this.itemList.findIndex(item => (item.id === currentId))
       // 释放内存
@@ -653,12 +670,24 @@ export default {
       // 追加图片
       // 最大图片数量限制
       let l = imgInfoList.length
-      if (max && l > max) {
-        l = max
+      if (this.isStable) {
+        // 固定数量模式, 按次序插入空项
+        for (let i = 0, k = 1; (i < max || k < l); i += 1) {
+          if (itemList[i].status === 'input') {
+            this.itemList[i] = createItem(imgInfoList[k])
+            k += 1
+          }
+        }
+      } else {
+        const empty = max - itemList.length + 1
+        if (max && l > empty) {
+          l = empty
+        }
+        for (let i = 1; i < l; i += 1) {
+          this.itemList.push(createItem(imgInfoList[i]))
+        }
       }
-      for (let i = 1; i < l; i += 1) {
-        this.itemList.push(createItem(imgInfoList[i]))
-      }
+
       // 初始化图片
       this.initAll(this.itemList)
     },
@@ -717,23 +746,11 @@ export default {
       this.itemList = result
     },
     /**
-     * TODO: 预览初始化方法
-     */
-    initPreview() {
-      // 清除预览实例
-      if (!this.preview) {
-        return
-      }
-      // 初始化新预览实例
-      console.log('图像预览功能等待上线')
-    },
-    /**
      * 初始化
      * @param {object} val 初始化数据
      */
     initAll(val) {
       this.initItemList(val)
-      this.initPreview()
     },
     /**
      * 获取图像信息
@@ -771,7 +788,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.imgs-upload-container {
+.upload-imgs-container {
   display: flex;
   flex-wrap: wrap;
 
@@ -886,7 +903,6 @@ export default {
 
       .del {
         opacity: 1;
-
       }
 
       .control-bottom {
@@ -895,7 +911,7 @@ export default {
     }
   }
 
-  .item__input {
+  .upload-imgs__input {
     display: none;
   }
 }
