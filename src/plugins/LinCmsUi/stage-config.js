@@ -132,6 +132,16 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
           right: null,
         },
+        {
+          title: 'Steps 步骤条',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/navigation/steps',
+          filePath: 'plugins/LinCmsUi/views/navigation/Steps.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
       ],
     },
     {
