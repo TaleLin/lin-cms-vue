@@ -835,23 +835,23 @@ export default {
         color: white;
         position: absolute;
         display: inline-block;
-        width: 14px;
-        height: 14px;
+        width: 1.7em;
+        height: 1.5em;
         top: 0;
         right: 0;
         opacity: 0;
-        border-radius: 0 0 0 14px;
+        border-radius: 0 0 0 1.4em;
         transition: all .1s;
 
         &::before {
-          font-size: 12px;
+          font-size: 1.4em;
           position: absolute;
           right: -1px;
           transform: scale(0.7);
         }
 
         &:hover {
-          transform: translate(-3px, 3px) scale(1.5);
+          transform: translate(-0.5em, .4em) scale(1.5);
         }
 
       }
