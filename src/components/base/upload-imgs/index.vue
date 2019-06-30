@@ -51,6 +51,13 @@
             :src="item.display"
             :fit="fit"
             style="width: 100%; height: 100%;"></el-image>
+          <div class="info">
+            <i
+              v-if="item.file"
+              class="el-icon-upload wait-upload"
+              @click.prevent.stop="delItem(item.id)"
+              title="等待上传"></i>
+          </div>
           <div class="control">
             <i
               v-if="!disabled"
@@ -672,7 +679,8 @@ export default {
       let l = imgInfoList.length
       if (this.isStable) {
         // 固定数量模式, 按次序插入空项
-        for (let i = 0, k = 1; (i < max || k < l); i += 1) {
+        for (let i = 0, k = 1;
+          (i < max || k < l); i += 1) {
           if (itemList[i].status === 'input') {
             this.itemList[i] = createItem(imgInfoList[k])
             k += 1
@@ -816,6 +824,40 @@ export default {
   }
 
   .thumb-item {
+    .info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transition: all .3s;
+      transition-delay: .1s;
+
+      .wait-upload {
+        background: #ffcb71;
+        color: white;
+        position: absolute;
+        display: inline-block;
+        width: 1.7em;
+        height: 1.5em;
+        top: 0;
+        right: 0;
+        border-radius: 0 0 0 1.4em;
+        transition: all .1s;
+
+        &::before {
+          font-size: 1.4em;
+          position: absolute;
+          right: -1px;
+          transform: scale(0.7);
+        }
+      }
+
+    }
+
     .control {
       display: flex;
       align-items: center;
