@@ -146,7 +146,7 @@ function createItem(data = null, oldData = {}) {
   if (!data.id) {
     if (oldData) {
       // 如果旧数据状态是输入框, 则为新图片
-      if (oldData.status === 'input') {
+      if (oldData.status === 'input' || oldData.status === 'new') {
         item.status = 'new'
       }
       // 如果旧数据状态是初始化 init, 则为修改
@@ -418,6 +418,36 @@ export default {
     // 初始化 Draggable
   },
   methods: {
+    async uploadImg(item) {
+      this.$axios({
+        method: 'post',
+        url: '/cms/file/',
+        data: {
+          file: item.file,
+        },
+      }).then((res) => {
+        if (!Array.isArray(res) || res.length !== 1) {
+          throw new Error('upload error')
+        }
+        // 释放内存
+        window.URL.revokeObjectURL(item.display)
+        // eslint-disable-next-line
+        item.display = res[0].url
+        // eslint-disable-next-line
+        item.src = res[0].key
+        // eslint-disable-next-line
+        item.file = null
+        // eslint-disable-next-line
+        item.loading = false
+        return item
+      }).catch((err) => {
+        // eslint-disable-next-line
+        item.loading = false
+        console.error(err)
+        this.$message.error('图像上传失败, 请重试')
+        return false
+      })
+    },
     async getValue() {
       const { itemList, isStable, min } = this
 
@@ -435,46 +465,15 @@ export default {
       }
       // 提取需要上传文件
       const asyncList = []
-      // 上传文件后获取对应key值
-      const getAsyncItem = (item) => {
-        if (!item.file) {
-          return Promise.resolve(item)
-        }
-        // eslint-disable-next-line
-        item.loading = true
-        return this.$axios({
-          method: 'post',
-          url: '/cms/file/',
-          data: {
-            file: item.file,
-          },
-        }).then((res) => {
-          if (!Array.isArray(res) || res.length !== 1) {
-            throw new Error('upload error')
-          }
-          // 释放内存
-          window.URL.revokeObjectURL(item.display)
-          // eslint-disable-next-line
-          item.display = res[0].url
-          // eslint-disable-next-line
-          item.src = res[0].key
-          // eslint-disable-next-line
-          item.file = null
-          // eslint-disable-next-line
-          item.loading = false
-          return item
-        }).catch((err) => {
-          // eslint-disable-next-line
-          item.loading = false
-          console.error(err)
-          this.$message.error('图像上传失败, 请重试')
-          return false
-        })
-      }
+
       for (let i = 0; i < itemList.length; i += 1) {
         // 跳过上传组件
-        if (itemList[i].status !== 'input') {
-          asyncList.push(getAsyncItem(itemList[i]))
+        if (itemList[i].status === 'input') return
+        if (!itemList[i].file) {
+          asyncList.push(Promise.resolve(itemList[i]))
+        } else {
+          // 上传文件后获取对应key值
+          asyncList.push(this.uploadImg(itemList[i]))
         }
       }
       const imgInfoList = await Promise.all(asyncList)
@@ -620,7 +619,7 @@ export default {
      * 选择图像文件后处理, 包括获取图像信息, 验证图像等
      */
     async handleChange(e) {
-      const { currentId } = this
+      const { currentId, autoUpload } = this
       const { files } = e.target
       let imgInfoList
 
@@ -650,9 +649,11 @@ export default {
       }
       try {
         imgInfoList = await Promise.all(asyncList)
-        console.log(imgInfoList)
         // 设置图片信息
         await this.setImgInfo(imgInfoList, currentId)
+        if (autoUpload) {
+
+        } else {}
       } catch (err) {
         // 清空缓存
         for (let i = 0; i < cache.length; i += 1) {
