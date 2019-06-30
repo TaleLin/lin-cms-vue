@@ -1,5 +1,7 @@
+import Vue from 'vue'
+
 /* eslint-disable func-names */
-export default {
+Vue.directive('ripple', {
   inserted(el, binding) {
     const cl = Array.from(el.classList)
     if (cl.includes('disabled')) {
@@ -54,4 +56,6 @@ export default {
       }, 1000)
     })
   },
-}
+})
+
+export default Vue.directive('ripple')

@@ -4,7 +4,6 @@
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
-          v-ripple
           :class="item.path === $route.path ? 'active' : ''"
           :to="item.path"
           @contextmenu.prevent.native="onTags">
@@ -21,7 +20,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import ripple from 'lin/directives/ripple'
 
 import "swiper/dist/css/swiper.css" // eslint-disable-line
 
@@ -156,15 +154,12 @@ export default {
       this.histories = [...this.histories]
     },
   },
-  directives: {
-    ripple,
-  },
 }
 </script>
 
 <style lang="scss" scoped>
 .swiper-slide {
-  width: 120px;
+  width: 126px;
   display: flex;
   height: 26px;
   flex-direction: column;
@@ -189,13 +184,14 @@ export default {
     box-sizing: border-box;
     width: auto;
     height: 26px;
-    width: 120px;
+    width: 126px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 1em;
     margin-right: 1px;
     position: relative;
+    white-space:nowrap;
 
     .el-icon-close {
       opacity: 0;

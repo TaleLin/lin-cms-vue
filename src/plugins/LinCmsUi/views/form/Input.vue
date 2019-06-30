@@ -128,7 +128,6 @@ export default {
   components: {},
   data() {
     return {
-      text: '',
       input: '',
       select: '',
       base: `
