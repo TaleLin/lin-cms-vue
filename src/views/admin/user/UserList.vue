@@ -294,7 +294,7 @@ export default {
 
 .info {
   margin-left: -55px;
-  margin-bottom: -40px;
+  margin-bottom: -30px;
 }
 
 .password {
