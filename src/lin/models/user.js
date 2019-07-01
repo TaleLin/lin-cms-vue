@@ -4,7 +4,7 @@ import {
   get,
   put,
 } from '@/lin/plugins/axios'
-import { saveTokens, saveAccessToken } from '../utils/cookie'
+import { saveTokens, saveAccessToken } from '../utils/token'
 
 const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
