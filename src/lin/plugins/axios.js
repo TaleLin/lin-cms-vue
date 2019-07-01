@@ -3,7 +3,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import Config from '@/config'
 import store from '@/store'
-import { getToken } from '@/lin/utils/cookie'
+import { getToken } from '@/lin/utils/token'
 import User from '@/lin/models/user'
 
 
