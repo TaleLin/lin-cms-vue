@@ -1,8 +1,8 @@
 <template>
   <div v-if="data.length">
-    <div ref="myGallery" class="my-gallery" data-pswp-uid="1">
+    <div ref="myGallery" class="my-gallery" :data-pswp-uid="radom">
       <div v-if="slides.length">
-        <div :key="index" v-for="(l ,index) in slides">
+        <div :key="radom + '_' + index" v-for="(l ,index) in slides">
           <img preview :src="l" alt="">
         </div>
       </div>
@@ -52,14 +52,16 @@
 </template>
 
 <script>
-
 // photoswipe接口文档 http://photoswipe.com/documentation/api.html
 
 import 'photoswipe/dist/photoswipe.css'
 import 'photoswipe/dist/default-skin/default-skin.css'
 import PhotoSwipe from 'photoswipe/dist/photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
-
+/** 生成随机字符串 */
+function createId() {
+  return Math.random().toString(36).substring(2)
+}
 export default {
   name: 'PreviewImage',
   props: {
@@ -78,9 +80,12 @@ export default {
   },
   data() {
     return {
+      radom: createId(),
       slides: this.data || [],
-      gallery: null, //
+      gallery: null,
     }
+  },
+  destroyed() {
   },
   watch: {
     data(newVal) {
@@ -103,13 +108,14 @@ export default {
   },
   methods: {
     /* eslint-disable */
-    initPhotoSwipe() {
+    async initPhotoSwipe() {
       const that = this
       const defaultOptions = {
         fullscreenEl: true,
         shareEl: false,
         arrowEl: true,
         preloaderEl: true,
+        history: false,
         loop: false,
         bgOpacity: 0.85,
         showHideOpacity: true,
@@ -121,10 +127,11 @@ export default {
         index: imageIndex,
       })
       const galleryElement = this.$refs.myGallery
+      this.radom = createId();
       let pswpElement = this.$refs.pswpWrap
-      const items = this.transThumbnailElements()
+      const items = await this.transThumbnailElements()
       let photoSwipeOptions = {
-        galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+        galleryUID: this.radom,
         getThumbBoundsFn: function (index) {
           let thumbnail = items[index].el
           let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
@@ -144,29 +151,59 @@ export default {
         if (this.gallery) {
           this.gallery.close()
           this.gallery = null
+          this.slides = []
         }
         that.$emit('close')
       })
     },
-    transThumbnailElements() {
-      const galleryElement = this.$refs.myGallery
-      const items = []
-      const previewElements = galleryElement.querySelectorAll('img[preview]')
-      for (let i = 0, l = previewElements.length; i < l; i++) {
-        let elem = previewElements[i]
-        let rw = 0
-        let rh = 0
+    async getWH(elem) {
+      return new Promise((resolve, reject) => {
         if (typeof elem.naturalWidth === "undefined") {
           // IE 6/7/8
           let img = new window.Image()
           img.src = elem.getAttribute('src')
-          rw = img.width
-          rh = img.height
+          img.onload = function () {
+            resolve({
+              w: this.width,
+              h: this.height,
+            })
+          }
+          img.onerror = function () {
+            reject({
+              w: 0,
+              h: 0,
+            })
+          }
         } else {
-          // HTML5 browsers
-          rw = elem.naturalWidth
-          rh = elem.naturalHeight
+          if (elem.naturalWidth > 0) {
+            resolve({
+              w: elem.naturalWidth,
+              h: elem.naturalHeight,
+            })
+          } else {
+            elem.onload = function () {
+              resolve({
+                w: this.naturalWidth,
+                h: this.naturalHeight,
+              })
+            }
+          }
         }
+      })
+    },
+    async transThumbnailElements() {
+      const galleryElement = this.$refs.myGallery
+      const items = []
+      const previewElements = galleryElement.querySelectorAll('img[preview]')
+
+      for (let i = 0, l = previewElements.length; i < l; i++) {
+        let elem = previewElements[i]
+        let rw = 0
+        let rh = 0
+        const wh = await this.getWH(elem)
+        rw = wh.w
+        rh = wh.h
+
         items.push({
           el: elem,
           src: elem.getAttribute('src'),

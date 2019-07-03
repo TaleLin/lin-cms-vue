@@ -23,6 +23,7 @@ previewImage.install = (Vue, options = {}) => { // eslint-disable-line
     instance.$on('close', () => {
       instance.close()
       document.body.removeChild(instance.$el)
+      instance.$destroy()
       instance = null
     })
   }
