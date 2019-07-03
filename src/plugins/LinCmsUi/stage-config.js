@@ -275,6 +275,26 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
 
         },
+        {
+          title: 'DateTimePicker 日期时间选择器',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/dateTimePicker',
+          filePath: 'plugins/LinCmsUi/views/form/DateTimePicker.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
+          title: 'DatePicker 日期选择器',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/datePicker',
+          filePath: 'plugins/LinCmsUi/views/form/DatePicker.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
       ],
     },
     {
