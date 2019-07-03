@@ -18,12 +18,6 @@
  - width {Nulber|String} 200 宽度
  - height {Number|String} 200 高度
 
- Method
- - upload-begin 开始上传
- - upload-abort 终止上传
- - upload-success 上传成功
- - upload-error 上传失败
- - upload-finish 上传结束
 
 {
   ratio: <Array> 比例 [宽，高] 也可传 [宽, 高, 缩放比例], 当仅有宽高比限制时, 用于计算展示宽高. 若不传第三个数则当做1
@@ -459,6 +453,7 @@ export default {
         uploadList.forEach((item) => {
           item.cb(false)
         })
+        // todo: 细化错误提示
         console.error(err)
         this.$message.error('图像上传失败, 请重试')
       })
