@@ -526,20 +526,10 @@ export default {
       // 如果是用户自定义方法
       // 出于简化 api 的考虑, 只允许单个文件上传
       if (this.remoteFuc) {
-        // promise 模式
-        if (this.remoteFuc.then) {
-          const remoteData = await this.remoteFuc(item.file)
-          reduceResult(item, remoteData)
-          if (!remoteData) {
-            return false
-          }
-          return item
-        }
-
         // 回调函数模式
         if (typeof this.remoteFuc === 'function') {
           return new Promise((resolve) => {
-            this.remoteFuc(item.file, (data) => {
+            const a = this.remoteFuc(item.file, (data) => {
               reduceResult(item, data)
               if (!data) {
                 this.$message.error('执行自定义上传出错')
@@ -548,6 +538,16 @@ export default {
                 resolve(item)
               }
             })
+            // promise 模式
+            if (a != null && typeof a.then === 'function') {
+              a.then((remoteData) => {
+                reduceResult(item, remoteData)
+                if (!remoteData) {
+                  resolve(false)
+                }
+                resolve(item)
+              })
+            }
           })
         }
 
