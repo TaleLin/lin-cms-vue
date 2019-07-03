@@ -3,52 +3,84 @@
     <div class="lin-title">插件ImgsUpload舞台页面</div>
     <div class="lin-wrap">
       <el-form label-width="220px">
-        <el-form-item label="带初始化, 至少4张至多5张, 不立即上传">
-          <upload-imgs
-            ref="uploadEle"
-            :value="initData"
-            :auto-upload="false"
-            :rules="rules"
-            :multiple="true"
-            :max-num="5"
-            :min-num="4" />
+        <el-form-item label="普通示例">
+          <upload-imgs ref="uploadEle3" :rules="rules" :multiple="true" />
           <div>
-            <el-button @click="getValue">获取当前图像数据</el-button>
+            <el-button @click="getValue('uploadEle3')">获取当前图像数据</el-button>
           </div>
         </el-form-item>
-        <el-form-item label="普通示例">
-          <upload-imgs :rules="rules" :multiple="true" />
-        </el-form-item>
         <el-form-item label="禁用">
-          <upload-imgs :rules="rules2" :multiple="true" :disabled="true" />
+          <upload-imgs
+            ref="uploadEle4"
+            :rules="rules2"
+            :multiple="true"
+            :disabled="true" />
+          <div>
+            <el-button @click="getValue('uploadEle4')">获取当前图像数据</el-button>
+          </div>
         </el-form-item>
         <el-form-item label="禁用+初始化">
           <upload-imgs
+            ref="uploadEle5"
             :rules="rules2"
             :multiple="true"
             :disabled="true"
             :value="initData" />
+          <div>
+            <el-button @click="getValue('uploadEle5')">获取当前图像数据</el-button>
+          </div>
+        </el-form-item>
+        <el-form-item label="带初始化, 限制4至7张">
+          <upload-imgs
+            ref="uploadEle1"
+            :value="initData"
+            :rules="rules"
+            :multiple="true"
+            :max-num="7"
+            :min-num="4" />
+          <div>
+            <el-button @click="getValue('uploadEle1')">获取当前图像数据</el-button>
+          </div>
+        </el-form-item>
+        <el-form-item label="初始化, 可多选, 不立即上传">
+          <upload-imgs
+            ref="uploadEle2"
+            :value="initData"
+            :auto-upload="false"
+            :rules="rules"
+            :multiple="true" />
+          <div>
+            <el-button @click="getValue('uploadEle2')">获取当前图像数据</el-button>
+          </div>
         </el-form-item>
         <el-form-item label="禁用+初始化+不预览">
           <upload-imgs
+            ref="uploadEle7"
             :rules="rules2"
             :multiple="true"
             :disabled="true"
             :value="initData"
             :preview="false" />
+          <div>
+            <el-button @click="getValue('uploadEle7')">获取当前图像数据</el-button>
+          </div>
         </el-form-item>
         <el-form-item label="排序+固定数量">
           <upload-imgs
+            ref="uploadEle8"
             :rules="rules2"
             :multiple="true"
             :min-num="3"
             :max-num="3"
             :sortable="true" />
+          <div>
+            <el-button @click="getValue('uploadEle8')">获取当前图像数据</el-button>
+          </div>
         </el-form-item>
-        <el-form-item label="最大数量">
+        <el-form-item label="仅最大数量">
           <upload-imgs :rules="rules" :multiple="true" :max-num="3" />
         </el-form-item>
-        <el-form-item label="定制宽高-排序">
+        <el-form-item label="定制宽高+排序">
           <upload-imgs
             :rules="rules"
             :width="200"
@@ -58,6 +90,7 @@
         </el-form-item>
         <el-form-item label="重新初始化">
           <upload-imgs
+            ref="uploadEle9"
             :rules="rules"
             :width="200"
             :height="150"
@@ -65,6 +98,7 @@
             :sortable="true" />
           <div>
             <el-button @click="changeData">重新初始化</el-button>
+            <el-button @click="getValue('uploadEle9')">获取当前图像数据</el-button>
           </div>
         </el-form-item>
         <el-form-item label="图像缩略图展示模式">
@@ -154,8 +188,8 @@ export default {
   //   // next()
   // },
   methods: {
-    async getValue() {
-      console.log(await this.$refs.uploadEle.getValue())
+    async getValue(name) {
+      console.log(await this.$refs[name].getValue())
       // eslint-disable-next-line
       alert('已获取数据, 打印在控制台中')
     },
