@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-import { removeToken } from '@/lin/utils/cookie'
+import { removeToken } from '@/lin/utils/token'
 
 
 export default {

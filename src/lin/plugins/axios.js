@@ -3,7 +3,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import Config from '@/config'
 import store from '@/store'
-import { getToken } from '@/lin/utils/cookie'
+import { getToken } from '@/lin/utils/token'
 import User from '@/lin/models/user'
 
 
@@ -66,7 +66,7 @@ _axios.interceptors.request.use((originConfig) => {
       if (typeof reqConfig.data[key] === 'object') {
         if (reqConfig.data[key] instanceof FileList || reqConfig.data[key] instanceof File || reqConfig.data[key] instanceof Blob) {
           hasFile = true
-        } else {
+        } else if (reqConfig.data[key].constructor === Object) {
           reqConfig.data[key] = JSON.stringify(reqConfig.data[key])
         }
       }
