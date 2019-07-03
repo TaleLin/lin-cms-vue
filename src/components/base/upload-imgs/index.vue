@@ -821,7 +821,7 @@ export default {
         let l = imgInfoList.length
         if (this.isStable) {
           // 固定数量模式, 按次序插入空项
-          for (let i = 0, k = 1; i < max || k < l; i += 1) {
+          for (let i = 0, k = 1; i < max && k < l; i += 1) {
             if (itemList[i].status === 'input') {
               this.itemList[i] = createItem(imgInfoList[k])
               k += 1
@@ -835,7 +835,7 @@ export default {
           if (itemList[itemList.length - 1].status === 'input') {
             this.itemList.pop()
           }
-          for (let i = 1; i < l; i += 1) {
+          for (let i = 1; i <= l; i += 1) {
             this.itemList.push(createItem(imgInfoList[i]))
           }
         }
