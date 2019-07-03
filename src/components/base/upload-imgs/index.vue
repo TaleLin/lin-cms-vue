@@ -5,19 +5,18 @@
  - sortable {Boolean} false 是否可排序
  - preview {Boolean} true 是否可预览
  - multiple {Boolean} false 是否可以一次多选
- - minNum {Number} 0 最少图片数量
- - maxNum {Number} 0 最多图片数量, 0 表示无限制
+ - min-num {Number} 0 最少图片数量
+ - max-num {Number} 0 最多图片数量, 0 表示无限制
  - before-upload {Function} null 上传前自定义校验函数
- - remoteFuc {Function} null 重写远程方法
+ - remote-fuc {Function} null 重写远程方法
  - accept {String} image/* 运行上传的类型
  - rules {Object} {} 图像规则
  - value {Array} [] 初始化数据
  - fit {String} contain 图像显示形式
- - autoUpload {Boolean} true 新增图片是是否自动上传
+ - auto-upload {Boolean} true 新增图片是是否自动上传
  - disabled {Boolean} false 是否禁用
  - width {Nulber|String} 200 宽度
  - height {Number|String} 200 高度
- - clearable {Boolean} true 是否可清空
 
  Method
  - upload-begin 开始上传
@@ -291,11 +290,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    /** 是否可清空 */
-    clearable: {
-      type: Boolean,
-      default: false,
-    },
     /** 上传前插入方法, 属于高级用法 */
     beforeUpload: {
       type: Promise,
@@ -524,6 +518,9 @@ export default {
         window.URL.revokeObjectURL(imgItem.display)
       }
 
+      if (item.status === 'input' || !item.file) {
+        return
+      }
       // eslint-disable-next-line
       item.loading = true
       // 如果是用户自定义方法
@@ -790,7 +787,9 @@ export default {
         this.setImgInfo(imgInfoList, currentId)
         // 开启自动上传
         if (autoUpload) {
-          await this.getValue()
+          this.itemList.forEach((ele) => {
+            this.uploadImg(ele)
+          })
         }
       } catch (err) {
         // 清空缓存
