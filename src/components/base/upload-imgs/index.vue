@@ -296,7 +296,7 @@ export default {
       default: null,
     },
     /** 重写上传方法, 如果重写则覆盖组件内上传方法 */
-    uploadFuc: {
+    remoteFuc: {
       type: [Function, Promise],
       default: null,
     },
