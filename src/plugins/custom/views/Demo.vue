@@ -101,6 +101,22 @@
             <el-button @click="getValue('uploadEle9')">获取当前图像数据</el-button>
           </div>
         </el-form-item>
+        <el-form-item label="远程方法">
+          <el-radio-group v-model="remoteName">
+            <el-radio label="remoteFucAsync">失败promise</el-radio>
+            <el-radio label="remoteFuc">失败回调</el-radio>
+            <el-radio label="remoteFucSuccessAsync">成功promise</el-radio>
+            <el-radio label="remoteFucSuccess">成功回调</el-radio>
+          </el-radio-group>
+          <upload-imgs
+            ref="uploadEle13"
+            :rules="rules"
+            :multiple="true"
+            :remote-fuc="remoteNameObj[remoteName]" />
+          <div>
+            <el-button @click="getValue('uploadEle13')">获取当前图像数据</el-button>
+          </div>
+        </el-form-item>
         <el-form-item label="图像缩略图展示模式">
           <el-radio-group v-model="fit">
             <el-radio label="fill">fill</el-radio>
@@ -123,7 +139,10 @@
 
 <script>
 import UploadImgs from '@/components/base/upload-imgs'
-
+/** 生成随机字符串 */
+function createId() {
+  return Math.random().toString(36).substring(2)
+}
 export default {
   name: 'ImgsUploadStage1',
   components: {
@@ -131,6 +150,13 @@ export default {
   },
   data() {
     return {
+      remoteName: 'remoteFucAsync',
+      remoteNameObj: {
+        remoteFucAsync: this.remoteFucAsync,
+        remoteFuc: this.remoteFuc,
+        remoteFucSuccessAsync: this.remoteFucSuccessAsync,
+        remoteFucSuccess: this.remoteFucSuccess,
+      },
       fit: 'cover',
       rules: {
         minWidth: 100,
@@ -205,6 +231,28 @@ export default {
         src: '/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
         imgId: '4dfg43234',
       }]
+    },
+    remoteFucAsync() {
+      return Promise.resolve(false)
+    },
+    remoteFuc(file, cb) {
+      setTimeout(() => {
+        cb(false)
+      }, 3000)
+    },
+    remoteFucSuccessAsync() {
+      return Promise.resolve({
+        id: createId,
+        url: 'http://dev.koa.7yue.pro/assets/2019/06/30/abc823a9-5ef4-48e1-bdf6-dd4f0ab92482.jpg',
+      })
+    },
+    remoteFucSuccess(file, cb) {
+      setTimeout(() => {
+        cb({
+          id: createId,
+          url: 'http://dev.koa.7yue.pro/assets/2019/06/30/abc823a9-5ef4-48e1-bdf6-dd4f0ab92482.jpg',
+        })
+      }, 3000)
     },
   },
 }
