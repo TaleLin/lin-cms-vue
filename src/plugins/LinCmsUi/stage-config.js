@@ -71,6 +71,16 @@ const LinCmsUiRouter = {
           right: null,
         },
         {
+          title: 'Progress 进度条',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/data/progress/',
+          filePath: 'plugins/LinCmsUi/views/data/progress/Progress.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
+        {
           title: 'Badge 标记',
           type: 'view',
           name: null,
@@ -254,6 +264,36 @@ const LinCmsUiRouter = {
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
           right: null,
+        },
+        {
+          title: 'TimePicker 时间选择器',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/timePicker',
+          filePath: 'plugins/LinCmsUi/views/form/TimePicker.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
+          title: 'DateTimePicker 日期时间选择器',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/dateTimePicker',
+          filePath: 'plugins/LinCmsUi/views/form/DateTimePicker.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
+          title: 'DatePicker 日期选择器',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/datePicker',
+          filePath: 'plugins/LinCmsUi/views/form/DatePicker.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
         },
       ],
     },
