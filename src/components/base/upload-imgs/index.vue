@@ -5,19 +5,18 @@
  - sortable {Boolean} false 是否可排序
  - preview {Boolean} true 是否可预览
  - multiple {Boolean} false 是否可以一次多选
- - minNum {Number} 0 最少图片数量
- - maxNum {Number} 0 最多图片数量, 0 表示无限制
+ - min-num {Number} 0 最少图片数量
+ - max-num {Number} 0 最多图片数量, 0 表示无限制
  - before-upload {Function} null 上传前自定义校验函数
- - remoteFuc {Function} null 重写远程方法
+ - remote-fuc {Function} null 重写远程方法
  - accept {String} image/* 运行上传的类型
  - rules {Object} {} 图像规则
  - value {Array} [] 初始化数据
  - fit {String} contain 图像显示形式
- - autoUpload {Boolean} true 新增图片是是否自动上传
+ - auto-upload {Boolean} true 新增图片是是否自动上传
  - disabled {Boolean} false 是否禁用
  - width {Nulber|String} 200 宽度
  - height {Number|String} 200 高度
- - clearable {Boolean} true 是否可清空
 
  Method
  - upload-begin 开始上传
@@ -38,18 +37,37 @@
 -->
 
 <template>
-  <div class="imgs-upload-container" v-loading="loading">
+  <div class="upload-imgs-container" v-loading="loading">
     <template v-for="(item, i) in itemList">
       <template v-if="item.display">
-        <div class="thumb-item" :key="item.id" :style="boxStyle" v-loading="item.loading">
+        <div
+          class="thumb-item"
+          :key="item.id"
+          :style="boxStyle"
+          v-loading="item.loading">
           <el-image
             class="thumb-item-img"
             :src="item.display"
             :fit="fit"
             style="width: 100%; height: 100%;"></el-image>
+          <div class="info">
+            <i
+              v-if="item.file"
+              class="el-icon-upload wait-upload"
+              @click.prevent.stop="delItem(item.id)"
+              title="等待上传"></i>
+          </div>
           <div class="control">
-            <i v-if="!disabled" class="el-icon-close del" @click.prevent.stop="delItem(item.id)" title="删除"></i>
-            <div v-if="!disabled" class="preview" title="更换图片" @click.prevent.stop="handleClick(item.id)">
+            <i
+              v-if="!disabled"
+              class="el-icon-close del"
+              @click.prevent.stop="delItem(item.id)"
+              title="删除"></i>
+            <div
+              v-if="!disabled"
+              class="preview"
+              title="更换图片"
+              @click.prevent.stop="handleClick(item.id)">
               <i class="el-icon-edit"></i>
             </div>
             <div class="control-bottom" v-if="sortable || preview">
@@ -89,11 +107,11 @@
       </template>
     </template>
     <input
-      class="item__input"
+      class="upload-imgs__input"
       type="file"
       ref="input"
       @change="handleChange"
-      :multiple="!isStable && multiple"
+      :multiple="multiple"
       :accept="accept" />
   </div>
 </template>
@@ -102,6 +120,12 @@
 const ONE_KB = 1024
 const ONE_MB = ONE_KB * 1024
 
+/** 判断是否是空对象 */
+function isEmptyObj(data) {
+  if (!data) return true
+  return (JSON.stringify(data) === '{}')
+}
+
 /** 生成随机字符串 */
 function createId() {
   return Math.random().toString(36).substring(2)
@@ -109,15 +133,25 @@ function createId() {
 
 /**
  * 创建项, 如不传入参数则创建空项
+ * status 状态转换说明:
+ *  - 如果不传入参数, 创建上传空项, status: input
+ *  - 如果只传入 data, 不传入 oldData
+ *    - data 是本地数据(数据中是否携带id), status: new
+ *    - data 不是本地数据(来源可能是初始化或是其他), status 与原状态保持一致, 如果没有原状态就是 init
+ *  - data 与 oldData 都传入
+ *    - data 为本地数据, oldData 是 input/new, status: new
+ *    - data 为本地数据, oldData 是 init/edit, status: edit
+ *    - data 不是本地数据, status 与原状态保持一致, 如果没有原状态就是 init
  * @returns {Item}
  */
-function createItem(data = null, oldData = null) {
+function createItem(data = null, oldData = {}) {
   let item = {
     loading: false,
     id: createId(),
     status: 'input', // new/edit/del/init/input
-    display: '',
-    src: '',
+    src: '', // 图像相对地址
+    display: '', // 图像完整地址, 用于显示
+    imgId: '', // 图像资源 id
   }
   // 未传入data, 说明是单纯新建, 单纯新建的值是输入框状态
   if (!data) {
@@ -125,9 +159,9 @@ function createItem(data = null, oldData = null) {
   }
   // 没有id, 说明是用户点击选择的本地图片
   if (!data.id) {
-    if (oldData) {
+    if (!isEmptyObj(oldData)) {
       // 如果旧数据状态是输入框, 则为新图片
-      if (oldData.status === 'input') {
+      if (oldData.status === 'input' || oldData.status === 'new') {
         item.status = 'new'
       }
       // 如果旧数据状态是初始化 init, 则为修改
@@ -138,8 +172,10 @@ function createItem(data = null, oldData = null) {
       item.status = 'new'
     }
 
+    // 本地数据初始化
     item.id = oldData.id || item.id
     item.src = ''
+    item.imgId = ''
     item.display = data.localSrc || item.display
     item = Object.assign({}, data, item)
     return item
@@ -147,6 +183,7 @@ function createItem(data = null, oldData = null) {
 
   // 存在id, 说明是传入已存在数据
   item.id = data.id
+  item.imgId = data.imgId || item.imgId
   item.src = data.src || item.src
   item.display = data.display || item.display
   item.status = data.status || 'init'
@@ -175,6 +212,13 @@ function getRangeTip(prx, min, max, unit = '') {
   return str
 }
 
+/** for originUpload: 一次请求最多的文件数量 */
+const uploadLimit = 5
+/** for originUpload: 文件对象缓存 */
+let catchData = []
+/** for originUpload: 计时器缓存 */
+let time
+
 export default {
   name: 'UploadImgs',
   data() {
@@ -182,6 +226,7 @@ export default {
       itemList: [],
       loading: false,
       currentId: '', // 正在操作项的id
+      globalImgPriview: '$imagePreview', // 全局图片预览方法名
     }
   },
   props: {
@@ -245,18 +290,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    /** 是否可清空 */
-    clearable: {
-      type: Boolean,
-      default: false,
-    },
     /** 上传前插入方法, 属于高级用法 */
     beforeUpload: {
       type: Promise,
       default: null,
     },
     /** 重写上传方法, 如果重写则覆盖组件内上传方法 */
-    uploadFuc: {
+    remoteFuc: {
       type: [Function, Promise],
       default: null,
     },
@@ -264,10 +304,6 @@ export default {
     fit: {
       type: String,
       default: 'contain',
-    },
-    suffix: {
-      type: Array,
-      default: () => ['jpg', 'jpeg', 'png', 'webp'],
     },
   },
   computed: {
@@ -295,8 +331,8 @@ export default {
       let fontSize = 12
       /** 每行提示预设 */
       const maxText = 8
-      if (typeof width === 'number' && (width / maxText) < 12) {
-        fontSize = (width / 15).toFixed(2)
+      if (typeof width === 'number' && (width / maxText) < fontSize) {
+        fontSize = (width / maxText).toFixed(2)
       }
       style.fontSize = `${fontSize}px`
       style.textAlign = 'center'
@@ -389,16 +425,152 @@ export default {
     /** 初始化值修改时重新初始化, 并且清空当前的编辑状态 */
     value(val) {
       // 初始化数据
-      this.initAll(val)
-      // 清除所有 input 状态
-      // 初始化拖拽状态
+      this.initItemList(val)
     },
   },
   mounted() {
-    this.initAll(this.value)
-    // 初始化 Draggable
+    this.initItemList(this.value)
   },
   methods: {
+    uploadCatch(uploadList) {
+      const data = {}
+      uploadList.forEach((item, index) => {
+        data[`file_${index}`] = item.img.file
+      })
+      return this.$axios({
+        method: 'post',
+        url: '/cms/file/',
+        data,
+      }).then((res) => {
+        if (!Array.isArray(res) || res.length === 0) {
+          throw new Error('图像上传失败')
+        }
+
+        const resObj = res.reduce((acc, item) => {
+          acc[item.key] = item
+          return acc
+        }, {})
+
+        uploadList.forEach((item, index) => {
+          const remoteData = resObj[`file_${index}`]
+          item.cb(remoteData)
+        })
+      }).catch((err) => {
+        uploadList.forEach((item) => {
+          item.cb(false)
+        })
+        console.error(err)
+        this.$message.error('图像上传失败, 请重试')
+      })
+    },
+    /**
+     * 内置上传文件方法, 使用 debounce 优化提交效率
+     */
+    originUpload(img, cb) {
+      // 并且一次最多上传文件数量设为可配置
+      // 添加缓存
+      catchData.push({
+        img,
+        cb,
+      })
+
+      // 等于上限, 立即上传
+      if (catchData.length === uploadLimit) {
+        const data = [...catchData]
+        catchData = []
+        clearTimeout(time)
+        time = null
+        return this.uploadCatch(data)
+      }
+
+      // 清除上次一的定时器
+      if (time && catchData.length < uploadLimit) {
+        clearTimeout(time)
+        // 此时修改上一个 promise 状态为reslove
+      }
+
+      // 等待100ms
+      time = setTimeout(() => {
+        this.uploadCatch([...catchData])
+        catchData = []
+        time = null
+      }, 50)
+    },
+    /**
+     * 上传图像文件
+     */
+    async uploadImg(item) {
+      // 远程结果处理
+      const reduceResult = (imgItem, res) => {
+        // eslint-disable-next-line
+        imgItem.loading = false
+        if (!res) {
+          return
+        }
+        // eslint-disable-next-line
+        imgItem.display = res.url
+        // eslint-disable-next-line
+        imgItem.src = res.url
+        // eslint-disable-next-line
+        imgItem.imgId = res.id
+        // eslint-disable-next-line
+        imgItem.file = null
+        window.URL.revokeObjectURL(imgItem.display)
+      }
+
+      if (item.status === 'input' || !item.file) {
+        return
+      }
+      // eslint-disable-next-line
+      item.loading = true
+      // 如果是用户自定义方法
+      // 出于简化 api 的考虑, 只允许单个文件上传
+      if (this.remoteFuc) {
+        // 回调函数模式
+        if (typeof this.remoteFuc === 'function') {
+          return new Promise((resolve) => {
+            const a = this.remoteFuc(item.file, (data) => {
+              reduceResult(item, data)
+              if (!data) {
+                this.$message.error('执行自定义上传出错')
+                resolve(false)
+              } else {
+                resolve(item)
+              }
+            })
+            // promise 模式
+            if (a != null && typeof a.then === 'function') {
+              a.then((remoteData) => {
+                reduceResult(item, remoteData)
+                if (!remoteData) {
+                  resolve(false)
+                }
+                resolve(item)
+              })
+            }
+          })
+        }
+
+        // 除 promise 和 函数回调外其他形式都不支持
+        this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
+        return false
+      }
+
+      // 使用内置上传
+      return new Promise((resolve) => {
+        this.originUpload(item, (data) => {
+          reduceResult(item, data)
+          if (!data) {
+            resolve(false)
+          } else {
+            resolve(item)
+          }
+        })
+      })
+    },
+    /**
+     * 获取当前组件数据
+     */
     async getValue() {
       const { itemList, isStable, min } = this
 
@@ -416,59 +588,37 @@ export default {
       }
       // 提取需要上传文件
       const asyncList = []
-      // 上传文件后获取对应key值
-      const getAsyncItem = (item) => {
-        if (!item.file) {
-          return Promise.resolve(item)
-        }
-        // eslint-disable-next-line
-        item.loading = true
-        return this.$axios({
-          method: 'post',
-          url: '/cms/file/',
-          data: {
-            file: item.file,
-          },
-        }).then((res) => {
-          if (!Array.isArray(res) || res.length !== 1) {
-            throw new Error('upload error')
-          }
-          // 释放内存
-          window.URL.revokeObjectURL(item.display)
-          // eslint-disable-next-line
-          item.display = res[0].url
-          // eslint-disable-next-line
-          item.src = res[0].key
-          // eslint-disable-next-line
-          item.file = null
-          // eslint-disable-next-line
-          item.loading = false
-          return item
-        }).catch((err) => {
-          // eslint-disable-next-line
-          item.loading = false
-          console.error(err)
-          this.$message.error('图像上传失败, 请重试')
-          return false
-        })
-      }
+
       for (let i = 0; i < itemList.length; i += 1) {
         // 跳过上传组件
         if (itemList[i].status !== 'input') {
-          asyncList.push(getAsyncItem(itemList[i]))
+          if (!itemList[i].file) {
+            asyncList.push(Promise.resolve(itemList[i]))
+          } else {
+            // 上传文件后获取对应key值
+            asyncList.push(this.uploadImg(itemList[i]))
+          }
         }
       }
       const imgInfoList = await Promise.all(asyncList)
+      // const imgInfoList = this.itemList.filter(item => (item.status !== 'input'))
+
+      // 检查是否有上传失败的图像
       // 如果有失败的上传, 则返回错误
       if (imgInfoList.some(item => !item)) {
         return false
       }
+
       // 如无错误, 表示图像都以上传, 开始构造数据
-      return imgInfoList.map(item => ({
+      const result = imgInfoList.map(item => ({
         id: item.status === 'new' ? '' : item.id,
-        display: item.display,
+        imgId: item.imgId,
         src: item.src,
+        display: item.display,
       }))
+      // 获取数据成功后发出
+      this.$emit('upload', result)
+      return result
     },
     /**
      * 删除某项
@@ -487,24 +637,30 @@ export default {
       }
       // 释放内存
       window.URL.revokeObjectURL(blobUrl)
+      this.initItemList(this.itemList)
     },
     /**
-     * 预览图像, 后续预览组件制作后替换
+     * 预览图像
      */
     previewImg(data, index) {
-      const images = []
-      this.itemList.forEach((element) => {
-        if (element.src) {
-          images.push(element.src)
-        }
-      })
-      this.$imagePreview({
-        images,
-        index,
-      })
-      // this.$confirm(`<img src="${data.display}" style="width: 100%; height: 100%" />`, '预览', {
-      //   dangerouslyUseHTMLString: true,
-      // })
+      // 如果有全局预览方法
+      if (this[this.globalImgPriview]) {
+        const images = []
+        this.itemList.forEach((element) => {
+          if (element.src) {
+            images.push(element.src)
+          }
+        })
+        this[this.globalImgPriview]({
+          images,
+          index,
+        })
+      } else {
+        // element 原生粗糙模式
+        this.$confirm(`<img src="${data.display}" style="width: 100%;" />`, '预览', {
+          dangerouslyUseHTMLString: true,
+        })
+      }
     },
     /**
      * 移动图像位置
@@ -597,7 +753,7 @@ export default {
      * 选择图像文件后处理, 包括获取图像信息, 验证图像等
      */
     async handleChange(e) {
-      const { currentId } = this
+      const { currentId, autoUpload } = this
       const { files } = e.target
       let imgInfoList
 
@@ -628,7 +784,13 @@ export default {
       try {
         imgInfoList = await Promise.all(asyncList)
         // 设置图片信息
-        await this.setImgInfo(imgInfoList, currentId)
+        this.setImgInfo(imgInfoList, currentId)
+        // 开启自动上传
+        if (autoUpload) {
+          this.itemList.forEach((ele) => {
+            this.uploadImg(ele)
+          })
+        }
       } catch (err) {
         // 清空缓存
         for (let i = 0; i < cache.length; i += 1) {
@@ -641,26 +803,45 @@ export default {
     },
     /**
      * 用户选择图片, 图片通过验证后设置图像数据
+     * @param {Array} imgInfoList 需要设置的图像数组
      */
-    async setImgInfo(imgInfoList = [], currentId) {
-      const { max } = this
+    setImgInfo(imgInfoList = [], currentId) {
+      const { max, itemList } = this
       // 找到特定图像位置
       const index = this.itemList.findIndex(item => (item.id === currentId))
       // 释放内存
       window.URL.revokeObjectURL(this.itemList[index].display)
       // 替换图片
       this.itemList[index] = createItem(imgInfoList[0], this.itemList[index])
-      // 追加图片
-      // 最大图片数量限制
-      let l = imgInfoList.length
-      if (max && l > max) {
-        l = max
+
+      // 如果需要设置的图像数量大于1, 需要执行追加图片逻辑
+      if (imgInfoList.length > 1) {
+        // 最大图片数量限制
+        let l = imgInfoList.length
+        if (this.isStable) {
+          // 固定数量模式, 按次序插入空项
+          for (let i = 0, k = 1; i < max && k < l; i += 1) {
+            if (itemList[i].status === 'input') {
+              this.itemList[i] = createItem(imgInfoList[k])
+              k += 1
+            }
+          }
+        } else {
+          const empty = max - itemList.length + 1
+          if (max && l > empty) {
+            l = empty
+          }
+          if (itemList[itemList.length - 1].status === 'input') {
+            this.itemList.pop()
+          }
+          for (let i = 1; i <= l; i += 1) {
+            this.itemList.push(createItem(imgInfoList[i]))
+          }
+        }
       }
-      for (let i = 1; i < l; i += 1) {
-        this.itemList.push(createItem(imgInfoList[i]))
-      }
+
       // 初始化图片
-      this.initAll(this.itemList)
+      this.initItemList(this.itemList)
     },
     /**
      * 支持键盘操作
@@ -717,25 +898,6 @@ export default {
       this.itemList = result
     },
     /**
-     * TODO: 预览初始化方法
-     */
-    initPreview() {
-      // 清除预览实例
-      if (!this.preview) {
-        return
-      }
-      // 初始化新预览实例
-      console.log('图像预览功能等待上线')
-    },
-    /**
-     * 初始化
-     * @param {object} val 初始化数据
-     */
-    initAll(val) {
-      this.initItemList(val)
-      this.initPreview()
-    },
-    /**
      * 获取图像信息
      */
     async getImgInfo(file) {
@@ -764,14 +926,15 @@ export default {
     },
     /** 清空全部图片 */
     clear() {
-      this.initAll([])
+      this.initItemList([])
+      this.getValue()
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.imgs-upload-container {
+.upload-imgs-container {
   display: flex;
   flex-wrap: wrap;
 
@@ -799,6 +962,40 @@ export default {
   }
 
   .thumb-item {
+    .info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transition: all .3s;
+      transition-delay: .1s;
+
+      .wait-upload {
+        background: #ffcb71;
+        color: white;
+        position: absolute;
+        display: inline-block;
+        width: 1.7em;
+        height: 1.5em;
+        top: 0;
+        right: 0;
+        border-radius: 0 0 0 1.4em;
+        transition: all .1s;
+
+        &::before {
+          font-size: 1.4em;
+          position: absolute;
+          right: -1px;
+          transform: scale(0.7);
+        }
+      }
+
+    }
+
     .control {
       display: flex;
       align-items: center;
@@ -818,23 +1015,23 @@ export default {
         color: white;
         position: absolute;
         display: inline-block;
-        width: 14px;
-        height: 14px;
+        width: 1.7em;
+        height: 1.5em;
         top: 0;
         right: 0;
         opacity: 0;
-        border-radius: 0 0 0 14px;
+        border-radius: 0 0 0 1.4em;
         transition: all .1s;
 
         &::before {
-          font-size: 12px;
+          font-size: 1.4em;
           position: absolute;
           right: -1px;
           transform: scale(0.7);
         }
 
         &:hover {
-          transform: translate(-3px, 3px) scale(1.5);
+          transform: translate(-0.5em, .4em) scale(1.5);
         }
 
       }
@@ -886,7 +1083,6 @@ export default {
 
       .del {
         opacity: 1;
-
       }
 
       .control-bottom {
@@ -895,7 +1091,7 @@ export default {
     }
   }
 
-  .item__input {
+  .upload-imgs__input {
     display: none;
   }
 }
