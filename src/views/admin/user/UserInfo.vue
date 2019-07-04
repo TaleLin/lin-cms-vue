@@ -28,7 +28,7 @@
             <el-input size="medium"  clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item v-if="pageType !== 'password'" label="选择分组">
-            <el-select  size="medium"  v-model="form.group_id" placeholder="请选择分组">
+            <el-select  size="medium" filterable v-model="form.group_id" placeholder="请选择分组">
               <el-option
                 v-for="item in groups"
                 :key="item.id"
