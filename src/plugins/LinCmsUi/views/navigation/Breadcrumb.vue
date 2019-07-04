@@ -42,6 +42,28 @@
           </el-collapse-item>
         </el-collapse>
       </el-card>
+
+       <el-card style="margin-bottom:50px;">
+        <div slot="header">
+          <span>启用replace</span>
+        </div>
+        <el-row>
+          <div>
+             <span class="demonstration">在使用 to 进行路由跳转时，启用 replace 将不会向 history 添加新记录</span>
+            <el-breadcrumb separator-class="el-icon-caret-right">
+              <el-breadcrumb-item :to="{ path: '/' }" replace>首页</el-breadcrumb-item>
+              <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+              <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+              <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            </el-breadcrumb>
+          </div>
+        </el-row>
+        <el-collapse class="test" style="color:red;">
+          <el-collapse-item title="查看代码" name="2">
+            <div style="white-space: pre-wrap;">{{separatorClass}}</div>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
     </div>
   </div>
 </template>
@@ -84,7 +106,23 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/style/container';
-.el-link+.el-link {
-  margin-left: 30px;
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: 1px solid #eff2f6;
+  display: inline-block;
+  width: 49%;
+  box-sizing: border-box;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.demonstration {
+  display: block;
+  color: #8492a6;
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 </style>
