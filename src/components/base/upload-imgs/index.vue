@@ -647,10 +647,11 @@ export default {
       if (this[this.globalImgPriview]) {
         const images = []
         this.itemList.forEach((element) => {
-          if (element.src) {
-            images.push(element.src)
+          if (element.display) {
+            images.push(element.display)
           }
         })
+        console.log('images', images)
         this[this.globalImgPriview]({
           images,
           index,
