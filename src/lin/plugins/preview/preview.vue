@@ -96,13 +96,6 @@ export default {
         }
       }
     },
-    $route(to) {
-      console.log(to)
-      if (this.gallery) {
-        this.gallery.close();
-        this.gallery = null
-      }
-    },
   },
   mounted() {
     if (this.slides.length > 0) {
