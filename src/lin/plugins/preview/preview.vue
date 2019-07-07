@@ -85,8 +85,6 @@ export default {
       gallery: null,
     }
   },
-  destroyed() {
-  },
   watch: {
     data(newVal) {
       if (Array.isArray(newVal)) {
@@ -217,7 +215,7 @@ export default {
   beforeDestroy() {
     // 销毁
     if (this.gallery) {
-      this.gallery.close()
+      this.gallery.close();
       this.gallery = null
     }
   },
