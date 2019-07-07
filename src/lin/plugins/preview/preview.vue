@@ -104,9 +104,6 @@ export default {
       }
     },
   },
-  activated() {
-    console.log(1111)
-  },
   mounted() {
     if (this.slides.length > 0) {
       this.$nextTick(() => {
