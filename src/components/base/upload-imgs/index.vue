@@ -648,7 +648,7 @@ export default {
         const images = []
         this.itemList.forEach((element) => {
           if (element.src) {
-            images.push(element.src)
+            images.push(element.display)
           }
         })
         this[this.globalImgPriview]({

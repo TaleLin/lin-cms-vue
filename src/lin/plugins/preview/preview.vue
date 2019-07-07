@@ -85,8 +85,6 @@ export default {
       gallery: null,
     }
   },
-  destroyed() {
-  },
   watch: {
     data(newVal) {
       if (Array.isArray(newVal)) {
@@ -98,6 +96,16 @@ export default {
         }
       }
     },
+    $route(to) {
+      console.log(to)
+      if (this.gallery) {
+        this.gallery.close();
+        this.gallery = null
+      }
+    },
+  },
+  activated() {
+    console.log(1111)
   },
   mounted() {
     if (this.slides.length > 0) {
@@ -217,7 +225,7 @@ export default {
   beforeDestroy() {
     // 销毁
     if (this.gallery) {
-      this.gallery.close()
+      this.gallery.close();
       this.gallery = null
     }
   },
