@@ -1,33 +1,13 @@
 <!--
- Component: UploadPicture
- Describe: 图像预览上传加排序组件
- Attribute:
- - sortable {Boolean} false 是否可排序
- - preview {Boolean} true 是否可预览
- - multiple {Boolean} false 是否可以一次多选
- - min-num {Number} 0 最少图片数量
- - max-num {Number} 0 最多图片数量, 0 表示无限制
- - before-upload {Function} null 上传前自定义校验函数
- - remote-fuc {Function} null 重写远程方法
- - accept {String} image/* 运行上传的类型
- - rules {Object} {} 图像规则
- - value {Array} [] 初始化数据
- - fit {String} contain 图像显示形式
- - auto-upload {Boolean} true 新增图片是是否自动上传
- - disabled {Boolean} false 是否禁用
- - width {Nulber|String} 200 宽度
- - height {Number|String} 200 高度
+ Component: UploadImgs
+ Describe: 多图片上传组件, 附有预览, 排序, 验证等功能
 
-
-{
-  ratio: <Array> 比例 [宽，高] 也可传 [宽, 高, 缩放比例], 当仅有宽高比限制时, 用于计算展示宽高. 若不传第三个数则当做1
-  width: <Number> 宽度必需等于
-  height: <Number> 高度必需等于
-  minWidth: <Number> 最小宽
-  minHeight: <Number> 最小高
-  minSize: <Number> 最小size（Mb）
-  maxSize: <Number> 最大size（Mb）
-}
+todo: 支持 before-upload
+todo: 支持动态图检测
+todo: 图像验证支持验证是否是动图
+todo: 文档编写
+todo: accept 严格性优化
+todo: jsDoc 编写
 -->
 
 <template>
@@ -111,8 +91,68 @@
 </template>
 
 <script>
+/**
+ * @typedef {Object<string, number, any>} LocalFileInfo 本地图像通过验证后构造的信息对象
+ * @property {string} localSrc 本地图像预览地址
+ * @property {File} file 本地图像文件
+ * @property {number} width 宽
+ * @property {number} height 高
+ * @property {string} name 文件名
+ * @property {number} size 文件大小
+ * @property {string} type 文件的媒体类型 (MIME)
+ * @property {Date} lastModified 文件最后修改时间
+ */
+
+/**
+ * @typedef {Object<string, number, any>} PreviewItem 本地图像通过验证后构造的信息对象
+ * @property {string} localSrc 本地图像预览地址
+ * @property {File} file 本地图像文件
+ * @property {number} width 宽
+ * @property {number} height 高
+ * @property {string} name 文件名
+ * @property {number} size 文件大小
+ * @property {string} type 文件的媒体类型 (MIME)
+ * @property {Date} lastModified 文件最后修改时间
+ */
+
 const ONE_KB = 1024
 const ONE_MB = ONE_KB * 1024
+
+// 检测官方文档: https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
+/** 类型检测掩码集合 */
+const patternMask = [{
+  name: 'image/x-icon',
+  mask: [0xFF, 0xFF, 0xFF, 0xFF],
+  byte: [0x00, 0x00, 0x01, 0x00],
+}, {
+  name: 'image/x-icon',
+  mask: [0xFF, 0xFF, 0xFF, 0xFF],
+  byte: [0x00, 0x00, 0x02, 0x00],
+}, {
+  name: 'image/bmp',
+  mask: [0xFF, 0xFF],
+  byte: [0x42, 0x4D],
+}, {
+  name: 'image/gif',
+  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
+  byte: [0x47, 0x49, 0x46, 0x38, 0x37, 0x61],
+}, {
+  name: 'image/gif',
+  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
+  byte: [0x47, 0x49, 0x46, 0x38, 0x39, 0x61],
+}, {
+  name: 'image/webp',
+  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
+  byte: [0x52, 0x49, 0x46, 0x46, 0x00, 0x00, 0x00, 0x00, 0x57, 0x45, 0x42, 0x50, 0x56, 0x50],
+}, {
+  name: 'image/png',
+  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
+  byte: [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A],
+}, {
+  name: 'image/jpeg',
+  mask: [0xFF, 0xFF, 0xFF],
+  byte: [0xFF, 0xD8, 0xFF],
+}]
 
 /** 判断是否是空对象 */
 function isEmptyObj(data) {
@@ -151,8 +191,8 @@ function createItem(data = null, oldData = {}) {
   if (!data) {
     return item
   }
-  // 没有id, 说明是用户点击选择的本地图片
-  if (!data.id) {
+  // 判断是否是本地图片
+  if (data.file && !data.id) {
     if (!isEmptyObj(oldData)) {
       // 如果旧数据状态是输入框, 则为新图片
       if (oldData.status === 'input' || oldData.status === 'new') {
@@ -206,8 +246,108 @@ function getRangeTip(prx, min, max, unit = '') {
   return str
 }
 
+/**
+ * 检测是否是动图
+ * 主要针对 Gif 和 Webp 两种格式
+ * @param {File} file 需要检测的文件
+ * @param {String} fileUrl 文件url
+ */
+async function checkIsAnimated({ file, fileUrl, fileType }) {
+  // 参数验证
+  if (!file || !(file instanceof File)) {
+    console.error('isAnimated param check fail: param expected to be File object')
+    return false
+  }
+  // 如果不是 gif 和 webp, 默认作为非动图
+  if (fileType !== 'image/webp' && fileType !== 'image/gif') {
+    return false
+  }
+
+  if (fileType === 'image/webp') {
+    return new Promise((resolve) => {
+      const request = new XMLHttpRequest()
+      request.open('GET', fileUrl, true)
+      request.addEventListener('load', () => {
+        resolve((request.response.indexOf('ANMF') !== -1))
+      })
+      request.send()
+    })
+  }
+  if (fileType === 'image/gif') {
+    return new Promise((resolve) => {
+      const request = new XMLHttpRequest()
+      request.open('GET', fileUrl, true)
+      request.responseType = 'arraybuffer'
+      request.addEventListener('load', () => {
+        const arr = new Uint8Array(request.response)
+        // make sure it's a gif (GIF8)
+        if (arr[0] !== 0x47 || arr[1] !== 0x49 || arr[2] !== 0x46 || arr[3] !== 0x38) {
+          resolve(false)
+          return
+        }
+
+        // ported from php http://www.php.net/manual/en/function.imagecreatefromgif.php#104473
+        // an animated gif contains multiple "frames", with each frame having a
+        // header made up of:
+        // * a static 4-byte sequence (\x00\x21\xF9\x04)
+        // * 4 variable bytes
+        // * a static 2-byte sequence (\x00\x2C) (some variants may use \x00\x21 ?)
+        // We read through the file til we reach the end of the file, or we've found
+        // at least 2 frame headers
+        let frames = 0
+        for (let i = 0, len = arr.length - 9; i < len && frames < 2; ++i) {
+          if (arr[i] === 0x00 && arr[i + 1] === 0x21 && arr[i + 2] === 0xF9 && arr[i + 3] === 0x04 && arr[i + 8] === 0x00 && (arr[i + 9] === 0x2C || arr[i + 9] === 0x21)) {
+            frames++
+          }
+        }
+
+        // if frame count > 1, it's animated
+        resolve(frames > 1)
+      })
+      request.send()
+    })
+  }
+}
+
+/**
+ * 检测文件类型
+ * 使用文件编码进行检测
+ * 支持模式参看: patternMask 定义
+ */
+async function getFileType(file) {
+  if (!(file instanceof File)) {
+    return 'unknown'
+  }
+  return new Promise((resolve) => {
+    const fileReader = new FileReader()
+    fileReader.onloadend = (e) => {
+      const header = (new Uint8Array(e.target.result)).slice(0, 20)
+      let type = 'unknown'
+
+      // eslint-disable-next-line arrow-body-style
+      const index = patternMask.findIndex((item) => {
+        // eslint-disable-next-line arrow-body-style
+        return item.mask.every((subItem, subI) => {
+          // subItem 掩码标志
+          // item.byte[subI] 规范值
+          // header[subI] 文件实际值
+          // eslint-disable-next-line
+          return ((subItem & (header[subI] ^ item.byte[subI])) === 0)
+        })
+      })
+
+      if (index >= 0) {
+        type = patternMask[index].name
+      }
+
+      resolve(type)
+    }
+    fileReader.readAsArrayBuffer(file)
+  })
+}
+
 /** for originUpload: 一次请求最多的文件数量 */
-const uploadLimit = 5
+const uploadLimit = 10
 /** for originUpload: 文件对象缓存 */
 let catchData = []
 /** for originUpload: 计时器缓存 */
@@ -298,6 +438,11 @@ export default {
     fit: {
       type: String,
       default: 'contain',
+    },
+    /** 检测是否是动图 */
+    animatedCheck: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -426,6 +571,10 @@ export default {
     this.initItemList(this.value)
   },
   methods: {
+    /**
+     * 上传缓存中的图片
+     * @param {Array} uploadList 需要上传的缓存集合, 集合中包含回调函数
+     */
     uploadCatch(uploadList) {
       const data = {}
       uploadList.forEach((item, index) => {
@@ -453,13 +602,22 @@ export default {
         uploadList.forEach((item) => {
           item.cb(false)
         })
-        // todo: 细化错误提示
+        let msg = '图像上传失败, 请重试'
+        if (err.msg) {
+          // eslint-disable-next-line
+          msg = err.msg
+        } else if (err.message) {
+          msg = err.message
+        }
         console.error(err)
-        this.$message.error('图像上传失败, 请重试')
+        this.$message.error(msg)
       })
     },
     /**
      * 内置上传文件方法, 使用 debounce 优化提交效率
+     * 此处只能使用回调模式, 因为涉及 debounce 处理, promise 不可在外部改变其状态
+     * @param {Object} img 需要上传的数据项
+     * @param {Function} cb 回调函数
      */
     originUpload(img, cb) {
       // 并且一次最多上传文件数量设为可配置
@@ -493,6 +651,7 @@ export default {
     },
     /**
      * 上传图像文件
+     * @param {Object} 需要上传的项, 包含文化和其它信息
      */
     async uploadImg(item) {
       // 远程结果处理
@@ -617,6 +776,7 @@ export default {
     },
     /**
      * 删除某项
+     * @param {Number|String} id 删除项 id
      */
     delItem(id) {
       const { itemList, isStable } = this
@@ -636,6 +796,8 @@ export default {
     },
     /**
      * 预览图像
+     * @param {Object} data 需要预览的项的数据
+     * @param {Number} index 索引序号
      */
     previewImg(data, index) {
       // 如果有全局预览方法
@@ -646,7 +808,6 @@ export default {
             images.push(element.display)
           }
         })
-        console.log('images', images)
         this[this.globalImgPriview]({
           images,
           index,
@@ -660,6 +821,8 @@ export default {
     },
     /**
      * 移动图像位置
+     * @param {Number|String} id 操作项的 id
+     * @param {Number} step 移动的偏移量
      */
     move(id, step) {
       const { itemList, isStable } = this
@@ -679,6 +842,7 @@ export default {
     },
     /**
      * 验证上传的图像是否符合要求
+     * @param {Object} 图像信息, 包括文件名, 宽高
      */
     async validateImg(imgInfo) {
       const { rules } = this
@@ -747,6 +911,7 @@ export default {
     },
     /**
      * 选择图像文件后处理, 包括获取图像信息, 验证图像等
+     * @param {Event} e input change 事件对象
      */
     async handleChange(e) {
       const { currentId, autoUpload } = this
@@ -798,8 +963,11 @@ export default {
       }
     },
     /**
-     * 用户选择图片, 图片通过验证后设置图像数据
-     * @param {Array} imgInfoList 需要设置的图像数组
+     * 根据信息列表设置图像信息
+     * 用户选择图片, 图片通过验证后可获取到图像信息数组
+     * 将这一组图像信息数据设置在 itemList 中
+     * @param {Array<LocalFileInfo>} imgInfoList 需要设置的图像数组
+     * @param {Number|String} id 操作项的 id
      */
     setImgInfo(imgInfoList = [], currentId) {
       const { max, itemList } = this
@@ -841,6 +1009,8 @@ export default {
     },
     /**
      * 支持键盘操作
+     * @param {Event} e 键盘事件对象
+     * @param {Number|String} id 操作项的 id
      */
     handleKeydown(e, id) {
       if (e.target !== e.currentTarget) return
@@ -850,6 +1020,8 @@ export default {
     },
     /**
      * 处理点击事件, 并转移到文件上传元素
+     * 并记录当前操作元素 id
+     * @param {Number|String} id 操作项的 id
      */
     handleClick(id) {
       if (!this.disabled) {
@@ -860,6 +1032,7 @@ export default {
     },
     /**
      * 初始化 itemList
+     * @param {Array} val 初始化的数据数组
      */
     initItemList(val) {
       const { max, isStable, disabled } = this
@@ -895,23 +1068,39 @@ export default {
     },
     /**
      * 获取图像信息
+     * @param {File} file 文件对象
+     * @returns {LocalFileInfo} 信息对象
      */
     async getImgInfo(file) {
+      const { animatedCheck } = this
       const localSrc = window.URL.createObjectURL(file)
+      // 严格检测文件类型
+      const fileType = await getFileType(file)
+      // 检测是否是动图
+      let isAnimated = null
+      if (animatedCheck) {
+        isAnimated = await checkIsAnimated({ file, fileType, fileUrl: localSrc })
+      }
       return new Promise((resolve, reject) => {
         let image = new Image()
         image.src = localSrc
         image.onload = () => {
-          resolve({
+          /**
+           * @type LocalFileInfo
+           */
+          const localFileInfo = {
             localSrc,
             file,
             width: image.width,
             height: image.height,
             name: file.name,
             size: file.size,
-            type: file.type,
+            type: fileType === 'unknow' ? file.type : fileType,
             lastModified: file.lastModified,
-          })
+            isAnimated,
+          }
+          console.log(localFileInfo)
+          resolve(localFileInfo)
           image = null
         }
         image.onerror = () => {
