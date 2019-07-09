@@ -48,7 +48,7 @@ export default {
       name: '删除',
       func: 'handleDelete',
       type: 'danger',
-      auth: '删除图书',
+      auth: 'disabled',
     }]
     this.loading = false
   },
