@@ -28,6 +28,16 @@ const CustomRouter = {
       icon: 'iconfont icon-zidingyi',
       right: null,
     },
+    {
+      title: 'tinymce 富文本',
+      type: 'view',
+      name: 'Tinymce',
+      route: '/custom/tinymce',
+      filePath: 'plugins/custom/views/Tinymce.vue',
+      inNav: true,
+      icon: 'iconfont icon-zidingyi',
+      right: null,
+    },
   ],
 }
 
