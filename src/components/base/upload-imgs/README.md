@@ -46,24 +46,24 @@ export default {
 
 ## props
 
-|      参数      |     类型      |  默认值  |            说明            |
-| :------------: | :-----------: | :------: | :------------------------: |
-|     value      |     Array     |    []    |         初始化数据         |
-|  auto-upload   |    Boolean    |   true   |   新增图片是是否自动上传   |
-|    disabled    |    Boolean    |  false   |          是否禁用          |
-|    preview     |    Boolean    |   true   |         是否可预览         |
-|    multiple    |    Boolean    |  false   |      是否可以一次多选      |
-|    min-num     |    Number     |    0     |        最少图片数量        |
-|    max-num     |    Number     |    0     | 最多图片数量, 0 表示无限制 |
-| before-upload  |   Function    |   null   |    上传前自定义校验函数    |
-|   remote-fuc   |   Function    |   null   |        重写远程方法        |
-|    sortable    |    Boolean    |  false   |         是否可排序         |
-|     accept     |    String     | image/\* |       运行上传的类型       |
-| animated-check |    Boolean    |  false   |   是否需要检测是否是动图   |
-|     rules      |    Object     |    {}    |          图像规则          |
-|      fit       |    String     | contain  |        图像显示形式        |
-|     width      | Nulber/String |   200    |            宽度            |
-|     height     | Number/String |   200    |            高度            |
+|      参数      |     类型      |  默认值  |                                            说明                                            |
+| :------------: | :-----------: | :------: | :----------------------------------------------------------------------------------------: |
+|     value      |     Array     |    []    |                                         初始化数据                                         |
+|  auto-upload   |    Boolean    |   true   |                                   新增图片是是否自动上传                                   |
+|    disabled    |    Boolean    |  false   |                                          是否禁用                                          |
+|    preview     |    Boolean    |   true   |                                         是否可预览                                         |
+|    multiple    |    Boolean    |  false   |                                      是否可以一次多选                                      |
+|    min-num     |    Number     |    0     |                                        最少图片数量                                        |
+|    max-num     |    Number     |    0     |                                 最多图片数量, 0 表示无限制                                 |
+| before-upload  |   Function    |   null   | 上传前自定义校验函数, 返回 true 表示校验成功, 否则校验失败不进行后续上传, 支持返回 Promise |
+|   remote-fuc   |   Function    |   null   |                               重写远程方法, 支持返回 Promise                               |
+|    sortable    |    Boolean    |  false   |                                         是否可排序                                         |
+|     accept     |    String     | image/\* |                                       运行上传的类型                                       |
+| animated-check |    Boolean    |  false   |                                   是否需要检测是否是动图                                   |
+|     rules      |    Object     |    {}    |                                          图像规则                                          |
+|      fit       |    String     | contain  |                                        图像显示形式                                        |
+|     width      | Nulber/String |   200    |                                            宽度                                            |
+|     height     | Number/String |   200    |                                            高度                                            |
 
 图像验证规则属性 rule 支持的验证规则有:
 

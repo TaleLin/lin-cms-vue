@@ -3,7 +3,6 @@
  Describe: 多图片上传组件, 附有预览, 排序, 验证等功能
 
 todo: 支持 before-upload
-todo: 图像验证支持验证是否是动图
 todo: 文档编写
 todo: jsDoc 编写
 todo: 文件判断使用 serveWorker 优化性能
@@ -98,7 +97,8 @@ import {
 } from './utils'
 
 /**
- * @typedef {Object<string, number, any>} LocalFileInfo 本地图像通过验证后构造的信息对象
+ * 本地图像通过验证后构造的信息对象
+ * @typedef {Object<string, number, any>} LocalFileInfo
  * @property {string} localSrc 本地图像预览地址
  * @property {File} file 本地图像文件
  * @property {number} width 宽
@@ -110,15 +110,17 @@ import {
  */
 
 /**
- * @typedef {Object<string, number, any>} PreviewItem 本地图像通过验证后构造的信息对象
- * @property {string} localSrc 本地图像预览地址
- * @property {File} file 本地图像文件
- * @property {number} width 宽
+ * 返回数据对象
+ * @typedef {Object<string, number>} ReturnItem
+ * @property {number|string} id 本地图像预览地址
+ * @property {number|string} imgId 宽
+ * @property {string} src 文件相对路径
+ * @property {string} display 文件完整路径
  * @property {number} height 高
- * @property {string} name 文件名
- * @property {number} size 文件大小
- * @property {string} type 文件的媒体类型 (MIME)
- * @property {Date} lastModified 文件最后修改时间
+ * @property {number} width 宽
+ * @property {string} fileName 文件名
+ * @property {string} fileType 文件的媒体类型 (MIME), 针对部分文件类型做了检测
+ * @property {boolean} isAnimated 是否是动态图, 如果不进行检测则为 null
  */
 
 const ONE_KB = 1024
@@ -285,12 +287,12 @@ export default {
     },
     /** 上传前插入方法, 属于高级用法 */
     beforeUpload: {
-      type: Promise,
+      type: Function,
       default: null,
     },
     /** 重写上传方法, 如果重写则覆盖组件内上传方法 */
     remoteFuc: {
-      type: [Function, Promise],
+      type: Function,
       default: null,
     },
     /** 图像显示模式 */
@@ -536,33 +538,65 @@ export default {
       }
       // eslint-disable-next-line
       item.loading = true
-      // 如果是用户自定义方法
-      // 出于简化 api 的考虑, 只允许单个文件上传
-      if (this.remoteFuc) {
-        // 回调函数模式
-        if (typeof this.remoteFuc === 'function') {
-          return new Promise((resolve) => {
-            const a = this.remoteFuc(item.file, (data) => {
-              reduceResult(item, data)
-              if (!data) {
-                this.$message.error('执行自定义上传出错')
-                resolve(false)
-              } else {
-                resolve(item)
-              }
-            })
+      if (this.beforeUpload && typeof this.beforeUpload === 'function') {
+        if (typeof this.beforeUpload === 'function') {
+          const result = await new Promise((resolve) => {
+            let a
+            try {
+              a = this.beforeUpload(item, (data) => {
+                if (!data) {
+                  resolve(false)
+                } else {
+                  resolve(true)
+                }
+              })
+            } catch (err) {
+              resolve(false)
+            }
             // promise 模式
             if (a != null && typeof a.then === 'function') {
               a.then((remoteData) => {
-                reduceResult(item, remoteData)
                 if (!remoteData) {
                   resolve(false)
                 }
-                resolve(item)
+                resolve(true)
               })
             }
           })
+          if (!result) {
+            reduceResult(item, false)
+            return false
+          }
         }
+
+        // 除 promise 和 函数回调外其他形式都不支持
+        this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
+        return false
+      }
+      // 如果是用户自定义方法
+      // 出于简化 api 的考虑, 只允许单个文件上传
+      if (this.remoteFuc && typeof this.remoteFuc === 'function') {
+        return new Promise((resolve) => {
+          const a = this.remoteFuc(item.file, (data) => {
+            reduceResult(item, data)
+            if (!data) {
+              this.$message.error('执行自定义上传出错')
+              resolve(false)
+            } else {
+              resolve(item)
+            }
+          })
+          // promise 模式
+          if (a != null && typeof a.then === 'function') {
+            a.then((remoteData) => {
+              reduceResult(item, remoteData)
+              if (!remoteData) {
+                resolve(false)
+              }
+              resolve(item)
+            })
+          }
+        })
 
         // 除 promise 和 函数回调外其他形式都不支持
         this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
@@ -623,12 +657,24 @@ export default {
       }
 
       // 如无错误, 表示图像都以上传, 开始构造数据
-      const result = imgInfoList.map(item => ({
-        id: item.status === 'new' ? '' : item.id,
-        imgId: item.imgId,
-        src: item.src,
-        display: item.display,
-      }))
+      /**
+       * @type {array<ReturnItem>}
+       */
+      const result = imgInfoList.map((item) => {
+        /** @type {ReturnItem} */
+        const val = {
+          id: item.status === 'new' ? '' : item.id,
+          imgId: item.imgId,
+          src: item.src,
+          display: item.display,
+          width: item.width,
+          height: item.height,
+          fileName: item.name,
+          fileType: item.type,
+          isAnimated: item.isAnimated,
+        }
+        return val
+      })
       // 获取数据成功后发出
       this.$emit('upload', result)
       return result
@@ -850,7 +896,7 @@ export default {
             }
           }
         } else {
-          const empty = max - itemList.length + 1
+          const empty = max - itemList.length
           if (max && l > empty) {
             l = empty
           }
@@ -945,7 +991,7 @@ export default {
         image.src = localSrc
         image.onload = () => {
           /**
-           * @type LocalFileInfo
+           * @type {LocalFileInfo}
            */
           const localFileInfo = {
             localSrc,
@@ -958,7 +1004,6 @@ export default {
             lastModified: file.lastModified,
             isAnimated,
           }
-          console.log(localFileInfo)
           resolve(localFileInfo)
           image = null
         }
