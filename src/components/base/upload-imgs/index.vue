@@ -541,25 +541,20 @@ export default {
       if (this.beforeUpload && typeof this.beforeUpload === 'function') {
         if (typeof this.beforeUpload === 'function') {
           const result = await new Promise((resolve) => {
-            let a
+            let beforeUploadResult
             try {
-              a = this.beforeUpload(item, (data) => {
-                if (!data) {
-                  resolve(false)
-                } else {
-                  resolve(true)
-                }
+              beforeUploadResult = this.beforeUpload(item, (data) => {
+                resolve(!!data)
               })
             } catch (err) {
               resolve(false)
             }
             // promise 模式
-            if (a != null && typeof a.then === 'function') {
-              a.then((remoteData) => {
-                if (!remoteData) {
-                  resolve(false)
-                }
-                resolve(true)
+            if (beforeUploadResult != null && typeof beforeUploadResult.then === 'function') {
+              beforeUploadResult.then((remoteData) => {
+                resolve(!!remoteData)
+              }).catch(() => {
+                resolve(false)
               })
             }
           })
@@ -568,39 +563,34 @@ export default {
             return false
           }
         }
-
-        // 除 promise 和 函数回调外其他形式都不支持
-        this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
-        return false
       }
       // 如果是用户自定义方法
-      // 出于简化 api 的考虑, 只允许单个文件上传
+      // 出于简化 api 的考虑, 只允许单个文件上传, 不进行代理
       if (this.remoteFuc && typeof this.remoteFuc === 'function') {
-        return new Promise((resolve) => {
-          const a = this.remoteFuc(item.file, (data) => {
-            reduceResult(item, data)
-            if (!data) {
-              this.$message.error('执行自定义上传出错')
-              resolve(false)
-            } else {
-              resolve(item)
-            }
-          })
+        const result = await new Promise((resolve) => {
+          let remoteFucResult
+          try {
+            remoteFucResult = this.remoteFuc(item.file, (remoteData) => {
+              resolve(remoteData || false)
+            })
+          } catch (err) {
+            this.$message.error('执行自定义上传出错')
+            resolve(false)
+          }
           // promise 模式
-          if (a != null && typeof a.then === 'function') {
-            a.then((remoteData) => {
-              reduceResult(item, remoteData)
-              if (!remoteData) {
-                resolve(false)
-              }
-              resolve(item)
+          if (remoteFucResult != null && typeof remoteFucResult.then === 'function') {
+            remoteFucResult.then((remoteData) => {
+              resolve(remoteData || false)
+            }).catch(() => {
+              resolve(false)
             })
           }
         })
-
-        // 除 promise 和 函数回调外其他形式都不支持
-        this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
-        return false
+        reduceResult(item, result)
+        if (!result) {
+          return false
+        }
+        return item
       }
 
       // 使用内置上传
