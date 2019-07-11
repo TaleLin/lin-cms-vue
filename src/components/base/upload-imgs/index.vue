@@ -2,9 +2,10 @@
  Component: UploadImgs
  Describe: 多图片上传组件, 附有预览, 排序, 验证等功能
 
-todo: 支持 before-upload
 todo: 文档编写
 todo: jsDoc 编写
+todo: 图像验证支持是否动图验证
+todo: 使用中间件模式优化信息装载和验证功能
 todo: 文件判断使用 serveWorker 优化性能
 -->
 
