@@ -19,6 +19,12 @@
             <el-button @click="getValue('uploadEle4')">获取当前图像数据</el-button>
           </div>
         </el-form-item>
+        <el-form-item label="动图检测示例">
+          <upload-imgs ref="uploadEle32" :rules="rules" :multiple="true" :animated-check="true" />
+          <div>
+            <el-button @click="getValue('uploadEle32')">获取当前图像数据</el-button>
+          </div>
+        </el-form-item>
         <el-form-item label="禁用+初始化">
           <upload-imgs
             ref="uploadEle5"
@@ -132,6 +138,12 @@
             :fit="fit"
             :value="initData" />
         </el-form-item>
+        <el-form-item label="自定义校验函数">
+          <upload-imgs ref="uploadEle33" :rules="rules" :before-upload="beforeFuc" :multiple="true" />
+          <div>
+            <el-button @click="getValue('uploadEle33')">获取当前图像数据</el-button>
+          </div>
+        </el-form-item>
       </el-form>
     </div>
   </div>
@@ -214,6 +226,10 @@ export default {
   //   // next()
   // },
   methods: {
+    async beforeFuc() {
+      this.$message.error('进入自定义校验函数, 并返回false终止上传')
+      return false
+    },
     async getValue(name) {
       console.log(await this.$refs[name].getValue())
       // eslint-disable-next-line

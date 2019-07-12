@@ -1,39 +1,11 @@
 <!--
- Component: UploadPicture
- Describe: 图像预览上传加排序组件
- Attribute:
- - sortable {Boolean} false 是否可排序
- - preview {Boolean} true 是否可预览
- - multiple {Boolean} false 是否可以一次多选
- - min-num {Number} 0 最少图片数量
- - max-num {Number} 0 最多图片数量, 0 表示无限制
- - before-upload {Function} null 上传前自定义校验函数
- - remote-fuc {Function} null 重写远程方法
- - accept {String} image/* 运行上传的类型
- - rules {Object} {} 图像规则
- - value {Array} [] 初始化数据
- - fit {String} contain 图像显示形式
- - auto-upload {Boolean} true 新增图片是是否自动上传
- - disabled {Boolean} false 是否禁用
- - width {Nulber|String} 200 宽度
- - height {Number|String} 200 高度
+ Component: UploadImgs
+ Describe: 多图片上传组件, 附有预览, 排序, 验证等功能
 
- Method
- - upload-begin 开始上传
- - upload-abort 终止上传
- - upload-success 上传成功
- - upload-error 上传失败
- - upload-finish 上传结束
-
-{
-  ratio: <Array> 比例 [宽，高] 也可传 [宽, 高, 缩放比例], 当仅有宽高比限制时, 用于计算展示宽高. 若不传第三个数则当做1
-  width: <Number> 宽度必需等于
-  height: <Number> 高度必需等于
-  minWidth: <Number> 最小宽
-  minHeight: <Number> 最小高
-  minSize: <Number> 最小size（Mb）
-  maxSize: <Number> 最大size（Mb）
-}
+todo: 支持 before-upload
+todo: 文档编写
+todo: jsDoc 编写
+todo: 文件判断使用 serveWorker 优化性能
 -->
 
 <template>
@@ -117,19 +89,42 @@
 </template>
 
 <script>
+import {
+  getFileType,
+  checkIsAnimated,
+  isEmptyObj,
+  createId,
+} from './utils'
+
+/**
+ * 本地图像通过验证后构造的信息对象
+ * @typedef {Object<string, number, any>} LocalFileInfo
+ * @property {string} localSrc 本地图像预览地址
+ * @property {File} file 本地图像文件
+ * @property {number} width 宽
+ * @property {number} height 高
+ * @property {string} name 文件名
+ * @property {number} size 文件大小
+ * @property {string} type 文件的媒体类型 (MIME)
+ * @property {Date} lastModified 文件最后修改时间
+ */
+
+/**
+ * 返回数据对象
+ * @typedef {Object<string, number>} ReturnItem
+ * @property {number|string} id 本地图像预览地址
+ * @property {number|string} imgId 宽
+ * @property {string} src 文件相对路径
+ * @property {string} display 文件完整路径
+ * @property {number} height 高
+ * @property {number} width 宽
+ * @property {string} fileName 文件名
+ * @property {string} fileType 文件的媒体类型 (MIME), 针对部分文件类型做了检测
+ * @property {boolean} isAnimated 是否是动态图, 如果不进行检测则为 null
+ */
+
 const ONE_KB = 1024
 const ONE_MB = ONE_KB * 1024
-
-/** 判断是否是空对象 */
-function isEmptyObj(data) {
-  if (!data) return true
-  return (JSON.stringify(data) === '{}')
-}
-
-/** 生成随机字符串 */
-function createId() {
-  return Math.random().toString(36).substring(2)
-}
 
 /**
  * 创建项, 如不传入参数则创建空项
@@ -157,8 +152,8 @@ function createItem(data = null, oldData = {}) {
   if (!data) {
     return item
   }
-  // 没有id, 说明是用户点击选择的本地图片
-  if (!data.id) {
+  // 判断是否是本地图片
+  if (data.file && !data.id) {
     if (!isEmptyObj(oldData)) {
       // 如果旧数据状态是输入框, 则为新图片
       if (oldData.status === 'input' || oldData.status === 'new') {
@@ -213,7 +208,7 @@ function getRangeTip(prx, min, max, unit = '') {
 }
 
 /** for originUpload: 一次请求最多的文件数量 */
-const uploadLimit = 5
+const uploadLimit = 10
 /** for originUpload: 文件对象缓存 */
 let catchData = []
 /** for originUpload: 计时器缓存 */
@@ -292,18 +287,23 @@ export default {
     },
     /** 上传前插入方法, 属于高级用法 */
     beforeUpload: {
-      type: Promise,
+      type: Function,
       default: null,
     },
     /** 重写上传方法, 如果重写则覆盖组件内上传方法 */
     remoteFuc: {
-      type: [Function, Promise],
+      type: Function,
       default: null,
     },
     /** 图像显示模式 */
     fit: {
       type: String,
       default: 'contain',
+    },
+    /** 检测是否是动图 */
+    animatedCheck: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -432,6 +432,10 @@ export default {
     this.initItemList(this.value)
   },
   methods: {
+    /**
+     * 上传缓存中的图片
+     * @param {Array} uploadList 需要上传的缓存集合, 集合中包含回调函数
+     */
     uploadCatch(uploadList) {
       const data = {}
       uploadList.forEach((item, index) => {
@@ -459,12 +463,22 @@ export default {
         uploadList.forEach((item) => {
           item.cb(false)
         })
+        let msg = '图像上传失败, 请重试'
+        if (err.msg) {
+          // eslint-disable-next-line
+          msg = err.msg
+        } else if (err.message) {
+          msg = err.message
+        }
         console.error(err)
-        this.$message.error('图像上传失败, 请重试')
+        this.$message.error(msg)
       })
     },
     /**
      * 内置上传文件方法, 使用 debounce 优化提交效率
+     * 此处只能使用回调模式, 因为涉及 debounce 处理, promise 不可在外部改变其状态
+     * @param {Object} img 需要上传的数据项
+     * @param {Function} cb 回调函数
      */
     originUpload(img, cb) {
       // 并且一次最多上传文件数量设为可配置
@@ -498,6 +512,7 @@ export default {
     },
     /**
      * 上传图像文件
+     * @param {Object} 需要上传的项, 包含文化和其它信息
      */
     async uploadImg(item) {
       // 远程结果处理
@@ -523,33 +538,65 @@ export default {
       }
       // eslint-disable-next-line
       item.loading = true
-      // 如果是用户自定义方法
-      // 出于简化 api 的考虑, 只允许单个文件上传
-      if (this.remoteFuc) {
-        // 回调函数模式
-        if (typeof this.remoteFuc === 'function') {
-          return new Promise((resolve) => {
-            const a = this.remoteFuc(item.file, (data) => {
-              reduceResult(item, data)
-              if (!data) {
-                this.$message.error('执行自定义上传出错')
-                resolve(false)
-              } else {
-                resolve(item)
-              }
-            })
+      if (this.beforeUpload && typeof this.beforeUpload === 'function') {
+        if (typeof this.beforeUpload === 'function') {
+          const result = await new Promise((resolve) => {
+            let a
+            try {
+              a = this.beforeUpload(item, (data) => {
+                if (!data) {
+                  resolve(false)
+                } else {
+                  resolve(true)
+                }
+              })
+            } catch (err) {
+              resolve(false)
+            }
             // promise 模式
             if (a != null && typeof a.then === 'function') {
               a.then((remoteData) => {
-                reduceResult(item, remoteData)
                 if (!remoteData) {
                   resolve(false)
                 }
-                resolve(item)
+                resolve(true)
               })
             }
           })
+          if (!result) {
+            reduceResult(item, false)
+            return false
+          }
         }
+
+        // 除 promise 和 函数回调外其他形式都不支持
+        this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
+        return false
+      }
+      // 如果是用户自定义方法
+      // 出于简化 api 的考虑, 只允许单个文件上传
+      if (this.remoteFuc && typeof this.remoteFuc === 'function') {
+        return new Promise((resolve) => {
+          const a = this.remoteFuc(item.file, (data) => {
+            reduceResult(item, data)
+            if (!data) {
+              this.$message.error('执行自定义上传出错')
+              resolve(false)
+            } else {
+              resolve(item)
+            }
+          })
+          // promise 模式
+          if (a != null && typeof a.then === 'function') {
+            a.then((remoteData) => {
+              reduceResult(item, remoteData)
+              if (!remoteData) {
+                resolve(false)
+              }
+              resolve(item)
+            })
+          }
+        })
 
         // 除 promise 和 函数回调外其他形式都不支持
         this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
@@ -610,18 +657,31 @@ export default {
       }
 
       // 如无错误, 表示图像都以上传, 开始构造数据
-      const result = imgInfoList.map(item => ({
-        id: item.status === 'new' ? '' : item.id,
-        imgId: item.imgId,
-        src: item.src,
-        display: item.display,
-      }))
+      /**
+       * @type {array<ReturnItem>}
+       */
+      const result = imgInfoList.map((item) => {
+        /** @type {ReturnItem} */
+        const val = {
+          id: item.status === 'new' ? '' : item.id,
+          imgId: item.imgId,
+          src: item.src,
+          display: item.display,
+          width: item.width,
+          height: item.height,
+          fileName: item.name,
+          fileType: item.type,
+          isAnimated: item.isAnimated,
+        }
+        return val
+      })
       // 获取数据成功后发出
       this.$emit('upload', result)
       return result
     },
     /**
      * 删除某项
+     * @param {Number|String} id 删除项 id
      */
     delItem(id) {
       const { itemList, isStable } = this
@@ -641,6 +701,8 @@ export default {
     },
     /**
      * 预览图像
+     * @param {Object} data 需要预览的项的数据
+     * @param {Number} index 索引序号
      */
     previewImg(data, index) {
       // 如果有全局预览方法
@@ -651,7 +713,6 @@ export default {
             images.push(element.display)
           }
         })
-        console.log('images', images)
         this[this.globalImgPriview]({
           images,
           index,
@@ -665,6 +726,8 @@ export default {
     },
     /**
      * 移动图像位置
+     * @param {Number|String} id 操作项的 id
+     * @param {Number} step 移动的偏移量
      */
     move(id, step) {
       const { itemList, isStable } = this
@@ -684,6 +747,7 @@ export default {
     },
     /**
      * 验证上传的图像是否符合要求
+     * @param {Object} 图像信息, 包括文件名, 宽高
      */
     async validateImg(imgInfo) {
       const { rules } = this
@@ -752,6 +816,7 @@ export default {
     },
     /**
      * 选择图像文件后处理, 包括获取图像信息, 验证图像等
+     * @param {Event} e input change 事件对象
      */
     async handleChange(e) {
       const { currentId, autoUpload } = this
@@ -803,8 +868,11 @@ export default {
       }
     },
     /**
-     * 用户选择图片, 图片通过验证后设置图像数据
-     * @param {Array} imgInfoList 需要设置的图像数组
+     * 根据信息列表设置图像信息
+     * 用户选择图片, 图片通过验证后可获取到图像信息数组
+     * 将这一组图像信息数据设置在 itemList 中
+     * @param {Array<LocalFileInfo>} imgInfoList 需要设置的图像数组
+     * @param {Number|String} id 操作项的 id
      */
     setImgInfo(imgInfoList = [], currentId) {
       const { max, itemList } = this
@@ -828,7 +896,7 @@ export default {
             }
           }
         } else {
-          const empty = max - itemList.length + 1
+          const empty = max - itemList.length
           if (max && l > empty) {
             l = empty
           }
@@ -846,6 +914,8 @@ export default {
     },
     /**
      * 支持键盘操作
+     * @param {Event} e 键盘事件对象
+     * @param {Number|String} id 操作项的 id
      */
     handleKeydown(e, id) {
       if (e.target !== e.currentTarget) return
@@ -855,6 +925,8 @@ export default {
     },
     /**
      * 处理点击事件, 并转移到文件上传元素
+     * 并记录当前操作元素 id
+     * @param {Number|String} id 操作项的 id
      */
     handleClick(id) {
       if (!this.disabled) {
@@ -865,6 +937,7 @@ export default {
     },
     /**
      * 初始化 itemList
+     * @param {Array} val 初始化的数据数组
      */
     initItemList(val) {
       const { max, isStable, disabled } = this
@@ -900,23 +973,38 @@ export default {
     },
     /**
      * 获取图像信息
+     * @param {File} file 文件对象
+     * @returns {LocalFileInfo} 信息对象
      */
     async getImgInfo(file) {
+      const { animatedCheck } = this
       const localSrc = window.URL.createObjectURL(file)
+      // 严格检测文件类型
+      const fileType = await getFileType(file)
+      // 检测是否是动图
+      let isAnimated = null
+      if (animatedCheck) {
+        isAnimated = await checkIsAnimated({ file, fileType, fileUrl: localSrc })
+      }
       return new Promise((resolve, reject) => {
         let image = new Image()
         image.src = localSrc
         image.onload = () => {
-          resolve({
+          /**
+           * @type {LocalFileInfo}
+           */
+          const localFileInfo = {
             localSrc,
             file,
             width: image.width,
             height: image.height,
             name: file.name,
             size: file.size,
-            type: file.type,
+            type: fileType === 'unknow' ? file.type : fileType,
             lastModified: file.lastModified,
-          })
+            isAnimated,
+          }
+          resolve(localFileInfo)
           image = null
         }
         image.onerror = () => {
