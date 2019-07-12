@@ -273,7 +273,7 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/TimePicker.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
+          right: null,
         },
         {
           title: 'DateTimePicker 日期时间选择器',
@@ -283,7 +283,7 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/DateTimePicker.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
+          right: null,
         },
         {
           title: 'DatePicker 日期选择器',
@@ -293,7 +293,7 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/DatePicker.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
+          right: null,
         },
       ],
     },
@@ -336,6 +336,28 @@ const LinCmsUiRouter = {
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
 
+        },
+      ],
+    },
+    {
+      title: 'Others',
+      type: 'folder',
+      name: null,
+      route: '/lin-cms-ui/others/base',
+      filePath: 'plugins/LinCmsUi/views/others/',
+      inNav: true,
+      icon: 'iconfont icon-jiemiansheji',
+      right: null,
+      children: [
+        {
+          title: 'Timeline 时间线',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/other/timeline',
+          filePath: 'plugins/LinCmsUi/views/other/Timeline.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
         },
       ],
     },
