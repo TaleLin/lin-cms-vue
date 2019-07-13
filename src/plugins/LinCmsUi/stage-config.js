@@ -350,6 +350,16 @@ const LinCmsUiRouter = {
       right: null,
       children: [
         {
+          title: 'Dialog 对话框',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/other/dialog',
+          filePath: 'plugins/LinCmsUi/views/other/Dialog.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
+        {
           title: 'Timeline 时间线',
           type: 'view',
           name: null,

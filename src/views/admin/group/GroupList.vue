@@ -10,7 +10,7 @@
       @row-click="rowClick"
       v-loading="loading">
     </lin-table>
-    <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible" :before-close="handleClose">
+    <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible" :before-close="handleClose" class="groupListInfoDialog">
       <div style="margin-top:-25px;">
         <el-tabs v-model="activeTab" @tab-click="handleClick">
           <el-tab-pane label="修改信息" name="修改信息" style="margin-top:10px;">
@@ -270,5 +270,16 @@ export default {
     font-size: 16px;
     font-weight: 500;
   }
+}
+.groupListInfoDialog /deep/ .el-dialog__footer {
+  text-align: left;
+  padding-left: 30px;
+}
+.groupListInfoDialog /deep/ .el-dialog__header {
+  padding-left: 30px;
+}
+
+.groupListInfoDialog /deep/ .el-dialog__body {
+  padding: 30px;
 }
 </style>

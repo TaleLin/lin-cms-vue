@@ -529,4 +529,17 @@ export default {
     margin: 20px;
   }
 }
+// dialog
+.tableSample /deep/ .el-dialog__footer {
+  text-align: left;
+  padding-left: 30px;
+}
+
+.tableSample /deep/ .el-dialog__header {
+  padding-left: 30px;
+}
+
+.tableSample /deep/ .el-dialog__body {
+  padding: 30px;
+}
 </style>
