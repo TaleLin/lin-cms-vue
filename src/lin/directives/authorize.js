@@ -32,6 +32,7 @@ Vue.directive('auth', {
       if (type) {
         element.disabled = true
         element.style.opacity = 0.4
+        element.style.cursor = 'not-allowed'
       } else {
         element.style.display = 'none'
       }
