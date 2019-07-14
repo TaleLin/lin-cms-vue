@@ -251,7 +251,4 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/style/container';
-.el-link+.el-link {
-  margin-left: 30px;
-}
 </style>

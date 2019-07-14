@@ -28,9 +28,17 @@
             <el-input size="medium"  clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item v-if="pageType !== 'password'" label="选择分组">
-            <el-radio-group v-model="form.group_id" label-position="top" class="user-info">
+            <el-select  size="medium" filterable v-model="form.group_id" placeholder="请选择分组">
+              <el-option
+                v-for="item in groups"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+            <!-- <el-radio-group v-model="form.group_id" label-position="top" class="user-info">
               <el-radio :label="item.id" v-for="(item, index) in groups" :key="index">{{item.name}}</el-radio>
-            </el-radio-group>
+            </el-radio-group> -->
           </el-form-item>
           <el-form-item v-show="submit" class="submit">
             <el-button type="primary" @click="submitForm('form')">保 存</el-button>

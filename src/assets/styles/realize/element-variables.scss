@@ -874,3 +874,9 @@ $typeMap: (primary:#3963BC,
   }
 }
 
+/* dropdown */
+@include b(dropdown) {
+  & .el-dropdown__caret-button {
+    border-left: none !important;
+  }
+}
