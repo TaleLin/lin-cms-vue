@@ -49,7 +49,7 @@
             plain
             :key="index"
             size="mini"
-            v-auth="item.auth ? item.auth : ''"
+            v-auth="{auth:item.auth ? item.auth : '', type: 'disabled'}"
             @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}
           </el-button>
         </template>

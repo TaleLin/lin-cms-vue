@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Preview from './preview.vue'
+import Preview from '@/components/base/preview/preview'
 
 const previewImage = {}
 previewImage.install = (Vue, options = {}) => { // eslint-disable-line
