@@ -325,27 +325,12 @@ thead tr {
   font-size: 18px;
   top: -5px;
 }
-
-// dialog
-.el-dialog__footer {
-  text-align: left;
-  padding-left: 30px;
-}
-
+// el-dialog
 .el-dialog__title {
   color: $parent-title-color;
   font-size: 16px;
   font-weight: 500;
 }
-
-.el-dialog__header {
-  padding-left: 30px;
-}
-
-.el-dialog__body {
-  padding: 30px;
-}
-
 // tab
 .el-tabs__item.is-active {
   color: $theme;
