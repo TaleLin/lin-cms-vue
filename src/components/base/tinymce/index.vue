@@ -66,7 +66,7 @@ export default {
       menubar: this.showMenubar, // 隐藏最上方menu
       plugins: 'advlist table lists paste preview fullscreen image code link',
       // eslint-disable-next-line
-      toolbar:'fontselect fontsizeselect forecolor backcolor bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | link image | h1 h2 h3 blockquote table numlist bullist | preview fullscreen code',
+      toolbar:' undo redo |fontselect fontsizeselect forecolor backcolor bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | link image | h1 h2 h3 blockquote table numlist bullist | preview fullscreen code',
       // eslint-disable-next-line
       images_upload_handler: async function(blobInfo, success, failure) {
         // eslint-disable-next-line

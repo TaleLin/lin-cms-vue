@@ -9,7 +9,7 @@ const CustomRouter = {
   inNav: true,
   children: [
     {
-      title: '图像上传展示',
+      title: 'upload 图像上传',
       type: 'view',
       name: 'ImgsUploadDemo',
       route: '/imgs-upload/stage1',
@@ -34,6 +34,16 @@ const CustomRouter = {
       name: 'Tinymce',
       route: '/custom/tinymce',
       filePath: 'plugins/custom/views/Tinymce.vue',
+      inNav: true,
+      icon: 'iconfont icon-zidingyi',
+      right: null,
+    },
+    {
+      title: 'multiple 多重输入',
+      type: 'view',
+      name: 'Multiple',
+      route: '/custom/multiple',
+      filePath: 'plugins/custom/views/MultipleInput.vue',
       inNav: true,
       icon: 'iconfont icon-zidingyi',
       right: null,
