@@ -725,6 +725,13 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
+"@tinymce/tinymce-vue@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@tinymce/tinymce-vue/-/tinymce-vue-2.1.0.tgz#cac3e935b217a277424f2258f3235824aa3c17c0"
+  integrity sha512-lDIpeLbkaobS/f00wWaOhGJdiZLdtL0dEDYB4JvqgVeAAoaDFG2PvXXP/kN49xpHpUe8vOdt7xFaN48nrPmsbQ==
+  dependencies:
+    vue "^2.5.17"
+
 "@types/events@*":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/events/-/events-3.0.0.tgz#2862f3f58a9a7f7c3e78d79f130dd4d71c25c2a7"
@@ -2268,6 +2275,11 @@ caniuse-lite@^1.0.30000947, caniuse-lite@^1.0.30000951:
   version "1.0.30000951"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000951.tgz#c7c2fd4d71080284c8677dd410368df8d83688fe"
   integrity sha512-eRhP+nQ6YUkIcNQ6hnvdhMkdc7n3zadog0KXNRxAZTT2kHjUb1yGn71OrPhSn8MOvlX97g5CR97kGVj8fMsXWg==
+
+canvas-exif-orientation@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/canvas-exif-orientation/-/canvas-exif-orientation-0.4.0.tgz#b487f3701998a9e879eb104010b2a58115368b6b"
+  integrity sha1-tIfzcBmYqeh56xBAELKlgRU2i2s=
 
 capture-exit@^1.2.0:
   version "1.2.0"
@@ -7107,6 +7119,11 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
+moment@^2.24.0:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "http://r.cnpmjs.org/move-concurrently/download/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -7946,6 +7963,11 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "http://r.cnpmjs.org/performance-now/download/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
+
+photoswipe@^4.1.2:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/photoswipe/-/photoswipe-4.1.3.tgz#59f49494eeb9ddab5888d03392926a19bc197550"
+  integrity sha512-89Z43IRUyw7ycTolo+AaiDn3W1EEIfox54hERmm9bI12IB9cvRfHSHez3XhAyU8XW2EAFrC+2sKMhh7SJwn0bA==
 
 pify@^2.0.0:
   version "2.3.0"
@@ -9446,7 +9468,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-screenfull@4.2.0:
+screenfull@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/screenfull/-/screenfull-4.2.0.tgz#d5252a5a0f56504719abbed9ebbcd9208115da03"
   integrity sha512-qpyI9XbwuMJElWRP5vTgxkFAl4k7HpyhIqBFOZEwX9QBXn0MAuRSpn7LOc6/4CeSwoz61oBu1VPV+2fbIWC+5Q==
@@ -10301,6 +10323,11 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "http://r.cnpmjs.org/timsort/download/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
 
+tinymce@^5.0.9:
+  version "5.0.9"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.0.9.tgz#6b0de641b4ac97d08ec1970d31166764237789d8"
+  integrity sha512-c8rau5JGzqDK0XUoZHlokl1KmoQOLWtvkoRIXLINzvrVtXc8LYSev6u/t1uxOu9NXccC1jWabKmRAaa1TsPwvw==
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "http://r.cnpmjs.org/tmp/download/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -10728,6 +10755,14 @@ vue-awesome-swiper@^3.1.3:
     object-assign "^4.1.1"
     swiper "^4.0.7"
 
+vue-croppa@^1.3.8:
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/vue-croppa/-/vue-croppa-1.3.8.tgz#1aac95bf5d94020de7bc1ea7ca61e3aadfff1811"
+  integrity sha512-WwYgEKscTCD7BzhnbfRJfzWIU6RcMq2JRimB3aI5gGzpADmpKuqmDh9+oVfiZaEnpmRthgXZxcAvbxU6CeIU9w==
+  dependencies:
+    canvas-exif-orientation "^0.4.0"
+    object-assign "^4.1.1"
+
 vue-eslint-parser@^2.0.3:
   version "2.0.3"
   resolved "http://r.cnpmjs.org/vue-eslint-parser/download/vue-eslint-parser-2.0.3.tgz#c268c96c6d94cfe3d938a5f7593959b0ca3360d1"
@@ -10819,7 +10854,7 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.8:
+vue@^2.5.17, vue@^2.6.8:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
