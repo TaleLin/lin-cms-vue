@@ -295,6 +295,16 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
           right: null,
         },
+        {
+          title: 'Cascader 级联选择器',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/cascader',
+          filePath: 'plugins/LinCmsUi/views/form/Cascader.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
       ],
     },
     {
