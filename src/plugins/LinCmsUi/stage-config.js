@@ -305,6 +305,16 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
           right: null,
         },
+        {
+          title: 'Slider 滑块',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/slider',
+          filePath: 'plugins/LinCmsUi/views/form/Slider.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
       ],
     },
     {
