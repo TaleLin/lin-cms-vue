@@ -2,7 +2,7 @@
   <div class="lin-container">
     <div class="lin-title">Button 按钮</div>
     <div class="lin-wrap-ui">
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>基础按钮</span>
         </div>
@@ -13,6 +13,7 @@
           <el-button type="warning">警告按钮</el-button>
           <el-button type="danger">危险按钮</el-button>
         </el-row>
+
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
             <div style="white-space: pre-wrap;">{{primary}}</div>
@@ -20,7 +21,7 @@
         </el-collapse>
       </el-card>
 
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>朴素按钮</span>
         </div>
@@ -31,14 +32,14 @@
           <el-button type="warning" plain>警告按钮</el-button>
           <el-button type="danger" plain>危险按钮</el-button>
         </el-row>
-        <el-collapse>
+        <el-collapse class="test" style="color:red;">
           <el-collapse-item title="查看代码" name="2">
             <div style="white-space: pre-wrap;">{{plain}}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>圆形按钮</span>
         </div>
@@ -49,26 +50,10 @@
           <el-button type="warning" icon="el-icon-star-off" circle></el-button>
           <el-button type="danger" icon="el-icon-delete" circle></el-button>
           <el-button icon="el-icon-search" plain circle></el-button>
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            plain
-            circle></el-button>
-          <el-button
-            type="success"
-            icon="el-icon-check"
-            plain
-            circle></el-button>
-          <el-button
-            type="warning"
-            icon="el-icon-star-off"
-            plain
-            circle></el-button>
-          <el-button
-            type="danger"
-            icon="el-icon-delete"
-            plain
-            circle></el-button>
+          <el-button type="primary" icon="el-icon-edit" plain circle></el-button>
+          <el-button type="success" icon="el-icon-check" plain circle></el-button>
+          <el-button type="warning" icon="el-icon-star-off" plain circle></el-button>
+          <el-button type="danger" icon="el-icon-delete" plain circle></el-button>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
@@ -77,7 +62,7 @@
         </el-collapse>
       </el-card>
 
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>禁用状态</span>
         </div>
@@ -103,7 +88,7 @@
         </el-collapse>
       </el-card>
 
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>图标按钮</span>
         </div>
@@ -122,7 +107,7 @@
         </el-collapse>
       </el-card>
 
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>加载中</span>
         </div>
@@ -134,7 +119,7 @@
         </el-collapse>
       </el-card>
 
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>按钮组</span>
         </div>
@@ -157,7 +142,7 @@
         </el-collapse>
       </el-card>
 
-      <el-card class="box-card" style="margin-bottom:50px;">
+      <el-card style="margin-bottom:50px;">
         <div slot="header">
           <span>不同尺寸</span>
         </div>
@@ -278,32 +263,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.lin-wrap-ui {
-  padding: 30px 40px;
-
-  .el-card__body {
-    padding-top: 30px;
-    padding-bottom: 0px;
-  }
-
-  .el-collapse {
-    border-top: none;
-    border-bottom: none;
-
-    .el-collapse-item__header {
-      border-bottom: none;
-      color: #2f4e8c;
-      padding-left: calc(100% - 77px);
-    }
-
-    .el-collapse-item__content {
-      background: #e9f0f8;
-      color: #2f4e8c;
-      border-radius: 4px;
-      padding: 0px 20px 20px 20px;
-      margin-bottom: 20px;
-    }
-  }
-}
+<style lang="scss" scoped>
+@import '../../assets/style/container.scss'
 </style>

@@ -6,6 +6,7 @@
       start-placeholder="开始日期"
       end-placeholder="结束日期"
       align="right"
+      size="medium"
       popper-class="date-box"
       value-format="yyyy-MM-dd HH:mm:ss"
       :default-time="['00:00:00', '23:59:59']"
@@ -60,28 +61,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.el-popper[x-placement^="bottom"]{
-  margin-top: 10px;
-}
-.el-input__inner{
-  height: 32px;
-  line-height: 32px;
-}
-.el-date-editor .el-range__icon {
-  height: 32px;
-}
-.el-date-editor .el-range-separator{
-  height: 32px;
-}
-.el-date-table td.start-date span, .el-date-table td.end-date span{
-  background-color: #3963BC;
-}
-.el-date-table td.today span{
-  color: #3963BC;
-}
-.el-picker-panel__shortcut:hover{
-  color: #3963BC;
-}
-</style>

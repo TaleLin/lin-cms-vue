@@ -15,16 +15,17 @@
             label-width="100px"
             @submit.native.prevent>
             <el-form-item label="书名" prop="title">
-              <el-input v-model="form.title" placeholder="请填写书名"></el-input>
+              <el-input size="medium" v-model="form.title" placeholder="请填写书名"></el-input>
             </el-form-item>
             <el-form-item label="作者" prop="author">
-              <el-input v-model="form.author" placeholder="请填写作者"></el-input>
+              <el-input size="medium" v-model="form.author" placeholder="请填写作者"></el-input>
             </el-form-item>
             <el-form-item label="封面" prop="image">
-              <el-input v-model="form.image" placeholder="请填写封面地址"></el-input>
+              <el-input size="medium" v-model="form.image" placeholder="请填写封面地址"></el-input>
             </el-form-item>
             <el-form-item label="简介" prop="summary">
               <el-input
+                size="medium"
                 type="textarea"
                 :autosize="{ minRows: 4, maxRows: 8}"
                 placeholder="请输入简介"
@@ -45,7 +46,7 @@
 </template>
 
 <script>
-import book from '@/lin/models/book'
+import book from '@/models/book'
 
 export default {
   data() {
@@ -79,7 +80,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   .title {
     height: 59px;

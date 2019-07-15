@@ -7,6 +7,7 @@
       <!-- 暂时放这里 -->
       <div class="right-info">
         <notify v-auth="'消息推送'" v-show="false" />
+        <screenfull />
         <user></user>
       </div>
     </div>
@@ -16,6 +17,7 @@
 <script>
 import Notify from '@/components/notify/notify'
 import Breadcrumb from './Breadcrumb'
+import Screenfull from './Screenfull'
 import User from './User'
 
 export default {
@@ -25,6 +27,7 @@ export default {
     Breadcrumb,
     User,
     Notify,
+    Screenfull,
   },
 }
 </script>

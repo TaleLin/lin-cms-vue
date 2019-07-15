@@ -1,15 +1,16 @@
 {
   "name": "lin-cms",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.3",
   "private": true,
   "scripts": {
     "serve": "node script/plugin-get-config.js && vue-cli-service serve",
     "build": "node script/plugin-get-config.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "plugin-new": "node script/plugin-new.js",
+    "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact",
     "plugin-init": "node script/plugin-init.js",
+    "plugin-new": "node script/plugin-new.js",
     "plugin-reconfig": "node script/plugin-get-config.js",
-    "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact"
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
@@ -19,8 +20,12 @@
     "fastscan": "^1.0.4",
     "good-storage": "^1.1.0",
     "js-cookie": "^2.2.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "screenfull": "^4.2.0",
     "vue": "^2.6.8",
     "vue-awesome-swiper": "^3.1.3",
+    "vue-croppa": "^1.3.8",
     "vue-router": "~3.0.1",
     "vuex": "~3.0.1",
     "vuex-persist": "^2.0.0"
@@ -28,9 +33,13 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-plugin-unit-jest": "^3.7.0",
     "@vue/cli-service": "^3.4.0",
     "@vue/eslint-config-airbnb": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-plugin-component": "^1.1.1",
     "chalk": "^2.4.2",
     "child_process": "^1.0.2",

@@ -11,13 +11,13 @@
           @submit.native.prevent
         >
           <el-form-item label="用户名" prop="nickname">
-            <el-input clearable v-model="form.nickname" :disabled="isEdited"></el-input>
+            <el-input size="medium"  clearable v-model="form.nickname" :disabled="isEdited"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
-            <el-input clearable v-model="form.email" auto-complete="new-password"></el-input>
+            <el-input size="medium"  clearable v-model="form.email" auto-complete="new-password"></el-input>
           </el-form-item>
           <el-form-item v-if="pageType === 'add'" label="密码" prop="password">
-            <el-input clearable type="password" v-model="form.password" auto-complete="new-password"></el-input>
+            <el-input size="medium"  clearable type="password" v-model="form.password" auto-complete="new-password"></el-input>
           </el-form-item>
           <el-form-item
             v-if="pageType === 'add'"
@@ -25,7 +25,7 @@
             prop="confirm_password"
             label-position="top"
           >
-            <el-input clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
+            <el-input size="medium"  clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item v-if="pageType !== 'password'" label="选择分组">
             <el-radio-group v-model="form.group_id" label-position="top" class="user-info">
@@ -250,18 +250,18 @@ export default {
 </style>
 
 <style lang="scss">
-.el-radio-group {
-  &.user-info {
-    display: flex;
-    flex-wrap: wrap;
-    > .el-radio {
-      width: 150px;
-      margin-left: 0px !important;
-      margin-right: 10px;
-      margin-bottom: 20px;
-      white-space: normal;
-      display: flex;
-    }
-  }
-}
+// .el-radio-group {
+//   &.user-info {
+//     display: flex;
+//     flex-wrap: wrap;
+//     > .el-radio {
+//       width: 150px;
+//       margin-left: 0px !important;
+//       margin-right: 10px;
+//       margin-bottom: 20px;
+//       white-space: normal;
+//       display: flex;
+//     }
+//   }
+// }
 </style>

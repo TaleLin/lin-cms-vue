@@ -9,7 +9,7 @@
   <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#版本日志">版本日志</a>
 </p>
 
-![](https://img.shields.io/badge/版本-0.1.0.beta.1-3963bc.svg)
+![](https://img.shields.io/badge/版本-0.1.0.beta.2-3963bc.svg)
 ![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
@@ -83,13 +83,27 @@ npm run serve or yarn (run) serve
 <br>
 <img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg" width="150" height="150" style='text-align:left;width: 100px;height: 100px'>
 
-QQ群搜索：Lin CMS 或 814597236
+QQ群搜索：林间有风 或 643205479
 
-<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qqgroup.jpg" width="150" height="205" >
+<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qrcode_1558012902375.jpg" width="150" height="205" >
 
 ## 版本日志
 
-最新版本 `0.1.0-beta.1`
+最新版本 `0.1.0-beta.3`
+
+### 0.1.0-beta.3
+
+1. `U` 首页更新为 card 设计
+2. `A` 新增头像上传
+3. `A` 新增单元测试
+2. `A` 新增switch、rate、tabs、link、tag组件
+
+### 0.1.0-beta.2
+
+1. `F` 修复无感知刷新令牌异常
+2. `A` 新增入场动画
+3. `A` 新增全屏功能
+2. `A` 新增Icon、Form组件
 
 ### 0.1.0-beta.1
 
