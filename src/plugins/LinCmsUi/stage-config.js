@@ -337,6 +337,16 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
 
         },
+        {
+          title: 'Loading 加载',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/notice/loading',
+          filePath: 'plugins/LinCmsUi/views/notice/Loading.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
       ],
     },
     {
