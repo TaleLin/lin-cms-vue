@@ -249,7 +249,13 @@ $--font-path: "~element-ui/lib/theme-chalk/fonts";
   border: 1px solid $theme;
   color: #fff;
 }
-
+.el-input .el-input--suffix {
+  background: $theme;
+  color: #fff;
+  input::placeholder{
+    color: #fff;
+  }
+}
 // table
 .el-table {
   border-top: 1px solid $table-border-color;
