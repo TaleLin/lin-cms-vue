@@ -6,7 +6,7 @@
         <div
           class="img-box"
           @click="preview(index)"
-          v-for="(url, index) in urls"
+          v-for="(url, index) in thumbs"
           :key="index">
           <el-image
             class="thumb-item-img"
@@ -35,8 +35,13 @@ export default {
         'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/gallery3.jpg',
         'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/gallery4.jpg',
         'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/gallery5.jpg',
-        'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/gallery6.jpg',
-        'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/gallery7.jpg',
+      ],
+      thumbs: [
+        'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/thumb/gallery1.jpg',
+        'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/thumb/gallery2.jpg',
+        'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/thumb/gallery3.jpg',
+        'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/thumb/gallery4.jpg',
+        'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/gallery/thumb/gallery5.jpg',
       ],
     }
   },

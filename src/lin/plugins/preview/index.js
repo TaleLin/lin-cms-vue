@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Preview from '@/components/base/preview/preview'
 
+
 const previewImage = {}
 previewImage.install = (Vue, options = {}) => { // eslint-disable-line
   const PreviewConstructor = Vue.extend(Preview)
+
+  let instance = null
 
   // eslint-disable-next-line func-names
   PreviewConstructor.prototype.close = function () {
@@ -12,20 +15,31 @@ previewImage.install = (Vue, options = {}) => { // eslint-disable-line
     this.imageIndex = 0
   }
 
+  const getInstance = () => {
+    if (!instance) {
+      instance = new PreviewConstructor()
+    }
+    return instance
+  }
+
   Vue.prototype.$imagePreview = (opts = {}) => { // eslint-disable-line
     const elem = document.createElement('div')
-    let instance = new PreviewConstructor()
-    instance.$mount(elem)
-    instance.data = opts.images || []
-    instance.imageIndex = opts.index || 0
-    instance.options = opts.defaultOpt || {}
-    document.body.appendChild(instance.$el)
-    instance.$on('close', () => {
-      instance.close()
-      document.body.removeChild(instance.$el)
-      instance.$destroy()
-      instance = null
-    })
+    if (!instance) {
+      let myInstance = getInstance()
+      Vue.prototype.$previewInstance = myInstance // eslint-disable-line
+      myInstance.$mount(elem)
+      myInstance.data = opts.images || []
+      myInstance.imageIndex = opts.index || 0
+      myInstance.options = opts.defaultOpt || {}
+      document.body.appendChild(myInstance.$el)
+      myInstance.$on('close', () => {
+        myInstance.close()
+        document.body.removeChild(myInstance.$el)
+        myInstance.$destroy()
+        myInstance = null
+        instance = null
+      })
+    }
   }
 }
 
