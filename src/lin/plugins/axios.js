@@ -64,10 +64,10 @@ _axios.interceptors.request.use((originConfig) => {
     let hasFile = false
     Object.keys(reqConfig.data).forEach((key) => {
       if (typeof reqConfig.data[key] === 'object') {
-        let item = reqConfig.data[key]
+        const item = reqConfig.data[key]
         if (item instanceof FileList || item instanceof File || item instanceof Blob) {
           hasFile = true
-        } else if (reqConfig.data[key].constructor === Object)  {
+        } else if (Object.prototype.toString.call(item) === '[object Object]') {
           reqConfig.data[key] = JSON.stringify(reqConfig.data[key])
         }
       }
