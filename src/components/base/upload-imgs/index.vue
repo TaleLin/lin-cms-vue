@@ -2,9 +2,7 @@
  Component: UploadImgs
  Describe: 多图片上传组件, 附有预览, 排序, 验证等功能
 
-todo: 支持 before-upload
-todo: 文档编写
-todo: jsDoc 编写
+todo: 使用中间件模式优化信息装载和验证功能
 todo: 文件判断使用 serveWorker 优化性能
 -->
 
@@ -23,18 +21,10 @@ todo: 文件判断使用 serveWorker 优化性能
             :fit="fit"
             style="width: 100%; height: 100%;"></el-image>
           <div class="info">
-            <i
-              v-if="item.file"
-              class="el-icon-upload wait-upload"
-              @click.prevent.stop="delItem(item.id)"
-              title="等待上传"></i>
+            <i v-if="item.file" class="el-icon-upload wait-upload" @click.prevent.stop="delItem(item.id)" title="等待上传"></i>
           </div>
           <div class="control">
-            <i
-              v-if="!disabled"
-              class="el-icon-close del"
-              @click.prevent.stop="delItem(item.id)"
-              title="删除"></i>
+            <i v-if="!disabled" class="el-icon-close del" @click.prevent.stop="delItem(item.id)" title="删除"></i>
             <div
               v-if="!disabled"
               class="preview"
@@ -43,24 +33,9 @@ todo: 文件判断使用 serveWorker 优化性能
               <i class="el-icon-edit"></i>
             </div>
             <div class="control-bottom" v-if="sortable || preview">
-              <i
-                v-if="sortable && !disabled"
-                title="前移"
-                class="control-bottom-btn el-icon-back"
-                :class="{disabled: (i === 0)}"
-                @click.stop="move(item.id, -1)"></i>
-              <i
-                v-if="preview"
-                class="control-bottom-btn el-icon-view"
-                title="预览"
-                style="cursor: pointer;"
-                @click.stop="previewImg(item, i)"></i>
-              <i
-                v-if="sortable && !disabled"
-                title="后移"
-                class="control-bottom-btn el-icon-right"
-                :class="{disabled: (i === (itemList.length - 1))}"
-                @click.stop="move(item.id, 1)"></i>
+              <i v-if="sortable && !disabled" title="前移" class="control-bottom-btn el-icon-back" :class="{disabled: (i === 0)}" @click.stop="move(item.id, -1)"></i>
+              <i v-if="preview" class="control-bottom-btn el-icon-view" title="预览" style="cursor: pointer;" @click.stop="previewImg(item, i)"></i>
+              <i v-if="sortable && !disabled" title="后移" class="control-bottom-btn el-icon-right" :class="{disabled: (i === (itemList.length - 1))}" @click.stop="move(item.id, 1)"></i>
             </div>
           </div>
         </div>
@@ -78,13 +53,7 @@ todo: 文件判断使用 serveWorker 优化性能
         </div>
       </template>
     </template>
-    <input
-      class="upload-imgs__input"
-      type="file"
-      ref="input"
-      @change="handleChange"
-      :multiple="multiple"
-      :accept="accept" />
+    <input class="upload-imgs__input" type="file" ref="input" @change="handleChange" :multiple="multiple" :accept="accept" />
   </div>
 </template>
 
@@ -107,20 +76,35 @@ import {
  * @property {number} size 文件大小
  * @property {string} type 文件的媒体类型 (MIME)
  * @property {Date} lastModified 文件最后修改时间
+ * @property {boolean} isAnimated 是否是动态图, 如果不进行检测则为 null
  */
 
 /**
  * 返回数据对象
+ * 初始化的图片如果没有传入字段, 则值为空 null
  * @typedef {Object<string, number>} ReturnItem
- * @property {number|string} id 本地图像预览地址
- * @property {number|string} imgId 宽
+ * @property {number|string} id 初始化数据的 id
+ * @property {number|string} imgId 图像资源 id
  * @property {string} src 文件相对路径
- * @property {string} display 文件完整路径
+ * @property {string} display 图像完整地址
  * @property {number} height 高
  * @property {number} width 宽
  * @property {string} fileName 文件名
  * @property {string} fileType 文件的媒体类型 (MIME), 针对部分文件类型做了检测
  * @property {boolean} isAnimated 是否是动态图, 如果不进行检测则为 null
+ */
+
+/**
+ * 返回数据对象
+ * @typedef {Object} ValidateRule
+ * @property {array|number} ratio 比例 [宽，高], 或者 宽/高 的数值
+ * @property {number} width 宽度必需等于
+ * @property {number} height 高度必需等于
+ * @property {number} minWidth 最小宽
+ * @property {number} minHeight 最小高
+ * @property {number} minSize 最小 size（Mb)
+ * @property {number} maxSize 最大 size（Mb)
+ * @property {number} allowAnimated 是否允许上传动图, 0 不检测, 1 不允许动图, 2 只允许动图. 要检查此项, 需设置属性 animated-check 为 true
  */
 
 const ONE_KB = 1024
@@ -278,7 +262,9 @@ export default {
     /** 图像验证规则 */
     rules: {
       type: [Object, Function],
-      default: () => {},
+      default: () => ({
+        maxSize: 2,
+      }),
     },
     /** 是否禁用, 禁用后只可展示 不可进行编辑操作, 包括: 新增, 修改, 删除, 改变顺序 */
     disabled: {
@@ -387,7 +373,7 @@ export default {
           basicRule = {}
         }
       } else {
-        basicRule = rules
+        basicRule = rules || {}
       }
 
       // 宽高限制提示语
@@ -416,6 +402,15 @@ export default {
       // 文件大小
       if (basicRule.minSize || basicRule.maxSize) {
         tips.push(getRangeTip('文件大小', basicRule.minSize, basicRule.maxSize, 'Mb'))
+      }
+
+      // 是否动态图
+      if (basicRule.allowAnimated && basicRule.allowAnimated > 0) {
+        if (basicRule.allowAnimated === 1) {
+          tips.push('不允许上传动图')
+        } else if (basicRule.allowAnimated === 1) {
+          tips.push('只允许上传动图')
+        }
       }
 
       return tips
@@ -525,7 +520,7 @@ export default {
         // eslint-disable-next-line
         imgItem.display = res.url
         // eslint-disable-next-line
-        imgItem.src = res.url
+        imgItem.src = res.path
         // eslint-disable-next-line
         imgItem.imgId = res.id
         // eslint-disable-next-line
@@ -541,25 +536,20 @@ export default {
       if (this.beforeUpload && typeof this.beforeUpload === 'function') {
         if (typeof this.beforeUpload === 'function') {
           const result = await new Promise((resolve) => {
-            let a
+            let beforeUploadResult
             try {
-              a = this.beforeUpload(item, (data) => {
-                if (!data) {
-                  resolve(false)
-                } else {
-                  resolve(true)
-                }
+              beforeUploadResult = this.beforeUpload(item, (data) => {
+                resolve(!!data)
               })
             } catch (err) {
               resolve(false)
             }
             // promise 模式
-            if (a != null && typeof a.then === 'function') {
-              a.then((remoteData) => {
-                if (!remoteData) {
-                  resolve(false)
-                }
-                resolve(true)
+            if (beforeUploadResult != null && typeof beforeUploadResult.then === 'function') {
+              beforeUploadResult.then((remoteData) => {
+                resolve(!!remoteData)
+              }).catch(() => {
+                resolve(false)
               })
             }
           })
@@ -568,39 +558,34 @@ export default {
             return false
           }
         }
-
-        // 除 promise 和 函数回调外其他形式都不支持
-        this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
-        return false
       }
       // 如果是用户自定义方法
-      // 出于简化 api 的考虑, 只允许单个文件上传
+      // 出于简化 api 的考虑, 只允许单个文件上传, 不进行代理
       if (this.remoteFuc && typeof this.remoteFuc === 'function') {
-        return new Promise((resolve) => {
-          const a = this.remoteFuc(item.file, (data) => {
-            reduceResult(item, data)
-            if (!data) {
-              this.$message.error('执行自定义上传出错')
-              resolve(false)
-            } else {
-              resolve(item)
-            }
-          })
+        const result = await new Promise((resolve) => {
+          let remoteFucResult
+          try {
+            remoteFucResult = this.remoteFuc(item.file, (remoteData) => {
+              resolve(remoteData || false)
+            })
+          } catch (err) {
+            this.$message.error('执行自定义上传出错')
+            resolve(false)
+          }
           // promise 模式
-          if (a != null && typeof a.then === 'function') {
-            a.then((remoteData) => {
-              reduceResult(item, remoteData)
-              if (!remoteData) {
-                resolve(false)
-              }
-              resolve(item)
+          if (remoteFucResult != null && typeof remoteFucResult.then === 'function') {
+            remoteFucResult.then((remoteData) => {
+              resolve(remoteData || false)
+            }).catch(() => {
+              resolve(false)
             })
           }
         })
-
-        // 除 promise 和 函数回调外其他形式都不支持
-        this.$message.error('执行自定义上传出错, 检查远程方法是否是promise或者函数')
-        return false
+        reduceResult(item, result)
+        if (!result) {
+          return false
+        }
+        return item
       }
 
       // 使用内置上传
@@ -664,14 +649,15 @@ export default {
         /** @type {ReturnItem} */
         const val = {
           id: item.status === 'new' ? '' : item.id,
-          imgId: item.imgId,
-          src: item.src,
+          imgId: item.imgId || null,
+          src: item.src || null,
           display: item.display,
-          width: item.width,
-          height: item.height,
-          fileName: item.name,
-          fileType: item.type,
-          isAnimated: item.isAnimated,
+          width: item.width || null,
+          height: item.height || null,
+          fileSize: item.size || null,
+          fileName: item.name || null,
+          fileType: item.type || null,
+          isAnimated: item.isAnimated || null,
         }
         return val
       })
@@ -747,10 +733,11 @@ export default {
     },
     /**
      * 验证上传的图像是否符合要求
-     * @param {Object} 图像信息, 包括文件名, 宽高
+     * @param {LocalFileInfo} imgInfo 图像信息, 包括文件名, 宽高
      */
     async validateImg(imgInfo) {
       const { rules } = this
+      /** @type ValidateRule */
       let rule
       // 针对动态规则模式, 获取输入为空时的规则
       // 动态规则 rule 为函数, 当选择图片后根据选择的图片生成校验规则
@@ -763,6 +750,20 @@ export default {
       } else {
         rule = rules
       }
+
+      if (rule.allowAnimated && rule.allowAnimated > 0) {
+        if (imgInfo.isAnimated === null) {
+          this.$message.error('要进行是否动图验证需要配置 "animated-check" 属性为 true')
+        } else {
+          if (rule.allowAnimated === 1 && imgInfo.isAnimated) {
+            throw new Error(`"${imgInfo.name}"为动态图, 不允许上传`)
+          }
+          if (rule.allowAnimated === 2 && !imgInfo.isAnimated) {
+            throw new Error(`"${imgInfo.name}"为静态图, 只允许上传动态图`)
+          }
+        }
+      }
+
       // 宽高限制
       if (rule.width) {
         if (imgInfo.width !== rule.width) {
@@ -1017,6 +1018,10 @@ export default {
     clear() {
       this.initItemList([])
       this.getValue()
+    },
+    /** 重置图片数据传入属性 */
+    reset() {
+      this.initItemList(this.value)
     },
   },
 }

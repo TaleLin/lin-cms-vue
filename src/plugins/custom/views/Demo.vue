@@ -12,7 +12,6 @@
         <el-form-item label="禁用">
           <upload-imgs
             ref="uploadEle4"
-            :rules="rules2"
             :multiple="true"
             :disabled="true" />
           <div>
@@ -20,7 +19,7 @@
           </div>
         </el-form-item>
         <el-form-item label="动图检测示例">
-          <upload-imgs ref="uploadEle32" :rules="rules" :multiple="true" :animated-check="true" />
+          <upload-imgs ref="uploadEle32" :rules="rules2" :multiple="true" :animated-check="true" />
           <div>
             <el-button @click="getValue('uploadEle32')">获取当前图像数据</el-button>
           </div>
@@ -28,7 +27,7 @@
         <el-form-item label="禁用+初始化">
           <upload-imgs
             ref="uploadEle5"
-            :rules="rules2"
+            :rules="rules"
             :multiple="true"
             :disabled="true"
             :value="initData" />
@@ -62,7 +61,7 @@
         <el-form-item label="禁用+初始化+不预览">
           <upload-imgs
             ref="uploadEle7"
-            :rules="rules2"
+            :rules="rules"
             :multiple="true"
             :disabled="true"
             :value="initData"
@@ -74,7 +73,7 @@
         <el-form-item label="排序+固定数量">
           <upload-imgs
             ref="uploadEle8"
-            :rules="rules2"
+            :rules="rules"
             :multiple="true"
             :min-num="3"
             :max-num="3"
@@ -104,6 +103,7 @@
             :sortable="true" />
           <div>
             <el-button @click="changeData">重新初始化</el-button>
+            <el-button @click="doClear">清空</el-button>
             <el-button @click="getValue('uploadEle9')">获取当前图像数据</el-button>
           </div>
         </el-form-item>
@@ -178,6 +178,7 @@ export default {
       rules2: {
         minWidth: 100,
         maxWidth: 2000,
+        allowAnimated: 1,
       },
       initData1: [{
         id: '123',
@@ -234,6 +235,9 @@ export default {
       console.log(await this.$refs[name].getValue())
       // eslint-disable-next-line
       alert('已获取数据, 打印在控制台中')
+    },
+    doClear() {
+      this.$refs.uploadEle9.clear()
     },
     changeData() {
       this.initData1 = [{

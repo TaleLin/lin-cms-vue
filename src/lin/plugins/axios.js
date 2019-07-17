@@ -64,11 +64,11 @@ _axios.interceptors.request.use((originConfig) => {
     let hasFile = false
     Object.keys(reqConfig.data).forEach((key) => {
       if (typeof reqConfig.data[key] === 'object') {
-        let item = reqConfig.data[key]
+        const item = reqConfig.data[key]
         if (item instanceof FileList || item instanceof File || item instanceof Blob) {
           hasFile = true
         } else if (Object.prototype.toString.call(item) === '[object Object]') {
-          item = JSON.stringify(item)
+          reqConfig.data[key] = JSON.stringify(reqConfig.data[key])
         }
       }
     })
@@ -257,3 +257,6 @@ export function _delete(url, params = {}) {
     params,
   })
 }
+
+export default _axios
+
