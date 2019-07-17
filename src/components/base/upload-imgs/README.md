@@ -44,16 +44,20 @@ export default {
 
 新上传的图像会有完整的图像信息
 
-|    属性    |     类型      | 默认 |                    说明                    |
-| :--------: | :-----------: | :--: | :----------------------------------------: |
-|     id     | String/Nuber  | null |              初始化数据的 id               |
-|   imgId    | String/Number | null |                图像资源 id                 |
-|    src     |    String     | null |                图像相对地址                |
-|  display   |    String     | null |                图像完整地址                |
-|   width    |    Number     | null |                  图像宽度                  |
-|   height   |    Number     | null |                  图像高度                  |
-|    size    |    Number     | null |                  文件大小                  |
-| isAnimated |    Boolean    | null | 是否是动图, 只有开启动图检测, 本值才有意义 |
+|    属性    |     类型      | 默认 |                         说明                          |
+| :--------: | :-----------: | :--: | :---------------------------------------------------: |
+|     id     | String/Nuber  | null |                    初始化数据的 id                    |
+|   imgId    | String/Number | null |                      图像资源 id                      |
+|    src     |    String     | null |                     图像相对地址                      |
+|  display   |    String     | null |                     图像完整地址                      |
+|   width    |    Number     | null |                       图像宽度                        |
+|   height   |    Number     | null |                       图像高度                        |
+|  fileName  |    String     | null |                        文件名                         |
+|  fileSize  |     Numbr     | null |                       文件大小                        |
+|  fileType  |    String     | null |    文件的媒体类型 (MIME), 针对部分文件类型做了检测    |
+| isAnimated |    Boolean    | null | 是否是动图, 只有开启动图检测, 本值才有效, 否则为 null |
+
+**注意:** 以上字段只针对新上传的图片, 初始化的图片如果没有传入字段, 则值为空
 
 ## props
 
@@ -78,16 +82,16 @@ export default {
 
 图像验证规则属性 rule 支持的验证规则有:
 
-|     属性      |  类型  | 默认 |                                                 说明                                                  |
-| :-----------: | :----: | :--: | :---------------------------------------------------------------------------------------------------: |
-|     ratio     | Array  | null |                                             比例 [宽，高]                                             |
-|     width     | Number | null |                                             宽度必需等于                                              |
-|    height     | Number | null |                                             高度必需等于                                              |
-|   minWidth    | Number | null |                                                最小宽                                                 |
-|   minHeight   | Number | null |                                                最小高                                                 |
-|    minSize    | Number | null |                                            最小 size（Mb）                                            |
-|    maxSize    | Number | null |                                            最大 size（Mb）                                            |
-| allowAnimated | Number | null | 是否允许上传动图, 0 不检测, 1 不允许动图, 2 只允许动图. 要检查此项, 需设置属性 animated-check 为 true |
+|     属性      |     类型     | 默认 |                                                 说明                                                  |
+| :-----------: | :----------: | :--: | :---------------------------------------------------------------------------------------------------: |
+|     ratio     | Array/Number | null |                                   比例 [宽，高], 或者 宽/高 的数值                                    |
+|     width     |    Number    | null |                                             宽度必需等于                                              |
+|    height     |    Number    | null |                                             高度必需等于                                              |
+|   minWidth    |    Number    | null |                                                最小宽                                                 |
+|   minHeight   |    Number    | null |                                                最小高                                                 |
+|    minSize    |    Number    | null |                                            最小 size（Mb）                                            |
+|    maxSize    |    Number    | null |                                            最大 size（Mb）                                            |
+| allowAnimated |    Number    | null | 是否允许上传动图, 0 不检测, 1 不允许动图, 2 只允许动图. 要检查此项, 需设置属性 animated-check 为 true |
 
 默认值为 `{ maxSize: 2 }` 图片文件大小限制 2M 内. 这与 lin-cms 服务端文件上传接口默认限制一致
 
