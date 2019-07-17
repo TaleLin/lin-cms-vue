@@ -40,6 +40,33 @@ export default {
 </script>
 ```
 
+### 初始化说明
+
+初始化时传入数组, 如果初始化为空则传入空数组 `[]`, 如果已经存在内容, 内容结构要求如下:
+
+|  属性   |     类型      | 是否必填 |             说明              |
+| :-----: | :-----------: | :------: | :---------------------------: |
+|   id    | String/Nuber  |    否    | 初始化数据的 id, 推荐有该数据 |
+|  imgId  | String/Number |    否    |          图像资源 id          |
+|   src   |    String     |    否    |         图像相对地址          |
+| display |    String     |    是    |    图像完整地址, 用于展示     |
+
+示例:
+
+```js
+const initData = [{
+  id: '12d3',
+  display: 'http://img-home.7yue.pro/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
+  src: '/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
+  imgId: '238287',
+}, {
+  id: '17qr',
+  display: 'http://img-home.7yue.pro/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
+  src: '/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
+  imgId: '1232323',
+}];
+```
+
 ### 返回值说明
 
 新上传的图像会有完整的图像信息
