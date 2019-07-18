@@ -259,4 +259,3 @@ export function _delete(url, params = {}) {
 }
 
 export default _axios
-
