@@ -12,6 +12,13 @@
 <script>
 export default {
   name: 'AppMain',
+  watch: {
+    $route() {
+      if (this.$previewInstance) {
+        this.$previewInstance.destroy()
+      }
+    },
+  },
 }
 </script>
 

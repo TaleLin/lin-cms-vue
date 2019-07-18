@@ -51,7 +51,7 @@ export default {
 .lin-search /deep/ .el-input__inner {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-   border-right: none;
+  border-right: none;
   width: 150px;
   transition: all 0.2s linear;
 

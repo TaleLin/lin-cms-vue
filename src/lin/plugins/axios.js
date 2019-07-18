@@ -3,7 +3,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import Config from '@/config'
 import store from '@/store'
-import { getToken } from '@/lin/utils/cookie'
+import { getToken } from '@/lin/utils/token'
 import User from '@/lin/models/user'
 
 
@@ -64,9 +64,10 @@ _axios.interceptors.request.use((originConfig) => {
     let hasFile = false
     Object.keys(reqConfig.data).forEach((key) => {
       if (typeof reqConfig.data[key] === 'object') {
-        if (reqConfig.data[key] instanceof FileList || reqConfig.data[key] instanceof File || reqConfig.data[key] instanceof Blob) {
+        const item = reqConfig.data[key]
+        if (item instanceof FileList || item instanceof File || item instanceof Blob) {
           hasFile = true
-        } else if (reqConfig.data[key].constructor === Object)  {
+        } else if (Object.prototype.toString.call(item) === '[object Object]') {
           reqConfig.data[key] = JSON.stringify(reqConfig.data[key])
         }
       }
@@ -258,4 +259,3 @@ export function _delete(url, params = {}) {
 }
 
 export default _axios
-

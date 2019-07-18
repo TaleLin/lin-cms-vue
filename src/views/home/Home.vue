@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       isCollapse: false, // 左侧菜单栏是否折叠
-      sideBarWidth: '170px', // 左侧菜单栏展开的宽度
+      sideBarWidth: '175px', // 左侧菜单栏展开的宽度
       clientWidth: 0, // 页面宽度
       clientHeight: 0, // 页面高度
       foldState: false, // 控制左侧菜单栏按键
@@ -97,7 +97,7 @@ export default {
   },
   watch: {
     isCollapse() {
-      this.sideBarWidth = this.isCollapse === false ? '170px' : '64px'
+      this.sideBarWidth = this.isCollapse === false ? '175px' : '64px'
     },
     $route() {
       this.showBackTop = false

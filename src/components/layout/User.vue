@@ -282,7 +282,7 @@ export default {
           method: 'put',
           url: '/cms/user/avatar',
           data: {
-            avatar: res[0].url,
+            avatar: res[0].path,
           },
         }).then((res) => { // eslint-disable-line
           if (res.error_code === 0) {
@@ -292,7 +292,6 @@ export default {
             })
             this.cropVisible = false
             // 触发重新获取用户信息
-            // this.$store.dispatch()
             return User.getInformation()
           }
           return Promise.reject(new Error('更新头像失败'))
@@ -367,6 +366,7 @@ export default {
 }
 
 .user {
+  height: 40px;
   .el-dropdown-link {
     cursor: pointer;
 

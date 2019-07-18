@@ -3,18 +3,14 @@
     <div class="header">
       <div class="title">用户列表</div>
       <!-- 分组选择下拉框 -->
-      <el-dropdown @command="handleCommand">
-        <el-button>
-          {{groupType}}
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item :command="[undefined,'全部分组']">全部分组</el-dropdown-item>
-          <el-dropdown-item v-for="(group, index) in groups" :key="index" :command="[group.id,group.name]">
-            {{group.name}}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <el-select  size="medium" filterable v-model="group_id" placeholder="请选择分组" @change="handleChange" clearable>
+        <el-option
+          v-for="(group, index) in groups"
+          :key="index"
+          :label="group.name"
+          :value="group.id">
+        </el-option>
+      </el-select>
     </div>
     <!-- 表格 -->
     <lin-table
@@ -94,9 +90,9 @@ export default {
       tableColumn: [], // 表头数据
       operate: [], // 表格按键操作区
       dialogFormVisible: false, // 控制弹窗显示
+      selectGroup: '', // 选中的分组Id
       groups: [], // 所有分组
       group_id: undefined,
-      groupType: '全部分组', // select下拉框分组种类
       activeTab: '修改信息',
       form: { // 表单信息
         nickname: '',
@@ -153,8 +149,7 @@ export default {
       this.dialogFormVisible = true
     },
     // 下拉框选择分组
-    async handleCommand(group) {
-      [this.group_id, this.groupType] = group
+    async handleChange() {
       this.currentPage = 1
       this.loading = true
       await this.getAdminUsers()
@@ -294,7 +289,7 @@ export default {
 
 .info {
   margin-left: -55px;
-  margin-bottom: -40px;
+  margin-bottom: -30px;
 }
 
 .password {

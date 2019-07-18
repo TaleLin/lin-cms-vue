@@ -8,7 +8,7 @@
         </div>
         <el-row>
           <el-col :span="12">
-            <el-input placeholder="请输入内容" size="medium"></el-input>
+            <el-input placeholder="请输入内容" size="medium" v-model="input1"></el-input>
           </el-col>
         </el-row>
         <el-collapse>
@@ -40,12 +40,12 @@
         </div>
         <el-row>
           <el-col :span="12">
-            <el-input placeholder="请输入内容" size="medium" suffix-icon="el-icon-edit"></el-input>
+            <el-input placeholder="请输入内容" size="medium" suffix-icon="el-icon-edit" v-model="input2"></el-input>
           </el-col>
         </el-row>
            <el-row style="margin-top:20px">
           <el-col :span="12">
-            <el-input placeholder="请输入内容" size="medium" prefix-icon="el-icon-search"></el-input>
+            <el-input placeholder="请输入内容" size="medium" prefix-icon="el-icon-search" v-model="input3"></el-input>
           </el-col>
             </el-row>
         <el-collapse>
@@ -61,14 +61,14 @@
         </div>
         <el-row>
           <el-col :span="12">
-            <el-input placeholder="请输入内容" size="medium">
+            <el-input placeholder="请输入内容" size="medium" v-model="input4">
               <template slot="prepend">Http://</template>
             </el-input>
           </el-col>
         </el-row>
         <el-row style="margin-top:20px;margin-bottom:20px;">
           <el-col :span="12">
-            <el-input placeholder="请输入内容" size="medium">
+            <el-input placeholder="请输入内容" size="medium" v-model="input5">
               <template slot="append">.com</template>
             </el-input>
           </el-col>
@@ -77,7 +77,7 @@
           <el-col>
             <el-col :span="12">
               <el-input v-model="input" placeholder="请输入内容" size="medium" class="input-with-select">
-                <el-select v-model="select" size="medium" slot="prepend" placeholder="请选择">
+                <el-select v-model="select" slot="prepend" placeholder="请选择">
                   <el-option label="餐厅名" value="1"></el-option>
                   <el-option label="订单号" value="2"></el-option>
                   <el-option label="用户电话" value="3"></el-option>
@@ -100,16 +100,16 @@
         </div>
         <el-row :gutter="20">
           <el-col :span="6">
-            <el-input placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
+            <el-input placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input6"></el-input>
           </el-col>
           <el-col :span="6">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
+            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input7"></el-input>
           </el-col>
            <el-col :span="6">
-            <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
+            <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input8"></el-input>
              </el-col>
                <el-col :span="6">
-            <el-input size="mini" placeholder="请输入内容" suffix-icon="el-icon-date" ></el-input>
+            <el-input size="mini" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input9"></el-input>
           </el-col>
         </el-row>
         <el-collapse>
@@ -128,26 +128,34 @@ export default {
   components: {},
   data() {
     return {
-      text: '',
       input: '',
+      input1: '',
+      input2: '',
+      input3: '',
+      input4: '',
+      input5: '',
+      input6: '',
+      input7: '',
+      input8: '',
+      input9: '',
       select: '',
       base: `
-        <el-input placeholder="请输入内容" size="medium"></el-input>`,
+        <el-input placeholder="请输入内容" size="medium" v-model="input"></el-input>`,
       disabled: `
         <el-input placeholder="禁止输入" size="medium" disabled></el-input>`,
       icon: `
-        <el-input placeholder="请选择日期" size="medium" suffix-icon="el-icon-date"></el-input>
-        <el-input placeholder="请输入内容" size="medium" prefix-icon="el-icon-search"></el-input>`,
+        <el-input placeholder="请选择日期" size="medium" suffix-icon="el-icon-date" v-model="input"></el-input>
+        <el-input placeholder="请输入内容" size="medium" prefix-icon="el-icon-search" v-model="input"></el-input>`,
       complex: `
-        <el-input placeholder="请输入内容" size="medium">
+        <el-input placeholder="请输入内容" size="medium" v-model="input">
             <template slot="prepend">Http://</template>
         </el-input>
        
-        <el-input placeholder="请输入内容" size="medium">
+        <el-input placeholder="请输入内容" size="medium" v-model="input">
             <template slot="append">.com</template>
         </el-input>
         
-        <el-input placeholder="请输入内容" size="medium" class="input-with-select">
+        <el-input placeholder="请输入内容" size="medium" class="input-with-select" v-model="input">
             <el-select size="medium" slot="prepend" placeholder="请选择">
                 <el-option label="餐厅名" value="1"></el-option>
                 <el-option label="订单号" value="2"></el-option>
@@ -165,10 +173,10 @@ export default {
             border-right: none;
         }`,
       size: `
-        <el-input placeholder="请输入内容" suffix-icon="el-icon-date"></el-input>
-        <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date"></el-input>
-        <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date"></el-input>
-        <el-input size="mini" placeholder="请输入内容" suffix-icon="el-icon-date"></el-input>`,
+        <el-input placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input"></el-input>
+        <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input"></el-input>
+        <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input"></el-input>
+        <el-input size="mini" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input"></el-input>`,
     }
   },
   // 计算属性设置
