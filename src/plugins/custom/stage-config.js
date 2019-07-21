@@ -29,7 +29,7 @@ const CustomRouter = {
       right: null,
     },
     {
-      title: 'tinymce 富文本',
+      title: '富文本',
       type: 'view',
       name: 'Tinymce',
       route: '/custom/tinymce',

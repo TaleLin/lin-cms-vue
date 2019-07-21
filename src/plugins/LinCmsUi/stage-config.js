@@ -295,6 +295,26 @@ const LinCmsUiRouter = {
           icon: 'iconfont icon-jiemiansheji',
           right: null,
         },
+        {
+          title: 'Cascader 级联选择器',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/cascader',
+          filePath: 'plugins/LinCmsUi/views/form/Cascader.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
+        {
+          title: 'Slider 滑块',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/form/slider',
+          filePath: 'plugins/LinCmsUi/views/form/Slider.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+          right: null,
+        },
       ],
     },
     {
@@ -333,6 +353,16 @@ const LinCmsUiRouter = {
           name: null,
           route: '/lin-cms-ui/notice/notification',
           filePath: 'plugins/LinCmsUi/views/notice/Notification.vue',
+          inNav: true,
+          icon: 'iconfont icon-jiemiansheji',
+
+        },
+        {
+          title: 'Loading 加载',
+          type: 'view',
+          name: null,
+          route: '/lin-cms-ui/notice/loading',
+          filePath: 'plugins/LinCmsUi/views/notice/Loading.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
 

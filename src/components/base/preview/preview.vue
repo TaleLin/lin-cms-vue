@@ -54,6 +54,7 @@
 <script>
 // photoswipe接口文档 http://photoswipe.com/documentation/api.html
 
+import { Loading } from 'element-ui'
 import 'photoswipe/dist/photoswipe.css'
 import 'photoswipe/dist/default-skin/default-skin.css'
 import PhotoSwipe from 'photoswipe/dist/photoswipe'
@@ -124,6 +125,7 @@ export default {
       options = Object.assign(defaultOptions, options, {
         index: imageIndex,
       })
+      const loadingInstance = Loading.service()
       const galleryElement = this.$refs.myGallery
       this.radom = createId();
       let pswpElement = this.$refs.pswpWrap
@@ -144,6 +146,7 @@ export default {
       }
       this.gallery = new PhotoSwipe(pswpElement, PhotoSwipeUIDefault, items, photoSwipeOptions)
       this.gallery.init()
+      loadingInstance.close()
       // Gallery starts closing
       this.gallery.listen('close', () => {
         if (this.gallery) {
@@ -211,19 +214,23 @@ export default {
       }
       return items
     },
+    destroy() {
+      // 销毁
+      if (this.gallery) {
+        this.gallery.close();
+        this.gallery = null
+      }
+    },
   },
   beforeDestroy() {
-    // 销毁
-    if (this.gallery) {
-      this.gallery.close();
-      this.gallery = null
-    }
+    this.destroy()
   },
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .my-gallery {
   opacity: 0;
+  display: none;
 }
 </style>
