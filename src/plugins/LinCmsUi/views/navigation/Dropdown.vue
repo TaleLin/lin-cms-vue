@@ -461,10 +461,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/style/container';
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-}
 .el-icon-arrow-down {
   font-size: 12px;
 }
@@ -474,34 +470,10 @@ export default {
 .el-dropdown + .el-dropdown {
   margin-left: 15px;
 }
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-}
-.el-icon-arrow-down {
-  font-size: 12px;
-}
 .demonstration {
   display: block;
   color: #8492a6;
   font-size: 14px;
   margin-bottom: 20px;
-}
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-}
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-}
-.el-icon-arrow-down {
-  font-size: 12px;
 }
 </style>
