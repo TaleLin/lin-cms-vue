@@ -107,27 +107,20 @@ export default {
       toolbar: this.toolbar,
       // eslint-disable-next-line
       images_upload_handler: async function(blobInfo, success, failure) {
-        // eslint-disable-next-line
-        let json
-        const xhr = new XMLHttpRequest()
-        xhr.withCredentials = false
-        xhr.open('POST', `${_this.upload_url}`)
-        // eslint-disable-next-line
-        xhr.onload = function() {
-          if (xhr.status !== 200) {
-            failure(`HTTP Error: ${xhr.status}`)
-            return
+        const file = new File([blobInfo.blob()], blobInfo.filename(), {
+          type: 'image/*',
+        })
+        _this.$axios({
+          method: 'post',
+          url: '/cms/file/',
+          data: {
+            file,
+          },
+        }).then((res) => {
+          if (res[0] && res[0].url) {
+            success(res[0].url)
           }
-          json = JSON.parse(xhr.responseText)
-          if (json[0] && json[0].url) {
-            success(json[0].url)
-          } else {
-            failure(`Invalid JSON: ${xhr.responseText}`)
-          }
-        }
-        const formData = new FormData()
-        formData.append('file', blobInfo.blob(), blobInfo.filename())
-        xhr.send(formData)
+        }).catch(err => failure(err))
       },
     }
   },
