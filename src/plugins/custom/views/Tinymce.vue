@@ -8,6 +8,7 @@
 </template>
 
 <script>
+
 import Tinymce from '@/components/base/tinymce'
 
 export default {
