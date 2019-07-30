@@ -1,5 +1,12 @@
 import adminConfig from './admin'
 import bookConfig from './book' // 引入图书管理路由文件
+import specConfig from './spec'
+import bannerConfig from './banner'
+import brandConfig from './brand'
+import categoryConfig from './category'
+import staticsConfig from './statics'
+import spuConfig from './spu'
+import skuConfig from './sku'
 import pluginsConfig from './plugins'
 import Utils from '@/lin/utils/util'
 
@@ -36,6 +43,13 @@ let homeRouter = [
     icon: 'iconfont icon-rizhiguanli',
   },
   bookConfig,
+  specConfig,
+  bannerConfig,
+  brandConfig,
+  categoryConfig,
+  staticsConfig,
+  spuConfig,
+  skuConfig,
   adminConfig,
 ]
 

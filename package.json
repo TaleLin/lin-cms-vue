@@ -16,7 +16,7 @@
     "@babel/polyfill": "^7.2.5",
     "@tinymce/tinymce-vue": "^2.1.0",
     "axios": "~0.18.0",
-    "element-ui": "^2.8.2",
+    "element-ui": "^2.11.0",
     "event-source-polyfill": "^0.0.16",
     "fastscan": "^1.0.4",
     "good-storage": "^1.1.0",
