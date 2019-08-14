@@ -4,6 +4,7 @@ import axios from 'axios'
 import Config from '@/config'
 import store from '@/store'
 import { getToken } from '@/lin/utils/token'
+// eslint-disable-next-line import/no-cycle
 import User from '@/lin/models/user'
 
 
