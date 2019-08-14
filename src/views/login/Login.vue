@@ -29,9 +29,9 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
 import User from '@/lin/models/user'
 import Utils from '@/lin/utils/util'
-import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'login',

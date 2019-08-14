@@ -80,9 +80,8 @@
 </template>
 
 <script>
-import Utils from '@/lin/utils/util'
-/* eslint-disable no-restricted-syntax */
 import { mapGetters } from 'vuex'
+import Utils from '@/lin/utils/util'
 
 export default {
   props: ['isCollapse'],
