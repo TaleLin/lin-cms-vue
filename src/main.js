@@ -7,6 +7,7 @@ import '@/lin/filter'
 import '@/lin/plugins'
 import '@/lin/directives'
 
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import router from '@/router'
 import store from '@/store'
 import App from '@/App.vue'
@@ -15,10 +16,10 @@ import StickyTop from '@/components/base/sticky-top/sticky-top'
 import LIcon from '@/components/base/icon/lin-icon'
 import SourceCode from '@/components/base/source-code/source-code'
 
-import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 
 import '@/assets/styles/index.scss' // eslint-disable-line
 import '@/assets/styles/realize/element-variables.scss'
+import 'element-ui/lib/theme-chalk/display.css'
 
 Vue.config.productionTip = false
 
