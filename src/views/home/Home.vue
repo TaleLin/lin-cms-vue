@@ -43,6 +43,7 @@ import {
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
 const marginHeight = 20 // 历史记录栏与舞台的间距
+const sideBarWidth = '190px'
 const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {
@@ -50,7 +51,7 @@ export default {
   data() {
     return {
       isCollapse: false, // 左侧菜单栏是否折叠
-      sideBarWidth: '175px', // 左侧菜单栏展开的宽度
+      sideBarWidth, // 左侧菜单栏展开的宽度
       clientWidth: 0, // 页面宽度
       clientHeight: 0, // 页面高度
       foldState: false, // 控制左侧菜单栏按键
@@ -84,6 +85,11 @@ export default {
     // 控制菜单折叠
     changeSlidebarState() {
       this.isCollapse = !this.isCollapse
+      if (this.isCollapse) {
+        this.eventBus.$emit('removeSidebarSearch')
+      } else {
+        this.eventBus.$emit('showSidebarSearch')
+      }
       this.foldState = !this.foldState
     },
     // 响应页面的宽度高度变化
@@ -97,7 +103,7 @@ export default {
   },
   watch: {
     isCollapse() {
-      this.sideBarWidth = this.isCollapse === false ? '175px' : '64px'
+      this.sideBarWidth = this.isCollapse === false ? sideBarWidth : '64px'
     },
     $route() {
       this.showBackTop = false
