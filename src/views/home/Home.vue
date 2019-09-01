@@ -66,9 +66,11 @@ export default {
       if (_this.clientWidth <= 768) {
         // 页面宽度 768
         if (_this.isCollapse === false) {
+          _this.eventBus.$emit('removeSidebarSearch')
           _this.isCollapse = true
         }
       } else if (_this.isCollapse === true) {
+        _this.eventBus.$emit('showSidebarSearch')
         _this.isCollapse = false
       }
     }
