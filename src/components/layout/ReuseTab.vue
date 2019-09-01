@@ -97,6 +97,9 @@ export default {
   },
   mounted() {
     this.init()
+    this.eventBus.$on('clearTap', () => {
+      this.histories = []
+    })
   },
   methods: {
     init() {
