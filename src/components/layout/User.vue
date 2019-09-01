@@ -106,9 +106,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import User from '@/lin/models/user'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
+import User from '@/lin/models/user'
 import 'vue-croppa/dist/vue-croppa.css'
 import defaultAvatar from '@/assets/img/user/user.png'
 

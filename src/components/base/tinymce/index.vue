@@ -3,22 +3,12 @@
     <editor id="tinymceEditor" :init="tinymceInit" v-model="content" :key="tinymceFlag"></editor>
   </div>
 </template>
-
 <script>
 // eslint-disable-next-line
 import tinymce from 'tinymce/tinymce'
 import Editor from '@tinymce/tinymce-vue'
 import 'tinymce/themes/silver/theme'
-import 'tinymce/plugins/textcolor'
-import 'tinymce/plugins/advlist'
-import 'tinymce/plugins/table'
-import 'tinymce/plugins/lists'
-import 'tinymce/plugins/paste'
-import 'tinymce/plugins/preview'
-import 'tinymce/plugins/fullscreen'
-import 'tinymce/plugins/image'
-import 'tinymce/plugins/code'
-import 'tinymce/plugins/link'
+import './importAll'
 
 export default {
   name: 'TinymceEditor',
@@ -38,6 +28,11 @@ export default {
     showMenubar: {
       type: Boolean,
       default: true,
+    },
+    toolbar: {
+      type: String,
+      // eslint-disable-next-line
+      default: ' undo redo |formatselect | bold italic strikethrough forecolor backcolor formatpainter | link image | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat | preview fullscreen code',
     },
   },
   components: {
@@ -64,32 +59,25 @@ export default {
       statusbar: false, // 隐藏编辑器底部的状态栏
       paste_data_images: true, // 允许粘贴图像
       menubar: this.showMenubar, // 隐藏最上方menu
-      plugins: 'advlist table lists paste preview fullscreen image code link',
       // eslint-disable-next-line
-      toolbar:' undo redo |fontselect fontsizeselect forecolor backcolor bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | link image | h1 h2 h3 blockquote table numlist bullist | preview fullscreen code',
+      plugins: 'print fullpage searchreplace autolink directionality visualblocks visualchars template codesample charmap hr pagebreak nonbreaking anchor toc insertdatetime wordcount textpattern help advlist table lists paste preview fullscreen image imagetools code link',
+      toolbar: this.toolbar,
       // eslint-disable-next-line
       images_upload_handler: async function(blobInfo, success, failure) {
-        // eslint-disable-next-line
-        let json
-        const xhr = new XMLHttpRequest()
-        xhr.withCredentials = false
-        xhr.open('POST', `${_this.upload_url}`)
-        // eslint-disable-next-line
-        xhr.onload = function() {
-          if (xhr.status !== 200) {
-            failure(`HTTP Error: ${xhr.status}`)
-            return
+        const file = new File([blobInfo.blob()], blobInfo.filename(), {
+          type: 'image/*',
+        })
+        _this.$axios({
+          method: 'post',
+          url: '/cms/file/',
+          data: {
+            file,
+          },
+        }).then((res) => {
+          if (res[0] && res[0].url) {
+            success(res[0].url)
           }
-          json = JSON.parse(xhr.responseText)
-          if (json[0] && json[0].url) {
-            success(json[0].url)
-          } else {
-            failure(`Invalid JSON: ${xhr.responseText}`)
-          }
-        }
-        const formData = new FormData()
-        formData.append('file', blobInfo.blob(), blobInfo.filename())
-        xhr.send(formData)
+        }).catch(err => failure(err))
       },
     }
   },
