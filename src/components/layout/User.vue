@@ -335,6 +335,11 @@ export default {
             this.$message.success(`${res.msg}`)
             this.resetForm(formName)
             this.dialogFormVisible = false
+            setTimeout(() => {
+              this.loginOut()
+              const { origin } = window.location
+              window.location.href = origin
+            }, 1000)
           }
         } else {
           console.log('error submit!!')
