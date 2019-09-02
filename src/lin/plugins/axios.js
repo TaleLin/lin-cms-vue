@@ -15,7 +15,7 @@ import User from '@/lin/models/user'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 const config = {
-  baseURL: Config.baseURL || process.env.apiUrl || '',
+  baseURL: Config.baseUrl || process.env.apiUrl || '',
   timeout: 5 * 1000, // 请求超时时间设置
   crossDomain: true,
   // withCredentials: true, // Check cross-site Access-Control
@@ -88,7 +88,6 @@ _axios.interceptors.request.use((originConfig) => {
     /* eslint-disable-next-line */
     console.warn(`其他请求类型: ${reqConfig.method}, 暂无自动处理`)
   }
-
   // step2: auth 处理
   if (reqConfig.url === 'cms/user/refresh') {
     const refreshToken = getToken('refresh_token')
