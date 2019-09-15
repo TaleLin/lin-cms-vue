@@ -174,7 +174,7 @@ export default {
           this.users = await log.getLoggedUsers({})
         }
         const res = await log.getLogs({ page: 0 })
-        this.logs = res.collection
+        this.logs = res.items
       } catch (err) {
         console.error(err)
       }
@@ -194,8 +194,8 @@ export default {
         end: this.searchDate[1],
       })
       if (res) {
-        let logs = res.collection
-        this.totalCount = res.total_nums
+        let logs = res.items
+        this.totalCount = res.total
         if (this.searchKeyword) {
           logs = await searchLogKeyword(this.searchKeyword, logs)
         }
@@ -216,7 +216,7 @@ export default {
         res = await log.moreLogPage()
       }
       if (res) {
-        let moreLogs = res.collection
+        let moreLogs = res.items
         if (this.isSearch && this.searchKeyword) {
           moreLogs = await searchLogKeyword(this.searchKeyword, moreLogs)
         }
