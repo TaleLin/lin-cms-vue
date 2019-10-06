@@ -1,12 +1,12 @@
 {
   "name": "lin-cms",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "serve": "node script/plugin-get-config.js && vue-cli-service serve",
     "build": "node script/plugin-get-config.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "commitizen": "commitizen init cz-conventional-changelog --save-dev --save-exact",
+    "commit": "commitizen init cz-conventional-changelog --save-dev --save-exact",
     "plugin-init": "node script/plugin-init.js",
     "plugin-new": "node script/plugin-new.js",
     "plugin-reconfig": "node script/plugin-get-config.js",

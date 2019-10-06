@@ -20,10 +20,14 @@
             </label>
           </div>
           <div class="text">
-            <div class="username">{{ nickname }}</div>
-            <div class="desc">{{ title }}</div>
+            <div class="username">佚名</div>
           </div>
           <img src="../../assets/img/user/corner.png" class="corner">
+          <div class="info">
+            <div class="username">{{ username }}</div>
+            <div class="mid">|</div>
+            <div class="desc">{{ title }}</div>
+          </div>
         </div>
         <ul class="dropdown-box">
           <li class="password" @click="changePassword">
@@ -150,7 +154,7 @@ export default {
       }
     }
     return {
-      nickname: null,
+      username: null,
       dialogFormVisible: false,
       form: {
         old_password: '',
@@ -304,7 +308,7 @@ export default {
     },
     init() {
       const { user } = this.$store.state
-      this.nickname = user ? user.nickname : '未登录'
+      this.username = user ? user.username : '未登录'
     },
     changePassword() {
       this.dialogFormVisible = true
@@ -463,6 +467,21 @@ export default {
       .desc {
         font-size: 14px;
         color: rgba(222, 226, 230, 1);
+      }
+    }
+
+    .info {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      display: flex;
+      color: #fff;
+      font-size: 14px;
+      height: 20px;
+      line-height: 20px;
+
+      .mid {
+        padding: 0 5px;
       }
     }
   }

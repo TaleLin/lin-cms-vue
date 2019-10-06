@@ -15,7 +15,7 @@ import User from '@/lin/models/user'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 const config = {
-  baseURL: Config.baseUrl || process.env.apiUrl || '',
+  baseURL: Config.baseURL || process.env.apiUrl || '',
   timeout: 5 * 1000, // 请求超时时间设置
   crossDomain: true,
   // withCredentials: true, // Check cross-site Access-Control
@@ -115,18 +115,8 @@ _axios.interceptors.response.use(async (res) => {
     return res.data
   }
   return new Promise(async (resolve, reject) => {
-    // 将本次失败请求保存
-    const { params, url, method } = res.config
-    store.commit('SET_REFERSH_OPTION', {
-      params,
-      url,
-      method,
-    })
-    // 用户自己try catch
-    if (params.handleError) {
-      reject(res)
-      return
-    }
+    const { params, url } = res.config
+
     // 处理 API 异常
     if (error_code === 10000 || error_code === 10100) {
       setTimeout(() => {
@@ -139,15 +129,20 @@ _axios.interceptors.response.use(async (res) => {
     }
     // 令牌相关，刷新令牌
     if (error_code === 10040 || error_code === 10050) {
-      // TODO: 重试一次，待优化
       const cache = {}
       if (cache.url !== url) {
         cache.url = url
         await User.getRefreshToken()
-        const result = await _axios(store.state.refreshOptions)
+        // 将上次失败请求重发
+        const result = await _axios(res.config)
         resolve(result)
         return
       }
+    }
+    // 用户自己try catch
+    if (params && params.handleError) {
+      reject(res)
+      return
     }
     const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
     // 匹配到自定义的错误码
