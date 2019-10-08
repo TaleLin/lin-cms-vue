@@ -10,24 +10,28 @@ const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
 
 export default class User {
+  // 当前用户是否在激活状态
   isActive = null
 
-  // 当前用户是否在激活状态
+  // 邮箱
   email = null
 
-  // 邮箱
+  // 权限分组id
   groupId = null
 
-  // 权限分组id
+  // 用户名
   username = null
 
-  // 昵称
+  // 是否为超级管理员
   isSuper = null
 
-  // 是否为超级管理员
-  auths = [] // 拥有的权限
+  // 拥有的权限
+  auths = []
 
-  constructor(active, email, groupId, username, _super, avatar, auths) {
+  // 昵称
+  nickname = null
+
+  constructor(active, email, groupId, username, _super, avatar, auths, nickname) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
@@ -35,6 +39,7 @@ export default class User {
     this.avatar = avatar
     this.isSuper = _super === SUPER_VALUE
     this.auths = auths || []
+    this.nickname = nickname
   }
 
   /**
@@ -64,7 +69,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.nickname)
   }
 
   /**
@@ -72,7 +77,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname)
   }
 
   /**

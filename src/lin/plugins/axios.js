@@ -5,14 +5,7 @@ import Config from '@/config'
 import ErrorCode from '@/config/error-code'
 import store from '@/store'
 import { getToken } from '@/lin/utils/token'
-// eslint-disable-next-line import/no-cycle
 import User from '@/lin/models/user'
-
-
-// Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || ''
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 const config = {
   baseURL: Config.baseURL || process.env.apiUrl || '',
@@ -111,13 +104,14 @@ _axios.interceptors.request.use((originConfig) => {
 // Add a response interceptor
 _axios.interceptors.response.use(async (res) => {
   let { error_code, msg } = res.data  // eslint-disable-line
+  let message = '' // 错误提示
   if (res.status.toString().charAt(0) === '2') {
     return res.data
   }
   return new Promise(async (resolve, reject) => {
     const { params, url } = res.config
 
-    // 处理 API 异常
+    // refresh_token 异常，直接登出
     if (error_code === 10000 || error_code === 10100) {
       setTimeout(() => {
         store.dispatch('loginOut')
@@ -139,25 +133,31 @@ _axios.interceptors.response.use(async (res) => {
         return
       }
     }
-    // 用户自己try catch
+    // 本次请求添加 params 参数：handleError 为 true，用户自己try catch，框架不做处理
     if (params && params.handleError) {
       reject(res)
       return
     }
-    const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
-    // 匹配到自定义的错误码
-    if (errorArr.length > 0) {
-      if (errorArr[0][1] !== '') {
-        msg = errorArr[0][1] // eslint-disable-line
-      } else {
-        msg = ErrorCode['777']
+    console.log('msg', msg)
+    // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
+    if (params && params.showBackend) {
+      [message] = msg
+    } else { // 弹出前端自定义错误信息
+      const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
+      // 匹配到前端自定义的错误码
+      if (errorArr.length > 0) {
+        if (errorArr[0][1] !== '') {
+          message = errorArr[0][1] // eslint-disable-line
+        } else {
+          message = ErrorCode['777']
+        }
       }
     }
     Vue.prototype.$message({
-      message: msg,
+      message,
       type: 'error',
     })
-    resolve(null)
+    resolve(res.data)
   })
 }, (error) => {
   if (!error.response) {

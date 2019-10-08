@@ -12,15 +12,18 @@
             <img :src="user.avatar || defaultAvatar" alt="头像">
             <label class="mask">
               <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
-              <input
-                ref="avatarInput"
-                type="file"
-                accept="image/*"
-                @change="fileChange" />
+              <input ref="avatarInput" type="file" accept="image/*" @change="fileChange" />
             </label>
           </div>
           <div class="text">
-            <div class="username">佚名</div>
+            <div class="username" @click="changeNickname" v-if="!nicknameChanged">{{ nickname }}</div>
+            <el-input
+              placeholder="请输入内容"
+              size="small"
+              v-else
+              v-model="nickname"
+              ref="input"
+              @blur="blur"></el-input>
           </div>
           <img src="../../assets/img/user/corner.png" class="corner">
           <div class="info">
@@ -156,6 +159,8 @@ export default {
     return {
       username: null,
       dialogFormVisible: false,
+      nicknameChanged: false,
+      nickname: null,
       form: {
         old_password: '',
         new_password: '',
@@ -306,9 +311,46 @@ export default {
         })
       })
     },
+    changeNickname() {
+      this.nicknameChanged = true
+      setTimeout(() => {
+        this.$refs.input.focus()
+      }, 200)
+    },
+    async blur() {
+      if (this.nickname) {
+        const { user } = this.$store.state
+        if (this.nickname !== user.nickname && this.nickname !== '佚名') {
+          this.$axios({
+            method: 'put',
+            url: '/cms/user',
+            data: {
+              nickname: this.nickname,
+            },
+            params: {
+              showBackend: true,
+            },
+          }).then((res) => {
+            if (res.error_code === 0) {
+              this.$message({
+                type: 'success',
+                message: '更新昵称成功',
+              })
+              // 触发重新获取用户信息
+              return User.getInformation()
+            }
+            this.nickname = user.nickname
+          }).then((res) => { // eslint-disable-line
+            this.setUserAndState(res)
+          })
+        }
+      }
+      this.nicknameChanged = false
+    },
     init() {
       const { user } = this.$store.state
       this.username = user ? user.username : '未登录'
+      this.nickname = user && user.nickname ? user.nickname : '佚名'
     },
     changePassword() {
       this.dialogFormVisible = true
@@ -376,6 +418,7 @@ export default {
 
 .user {
   height: 40px;
+
   .el-dropdown-link {
     cursor: pointer;
 
@@ -462,6 +505,7 @@ export default {
       .username {
         margin-bottom: 10px;
         font-size: 16px;
+        cursor: pointer;
       }
 
       .desc {
