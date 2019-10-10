@@ -29,7 +29,7 @@
           <div class="info">
             <div class="username">{{ username }}</div>
             <div class="mid">|</div>
-            <div class="desc">{{ title }}</div>
+            <div class="desc">{{ groupName }}</div>
           </div>
         </div>
         <ul class="dropdown-box">
@@ -161,6 +161,7 @@ export default {
       dialogFormVisible: false,
       nicknameChanged: false,
       nickname: null,
+      groupName: null,
       form: {
         old_password: '',
         new_password: '',
@@ -194,13 +195,6 @@ export default {
     }
   },
   computed: {
-    title() {
-      const { isSuper } = this.user || {}
-      if (isSuper) {
-        return '超级管理员'
-      }
-      return '管理员'
-    },
     ...mapGetters(['user']),
   },
   watch: {
@@ -350,6 +344,7 @@ export default {
     init() {
       const { user } = this.$store.state
       this.username = user ? user.username : '未登录'
+      this.groupName = user.groupName ? user.groupName : '超级管理员'
       this.nickname = user && user.nickname ? user.nickname : '佚名'
     },
     changePassword() {

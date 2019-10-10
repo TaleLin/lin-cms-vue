@@ -31,7 +31,10 @@ export default class User {
   // 昵称
   nickname = null
 
-  constructor(active, email, groupId, username, _super, avatar, auths, nickname) {
+  // 分组名称
+  groupName = null
+
+  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
@@ -40,6 +43,7 @@ export default class User {
     this.isSuper = _super === SUPER_VALUE
     this.auths = auths || []
     this.nickname = nickname
+    this.groupName = groupName
   }
 
   /**
@@ -69,7 +73,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.nickname)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.nickname, info.group_name)
   }
 
   /**
@@ -77,7 +81,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name)
   }
 
   /**
