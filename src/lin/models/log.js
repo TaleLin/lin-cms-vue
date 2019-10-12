@@ -112,7 +112,7 @@ class Log {
       if (page === 0) {
         this.lPage = 0
       }
-      const res = await get('cms/log/', {
+      const res = await get('cms/log', {
         count: count || this.lCount,
         page: page || this.lPage,
         name: name || this.name,

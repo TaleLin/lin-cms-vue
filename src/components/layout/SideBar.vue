@@ -165,10 +165,10 @@ export default {
       }, 200)
     },
     search(val) {
-      if (!val) {
-        this.showSearchList = false
-        return
-      }
+      // if (!val) {
+      //   this.showSearchList = false
+      //   return
+      // }
       this.groups = []
 
       // 深度遍历配置树, 摘取叶子节点作为路由部分
@@ -331,14 +331,14 @@ export default {
     width: 80%;
     margin: 0 auto;
     height: 36px;
-    border-bottom: 1px $theme solid;
+    border-bottom: 1px rgb(185, 190, 195) solid;
     cursor: pointer;
 
     .el-icon-search {
       position: absolute;
       left: 1px;
       top: 10px;
-      color: $theme;
+      color: rgb(185, 190, 195);
     }
   }
 
