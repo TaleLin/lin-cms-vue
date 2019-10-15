@@ -1,18 +1,14 @@
 <template>
   <div style="height:100%;">
     <el-container>
-      <el-aside :width="sideBarWidth" class="aside">
-        <side-bar :isCollapse="isCollapse"></side-bar>
+      <el-aside :width="sideBarWidth" class="aside" :style="asideStyle">
+        <side-bar :isCollapse="isCollapse" :is-phone="isPhone"></side-bar>
       </el-aside>
       <el-container>
         <el-header class="header">
           <div class="left">
             <div class="operate" ref="operate">
-              <i
-                class="iconfont icon-fold"
-                :class="{rotate: foldState}"
-                @click="changeSlidebarState"
-              />
+              <i class="iconfont icon-fold" :class="{rotate: foldState}" @click="changeSlidebarState" />
               <nav-bar></nav-bar>
             </div>
             <el-collapse-transition>
@@ -26,6 +22,7 @@
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="34"></back-top>
       </el-container>
+      <div class="sidenav-mask" :class="{show: isPhone && isCollapse}" @click="changeSlidebarState"></div>
     </el-container>
   </div>
 </template>
@@ -43,6 +40,7 @@ import {
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
 const marginHeight = 20 // 历史记录栏与舞台的间距
+const sideBarWidth = '190px'
 const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {
@@ -50,26 +48,50 @@ export default {
   data() {
     return {
       isCollapse: false, // 左侧菜单栏是否折叠
-      sideBarWidth: '175px', // 左侧菜单栏展开的宽度
+      sideBarWidth, // 左侧菜单栏展开的宽度
       clientWidth: 0, // 页面宽度
       clientHeight: 0, // 页面高度
       foldState: false, // 控制左侧菜单栏按键
+      isPhone: false,
     }
   },
+  created() {
+  },
   mounted() {
-    const _this = this
     this.setResize()
-    // 监测屏幕宽度 折叠左侧菜单栏
-    window.onresize = function temp() {
-      _this.setResize()
-      if (_this.clientWidth <= 768) {
-        // 页面宽度 768
-        if (_this.isCollapse === false) {
-          _this.isCollapse = true
-        }
-      } else if (_this.isCollapse === true) {
-        _this.isCollapse = false
+    // console.log(this.clientWidth)
+    if (this.clientWidth < 500) {
+      this.isPhone = true
+    } else {
+      this.isPhone = false
+      // 检测屏幕宽度, 确定默认是否展开
+      if (this.clientWidth <= 768) {
+        this.eventBus.$emit('removeSidebarSearch')
+        this.isCollapse = true
+      } else {
+        this.isCollapse = false
+        this.eventBus.$emit('showSidebarSearch')
       }
+    }
+    // 监测屏幕宽度 折叠左侧菜单栏
+    window.onresize = () => {
+      this.setResize()
+      if (this.clientWidth <= 500) {
+        this.isPhone = true
+      } else if (this.clientWidth <= 800) {
+        this.isPhone = false
+      }
+
+      // if (_this.clientWidth <= 768) {
+      //   // 页面宽度 768
+      //   if (_this.isCollapse === false) {
+      //     _this.eventBus.$emit('removeSidebarSearch')
+      //     _this.isCollapse = true
+      //   }
+      // } else if (_this.isCollapse === true) {
+      //   _this.eventBus.$emit('showSidebarSearch')
+      //   _this.isCollapse = false
+      // }
     }
 
     this.eventBus.$on('noReuse', () => {
@@ -80,10 +102,38 @@ export default {
     })
   },
   inject: ['eventBus'],
+  computed: {
+    elMenuCollapse() {
+      if (this.isPhone) {
+        return false
+      }
+
+      return this.isCollapse
+    },
+    asideStyle() {
+      const style = {}
+      if (this.isPhone) {
+        style.position = 'absolute'
+        style.height = `${this.clientHeight}px`
+        style.zIndex = 12
+        if (this.isCollapse === false) {
+          style.transform = `translateX(-${sideBarWidth})`
+        } else {
+          style.transform = 'translateX(0)'
+        }
+      }
+      return style
+    },
+  },
   methods: {
     // 控制菜单折叠
     changeSlidebarState() {
       this.isCollapse = !this.isCollapse
+      if (this.isCollapse) {
+        this.eventBus.$emit('removeSidebarSearch')
+      } else {
+        this.eventBus.$emit('showSidebarSearch')
+      }
       this.foldState = !this.foldState
     },
     // 响应页面的宽度高度变化
@@ -97,13 +147,27 @@ export default {
   },
   watch: {
     isCollapse() {
-      this.sideBarWidth = this.isCollapse === false ? '175px' : '64px'
+      if (this.isPhone) {
+        // 手机模式
+        this.sideBarWidth = sideBarWidth
+        if (this.isCollapse === false) {
+          this.transX = 0
+        } else {
+          this.transX = -1 * sideBarWidth
+        }
+      } else {
+        this.transX = 0
+        this.sideBarWidth = this.isCollapse === false ? sideBarWidth : '64px'
+      }
     },
     $route() {
       this.showBackTop = false
       if (this.scrollY <= 70) {
         // MenuTab组件高度
         this.backTop()
+      }
+      if (this.isPhone && this.isCollapse) {
+        this.changeSlidebarState()
       }
     },
   },
@@ -126,7 +190,8 @@ export default {
 .aside {
   background: rgb(25, 42, 94);
   overflow-x: hidden;
-   &::-webkit-scrollbar {
+
+  &::-webkit-scrollbar {
     width: 0px;
     height: 0px;
   }
@@ -200,8 +265,25 @@ export default {
   border-radius: 50%;
   z-index: 99;
   background: #fff;
+
   .iconfont {
     font-size: 36px;
+  }
+}
+
+.sidenav-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .3);
+  z-index: 10;
+  display: none;
+  cursor: pointer;
+
+  &.show {
+    display: block;
   }
 }
 </style>

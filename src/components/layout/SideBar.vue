@@ -1,17 +1,40 @@
 <template>
   <div class="app-sidebar">
-    <div class="logo" v-if="!isCollapse">
+    <div class="logo" v-if="!elMenuCollapse">
       <img src="../../assets/img/logo.png" alt="">
     </div>
     <div class="mobile-logo" v-else>
       <img src="../../assets/img/mobile-logo.png" alt="">
     </div>
     <div style="margin-bottom:50px">
+      <div v-if="showSidebarSearch" style="margin-top: 15px">
+        <div class="search-display" v-if="!showSearchList" @click="toSearch">
+          <i class="el-icon-search"></i>
+        </div>
+        <el-select
+          v-if="showSearchList"
+          size="medium"
+          filterable
+          clearable
+          :filter-method="search"
+          v-model="sidebar"
+          @change="handleChange"
+          class="search"
+          placeholder="请输入关键字"
+          ref="searchInput">
+          <el-option
+            v-for="item in groups"
+            :key="item.key"
+            :label="item.title"
+            :value="item.path">
+          </el-option>
+        </el-select>
+      </div>
       <el-menu
         class="el-menu-vertical-demo"
         ref="meun"
         :default-active="defaultActive"
-        :collapse="isCollapse"
+        :collapse="elMenuCollapse"
         background-color="#192A5E"
         text-color="rgba(196,201,210,1)"
         active-text-color="#1890ff">
@@ -30,7 +53,11 @@
 
             <!-- 二级菜单 -->
             <template v-for="(subItem) in item.children">
-              <el-submenu v-if="subItem.children" :key="idMap[subItem.name]" :index="idMap[subItem.name]" class="subMenuContent">
+              <el-submenu
+                v-if="subItem.children"
+                :key="idMap[subItem.name]"
+                :index="idMap[subItem.name]"
+                class="subMenuContent">
                 <template slot="title">
                   <i class="iconfont icon-erjizhibiao"></i>
                   <span slot="title" class="two-folder">{{subItem.title}}</span>
@@ -80,12 +107,42 @@
 </template>
 
 <script>
-import Utils from '@/lin/utils/util'
-/* eslint-disable no-restricted-syntax */
 import { mapGetters } from 'vuex'
+import Utils from '@/lin/utils/util'
+import Config from '../../config/index'
 
 export default {
-  props: ['isCollapse'],
+  data() {
+    return {
+      sidebar: '',
+      groups: [],
+      showSidebarSearch: Config.showSidebarSearch,
+      showSearchList: false,
+    }
+  },
+  inject: ['eventBus'],
+  props: {
+    isPhone: {
+      type: Boolean,
+      default: false,
+    },
+    isCollapse: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  created() {
+  },
+  mounted() {
+    this.eventBus.$on('removeSidebarSearch', () => {
+      this.showSidebarSearch = false
+    })
+    this.eventBus.$on('showSidebarSearch', () => {
+      if (Config.showSidebarSearch) {
+        this.showSidebarSearch = true
+      }
+    })
+  },
   methods: {
     goto(path) {
       this.$router.push({
@@ -95,8 +152,60 @@ export default {
     filterIcon(icon) {
       return icon.indexOf('/') !== -1
     },
+    handleChange(val) {
+      this.groups = []
+      this.sidebar = ''
+      this.showSearchList = false
+      this.$router.push(val)
+    },
+    toSearch() {
+      this.showSearchList = true
+      setTimeout(() => {
+        this.$refs.searchInput.focus()
+      }, 200)
+    },
+    search(val) {
+      // if (!val) {
+      //   this.showSearchList = false
+      //   return
+      // }
+      this.groups = []
+
+      // 深度遍历配置树, 摘取叶子节点作为路由部分
+      function deepTravel(config, fuc) {
+        if (Array.isArray(config)) {
+          config.forEach((subConfig) => {
+            deepTravel(subConfig, fuc)
+          })
+        } else if (config.children) {
+          config.children.forEach((subConfig) => {
+            deepTravel(subConfig, fuc)
+          })
+        } else {
+          fuc(config)
+        }
+      }
+
+      deepTravel(this.sideBarList, (viewConfig) => {
+        // 构造舞台view路由
+        if (viewConfig.title.includes(val)) {
+          const viewRouter = {}
+          viewRouter.path = viewConfig.path
+          viewRouter.title = viewConfig.title
+          viewRouter.key = Math.random()
+          this.groups.push(viewRouter)
+        }
+      })
+    },
   },
   computed: {
+    elMenuCollapse() {
+      if (this.isPhone) {
+        return false
+      }
+
+      return this.isCollapse
+    },
     // 根据当前路由设置激活侧边栏
     defaultActive() {
       for (let i = (this.stageInfo.length - 1); i >= 0; i -= 1) {
@@ -136,7 +245,7 @@ export default {
       return mapData
     },
     imgSrc() {
-      return this.isCollapse === false ? '../../assets/img/left-logo.png' : '../../assets/img/logo.png'
+      return this.elMenuCollapse === false ? '../../assets/img/left-logo.png' : '../../assets/img/logo.png'
     },
     ...mapGetters(['sideBarList']),
   },
@@ -148,17 +257,21 @@ export default {
   width: 0px;
   height: 0px;
 }
+
 .app-sidebar {
   background: #192a5e;
-   &::-webkit-scrollbar {
+
+  &::-webkit-scrollbar {
     width: 0px;
     height: 0px;
   }
+
   .subMenuContent {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   .logo {
     width: $sidebar-width;
     height: $header-height;
@@ -170,9 +283,9 @@ export default {
     transition: all 0.5s ease-in-out;
     background-color: #122150;
     transition: all 0.3s linear;
-    position:sticky;
-    top:0;
-    left:0;
+    position: sticky;
+    top: 0;
+    left: 0;
     z-index: 99;
 
     img {
@@ -211,6 +324,27 @@ export default {
     margin-left: 5px;
     color: $submenu-title;
     height: $menuItem-height;
+  }
+
+  .search-display {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    height: 36px;
+    border-bottom: 1px rgb(185, 190, 195) solid;
+    cursor: pointer;
+
+    .el-icon-search {
+      position: absolute;
+      left: 1px;
+      top: 10px;
+      color: rgb(185, 190, 195);
+    }
+  }
+
+  .search {
+    // margin-top: 20px;
+    width: 80%;
   }
 }
 </style>

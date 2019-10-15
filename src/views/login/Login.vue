@@ -1,7 +1,7 @@
 <template>
   <div class="login">
-    <div class="team-name">
-      <img src="@/assets/img/login/team-name.png" alt="">
+    <div class="team-name hidden-sm-and-down">
+      <img src="@/assets/img/login/team-name.png" alt="logo">
     </div>
     <div class="form-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title">
@@ -10,17 +10,11 @@
       <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
         <div class="form-item nickname">
           <span class="icon account-icon"></span>
-          <input type="text"
-                 v-model="form.nickname"
-                 autocomplete="off"
-                 placeholder="请填写用户名">
+          <input type="text" v-model="form.username" autocomplete="off" placeholder="请填写用户名">
         </div>
         <div class="form-item password">
           <span class="icon secret-icon"></span>
-          <input type="password"
-                 v-model="form.password"
-                 autocomplete="off"
-                 placeholder="请填写用户登录密码">
+          <input type="password" v-model="form.password" autocomplete="off" placeholder="请填写用户登录密码">
         </div>
         <button class="submit-btn" type="submit">登录</button>
       </form>
@@ -29,9 +23,9 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
 import User from '@/lin/models/user'
 import Utils from '@/lin/utils/util'
-import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'login',
@@ -41,7 +35,7 @@ export default {
       wait: 2000, // 2000ms之内不能重复发起请求
       throttleLogin: null, // 节流登录
       form: {
-        nickname: 'super',
+        username: 'super',
         password: '123456',
         confirm_password: '123456',
         email: '2285901508@qq.com',
@@ -50,10 +44,10 @@ export default {
   },
   methods: {
     async login() {
-      const { nickname, password } = this.form
+      const { username, password } = this.form
       try {
         this.loading = true
-        await User.getToken(nickname, password)
+        await User.getToken(username, password)
         await this.getInformation()
         this.loading = false
         this.$router.push('/about')
@@ -76,7 +70,7 @@ export default {
     async register() {
       const obj = {
         data: {
-          nickname: this.nickname,
+          username: this.username,
           password: this.password,
           confirm_password: this.confirm_password,
           email: this.email,

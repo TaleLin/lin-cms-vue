@@ -10,49 +10,58 @@ const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
 
 export default class User {
+  // 当前用户是否在激活状态
   isActive = null
 
-  // 当前用户是否在激活状态
+  // 邮箱
   email = null
 
-  // 邮箱
+  // 权限分组id
   groupId = null
 
-  // 权限分组id
-  nickname = null
-
-  // 昵称
-  isSuper = null
+  // 用户名
+  username = null
 
   // 是否为超级管理员
-  auths = [] // 拥有的权限
+  isSuper = null
 
-  constructor(active, email, groupId, nickname, _super, avatar, auths) {
+  // 拥有的权限
+  auths = []
+
+  // 昵称
+  nickname = null
+
+  // 分组名称
+  groupName = null
+
+  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
-    this.nickname = nickname
+    this.username = username
     this.avatar = avatar
     this.isSuper = _super === SUPER_VALUE
     this.auths = auths || []
+    this.nickname = nickname
+    this.groupName = groupName
   }
 
   /**
-   * 用户注册，正式发布时将废弃
+   * 分配用户
    * @param {object} data 注册信息
    */
   static register(data) {
-    return post('cms/user/register', data)
+    return post('cms/user/register', data, { handleError: true })
   }
 
   /**
    * 登陆获取tokens
-   * @param {string} nickname 昵称
+   * @param {string} username 用户名
    * @param {string} password 密码
    */
-  static async getToken(nickname, password) {
+  static async getToken(username, password) {
     const tokens = await post('cms/user/login', {
-      nickname,
+      username,
       password,
     })
     saveTokens(tokens.access_token, tokens.refresh_token)
@@ -64,7 +73,7 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.admin, info.avatar)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.nickname, info.group_name)
   }
 
   /**
@@ -72,7 +81,7 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.nickname, info.admin, info.avatar, info.auths)
+    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name)
   }
 
   /**
