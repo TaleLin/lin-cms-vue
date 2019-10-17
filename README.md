@@ -37,6 +37,10 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 
 [http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
 
+### 案例
+
+[http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
+
 
 ### Lin CMS 的特点
 
