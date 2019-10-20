@@ -15,7 +15,12 @@ table {
 table th,
 table td {
   border: 1px solid #ccc;
-  padding: 0.4rem;
+  padding: .4rem;
+}
+blockquote {
+  border-left: 2px solid #ccc;
+  margin-left: 1.5rem;
+  padding-left: 1rem;
 }
 figure {
   display: table;
@@ -24,7 +29,7 @@ figure {
 figure figcaption {
   color: #999;
   display: block;
-  margin-top: 0.25rem;
+  margin-top: .25rem;
   text-align: center;
 }
 hr {
@@ -35,15 +40,5 @@ hr {
 code {
   background-color: #e8e8e8;
   border-radius: 3px;
-  padding: 0.1rem 0.2rem;
-}
-.mce-content-body:not([dir=rtl]) blockquote {
-  border-left: 2px solid #ccc;
-  margin-left: 1.5rem;
-  padding-left: 1rem;
-}
-.mce-content-body[dir=rtl] blockquote {
-  border-right: 2px solid #ccc;
-  margin-right: 1.5rem;
-  padding-right: 1rem;
+  padding: .1rem .2rem;
 }
