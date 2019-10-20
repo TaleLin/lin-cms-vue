@@ -69,7 +69,7 @@ export default {
         })
         _this.$axios({
           method: 'post',
-          url: '/cms/file/',
+          url: '/cms/file',
           data: {
             file,
           },

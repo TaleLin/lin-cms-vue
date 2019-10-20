@@ -1,6 +1,6 @@
 <template>
   <div class="app-sidebar">
-    <div class="logo" v-if="!isCollapse">
+    <div class="logo" v-if="!elMenuCollapse">
       <img src="../../assets/img/logo.png" alt="">
     </div>
     <div class="mobile-logo" v-else>
@@ -34,7 +34,7 @@
         class="el-menu-vertical-demo"
         ref="meun"
         :default-active="defaultActive"
-        :collapse="isCollapse"
+        :collapse="elMenuCollapse"
         background-color="#192A5E"
         text-color="rgba(196,201,210,1)"
         active-text-color="#1890ff">
@@ -112,7 +112,6 @@ import Utils from '@/lin/utils/util'
 import Config from '../../config/index'
 
 export default {
-  props: ['isCollapse'],
   data() {
     return {
       sidebar: '',
@@ -122,6 +121,18 @@ export default {
     }
   },
   inject: ['eventBus'],
+  props: {
+    isPhone: {
+      type: Boolean,
+      default: false,
+    },
+    isCollapse: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  created() {
+  },
   mounted() {
     this.eventBus.$on('removeSidebarSearch', () => {
       this.showSidebarSearch = false
@@ -154,10 +165,10 @@ export default {
       }, 200)
     },
     search(val) {
-      if (!val) {
-        this.showSearchList = false
-        return
-      }
+      // if (!val) {
+      //   this.showSearchList = false
+      //   return
+      // }
       this.groups = []
 
       // 深度遍历配置树, 摘取叶子节点作为路由部分
@@ -188,6 +199,13 @@ export default {
     },
   },
   computed: {
+    elMenuCollapse() {
+      if (this.isPhone) {
+        return false
+      }
+
+      return this.isCollapse
+    },
     // 根据当前路由设置激活侧边栏
     defaultActive() {
       for (let i = (this.stageInfo.length - 1); i >= 0; i -= 1) {
@@ -227,7 +245,7 @@ export default {
       return mapData
     },
     imgSrc() {
-      return this.isCollapse === false ? '../../assets/img/left-logo.png' : '../../assets/img/logo.png'
+      return this.elMenuCollapse === false ? '../../assets/img/left-logo.png' : '../../assets/img/logo.png'
     },
     ...mapGetters(['sideBarList']),
   },
@@ -313,14 +331,14 @@ export default {
     width: 80%;
     margin: 0 auto;
     height: 36px;
-    border-bottom: 1px $theme solid;
+    border-bottom: 1px rgb(185, 190, 195) solid;
     cursor: pointer;
 
     .el-icon-search {
       position: absolute;
       left: 1px;
       top: 10px;
-      color: $theme;
+      color: rgb(185, 190, 195);
     }
   }
 

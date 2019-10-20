@@ -2,26 +2,20 @@
 import Vue from 'vue'
 import axios from 'axios'
 import Config from '@/config'
+import ErrorCode from '@/config/error-code'
 import store from '@/store'
 import { getToken } from '@/lin/utils/token'
-// eslint-disable-next-line import/no-cycle
 import User from '@/lin/models/user'
 
-
-// Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || ''
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-
 const config = {
-  baseURL: Config.baseUrl || process.env.apiUrl || '',
+  baseURL: Config.baseURL || process.env.apiUrl || '',
   timeout: 5 * 1000, // 请求超时时间设置
   crossDomain: true,
   // withCredentials: true, // Check cross-site Access-Control
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
   validateStatus(status) {
-    return status >= 200 && status < 500
+    return status >= 200 && status < 510
   },
 }
 
@@ -87,7 +81,6 @@ _axios.interceptors.request.use((originConfig) => {
     /* eslint-disable-next-line */
     console.warn(`其他请求类型: ${reqConfig.method}, 暂无自动处理`)
   }
-
   // step2: auth 处理
   if (reqConfig.url === 'cms/user/refresh') {
     const refreshToken = getToken('refresh_token')
@@ -110,56 +103,61 @@ _axios.interceptors.request.use((originConfig) => {
 
 // Add a response interceptor
 _axios.interceptors.response.use(async (res) => {
+  let { error_code, msg } = res.data  // eslint-disable-line
+  let message = '' // 错误提示
   if (res.status.toString().charAt(0) === '2') {
     return res.data
   }
-
   return new Promise(async (resolve, reject) => {
-    // 将本次失败请求保存
-    const { params, url, method } = res.config
-    store.commit('SET_REFERSH_OPTION', {
-      params,
-      url,
-      method,
-    })
+    const { params, url } = res.config
 
-    // 处理 API 异常
-    let { error_code, msg } = res.data // eslint-disable-line
-    if (msg instanceof Object) {
-      let showMsg = ''
-      Object.getOwnPropertyNames(msg).forEach((key, index) => {
-        if (index === 0) {
-          showMsg = msg[key] // 如果是数组，展示第一条
-        }
-      })
-      msg = showMsg
-    }
-    // 如果令牌无效或者是refreshToken相关异常
+    // refresh_token 异常，直接登出
     if (error_code === 10000 || error_code === 10100) {
       setTimeout(() => {
         store.dispatch('loginOut')
         const { origin } = window.location
         window.location.href = origin
       }, 1500)
+      resolve(null)
+      return
     }
     // 令牌相关，刷新令牌
     if (error_code === 10040 || error_code === 10050) {
-      // TODO: 重试一次，待优化
       const cache = {}
       if (cache.url !== url) {
         cache.url = url
         await User.getRefreshToken()
-        const result = await _axios(store.state.refreshOptions)
+        // 将上次失败请求重发
+        const result = await _axios(res.config)
         resolve(result)
         return
       }
     }
-
+    // 本次请求添加 params 参数：handleError 为 true，用户自己try catch，框架不做处理
+    if (params && params.handleError) {
+      reject(res)
+      return
+    }
+    console.log('msg', msg)
+    // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
+    if (params && params.showBackend) {
+      [message] = msg
+    } else { // 弹出前端自定义错误信息
+      const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
+      // 匹配到前端自定义的错误码
+      if (errorArr.length > 0) {
+        if (errorArr[0][1] !== '') {
+          message = errorArr[0][1] // eslint-disable-line
+        } else {
+          message = ErrorCode['777']
+        }
+      }
+    }
     Vue.prototype.$message({
-      message: msg || '未知的error_code',
+      message,
       type: 'error',
     })
-    reject(res.data)
+    resolve(res.data)
   })
 }, (error) => {
   if (!error.response) {

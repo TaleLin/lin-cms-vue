@@ -248,7 +248,7 @@ export default {
   },
   async created() {
     await this.getAllGroups()
-    this.tableColumn = [{ prop: 'name', label: '姓名' }, { prop: 'info', label: '信息' }] // 设置表头信息
+    this.tableColumn = [{ prop: 'name', label: '名称' }, { prop: 'info', label: '信息' }] // 设置表头信息
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
     // 监听分组是否成功
     this.eventBus.$on('addGroup', this.addGroup)
