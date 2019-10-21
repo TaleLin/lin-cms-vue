@@ -11,9 +11,9 @@
           <div class="block">
               <span class="demonstration">默认</span>
               <el-date-picker
-              v-model="value1"
-              type="datetime"
-              placeholder="选择日期时间">
+                v-model="value1"
+                type="datetime"
+                placeholder="选择日期时间">
               </el-date-picker>
           </div>
           <div class="block">
@@ -178,7 +178,7 @@ export default {
           }
         }]
       },
-      value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+      value1: '',
       value2: '',
       value3: '',
       value4: '',
@@ -306,7 +306,7 @@ export default {
                   }
                 }]
               },
-              value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+              value1: '',
               value2: ''
             };
           }
