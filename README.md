@@ -103,7 +103,7 @@ QQ群搜索：林间有风 或 643205479
 4. `U` 优化异常处理，框架默认弹出前端配置异常信息，可通过 handleError 和 showBackend 控制本次请求是否开发者自行处理和是否直接展示后端返回异常信息
 5. `C` 登录用户名字段由 nickname -> username，同时新增 nickname 为昵称字段，可以更新昵称(需后端同步修改)
 6. `U` 优化了一些移动端适配
-7. `C` 列表信息字段由 collection -> items, total_nums -> tatal, 增加 count、page、total_page字段（需后端同步修改）
+7. `C` 列表信息字段由 collection -> items, total_nums -> total, 增加 count、page、total_page字段（需后端同步修改）
 
 ### 0.2.0
 
