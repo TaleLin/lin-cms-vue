@@ -13,6 +13,10 @@ import './importAll'
 export default {
   name: 'TinymceEditor',
   props: {
+    defaultContent: {
+      type: String,
+      default: '',
+    },
     height: {
       type: Number,
       default: 500,
@@ -79,6 +83,11 @@ export default {
           }
         }).catch(err => failure(err))
       },
+    }
+  },
+  mounted() {
+    if (this.defaultContent) {
+      this.content = this.defaultContent
     }
   },
   watch: {
