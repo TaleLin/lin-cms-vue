@@ -96,9 +96,16 @@ export default {
     }
   },
   watch: {
-    // eslint-disable-next-line
-    content: function() {
-      this.$emit('change', this.content)
+    content: {
+      handler() {
+        this.$emit('change', this.content)
+      },
+    },
+    defaultContent: {
+      handler() {
+        this.content = this.defaultContent
+      },
+      immediate: true,
     },
   },
   activated() {
