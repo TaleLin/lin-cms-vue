@@ -26,6 +26,9 @@ const config = {
 const _axios = axios.create(config)
 
 _axios.interceptors.request.use((originConfig) => {
+  // 有 API 请求重新计时
+  Vue.prototype.$_lin_jump()
+
   const reqConfig = { ...originConfig }
 
   // step1: 容错处理
@@ -55,15 +58,12 @@ _axios.interceptors.request.use((originConfig) => {
     }
 
     // 检测是否包含文件类型, 若包含则进行 formData 封装
-    // 检查子项是否有 Object 类型, 若有则字符串化
     let hasFile = false
     Object.keys(reqConfig.data).forEach((key) => {
       if (typeof reqConfig.data[key] === 'object') {
         const item = reqConfig.data[key]
         if (item instanceof FileList || item instanceof File || item instanceof Blob) {
           hasFile = true
-        } else if (Object.prototype.toString.call(item) === '[object Object]') {
-          reqConfig.data[key] = JSON.stringify(reqConfig.data[key])
         }
       }
     })
