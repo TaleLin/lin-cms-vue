@@ -10,8 +10,8 @@
           label-width="100px"
           @submit.native.prevent
         >
-          <el-form-item label="用户名" prop="nickname">
-            <el-input size="medium"  clearable v-model="form.nickname" :disabled="isEdited"></el-input>
+          <el-form-item label="用户名" prop="username">
+            <el-input size="medium"  clearable v-model="form.username" :disabled="isEdited"></el-input>
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
             <el-input size="medium"  clearable v-model="form.email" auto-complete="new-password"></el-input>
@@ -118,7 +118,7 @@ export default {
       loading: false, // 加载动画
       isEdited: false, // 能否编辑
       form: {
-        nickname: '',
+        username: '',
         password: '',
         confirm_password: '',
         email: '',
@@ -126,7 +126,7 @@ export default {
       },
       // 验证规则
       rules: {
-        nickname: [
+        username: [
           {
             validator: checkUserName,
             trigger: ['blur', 'change'],
@@ -161,18 +161,16 @@ export default {
             try {
               this.loading = true
               res = await User.register(this.form)
+              if (res.error_code === 0) {
+                this.loading = false
+                this.$message.success(`${res.msg}`)
+                this.eventBus.$emit('addUser', true)
+                this.resetForm(formName)
+              }
             } catch (e) {
               this.loading = false
+              this.$message.error('新增用户失败')
               console.log(e)
-            }
-            if (res.error_code === 0) {
-              this.loading = false
-              this.$message.success(`${res.msg}`)
-              this.eventBus.$emit('addUser', true)
-              this.resetForm(formName)
-            } else {
-              this.loading = false
-              this.$message.error(`${res.msg}`)
             }
           } else {
             // 更新用户信息
@@ -219,7 +217,7 @@ export default {
       }
     },
     setInfo() {
-      this.form.nickname = this.info.nickname
+      this.form.username = this.info.username
       this.form.email = this.info.email
       this.form.group_id = this.info.group_id
     },

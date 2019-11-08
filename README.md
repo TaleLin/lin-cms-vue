@@ -9,7 +9,7 @@
   <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#版本日志">版本日志</a>
 </p>
 
-![](https://img.shields.io/badge/版本-0.1.0.beta.2-3963bc.svg)
+![](https://img.shields.io/badge/版本-0.2.1-3963bc.svg)
 ![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
@@ -36,6 +36,10 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 ### 线上 Demo
 
 [http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
+
+### 案例
+
+[http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
 
 
 ### Lin CMS 的特点
@@ -81,7 +85,7 @@ npm run serve or yarn (run) serve
 ## 讨论交流
 微信公众号搜索：林间有风
 <br>
-<img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg" width="150" height="150" style='text-align:left;width: 100px;height: 100px'>
+<img class="QR-img" src="http://i1.sleeve.7yue.pro/wechat-account.jpeg" width="150" height="150">
 
 QQ群搜索：林间有风 或 643205479
 
@@ -89,16 +93,22 @@ QQ群搜索：林间有风 或 643205479
 
 ## 版本日志
 
-<<<<<<< HEAD
-最新版本 `0.2.0`
+最新版本 `0.2.1`
+
+### 0.2.1
+
+1. `A` 新增一键清除 reuse tab
+2. `A` 新增侧边导航搜索，可在 config 配置是否启用
+3. `F` 修复 post put 等请求不能自动重发问题
+4. `U` 优化异常处理，框架默认弹出前端配置异常信息，可通过 handleError 和 showBackend 控制本次请求是否开发者自行处理和是否直接展示后端返回异常信息
+5. `C` 登录用户名字段由 nickname -> username，同时新增 nickname 为昵称字段，可以更新昵称(需后端同步修改)
+6. `U` 优化了一些移动端适配
+7. `C` 列表信息字段由 collection -> items, total_nums -> total, 增加 count、page、total_page字段（需后端同步修改）
 
 ### 0.2.0
 
 1. `A` 新增图像上传、图像预览、富文本等自定义组件
 2. `A` 新增 lin-cms-ui 多个基础组件
-=======
-最新版本 `0.1.0-beta.3`
->>>>>>> 0b890cda57f1aaa11af9315d031ae15fae4def51
 
 ### 0.1.0-beta.3
 
