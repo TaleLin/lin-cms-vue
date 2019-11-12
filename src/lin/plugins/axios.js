@@ -4,8 +4,7 @@ import axios from 'axios'
 import Config from '@/config'
 import ErrorCode from '@/config/error-code'
 import store from '@/store'
-import { getToken } from '@/lin/utils/token'
-import User from '@/lin/models/user'
+import { getToken, saveAccessToken } from '@/lin/utils/token'
 
 const config = {
   baseURL: Config.baseURL || process.env.apiUrl || '',
@@ -126,7 +125,8 @@ _axios.interceptors.response.use(async (res) => {
       const cache = {}
       if (cache.url !== url) {
         cache.url = url
-        await User.getRefreshToken()
+        const refreshResult = await _axios('cms/user/refresh')
+        saveAccessToken(refreshResult.access_token)
         // 将上次失败请求重发
         const result = await _axios(res.config)
         resolve(result)
