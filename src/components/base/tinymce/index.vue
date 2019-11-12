@@ -7,12 +7,16 @@
 // eslint-disable-next-line
 import tinymce from 'tinymce/tinymce'
 import Editor from '@tinymce/tinymce-vue'
-import 'tinymce/themes/silver/theme'
+import 'tinymce/themes/silver'
 import './importAll'
 
 export default {
   name: 'TinymceEditor',
   props: {
+    defaultContent: {
+      type: String,
+      default: '',
+    },
     height: {
       type: Number,
       default: 500,
@@ -34,6 +38,10 @@ export default {
       // eslint-disable-next-line
       default: ' undo redo |formatselect | bold italic strikethrough forecolor backcolor formatpainter | link image | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | removeformat | preview fullscreen code',
     },
+    baseUrl: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     Editor,
@@ -48,8 +56,9 @@ export default {
   created() {
     const _this = this
     this.tinymceInit = {
-      skin_url: '/tinymce/skins/ui/oxide',
-      language_url: '/tinymce/langs/zh_CN.js',
+      language_url: `${this.baseUrl}/tinymce/langs/zh_CN.js`,
+      skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
+      content_css: `${this.baseUrl}/tinymce/skins/content/default/content.css`,
       language: 'zh_CN',
       height: this.height,
       width: undefined,
@@ -81,10 +90,22 @@ export default {
       },
     }
   },
+  mounted() {
+    if (this.defaultContent) {
+      this.content = this.defaultContent
+    }
+  },
   watch: {
-    // eslint-disable-next-line
-    content: function() {
-      this.$emit('change', this.content)
+    content: {
+      handler() {
+        this.$emit('change', this.content)
+      },
+    },
+    defaultContent: {
+      handler() {
+        this.content = this.defaultContent
+      },
+      immediate: true,
     },
   },
   activated() {

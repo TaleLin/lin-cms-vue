@@ -1,10 +1,10 @@
-/* eslint-disable class-methods-use-this */
+
 import {
   post,
   get,
   put,
 } from '@/lin/plugins/axios'
-import { saveTokens, saveAccessToken } from '../utils/token'
+import { saveTokens } from '../utils/token'
 
 const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
@@ -82,14 +82,6 @@ export default class User {
   static async getAuths() {
     const info = await get('cms/user/auths')
     return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name)
-  }
-
-  /**
-   * 刷新令牌
-   */
-  static async getRefreshToken() {
-    const res = await get('cms/user/refresh')
-    saveAccessToken(res.access_token)
   }
 
 

@@ -19,7 +19,7 @@ body {
     box-sizing: border-box;
     margin: 1rem auto 0;
     max-width: 820px;
-    min-height: calc(100vh - 1rem);
+    min-height: calc(99vh);
     padding: 4rem 6rem 6rem 6rem;
   }
 }
@@ -29,25 +29,20 @@ table {
 table th,
 table td {
   border: 1px solid #ccc;
-  padding: 0.4rem;
+  padding: .4rem;
+}
+blockquote {
+  border-left: 2px solid #ccc;
+  margin-left: 1.5rem;
+  padding-left: 1rem;
 }
 figure figcaption {
   color: #999;
-  margin-top: 0.25rem;
+  margin-top: .25rem;
   text-align: center;
 }
 hr {
   border-color: #ccc;
   border-style: solid;
   border-width: 1px 0 0 0;
-}
-.mce-content-body:not([dir=rtl]) blockquote {
-  border-left: 2px solid #ccc;
-  margin-left: 1.5rem;
-  padding-left: 1rem;
-}
-.mce-content-body[dir=rtl] blockquote {
-  border-right: 2px solid #ccc;
-  margin-right: 1.5rem;
-  padding-right: 1rem;
 }
