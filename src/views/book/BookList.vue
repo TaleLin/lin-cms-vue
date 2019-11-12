@@ -43,7 +43,7 @@ export default {
   },
   async created() {
     this.loading = true
-    this.getBooks()
+    await this.getBooks()
     this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, {
       name: '删除',
       func: 'handleDelete',
