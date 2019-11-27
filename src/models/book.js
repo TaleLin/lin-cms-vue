@@ -12,7 +12,7 @@ class Book {
 
   // 类中的方法可以代表一个用户行为
   async addBook(info) {
-    const res = await post('v1/book', info)
+    const res = await post('v1/book', info, { handleError: true })
     return res
   }
 

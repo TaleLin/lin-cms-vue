@@ -138,7 +138,6 @@ _axios.interceptors.response.use(async (res) => {
       reject(res)
       return
     }
-    console.log('msg', msg)
     // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
     if (params && params.showBackend) {
       [message] = msg
@@ -157,7 +156,7 @@ _axios.interceptors.response.use(async (res) => {
       message,
       type: 'error',
     })
-    resolve(res.data)
+    reject()
   })
 }, (error) => {
   if (!error.response) {
