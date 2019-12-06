@@ -1,18 +1,14 @@
 /* eslint-disable class-methods-use-this */
-import {
-  post,
-  get,
-  put,
-} from '@/lin/plugins/axios'
+import { post, get, put } from '@/lin/plugins/axios'
 import Config from '../../config'
 import Sse from '../utils/sse'
 
 export default class Notify {
-  url = null;
+  url = null
 
-  events = null;
+  events = null
 
-  sse = null;
+  sse = null
 
   constructor(url) {
     this.url = url

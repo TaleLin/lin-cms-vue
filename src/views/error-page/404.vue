@@ -1,7 +1,7 @@
 <template>
   <div class="container" ref="container">
-    <img class="page-404" src="../../assets/img/error-page/404.png" alt="">
-    <img class="page-logo" src="../../assets/img/error-page/logo.png" alt="">
+    <img class="page-404" src="../../assets/img/error-page/404.png" alt="" />
+    <img class="page-logo" src="../../assets/img/error-page/logo.png" alt="" />
   </div>
 </template>
 

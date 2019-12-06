@@ -3,13 +3,8 @@ module.exports = {
   env: {
     node: true,
   },
-  plugins: [
-    'vue',
-  ],
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-  ],
+  plugins: ['vue'],
+  extends: ['plugin:vue/essential', '@vue/airbnb'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -19,6 +14,7 @@ module.exports = {
     'no-underscore-dangle': 0, // 无下划线
     camelcase: 0, // 变量可以用下划线
     semi: ['error', 'never'], // 无分号
+    'no-extra-semi': 0, // 和prettier冲突
     'no-plusplus': 0, // 禁止使用++，--
     // 'no-tabs': [o],
     'guard-for-in': 0,
@@ -28,6 +24,15 @@ module.exports = {
     'no-restricted-syntax': 0,
     'class-methods-use-this': 'off',
     'consistent-return': 'off',
+    'arrow-parens': ['error', 'as-needed'],
+    'object-curly-newline': [
+      'error',
+      {
+        ImportDeclaration: 'never',
+      },
+    ],
+    'comma-dangle': ['error', 'only-multiline'],
+    'no-param-reassign': ['error', { props: false }],
   },
   parserOptions: {
     parser: 'babel-eslint',

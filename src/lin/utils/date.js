@@ -15,5 +15,5 @@ export function getDateAfterHours(hours) {
  */
 export function getDateAfterDays(days) {
   const now = new Date()
-  return new Date(now.setHours(now.getHours() + (days * 24)))
+  return new Date(now.setHours(now.getHours() + days * 24))
 }

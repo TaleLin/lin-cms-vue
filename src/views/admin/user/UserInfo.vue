@@ -1,50 +1,52 @@
 <template>
   <div class="container">
-        <el-form
-          :model="form"
-          status-icon
-          :rules="rules"
-          :label-position="labelPosition"
-          ref="form"
-          v-loading="loading"
-          label-width="100px"
-          @submit.native.prevent
+    <el-form
+      :model="form"
+      status-icon
+      :rules="rules"
+      :label-position="labelPosition"
+      ref="form"
+      v-loading="loading"
+      label-width="100px"
+      @submit.native.prevent
+    >
+      <el-form-item label="用户名" prop="username">
+        <el-input size="medium" clearable v-model="form.username" :disabled="isEdited"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input size="medium" clearable v-model="form.email" auto-complete="new-password"></el-input>
+      </el-form-item>
+      <el-form-item v-if="pageType === 'add'" label="密码" prop="password">
+        <el-input
+          size="medium"
+          clearable
+          type="password"
+          v-model="form.password"
+          auto-complete="new-password"
+        ></el-input>
+      </el-form-item>
+      <el-form-item v-if="pageType === 'add'" label="确认密码" prop="confirm_password" label-position="top">
+        <el-input size="medium" clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item v-if="pageType !== 'password'" label="选择分组">
+        <el-select
+          size="medium"
+          filterable
+          v-model="form.group_id"
+          :disabled="groups.length === 0"
+          placeholder="请选择分组"
         >
-          <el-form-item label="用户名" prop="username">
-            <el-input size="medium"  clearable v-model="form.username" :disabled="isEdited"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input size="medium"  clearable v-model="form.email" auto-complete="new-password"></el-input>
-          </el-form-item>
-          <el-form-item v-if="pageType === 'add'" label="密码" prop="password">
-            <el-input size="medium"  clearable type="password" v-model="form.password" auto-complete="new-password"></el-input>
-          </el-form-item>
-          <el-form-item
-            v-if="pageType === 'add'"
-            label="确认密码"
-            prop="confirm_password"
-            label-position="top"
-          >
-            <el-input size="medium"  clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item v-if="pageType !== 'password'" label="选择分组" >
-            <el-select  size="medium" filterable v-model="form.group_id" :disabled="groups.length === 0" placeholder="请选择分组">
-              <el-option
-                v-for="item in groups"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id">
-              </el-option>
-            </el-select>
-            <!-- <el-radio-group v-model="form.group_id" label-position="top" class="user-info">
+          <el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+        </el-select>
+        <!-- <el-radio-group v-model="form.group_id" label-position="top" class="user-info">
               <el-radio :label="item.id" v-for="(item, index) in groups" :key="index">{{item.name}}</el-radio>
             </el-radio-group> -->
-          </el-form-item>
-          <el-form-item v-show="submit" class="submit">
-            <el-button type="primary" @click="submitForm('form')">保 存</el-button>
-            <el-button @click="resetForm('form')">重 置</el-button>
-          </el-form-item>
-        </el-form>
+      </el-form-item>
+      <el-form-item v-show="submit" class="submit">
+        <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+        <el-button @click="resetForm('form')">重 置</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -133,12 +135,8 @@ export default {
             required: true,
           },
         ],
-        password: [
-          { validator: validatePassword, trigger: 'blur', required: true },
-        ],
-        confirm_password: [
-          { validator: validatePassword2, trigger: 'blur', required: true },
-        ],
+        password: [{ validator: validatePassword, trigger: 'blur', required: true }],
+        confirm_password: [{ validator: validatePassword2, trigger: 'blur', required: true }],
         email: [
           {
             type: 'email',
@@ -152,7 +150,7 @@ export default {
   methods: {
     // 提交表单
     async submitForm(formName) {
-      this.$refs[formName].validate(async (valid) => {
+      this.$refs[formName].validate(async valid => {
         // eslint-disable-line
         if (valid) {
           // 新增用户
@@ -174,20 +172,13 @@ export default {
             }
           } else {
             // 更新用户信息
-            if (
-              this.form.email === this.info.email
-              && this.form.group_id === this.info.group_id
-            ) {
+            if (this.form.email === this.info.email && this.form.group_id === this.info.group_id) {
               this.$emit('handleInfoResult', false)
               return
             }
             try {
               this.loading = true
-              res = await Admin.updateOneUser(
-                this.form.email,
-                this.form.group_id,
-                this.id,
-              )
+              res = await Admin.updateOneUser(this.form.email, this.form.group_id, this.id)
             } catch (e) {
               this.loading = false
               console.log(e)
@@ -247,7 +238,7 @@ export default {
 .container {
   margin-top: 20px;
   margin-left: -5px;
-  max-width:800px;
+  max-width: 800px;
 
   .submit {
     float: left;

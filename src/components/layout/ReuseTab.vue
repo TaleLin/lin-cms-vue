@@ -6,7 +6,8 @@
           class="reuse-tab-item"
           :class="item.path === $route.path ? 'active' : ''"
           :to="item.path"
-          @contextmenu.prevent.native="onTags">
+          @contextmenu.prevent.native="onTags"
+        >
           <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
           <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
           <span style="padding: 0 5px;">{{ stageList[item.stageId].title | filterTitle }}</span>
@@ -21,8 +22,7 @@
 import { mapGetters } from 'vuex'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
-import "swiper/dist/css/swiper.css" // eslint-disable-line
-
+import 'swiper/dist/css/swiper.css' // eslint-disable-line
 
 export default {
   components: { swiper, swiperSlide },
@@ -50,7 +50,7 @@ export default {
     $route(to) {
       // 对路由变化作出响应...
       const { histories } = this
-      const flag = histories.find(item => (item.path === to.path))
+      const flag = histories.find(item => item.path === to.path)
       if (flag) {
         return
       }
@@ -114,7 +114,7 @@ export default {
         localHistory = JSON.parse(localHistory)
       }
 
-      localHistory.forEach((item) => {
+      localHistory.forEach(item => {
         let findResult
         if (item.name) {
           findResult = this.getStageByName(item.name)
@@ -194,7 +194,7 @@ export default {
     padding: 0 1em;
     margin-right: 1px;
     position: relative;
-    white-space:nowrap;
+    white-space: nowrap;
 
     .el-icon-close {
       opacity: 0;

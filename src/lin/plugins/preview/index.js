@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Preview from '@/components/base/preview/preview'
 
-
 const previewImage = {}
-previewImage.install = (Vue, options = {}) => { // eslint-disable-line
-  const PreviewConstructor = Vue.extend(Preview)
+previewImage.install = vue => {
+  // eslint-disable-line
+  const PreviewConstructor = vue.extend(Preview)
 
   let instance = null
 
@@ -22,11 +22,12 @@ previewImage.install = (Vue, options = {}) => { // eslint-disable-line
     return instance
   }
 
-  Vue.prototype.$imagePreview = (opts = {}) => { // eslint-disable-line
+  vue.prototype.$imagePreview = (opts = {}) => {
+    // eslint-disable-line
     const elem = document.createElement('div')
     if (!instance) {
       let myInstance = getInstance()
-      Vue.prototype.$previewInstance = myInstance // eslint-disable-line
+      vue.prototype.$previewInstance = myInstance // eslint-disable-line
       myInstance.$mount(elem)
       myInstance.data = opts.images || []
       myInstance.imageIndex = opts.index || 0

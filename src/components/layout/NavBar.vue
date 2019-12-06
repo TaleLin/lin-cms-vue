@@ -1,15 +1,12 @@
-
 <template>
   <div class="app-nav-bar">
-
     <div class="nav-content">
       <breadcrumb />
       <!-- 暂时放这里 -->
       <div class="right-info">
         <notify v-auth="'消息推送'" v-show="false" />
         <clear-tab></clear-tab>
-        <screenfull />
-        <user></user>
+        <screenfull /> <user></user>
       </div>
     </div>
   </div>

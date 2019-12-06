@@ -1,9 +1,7 @@
 <template>
   <el-dropdown>
     <div class="notify">
-      <el-badge :value="3" class="item">
-        <img class="icon-img" src="@/assets/img/铃铛icon.png" />
-      </el-badge>
+      <el-badge :value="3" class="item"> <img class="icon-img" src="@/assets/img/铃铛icon.png" /> </el-badge>
     </div>
     <el-dropdown-menu slot="dropdown" style="position:relative;">
       <div class="notify-title">
@@ -15,13 +13,12 @@
         v-for="unread in unreadMessages"
         class="unread-messages"
         :key="unread.id"
-        @click.native="readMessage(unread)">
-        {{ unread.data}}
-        <span class="date-time">08-16 13:22:07</span>
+        @click.native="readMessage(unread)"
+      >
+        {{ unread.data }} <span class="date-time">08-16 13:22:07</span>
       </el-dropdown-item>
       <el-dropdown-item v-for="readed in readedMessages" :key="readed.id" class="read-messages">
-        {{ readed.data }}
-        <span class="date-time">08-16 13:22:07</span>
+        {{ readed.data }} <span class="date-time">08-16 13:22:07</span>
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
@@ -98,7 +95,7 @@ export default {
 
   .el-dropdown-menu__item:nth-child(3) {
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       right: 38px;
       top: -58px;
@@ -112,7 +109,7 @@ export default {
     position: relative;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 8px;
       width: 8px;
@@ -128,7 +125,7 @@ export default {
     position: relative;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       height: 8px;
       width: 8px;

@@ -2,11 +2,7 @@
   <div class="container">
     <div class="title">新建分组信息</div>
     <el-row>
-      <el-col
-        :lg="16"
-        :md="20"
-        :sm="24"
-        :xs="24">
+      <el-col :lg="16" :md="20" :sm="24" :xs="24">
         <div class="content">
           <el-form
             status-icon
@@ -16,7 +12,8 @@
             label-position="right"
             label-width="100px"
             v-loading="loading"
-            @submit.native.prevent>
+            @submit.native.prevent
+          >
             <el-form-item label="分组名称" prop="name">
               <el-input size="medium" clearable v-model="form.name"></el-input>
             </el-form-item>
@@ -28,7 +25,8 @@
                 @updateAuths="updateAuths"
                 @updateAllAuths="updateAllAuths"
                 ref="groupAuths"
-                title="分配权限">
+                title="分配权限"
+              >
               </group-auths>
             </el-form-item>
             <el-form-item class="submit">
@@ -52,7 +50,8 @@ export default {
   },
   inject: ['eventBus'],
   data() {
-    const checkName = (rule, value, callback) => { // eslint-disable-line
+    const checkName = (rule, value, callback) => {
+      // eslint-disable-line
       if (!value) {
         return callback(new Error('分组名称不能为空'))
       }
@@ -66,9 +65,7 @@ export default {
         info: '',
       },
       rules: {
-        name: [
-          { validator: checkName, trigger: ['blur', 'change'], required: true },
-        ],
+        name: [{ validator: checkName, trigger: ['blur', 'change'], required: true }],
         info: [],
       },
       loading: false,
@@ -82,7 +79,8 @@ export default {
       this.allAuths = allAuths
     },
     async submitForm(formName) {
-      this.$refs[formName].validate(async (valid) => { // eslint-disable-line
+      this.$refs[formName].validate(async valid => {
+        // eslint-disable-line
         if (valid) {
           let res
           const finalAuths = this.auths.filter(x => Object.keys(this.allAuths).indexOf(x) < 0)
@@ -118,7 +116,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   .title {
     height: 59px;

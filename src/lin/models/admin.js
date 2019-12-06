@@ -1,10 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import {
-  post,
-  get,
-  put,
-  _delete,
-} from '@/lin/plugins/axios'
+import { post, get, put, _delete } from '@/lin/plugins/axios'
 
 export default class Admin {
   constructor(uPage = 0, uCount = 10, gPage = 0, gCount = 5) {

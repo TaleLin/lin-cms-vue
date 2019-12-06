@@ -1,4 +1,3 @@
-
 const adminRouter = {
   route: null,
   name: null,

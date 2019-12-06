@@ -1,17 +1,15 @@
 <template>
   <!-- 列表页面 -->
   <div class="tableSample">
-      <div class="header">
-        <div class="header-left">
-          <p class="title">豆瓣电影TOP250</p>
-        </div>
-        <div class="header-right">
-          <lin-search @query="onQueryChange" placeholder="请输入电影名"/>
-          <div style="margin-left:30px">
-            <el-button type="primary" @click="dialogTableVisible=!dialogTableVisible">列操作</el-button>
-          </div>
+    <div class="header">
+      <div class="header-left"><p class="title">豆瓣电影TOP250</p></div>
+      <div class="header-right">
+        <lin-search @query="onQueryChange" placeholder="请输入电影名" />
+        <div style="margin-left:30px">
+          <el-button type="primary" @click="dialogTableVisible = !dialogTableVisible">列操作</el-button>
         </div>
       </div>
+    </div>
     <div class="table-main">
       <el-dialog top="5vh" width="60%" :visible.sync="dialogTableVisible">
         <!-- 定制列 -->
@@ -28,7 +26,7 @@
         <span>选择固定在左侧的列:</span>
         <el-checkbox-group v-model="fixedLeftList" class="m-20">
           <el-checkbox
-            :disabled="fixedRightList.indexOf(item) > -1 || checkList.indexOf(item) ===  -1"
+            :disabled="fixedRightList.indexOf(item) > -1 || checkList.indexOf(item) === -1"
             :label="item"
             v-for="item in tempCheckList"
             :key="item"
@@ -55,7 +53,7 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <div class="summary">
-              <img :src="props.row.thumb" alt>
+              <img :src="props.row.thumb" alt />
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="电影名">
                   <span>{{ props.row.title }}</span>
@@ -80,7 +78,7 @@
                 class="sort-input"
                 v-model="props.row.sorting"
                 @blur="handleSort(props.row.sorting, props.row)"
-              >
+              />
             </template>
           </el-table-column>
           <!-- 正常表单列 -->
@@ -115,19 +113,13 @@
             <template slot-scope="props">
               <div v-if="!props.row.editFlag" class="table-edit">
                 <div @click="handleEdit(props.row)" class="content">{{ props.row.remark }}</div>
-                <div class="cell-icon" @click="handleCellEdit(props.row)">
-                  <i class="el-icon-edit"></i>
-                </div>
+                <div class="cell-icon" @click="handleCellEdit(props.row)"><i class="el-icon-edit"></i></div>
               </div>
               <div v-else class="table-edit">
                 <el-input v-model="props.row.remark" placeholder></el-input>
                 <div class="cell-icon-edit">
-                  <div class="cell-save" @click="handleCellSave(props.row)">
-                    <i class="el-icon-check"></i>
-                  </div>
-                  <div class="cell-cancel" @click="handleCellCancel(props.row)">
-                    <i class="el-icon-close"></i>
-                  </div>
+                  <div class="cell-save" @click="handleCellSave(props.row)"><i class="el-icon-check"></i></div>
+                  <div class="cell-cancel" @click="handleCellCancel(props.row)"><i class="el-icon-close"></i></div>
                 </div>
               </div>
             </template>
@@ -147,13 +139,14 @@
         <el-table-column label="操作" fixed="right" width="170">
           <template slot-scope="scope">
             <el-button
-              v-for="(item,index) in operate"
+              v-for="(item, index) in operate"
               :type="item.type"
               plain
               size="mini"
               :key="index"
               @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
-            >{{item.name}}</el-button>
+              >{{ item.name }}</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -171,7 +164,9 @@
         ></el-pagination>
       </div>
     </div>
-    <source-code link="https://github.com/TaleLin/lin-cms-vue/blob/master/src/plugins/LinCmsUi/views/table/TableCombo.vue"></source-code>
+    <source-code
+      link="https://github.com/TaleLin/lin-cms-vue/blob/master/src/plugins/LinCmsUi/views/table/TableCombo.vue"
+    ></source-code>
   </div>
 </template>
 
@@ -221,15 +216,13 @@ export default {
     // 定制列
     this.tempCheckList = tableColumn.map(v => v.label).slice()
     this.checkList = tableColumn.map(v => v.label)
-    this.filterTableColumn = tableColumn.filter(
-      v => this.checkList.indexOf(v.label) > -1,
-    )
+    this.filterTableColumn = tableColumn.filter(v => this.checkList.indexOf(v.label) > -1)
   },
   methods: {
     // 获取数据
     _getTableData(start, count) {
       const res = movie.getTop250(start, count)
-      res.map((item) => {
+      res.map(item => {
         const temp = item
         temp.editFlag = false
         return ''
@@ -243,9 +236,7 @@ export default {
 
     // 定制列
     handleChange() {
-      this.filterTableColumn = tableColumn.filter(
-        v => this.checkList.indexOf(v.label) > -1,
-      )
+      this.filterTableColumn = tableColumn.filter(v => this.checkList.indexOf(v.label) > -1)
     },
     showRowOperateModal() {},
 
@@ -287,13 +278,13 @@ export default {
 
     // 单元格编辑
     handleCellEdit(row) {
-      row.editFlag = true; // eslint-disable-line
+      row.editFlag = true // eslint-disable-line
       this.$set(this.filterTableColumn[7], 'width', 200)
       this.tempEditRemark = row.remark
       this.editRow++
     },
     handleCellSave(row) {
-      row.editFlag = false; // eslint-disable-line
+      row.editFlag = false // eslint-disable-line
       setTimeout(() => {
         this.editRow--
         this.$message({
@@ -303,9 +294,9 @@ export default {
       }, 1000)
     },
     handleCellCancel(row) {
-      row.editFlag = false; // eslint-disable-line
+      row.editFlag = false // eslint-disable-line
       console.log(this.tempEditRemark)
-      row.remark = this.tempEditRemark; // eslint-disable-line
+      row.remark = this.tempEditRemark // eslint-disable-line
       this.editRow--
     },
 
@@ -314,10 +305,7 @@ export default {
       this.currentPage = val
       this.loading = true
       setTimeout(() => {
-        this._getTableData(
-          (this.currentPage - 1) * this.pageCount,
-          this.pageCount,
-        )
+        this._getTableData((this.currentPage - 1) * this.pageCount, this.pageCount)
         this.loading = false
       }, 1000)
     },
@@ -341,10 +329,10 @@ export default {
           type: 'warning',
         })
         .then(async () => {
-          self.loading = true; // eslint-disable-line
+          self.loading = true // eslint-disable-line
           setTimeout(() => {
             self.tableData.splice(index, 1)
-            self.loading = false; // eslint-disable-line
+            self.loading = false // eslint-disable-line
           }, 1000)
         })
     },
@@ -391,8 +379,8 @@ export default {
     editRow() {
       if (this.filterTableColumn[7]) {
         this.editRow === 0 // eslint-disable-line
-          ? this.$set(this.filterTableColumn[7], "width", 200) // eslint-disable-line
-          : null; // eslint-disable-line
+          ? this.$set(this.filterTableColumn[7], 'width', 200) // eslint-disable-line
+          : null // eslint-disable-line
       }
       return ''
     },
