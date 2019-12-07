@@ -309,6 +309,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    /** 上传成功后的钩子 */
+    onSuccess: {
+      type: Function,
+      default: () => {},
+    },
+    /** 上传失败后的钩子 */
+    onError: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
     /** 每项容器样式 */
@@ -621,8 +631,10 @@ export default {
         this.originUpload(item, data => {
           reduceResult(item, data)
           if (!data) {
+            this.onError(item)
             resolve(false)
           } else {
+            this.onSuccess(item)
             resolve(item)
           }
         })
@@ -1013,7 +1025,11 @@ export default {
       // 检测是否是动图
       let isAnimated = null
       if (animatedCheck) {
-        isAnimated = await checkIsAnimated({ file, fileType, fileUrl: localSrc })
+        isAnimated = await checkIsAnimated({
+          file,
+          fileType,
+          fileUrl: localSrc,
+        })
       }
       return new Promise((resolve, reject) => {
         let image = new Image()
