@@ -1,6 +1,6 @@
 <template>
   <div class="lin-search">
-    <el-input size="medium"  :placeholder="placeholder" clearable v-model="keyword" class="input-with-select">
+    <el-input size="medium" :placeholder="placeholder" clearable v-model="keyword" class="input-with-select">
       <el-button slot="append" icon="el-icon-search"></el-button>
     </el-input>
   </div>
@@ -25,7 +25,7 @@ export default {
     // 节流搜索
     this.$watch(
       'keyword',
-      Utils.debounce((newQuery) => {
+      Utils.debounce(newQuery => {
         this.$emit('query', newQuery)
       }, 1000),
     )

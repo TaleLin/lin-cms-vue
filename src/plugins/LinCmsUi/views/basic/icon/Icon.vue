@@ -3,86 +3,48 @@
     <div class="lin-title">Icon 图标</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>方向性图标</span>
-        </div>
+        <div slot="header"><span>方向性图标</span></div>
         <el-row style="margin-bottom:10px;">
-          <el-col
-            :span="4"
-            v-for="item in iconList1"
-            :key="item"
-            style="margin-bottom:20px;text-align:center;">
-            <l-icon
-              :name="item"
-              :color="color"
-              :width="width"
-              :height="height"></l-icon>
-              <div style="color:#2f4e8c;margin-top:5px;">{{item}}</div>
+          <el-col :span="4" v-for="item in iconList1" :key="item" style="margin-bottom:20px;text-align:center;">
+            <l-icon :name="item" :color="color" :width="width" :height="height"></l-icon>
+            <div style="color:#2f4e8c;margin-top:5px;">{{ item }}</div>
           </el-col>
         </el-row>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>提示建议性图标</span>
-        </div>
+        <div slot="header"><span>提示建议性图标</span></div>
         <el-row style="margin-bottom:10px;">
-          <el-col
-            :span="4"
-            v-for="item in iconList2"
-            :key="item"
-            style="margin-bottom:20px;text-align:center;">
-            <l-icon
-              :name="item"
-              :color="color"
-              :width="width"
-              :height="height"></l-icon>
-               <div style="color:#2f4e8c;margin-top:5px;">{{item}}</div>
+          <el-col :span="4" v-for="item in iconList2" :key="item" style="margin-bottom:20px;text-align:center;">
+            <l-icon :name="item" :color="color" :width="width" :height="height"></l-icon>
+            <div style="color:#2f4e8c;margin-top:5px;">{{ item }}</div>
           </el-col>
         </el-row>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>编辑类图标</span>
-        </div>
+        <div slot="header"><span>编辑类图标</span></div>
         <el-row style="margin-bottom:10px;">
-          <el-col
-            :span="4"
-            v-for="item in iconList3"
-            :key="item"
-            style="margin-bottom:20px;text-align:center;">
-            <l-icon
-              :name="item"
-              :color="color"
-              :width="width"
-              :height="height"></l-icon>
-               <div style="color:#2f4e8c;margin-top:5px;">{{item}}</div>
+          <el-col :span="4" v-for="item in iconList3" :key="item" style="margin-bottom:20px;text-align:center;">
+            <l-icon :name="item" :color="color" :width="width" :height="height"></l-icon>
+            <div style="color:#2f4e8c;margin-top:5px;">{{ item }}</div>
           </el-col>
         </el-row>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>网站通用图标</span>
-        </div>
+        <div slot="header"><span>网站通用图标</span></div>
         <el-row style="margin-bottom:10px;">
-          <el-col
-            :span="4"
-            v-for="item in iconList4"
-            :key="item"
-            style="margin-bottom:20px;text-align:center;">
-            <l-icon
-              :name="item"
-              :color="color"
-              :width="width"
-              :height="height"></l-icon>
-               <div style="color:#2f4e8c;margin-top:5px;">{{item}}</div>
+          <el-col :span="4" v-for="item in iconList4" :key="item" style="margin-bottom:20px;text-align:center;">
+            <l-icon :name="item" :color="color" :width="width" :height="height"></l-icon>
+            <div style="color:#2f4e8c;margin-top:5px;">{{ item }}</div>
           </el-col>
         </el-row>
       </el-card>
     </div>
-    <source-code :link="`http://doc.cms.7yue.pro/lin/client/components/icon.html#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95`"></source-code>
+    <source-code
+      :link="`http://doc.cms.7yue.pro/lin/client/components/icon.html#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95`"
+    ></source-code>
   </div>
 </template>
 
@@ -199,5 +161,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/style/container'
+@import '../../../assets/style/container';
 </style>

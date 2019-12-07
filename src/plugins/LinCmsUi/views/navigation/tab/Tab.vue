@@ -3,9 +3,7 @@
     <div class="lin-title">Tabs 标签页</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础用法</span>
-        </div>
+        <div slot="header"><span>基础用法</span></div>
         <el-row>
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
@@ -17,15 +15,13 @@
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>选项卡样式</span>
-        </div>
+        <div slot="header"><span>选项卡样式</span></div>
         <el-row>
           <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
             <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
@@ -37,15 +33,13 @@
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{tabs}}</div>
+            <div style="white-space: pre-wrap;">{{ tabs }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>卡片化</span>
-        </div>
+        <div slot="header"><span>卡片化</span></div>
         <el-row>
           <el-tabs type="border-card">
             <el-tab-pane label="用户管理">用户管理</el-tab-pane>
@@ -57,15 +51,13 @@
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{card}}</div>
+            <div style="white-space: pre-wrap;">{{ card }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>位置</span>
-        </div>
+        <div slot="header"><span>位置</span></div>
         <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
           <el-radio-button label="top">top</el-radio-button>
           <el-radio-button label="right">right</el-radio-button>
@@ -82,21 +74,16 @@
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{position}}</div>
+            <div style="white-space: pre-wrap;">{{ position }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>自定义</span>
-        </div>
+        <div slot="header"><span>自定义</span></div>
         <el-tabs type="border-card">
           <el-tab-pane>
-            <span slot="label">
-              <i class="el-icon-date"></i> 我的行程
-            </span>
-            我的行程
+            <span slot="label"> <i class="el-icon-date"></i> 我的行程 </span> 我的行程
           </el-tab-pane>
           <el-tab-pane label="消息中心">消息中心</el-tab-pane>
           <el-tab-pane label="角色管理">角色管理</el-tab-pane>
@@ -105,7 +92,7 @@
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{define}}</div>
+            <div style="white-space: pre-wrap;">{{ define }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -177,5 +164,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../assets/style/container.scss";
+@import '../../../assets/style/container.scss';
 </style>

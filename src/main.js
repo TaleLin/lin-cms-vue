@@ -16,7 +16,6 @@ import StickyTop from '@/components/base/sticky-top/sticky-top'
 import LIcon from '@/components/base/icon/lin-icon'
 import SourceCode from '@/components/base/source-code/source-code'
 
-
 import '@/assets/styles/index.scss' // eslint-disable-line
 import '@/assets/styles/realize/element-variables.scss'
 import 'element-ui/lib/theme-chalk/display.css'

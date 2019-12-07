@@ -6,18 +6,17 @@ import state from './state'
 import * as getters from './getters'
 import actions from './actions'
 
-
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  reducer: state => ({ // eslint-disable-line
+  reducer: () => ({
+    // eslint-disable-line
     logined: state.logined,
     user: state.user,
     auths: state.auths,
   }),
 })
-
 
 export default new Vuex.Store({
   state,

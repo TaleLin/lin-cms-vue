@@ -1,16 +1,14 @@
 /* eslint-disable class-methods-use-this */
-import {
-  get,
-} from '@/lin/plugins/axios'
+import { get } from '@/lin/plugins/axios'
 
 class Log {
-  name = null;
+  name = null
 
-  start = null;
+  start = null
 
-  end = null;
+  end = null
 
-  keyword = null;
+  keyword = null
 
   constructor({
     uPage = 0,
@@ -97,14 +95,7 @@ class Log {
    * @param {number} start 起始时间 # 2018-11-01 09:39:35
    * @param {number} end 结束时间
    */
-  async getLogs({
-    count,
-    page,
-    name,
-    start,
-    end,
-    next = false,
-  }) {
+  async getLogs({ count, page, name, start, end, next = false }) {
     try {
       if (!next) {
         this.setBaseInfo(name, start, end)
@@ -134,15 +125,7 @@ class Log {
    * @param {number} start 起始时间 # 2018-11-01 09:39:35
    * @param {number} end 结束时间
    */
-  async searchLogs({
-    count,
-    page,
-    keyword,
-    name,
-    start,
-    end,
-    next = false,
-  }) {
+  async searchLogs({ count, page, keyword, name, start, end, next = false }) {
     if (!next) {
       this.setBaseInfo(name, start, end)
       this.setKeyword(keyword)

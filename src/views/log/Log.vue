@@ -1,38 +1,32 @@
 <template>
   <div class="log">
     <sticky-top>
-    <div class="log-header">
-      <div class="header-left">
-        <p class="title">日志信息</p>
+      <div class="log-header">
+        <div class="header-left"><p class="title">日志信息</p></div>
+        <div class="header-right" v-auth="'搜索日志'">
+          <lin-search @query="onQueryChange" ref="searchKeyword" />
+          <el-dropdown size="medium" style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
+            <el-button size="medium">
+              {{ searchUser ? searchUser : '全部人员' }} <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-user-solid" v-for="(user, index) in users" :key="index" :command="[user]"
+                >{{ user }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date"> </lin-date-picker>
+        </div>
       </div>
-      <div class="header-right" v-auth="'搜索日志'">
-        <lin-search @query="onQueryChange" ref="searchKeyword" />
-        <el-dropdown  size="medium" style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
-          <el-button  size="medium">
-            {{searchUser ? searchUser : '全部人员'}}
-            <i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
-            <el-dropdown-item
-              icon="el-icon-user-solid"
-              v-for="(user, index) in users"
-              :key="index"
-              :command="[user]">{{user}}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date">
-        </lin-date-picker>
-      </div>
-    </div>
-    <el-divider v-if="!keyword"></el-divider>
+      <el-divider v-if="!keyword"></el-divider>
     </sticky-top>
     <transition name="fade">
       <div class="search" v-if="keyword">
         <p class="search-tip">
-          搜索“<span class="search-keyword">{{keyword}}</span>”，
-          找到 <span class="search-num">{{totalCount}}</span> 条日志信息</p>
+          搜索“<span class="search-keyword">{{ keyword }}</span
+          >”， 找到 <span class="search-num">{{ totalCount }}</span> 条日志信息
+        </p>
         <button class="search-back" @click="backInit">返回全部日志</button>
       </div>
     </transition>
@@ -43,25 +37,22 @@
           <aside>
             <p class="things" v-html="log.message"></p>
             <p class="brief">
-              <span class="text-yellow">{{log.user_name}}</span>
-              {{log.time | dateTimeFormatter}}
+              <span class="text-yellow">{{ log.user_name }}</span> {{ log.time | dateTimeFormatter }}
             </p>
           </aside>
         </section>
       </article>
 
       <el-divider></el-divider>
-      <div class="more" :class="{nothing: finished}">
+      <div class="more" :class="{ nothing: finished }">
         <i v-if="more" class="iconfont icon-loading"></i>
         <div v-show="!more && !finished" @click="nextPage">
-          <span>查看更多</span>
-          <i class="iconfont icon-gengduo" style="font-size:14px"></i>
+          <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size:14px"></i>
         </div>
         <div v-if="finished">
-          <span>{{totalCount === 0 ? '暂无数据' : '没有更多数据了'}}</span>
+          <span>{{ totalCount === 0 ? '暂无数据' : '没有更多数据了' }}</span>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -257,11 +248,10 @@ export default {
 
 <style lang="scss" scoped>
 .log /deep/ .el-button {
-  padding-top:10px;
-  padding-bottom:10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .log {
-
   .log-header {
     display: flex;
     justify-content: space-between;
@@ -296,7 +286,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top:24px;
+    margin-top: 24px;
 
     .search-tip {
       margin-left: 40px;
@@ -339,7 +329,7 @@ export default {
         position: relative;
 
         &:before {
-          content: "";
+          content: '';
           width: 1px;
           top: 7px;
           bottom: -17px;
@@ -353,7 +343,7 @@ export default {
         }
 
         .point-time {
-          content: "";
+          content: '';
           position: absolute;
           width: 10px;
           height: 10px;

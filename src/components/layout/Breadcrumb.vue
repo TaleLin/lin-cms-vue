@@ -1,13 +1,9 @@
 <template>
   <div class="nav-title">
-    <a
-      class="item"
-      v-for="(item, index) in titleArr"
-      style="cursor: default;"
-      :key="index">
+    <a class="item" v-for="(item, index) in titleArr" style="cursor: default;" :key="index">
       <!-- <i v-if="index===0"
          :class="item.meta.icon"></i> -->
-      <p>{{item}}</p>
+      <p>{{ item }}</p>
     </a>
   </div>
 </template>
@@ -50,7 +46,7 @@ export default {
     color: $right-side-font-color;
 
     &:after {
-      content: "/";
+      content: '/';
       position: absolute;
       top: 0;
       right: 6px;
@@ -62,7 +58,7 @@ export default {
     padding-right: 0;
 
     &:after {
-      content: "";
+      content: '';
     }
   }
 }

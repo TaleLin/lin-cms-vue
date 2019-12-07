@@ -5,7 +5,7 @@ import { getToken } from './cookie'
 import store from '../../store'
 
 export default class Sse {
-  source = null;
+  source = null
 
   /**
    * 需在vuex中确认有user对象后才能初始化，否则不连接服务器
@@ -23,25 +23,25 @@ export default class Sse {
     })
     this.open()
 
-    events.forEach((event) => {
+    events.forEach(event => {
       this.addEventListener(event)
     })
   }
 
   open() {
-    this.source.onopen = (event) => {
+    this.source.onopen = event => {
       console.log('sse opened', event)
     }
   }
 
   error() {
-    this.source.onerror = (event) => {
+    this.source.onerror = event => {
       console.log('error', event)
     }
   }
 
   addEventListener(eventName) {
-    this.source.addEventListener(eventName, (event) => {
+    this.source.addEventListener(eventName, event => {
       // console.log('receive one message: ', event.data)
       // console.log('receive one message: ', event.lastEventId)
       store.commit('ADD_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
