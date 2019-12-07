@@ -3,144 +3,86 @@
     <div class="lin-title">Notification 通知</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础用法</span>
-        </div>
+        <div slot="header"><span>基础用法</span></div>
         <el-row>
           <div>
             <template>
-              <el-button
-                plain
-                @click="open1">
-                可自动关闭
-              </el-button>
-              <el-button
-                plain
-                @click="open2">
-                不会自动关闭
-                </el-button>
-              </template>
+              <el-button plain @click="open1"> 可自动关闭 </el-button>
+              <el-button plain @click="open2"> 不会自动关闭 </el-button>
+            </template>
           </div>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
-       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>带有倾向性</span>
-        </div>
+      <el-card style="margin-bottom:50px;">
+        <div slot="header"><span>带有倾向性</span></div>
         <el-row>
           <div>
             <template>
-              <el-button
-                plain
-                @click="open3">
-                成功
-              </el-button>
-              <el-button
-                plain
-                @click="open4">
-                警告
-              </el-button>
-              <el-button
-                plain
-                @click="open5">
-                消息
-              </el-button>
-              <el-button
-                plain
-                @click="open6">
-                错误
-              </el-button>
+              <el-button plain @click="open3"> 成功 </el-button>
+              <el-button plain @click="open4"> 警告 </el-button>
+              <el-button plain @click="open5"> 消息 </el-button>
+              <el-button plain @click="open6"> 错误 </el-button>
             </template>
           </div>
         </el-row>
         <el-collapse class="test" style="color:red;">
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{type}}</div>
+            <div style="white-space: pre-wrap;">{{ type }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>自定义弹出位置</span>
-        </div>
+        <div slot="header"><span>自定义弹出位置</span></div>
         <el-row>
-        <div>
-         <template>
-            <el-button
-              plain
-              @click="open7">
-              右上角
-            </el-button>
-            <el-button
-              plain
-              @click="open8">
-              右下角
-            </el-button>
-            <el-button
-              plain
-              @click="open9">
-              左下角
-            </el-button>
-            <el-button
-              plain
-              @click="open10">
-              左上角
-            </el-button>
-          </template>
-        </div>
+          <div>
+            <template>
+              <el-button plain @click="open7"> 右上角 </el-button>
+              <el-button plain @click="open8"> 右下角 </el-button>
+              <el-button plain @click="open9"> 左下角 </el-button>
+              <el-button plain @click="open10"> 左上角 </el-button>
+            </template>
+          </div>
         </el-row>
         <el-collapse class="test" style="color:red;">
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{position}}</div>
+            <div style="white-space: pre-wrap;">{{ position }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>带有偏移</span>
-        </div>
+        <div slot="header"><span>带有偏移</span></div>
         <el-row>
-         <div>
-          <template>
-            <el-button
-              plain
-              @click="open">
-              偏移的消息
-            </el-button>
-          </template>
-        </div>
+          <div>
+            <template>
+              <el-button plain @click="open"> 偏移的消息 </el-button>
+            </template>
+          </div>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{offset}}</div>
+            <div style="white-space: pre-wrap;">{{ offset }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>使用 HTML 片段</span>
-        </div>
+        <div slot="header"><span>使用 HTML 片段</span></div>
         <el-row>
-         <div>
-          <template>
-            <el-button
-              plain
-              @click="open11">
-              使用 HTML 片段
-            </el-button>
-          </template>
-        </div>
+          <div>
+            <template>
+              <el-button plain @click="open11"> 使用 HTML 片段 </el-button>
+            </template>
+          </div>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{dangerouslyUseHTMLString}}</div>
+            <div style="white-space: pre-wrap;">{{ dangerouslyUseHTMLString }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -348,7 +290,7 @@ export default {
               }
             }
           }
-        <\/script>`
+        <\/script>`,
     }
   },
   // 计算属性设置
@@ -370,7 +312,11 @@ export default {
       const h = this.$createElement
       this.$notify({
         title: '标题名称',
-        message: h('i', { style: 'color: #3963BC' }, '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案'),
+        message: h(
+          'i',
+          { style: 'color: #3963BC' },
+          '这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案这是提示文案',
+        ),
       })
     },
 
@@ -455,5 +401,4 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/style/container';
-
 </style>

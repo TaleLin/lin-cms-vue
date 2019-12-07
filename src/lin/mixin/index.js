@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 
-
 const globalMixin = {
   // eslint-disable-next-line
   install(Vue) {
@@ -33,9 +32,7 @@ const globalMixin = {
         // ...filter,
       },
       computed: {
-        ...mapGetters([
-          'user',
-        ]),
+        ...mapGetters(['user']),
       },
     })
   },

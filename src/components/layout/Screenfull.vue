@@ -1,6 +1,6 @@
 <template>
   <div class="container" title="全屏/正常">
-    <i class="iconfont" :class="isFullscreen?'icon-quxiaoquanping':'icon-quanping'" @click="handleFullScreen"></i>
+    <i class="iconfont" :class="isFullscreen ? 'icon-quxiaoquanping' : 'icon-quanping'" @click="handleFullScreen"></i>
   </div>
 </template>
 

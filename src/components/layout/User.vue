@@ -2,14 +2,12 @@
   <div class="user">
     <el-dropdown>
       <span class="el-dropdown-link">
-        <div class="nav-avatar">
-          <img :src="user.avatar || defaultAvatar" alt="头像">
-        </div>
+        <div class="nav-avatar"><img :src="user.avatar || defaultAvatar" alt="头像" /></div>
       </span>
       <el-dropdown-menu slot="dropdown" class="user-box">
         <div class="user-info">
           <div class="avatar" title="点击修改头像">
-            <img :src="user.avatar || defaultAvatar" alt="头像">
+            <img :src="user.avatar || defaultAvatar" alt="头像" />
             <label class="mask">
               <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
               <input ref="avatarInput" type="file" accept="image/*" @change="fileChange" />
@@ -23,9 +21,10 @@
               v-else
               v-model="nickname"
               ref="input"
-              @blur="blur"></el-input>
+              @blur="blur"
+            ></el-input>
           </div>
-          <img src="../../assets/img/user/corner.png" class="corner">
+          <img src="../../assets/img/user/corner.png" class="corner" />
           <div class="info">
             <div class="username">{{ username }}</div>
             <div class="mid">|</div>
@@ -34,13 +33,9 @@
         </div>
         <ul class="dropdown-box">
           <li class="password" @click="changePassword">
-            <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i>
-            <span>修改登录密码</span>
+            <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i> <span>修改登录密码</span>
           </li>
-          <li class="account" @click="outLogin">
-            <i class="iconfont icon-tuichu"></i>
-            <span>退出账户</span>
-          </li>
+          <li class="account" @click="outLogin"><i class="iconfont icon-tuichu"></i> <span>退出账户</span></li>
         </ul>
       </el-dropdown-menu>
     </el-dropdown>
@@ -52,7 +47,8 @@
       :append-to-body="true"
       :close-on-click-modal="false"
       custom-class="croppa-dialog"
-      center>
+      center
+    >
       <div style="text-align: center;">
         <div class="avatar-croppa-container">
           <croppa
@@ -68,7 +64,8 @@
             :disable-scroll-to-zoom="false"
             :show-loading="true"
             :quality="quality"
-            :initial-image="cropImg">
+            :initial-image="cropImg"
+          >
           </croppa>
         </div>
         <div style="margin-top: 1em;">通过鼠标滚轮调节头像大小</div>
@@ -83,7 +80,8 @@
       :append-to-body="true"
       :before-close="handleClose"
       :visible.sync="dialogFormVisible"
-      class="user-dialog">
+      class="user-dialog"
+    >
       <el-form
         :model="form"
         status-icon
@@ -91,7 +89,8 @@
         label-position="left"
         ref="form"
         label-width="90px"
-        @submit.native.prevent>
+        @submit.native.prevent
+      >
         <el-form-item label="原始密码" prop="old_password">
           <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
         </el-form-item>
@@ -107,7 +106,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-
   </div>
 </template>
 
@@ -168,15 +166,9 @@ export default {
         confirm_password: '',
       },
       rules: {
-        old_password: [
-          { validator: oldPassword, trigger: 'blur', required: true },
-        ],
-        new_password: [
-          { validator: validatePassword, trigger: 'blur', required: true },
-        ],
-        confirm_password: [
-          { validator: validatePassword2, trigger: 'blur', required: true },
-        ],
+        old_password: [{ validator: oldPassword, trigger: 'blur', required: true }],
+        new_password: [{ validator: validatePassword, trigger: 'blur', required: true }],
+        confirm_password: [{ validator: validatePassword2, trigger: 'blur', required: true }],
       },
       cropRule: {
         width,
@@ -270,7 +262,7 @@ export default {
         data: {
           file,
         },
-      }).then((res) => {
+      }).then(res => {
         // 清空输入框
         this.clearFileInput(this.$refs.avatarInput)
         if (!Array.isArray(res) || res.length !== 1) {
@@ -287,22 +279,26 @@ export default {
           data: {
             avatar: res[0].path,
           },
-        }).then((res) => { // eslint-disable-line
-          if (res.error_code === 0) {
-            this.$message({
-              type: 'success',
-              message: '更新头像成功',
-            })
-            this.cropVisible = false
-            // 触发重新获取用户信息
-            return User.getInformation()
-          }
-          return Promise.reject(new Error('更新头像失败'))
-        }).then((res) => { // eslint-disable-line
-          // 尝试获取当前用户信息
-          const user = res
-          this.setUserAndState(user)
         })
+          .then(putRes => {
+            // eslint-disable-line
+            if (putRes.error_code === 0) {
+              this.$message({
+                type: 'success',
+                message: '更新头像成功',
+              })
+              this.cropVisible = false
+              // 触发重新获取用户信息
+              return User.getInformation()
+            }
+            return Promise.reject(new Error('更新头像失败'))
+          })
+          .then(infoRes => {
+            // eslint-disable-line
+            // 尝试获取当前用户信息
+            const user = infoRes
+            this.setUserAndState(user)
+          })
       })
     },
     changeNickname() {
@@ -324,19 +320,22 @@ export default {
             params: {
               showBackend: true,
             },
-          }).then((res) => {
-            if (res.error_code === 0) {
-              this.$message({
-                type: 'success',
-                message: '更新昵称成功',
-              })
-              // 触发重新获取用户信息
-              return User.getInformation()
-            }
-            this.nickname = user.nickname
-          }).then((res) => { // eslint-disable-line
-            this.setUserAndState(res)
           })
+            .then(res => {
+              if (res.error_code === 0) {
+                this.$message({
+                  type: 'success',
+                  message: '更新昵称成功',
+                })
+                // 触发重新获取用户信息
+                return User.getInformation()
+              }
+              this.nickname = user.nickname
+            })
+            .then(res => {
+              // eslint-disable-line
+              this.setUserAndState(res)
+            })
         }
       }
       this.nicknameChanged = false
@@ -368,7 +367,7 @@ export default {
         this.$message.error('新密码不能与原始密码一样')
         return
       }
-      this.$refs[formName].validate(async (valid) => {
+      this.$refs[formName].validate(async valid => {
         // eslint-disable-line
         if (valid) {
           const res = await User.updatePassword(this.form)
@@ -436,7 +435,7 @@ export default {
   border: none;
 
   .user-info {
-    background-image: url("../../assets/img/user/user-bg.png");
+    background-image: url('../../assets/img/user/user-bg.png');
     background-size: 100% 100%;
     transform: translateY(-10px);
     border-top-left-radius: 4px;
@@ -465,13 +464,13 @@ export default {
 
       .mask {
         opacity: 0;
-        transition: all .2s;
+        transition: all 0.2s;
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, .3);
+        background: rgba(0, 0, 0, 0.3);
         display: flex;
         justify-content: center;
         align-items: center;

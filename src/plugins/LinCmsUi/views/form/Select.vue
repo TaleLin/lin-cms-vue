@@ -3,30 +3,21 @@
     <div class="lin-title">Select 选择器</div>
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础用法</span>
-        </div>
+        <div slot="header"><span>基础用法</span></div>
         <el-row>
           <el-select size="medium" v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>有禁用选项</span>
-        </div>
+        <div slot="header"><span>有禁用选项</span></div>
         <el-row>
           <el-select size="medium" v-model="value2" placeholder="请选择">
             <el-option
@@ -34,78 +25,51 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-              :disabled="item.disabled">
+              :disabled="item.disabled"
+            >
             </el-option>
           </el-select>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{disabled}}</div>
+            <div style="white-space: pre-wrap;">{{ disabled }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>可清空单选</span>
-        </div>
+        <div slot="header"><span>可清空单选</span></div>
         <el-row>
-          <el-select
-            size="medium"
-            clearable
-            v-model="value3"
-            placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select size="medium" clearable v-model="value3" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{clearable}}</div>
+            <div style="white-space: pre-wrap;">{{ clearable }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础多选</span>
-        </div>
+        <div slot="header"><span>基础多选</span></div>
         <el-row>
-          <el-select
-            size="medium"
-            multiple
-            v-model="value4"
-            placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select size="medium" multiple v-model="value4" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{multiple}}</div>
+            <div style="white-space: pre-wrap;">{{ multiple }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>自定义模板</span>
-        </div>
+        <div slot="header"><span>自定义模板</span></div>
         <el-row>
           <el-select v-model="value5" placeholder="请选择">
-            <el-option
-              v-for="item in cities"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+            <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value">
               <span style="float: left">{{ item.label }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.value }}</span>
             </el-option>
@@ -113,82 +77,55 @@
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{template}}</div>
+            <div style="white-space: pre-wrap;">{{ template }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>分组</span>
-        </div>
+        <div slot="header"><span>分组</span></div>
         <el-row>
           <el-select v-model="value6" placeholder="请选择">
             <el-option-group v-for="group in options3" :key="group.label" :label="group.label">
-              <el-option
-                v-for="item in group.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
+              <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-option-group>
           </el-select>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{group}}</div>
+            <div style="white-space: pre-wrap;">{{ group }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>可搜索</span>
-        </div>
+        <div slot="header"><span>可搜索</span></div>
         <el-row>
           <el-select v-model="value7" filterable placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{filterable}}</div>
+            <div style="white-space: pre-wrap;">{{ filterable }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>创建条目</span>
-        </div>
+        <div slot="header"><span>创建条目</span></div>
         <el-row>
-          <el-select
-            v-model="value8"
-            multiple
-            filterable
-            allow-create
-            default-first-option
-            placeholder="请选择标签">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
+          <el-select v-model="value8" multiple filterable allow-create default-first-option placeholder="请选择标签">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{create}}</div>
+            <div style="white-space: pre-wrap;">{{ create }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
-
     </div>
   </div>
 </template>
@@ -199,83 +136,113 @@ export default {
   components: {},
   data() {
     return {
-      options: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-      }, {
-        value: '选项3',
-        label: '蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
-      options2: [{
-        value: '选项1',
-        label: '黄金糕',
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-        disabled: true,
-      }, {
-        value: '选项3',
-        label: '蚵仔煎',
-      }, {
-        value: '选项4',
-        label: '龙须面',
-      }, {
-        value: '选项5',
-        label: '北京烤鸭',
-      }],
-      cities: [{
-        value: 'Beijing',
-        label: '北京',
-      }, {
-        value: 'Shanghai',
-        label: '上海',
-      }, {
-        value: 'Nanjing',
-        label: '南京',
-      }, {
-        value: 'Chengdu',
-        label: '成都',
-      }, {
-        value: 'Shenzhen',
-        label: '深圳',
-      }, {
-        value: 'Guangzhou',
-        label: '广州',
-      }],
-      options3: [{
-        label: '热门城市',
-        options: [{
-          value: 'Shanghai',
-          label: '上海',
-        }, {
+      options: [
+        {
+          value: '选项1',
+          label: '黄金糕',
+        },
+        {
+          value: '选项2',
+          label: '双皮奶',
+        },
+        {
+          value: '选项3',
+          label: '蚵仔煎',
+        },
+        {
+          value: '选项4',
+          label: '龙须面',
+        },
+        {
+          value: '选项5',
+          label: '北京烤鸭',
+        },
+      ],
+      options2: [
+        {
+          value: '选项1',
+          label: '黄金糕',
+        },
+        {
+          value: '选项2',
+          label: '双皮奶',
+          disabled: true,
+        },
+        {
+          value: '选项3',
+          label: '蚵仔煎',
+        },
+        {
+          value: '选项4',
+          label: '龙须面',
+        },
+        {
+          value: '选项5',
+          label: '北京烤鸭',
+        },
+      ],
+      cities: [
+        {
           value: 'Beijing',
           label: '北京',
-        }],
-      }, {
-        label: '城市名',
-        options: [{
+        },
+        {
+          value: 'Shanghai',
+          label: '上海',
+        },
+        {
+          value: 'Nanjing',
+          label: '南京',
+        },
+        {
           value: 'Chengdu',
           label: '成都',
-        }, {
+        },
+        {
           value: 'Shenzhen',
           label: '深圳',
-        }, {
+        },
+        {
           value: 'Guangzhou',
           label: '广州',
-        }, {
-          value: 'Dalian',
-          label: '大连',
-        }],
-      }],
+        },
+      ],
+      options3: [
+        {
+          label: '热门城市',
+          options: [
+            {
+              value: 'Shanghai',
+              label: '上海',
+            },
+            {
+              value: 'Beijing',
+              label: '北京',
+            },
+          ],
+        },
+        {
+          label: '城市名',
+          options: [
+            {
+              value: 'Chengdu',
+              label: '成都',
+            },
+            {
+              value: 'Shenzhen',
+              label: '深圳',
+            },
+            {
+              value: 'Guangzhou',
+              label: '广州',
+            },
+            {
+              value: 'Dalian',
+              label: '大连',
+            },
+          ],
+        },
+      ],
       value: '',
       value2: '',
       value3: '',

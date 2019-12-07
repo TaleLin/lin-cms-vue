@@ -10,32 +10,43 @@ todo: 文件判断使用 serveWorker 优化性能
   <div class="upload-imgs-container" v-loading="loading">
     <template v-for="(item, i) in itemList">
       <template v-if="item.display">
-        <div
-          class="thumb-item"
-          :key="item.id"
-          :style="boxStyle"
-          v-loading="item.loading">
-          <el-image
-            class="thumb-item-img"
-            :src="item.display"
-            :fit="fit"
-            style="width: 100%; height: 100%;"></el-image>
+        <div class="thumb-item" :key="item.id" :style="boxStyle" v-loading="item.loading">
+          <el-image class="thumb-item-img" :src="item.display" :fit="fit" style="width: 100%; height: 100%;"></el-image>
           <div class="info">
-            <i v-if="item.file" class="el-icon-upload wait-upload" @click.prevent.stop="delItem(item.id)" title="等待上传"></i>
+            <i
+              v-if="item.file"
+              class="el-icon-upload wait-upload"
+              @click.prevent.stop="delItem(item.id)"
+              title="等待上传"
+            ></i>
           </div>
           <div class="control">
             <i v-if="!disabled" class="el-icon-close del" @click.prevent.stop="delItem(item.id)" title="删除"></i>
-            <div
-              v-if="!disabled"
-              class="preview"
-              title="更换图片"
-              @click.prevent.stop="handleClick(item.id)">
+            <div v-if="!disabled" class="preview" title="更换图片" @click.prevent.stop="handleClick(item.id)">
               <i class="el-icon-edit"></i>
             </div>
             <div class="control-bottom" v-if="sortable || preview">
-              <i v-if="sortable && !disabled" title="前移" class="control-bottom-btn el-icon-back" :class="{disabled: (i === 0)}" @click.stop="move(item.id, -1)"></i>
-              <i v-if="preview" class="control-bottom-btn el-icon-view" title="预览" style="cursor: pointer;" @click.stop="previewImg(item, i)"></i>
-              <i v-if="sortable && !disabled" title="后移" class="control-bottom-btn el-icon-right" :class="{disabled: (i === (itemList.length - 1))}" @click.stop="move(item.id, 1)"></i>
+              <i
+                v-if="sortable && !disabled"
+                title="前移"
+                class="control-bottom-btn el-icon-back"
+                :class="{ disabled: i === 0 }"
+                @click.stop="move(item.id, -1)"
+              ></i>
+              <i
+                v-if="preview"
+                class="control-bottom-btn el-icon-view"
+                title="预览"
+                style="cursor: pointer;"
+                @click.stop="previewImg(item, i)"
+              ></i>
+              <i
+                v-if="sortable && !disabled"
+                title="后移"
+                class="control-bottom-btn el-icon-right"
+                :class="{ disabled: i === itemList.length - 1 }"
+                @click.stop="move(item.id, 1)"
+              ></i>
             </div>
           </div>
         </div>
@@ -43,27 +54,30 @@ todo: 文件判断使用 serveWorker 优化性能
       <template v-else>
         <div
           class="upload-item"
-          :class="{'disabled': disabled}"
+          :class="{ disabled: disabled }"
           :key="item.id"
           :style="boxStyle"
           @click="handleClick(item.id)"
-          @keydown="handleKeydown($event, item.id)">
+          @keydown="handleKeydown($event, item.id)"
+        >
           <i class="el-icon-plus" style="font-size: 3em;"></i>
           <div v-html="rulesTip.join('<br>')" style="margin-top: 1em;"></div>
         </div>
       </template>
     </template>
-    <input class="upload-imgs__input" type="file" ref="input" @change="handleChange" :multiple="multiple" :accept="accept" />
+    <input
+      class="upload-imgs__input"
+      type="file"
+      ref="input"
+      @change="handleChange"
+      :multiple="multiple"
+      :accept="accept"
+    />
   </div>
 </template>
 
 <script>
-import {
-  getFileType,
-  checkIsAnimated,
-  isEmptyObj,
-  createId,
-} from './utils'
+import { getFileType, checkIsAnimated, isEmptyObj, createId } from './utils'
 
 /**
  * 本地图像通过验证后构造的信息对象
@@ -179,13 +193,17 @@ function createItem(data = null, oldData = {}) {
  */
 function getRangeTip(prx, min, max, unit = '') {
   let str = prx
-  if (min && max) { // 有范围限制
+  if (min && max) {
+    // 有范围限制
     str += ` ${min}${unit}~${max}${unit}`
-  } else if (min) { // 只有最小范围
+  } else if (min) {
+    // 只有最小范围
     str += ` ≥ ${min}${unit}`
-  } else if (max) { // 只有最大范围
+  } else if (max) {
+    // 只有最大范围
     str += ` ≤ ${max}${unit}`
-  } else { // 无限制
+  } else {
+    // 无限制
     str += '无限制'
   }
   return str
@@ -317,7 +335,7 @@ export default {
       let fontSize = 12
       /** 每行提示预设 */
       const maxText = 8
-      if (typeof width === 'number' && (width / maxText) < fontSize) {
+      if (typeof width === 'number' && width / maxText < fontSize) {
         fontSize = (width / maxText).toFixed(2)
       }
       style.fontSize = `${fontSize}px`
@@ -347,7 +365,7 @@ export default {
     max() {
       const { min, maxNum } = this
       // 兼容用最大值小于最小值情况
-      return (maxNum < min) ? min : parseInt(maxNum, 10)
+      return maxNum < min ? min : parseInt(maxNum, 10)
     },
     /**
      * 是否是固定数量(最小等于最大)
@@ -355,7 +373,7 @@ export default {
      */
     isStable() {
       const { min, max } = this
-      return (max !== 0) && (min === max)
+      return max !== 0 && min === max
     },
     /** 构造图像规范提示 */
     rulesTip() {
@@ -377,15 +395,19 @@ export default {
       }
 
       // 宽高限制提示语
-      if (basicRule.width && basicRule.height) { // 固定宽高限制
+      if (basicRule.width && basicRule.height) {
+        // 固定宽高限制
         tips.push(`宽高 ${basicRule.width}x${basicRule.height}`)
-      } else if (basicRule.width) { // 固定宽限制
+      } else if (basicRule.width) {
+        // 固定宽限制
         tips.push(`宽度 ${basicRule.width}`)
         tips.push(`${getRangeTip('高度', basicRule.minHeight, basicRule.maxHeight)}`)
-      } else if (basicRule.height) { // 固定高限制
+      } else if (basicRule.height) {
+        // 固定高限制
         tips.push(`高度 ${basicRule.height}`)
         tips.push(`${getRangeTip('宽度', basicRule.minWidth, basicRule.maxWidth)}`)
-      } else { // 宽高都不固定
+      } else {
+        // 宽高都不固定
         tips.push(`${getRangeTip('宽度', basicRule.minWidth, basicRule.maxWidth)}`)
         tips.push(`${getRangeTip('高度', basicRule.minHeight, basicRule.maxHeight)}`)
       }
@@ -440,34 +462,36 @@ export default {
         method: 'post',
         url: '/cms/file',
         data,
-      }).then((res) => {
-        if (!Array.isArray(res) || res.length === 0) {
-          throw new Error('图像上传失败')
-        }
-
-        const resObj = res.reduce((acc, item) => {
-          acc[item.key] = item
-          return acc
-        }, {})
-
-        uploadList.forEach((item, index) => {
-          const remoteData = resObj[`file_${index}`]
-          item.cb(remoteData)
-        })
-      }).catch((err) => {
-        uploadList.forEach((item) => {
-          item.cb(false)
-        })
-        let msg = '图像上传失败, 请重试'
-        if (err.msg) {
-          // eslint-disable-next-line
-          msg = err.msg
-        } else if (err.message) {
-          msg = err.message
-        }
-        console.error(err)
-        this.$message.error(msg)
       })
+        .then(res => {
+          if (!Array.isArray(res) || res.length === 0) {
+            throw new Error('图像上传失败')
+          }
+
+          const resObj = res.reduce((acc, item) => {
+            acc[item.key] = item
+            return acc
+          }, {})
+
+          uploadList.forEach((item, index) => {
+            const remoteData = resObj[`file_${index}`]
+            item.cb(remoteData)
+          })
+        })
+        .catch(err => {
+          uploadList.forEach(item => {
+            item.cb(false)
+          })
+          let msg = '图像上传失败, 请重试'
+          if (err.msg) {
+            // eslint-disable-next-line
+            msg = err.msg
+          } else if (err.message) {
+            msg = err.message
+          }
+          console.error(err)
+          this.$message.error(msg)
+        })
     },
     /**
      * 内置上传文件方法, 使用 debounce 优化提交效率
@@ -535,10 +559,10 @@ export default {
       item.loading = true
       if (this.beforeUpload && typeof this.beforeUpload === 'function') {
         if (typeof this.beforeUpload === 'function') {
-          const result = await new Promise((resolve) => {
+          const result = await new Promise(resolve => {
             let beforeUploadResult
             try {
-              beforeUploadResult = this.beforeUpload(item, (data) => {
+              beforeUploadResult = this.beforeUpload(item, data => {
                 resolve(!!data)
               })
             } catch (err) {
@@ -546,11 +570,13 @@ export default {
             }
             // promise 模式
             if (beforeUploadResult != null && typeof beforeUploadResult.then === 'function') {
-              beforeUploadResult.then((remoteData) => {
-                resolve(!!remoteData)
-              }).catch(() => {
-                resolve(false)
-              })
+              beforeUploadResult
+                .then(remoteData => {
+                  resolve(!!remoteData)
+                })
+                .catch(() => {
+                  resolve(false)
+                })
             }
           })
           if (!result) {
@@ -562,10 +588,10 @@ export default {
       // 如果是用户自定义方法
       // 出于简化 api 的考虑, 只允许单个文件上传, 不进行代理
       if (this.remoteFuc && typeof this.remoteFuc === 'function') {
-        const result = await new Promise((resolve) => {
+        const result = await new Promise(resolve => {
           let remoteFucResult
           try {
-            remoteFucResult = this.remoteFuc(item.file, (remoteData) => {
+            remoteFucResult = this.remoteFuc(item.file, remoteData => {
               resolve(remoteData || false)
             })
           } catch (err) {
@@ -574,11 +600,13 @@ export default {
           }
           // promise 模式
           if (remoteFucResult != null && typeof remoteFucResult.then === 'function') {
-            remoteFucResult.then((remoteData) => {
-              resolve(remoteData || false)
-            }).catch(() => {
-              resolve(false)
-            })
+            remoteFucResult
+              .then(remoteData => {
+                resolve(remoteData || false)
+              })
+              .catch(() => {
+                resolve(false)
+              })
           }
         })
         reduceResult(item, result)
@@ -589,8 +617,8 @@ export default {
       }
 
       // 使用内置上传
-      return new Promise((resolve) => {
-        this.originUpload(item, (data) => {
+      return new Promise(resolve => {
+        this.originUpload(item, data => {
           reduceResult(item, data)
           if (!data) {
             resolve(false)
@@ -607,7 +635,7 @@ export default {
       const { itemList, isStable, min } = this
 
       // 检查是否有不符合要求的空项
-      const l = isStable ? itemList.length : (itemList.length - 1)
+      const l = isStable ? itemList.length : itemList.length - 1
       for (let i = 0; i < l; i += 1) {
         if (itemList[i].status === 'input') {
           this.$message.error('当前存在未选择图片, 请全部选择')
@@ -645,7 +673,7 @@ export default {
       /**
        * @type {array<ReturnItem>}
        */
-      const result = imgInfoList.map((item) => {
+      const result = imgInfoList.map(item => {
         /** @type {ReturnItem} */
         const val = {
           id: item.status === 'new' ? '' : item.id,
@@ -672,7 +700,7 @@ export default {
     delItem(id) {
       const { itemList, isStable } = this
       // 根据id找到对应项
-      const index = itemList.findIndex(item => (item.id === id))
+      const index = itemList.findIndex(item => item.id === id)
       const blobUrl = itemList[index].display
       if (isStable) {
         // 固定数量图片, 删除后留下空项
@@ -694,7 +722,7 @@ export default {
       // 如果有全局预览方法
       if (this[this.globalImgPriview]) {
         const images = []
-        this.itemList.forEach((element) => {
+        this.itemList.forEach(element => {
           if (element.display) {
             images.push(element.display)
           }
@@ -718,11 +746,11 @@ export default {
     move(id, step) {
       const { itemList, isStable } = this
       // 找到操作的元素
-      const index = itemList.findIndex(item => (item.id === id))
+      const index = itemList.findIndex(item => item.id === id)
       // 边界检测
-      if ((index + step) < 0 || (index + step) >= itemList.length) return
+      if (index + step < 0 || index + step >= itemList.length) return
       // 非固定项时, 不可和最后一项输入换位子
-      if (!isStable && (index + step) === (itemList.length - 1)) {
+      if (!isStable && index + step === itemList.length - 1) {
         if (itemList[itemList.length - 1].status === 'input') return
       }
       const i = itemList[index]
@@ -831,7 +859,7 @@ export default {
        * 处理单个图片, 返回处理成功的图片数据
        * @param {File} file 图片文件
        */
-      const handleImg = async (file) => {
+      const handleImg = async file => {
         try {
           // 获取图像信息
           const info = await this.getImgInfo(file)
@@ -854,7 +882,7 @@ export default {
         this.setImgInfo(imgInfoList, currentId)
         // 开启自动上传
         if (autoUpload) {
-          this.itemList.forEach((ele) => {
+          this.itemList.forEach(ele => {
             this.uploadImg(ele)
           })
         }
@@ -878,7 +906,7 @@ export default {
     setImgInfo(imgInfoList = [], currentId) {
       const { max, itemList } = this
       // 找到特定图像位置
-      const index = this.itemList.findIndex(item => (item.id === currentId))
+      const index = this.itemList.findIndex(item => item.id === currentId)
       // 释放内存
       window.URL.revokeObjectURL(this.itemList[index].display)
       // 替换图片
@@ -1040,7 +1068,7 @@ export default {
   .thumb-item {
     border: 1px dashed #d9d9d9;
     border-radius: 3px;
-    transition: all .1s;
+    transition: all 0.1s;
     color: #666666;
     margin-right: 1em;
     margin-bottom: 1em;
@@ -1065,8 +1093,8 @@ export default {
       height: 100%;
       top: 0;
       left: 0;
-      transition: all .3s;
-      transition-delay: .1s;
+      transition: all 0.3s;
+      transition-delay: 0.1s;
 
       .wait-upload {
         background: #ffcb71;
@@ -1078,7 +1106,7 @@ export default {
         top: 0;
         right: 0;
         border-radius: 0 0 0 1.4em;
-        transition: all .1s;
+        transition: all 0.1s;
 
         &::before {
           font-size: 1.4em;
@@ -1087,7 +1115,6 @@ export default {
           transform: scale(0.7);
         }
       }
-
     }
 
     .control {
@@ -1100,9 +1127,9 @@ export default {
       top: 0;
       left: 0;
       opacity: 0;
-      background-color: rgba(0, 0, 0, .3);
-      transition: all .3s;
-      transition-delay: .1s;
+      background-color: rgba(0, 0, 0, 0.3);
+      transition: all 0.3s;
+      transition-delay: 0.1s;
 
       .del {
         background: #f4516c;
@@ -1115,7 +1142,7 @@ export default {
         right: 0;
         opacity: 0;
         border-radius: 0 0 0 1.4em;
-        transition: all .1s;
+        transition: all 0.1s;
 
         &::before {
           font-size: 1.4em;
@@ -1125,15 +1152,14 @@ export default {
         }
 
         &:hover {
-          transform: translate(-0.5em, .4em) scale(1.5);
+          transform: translate(-0.5em, 0.4em) scale(1.5);
         }
-
       }
 
       .preview {
         color: white;
         font-size: 2em;
-        transition: all .2s;
+        transition: all 0.2s;
 
         &:hover {
           transform: scale(1.2);
@@ -1146,17 +1172,17 @@ export default {
         left: 0;
         width: 100%;
         color: white;
-        background-color: rgba(0, 0, 0, .3);
+        background-color: rgba(0, 0, 0, 0.3);
         font-size: 1.5em;
         display: flex;
         justify-content: space-around;
         transform: translate(0, 100%);
-        transition: all .2s;
-        transition-delay: .1s;
+        transition: all 0.2s;
+        transition-delay: 0.1s;
         padding: 5px 0;
 
         .control-bottom-btn {
-          transform: all .2s;
+          transform: all 0.2s;
 
           &.disabled {
             color: #ababab;

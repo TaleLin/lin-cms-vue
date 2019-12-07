@@ -3,9 +3,7 @@
     <div class="lin-title">Breadcrumb 面包屑</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础用法</span>
-        </div>
+        <div slot="header"><span>基础用法</span></div>
         <el-row>
           <div>
             <el-breadcrumb separator="/">
@@ -18,14 +16,12 @@
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
-       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>图标分隔符</span>
-        </div>
+      <el-card style="margin-bottom:50px;">
+        <div slot="header"><span>图标分隔符</span></div>
         <el-row>
           <div>
             <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -38,18 +34,16 @@
         </el-row>
         <el-collapse class="test" style="color:red;">
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{separatorClass}}</div>
+            <div style="white-space: pre-wrap;">{{ separatorClass }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>启用replace</span>
-        </div>
+      <el-card style="margin-bottom:50px;">
+        <div slot="header"><span>启用replace</span></div>
         <el-row>
           <div>
-             <span class="demonstration">在使用 to 进行路由跳转时，启用 replace 将不会向 history 添加新记录</span>
+            <span class="demonstration">在使用 to 进行路由跳转时，启用 replace 将不会向 history 添加新记录</span>
             <el-breadcrumb separator-class="el-icon-caret-right">
               <el-breadcrumb-item :to="{ path: '/' }" replace>首页</el-breadcrumb-item>
               <el-breadcrumb-item>活动管理</el-breadcrumb-item>
@@ -60,7 +54,7 @@
         </el-row>
         <el-collapse class="test" style="color:red;">
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{separatorClass}}</div>
+            <div style="white-space: pre-wrap;">{{ separatorClass }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
