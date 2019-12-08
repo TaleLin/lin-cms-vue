@@ -8,9 +8,15 @@
       @handleEdit="handleEdit"
       @handleDelete="handleDelete"
       @row-click="rowClick"
-      v-loading="loading">
+      v-loading="loading"
+    >
     </lin-table>
-    <el-dialog :append-to-body="true" :visible.sync="dialogFormVisible" :before-close="handleClose" class="groupListInfoDialog">
+    <el-dialog
+      :append-to-body="true"
+      :visible.sync="dialogFormVisible"
+      :before-close="handleClose"
+      class="groupListInfoDialog"
+    >
       <div style="margin-top:-25px;">
         <el-tabs v-model="activeTab" @tab-click="handleClick">
           <el-tab-pane label="修改信息" name="修改信息" style="margin-top:10px;">
@@ -22,12 +28,13 @@
               :model="form"
               label-position="labelPosition"
               :rules="rules"
-              style="margin-left:-35px;margin-bottom:-35px;margin-top:15px;">
+              style="margin-left:-35px;margin-bottom:-35px;margin-top:15px;"
+            >
               <el-form-item label="分组名称" prop="name">
-                <el-input size="medium"  clearable v-model="form.name"></el-input>
+                <el-input size="medium" clearable v-model="form.name"></el-input>
               </el-form-item>
               <el-form-item label="分组描述" prop="info">
-                <el-input size="medium"  clearable v-model="form.info"></el-input>
+                <el-input size="medium" clearable v-model="form.info"></el-input>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -39,7 +46,8 @@
               @updateAuths="updateAuths"
               @updateCacheAuths="updateCacheAuths"
               @updateAllAuths="updateAllAuths"
-              style="margin-right:-30px;margin-left:-25px;margin-bottom:-10px;">
+              style="margin-right:-30px;margin-left:-25px;margin-bottom:-10px;"
+            >
             </group-auths>
           </el-tab-pane>
         </el-tabs>
@@ -72,23 +80,24 @@ export default {
       operate: [], // 表格按键操作区
       dialogFormVisible: false, // 是否弹窗
       labelPosition: 'right', // 设置label位置
-      form: { // 表单信息
+      form: {
+        // 表单信息
         name: '',
         info: '',
       },
       allAuths: {}, // 所有分组权限
       auths: [], // 拥有的分组权限
       cacheAuths: [], // 缓存第一次打开弹窗的数据
-      cacheForm: { // 缓存第一次的表单信息
+      cacheForm: {
+        // 缓存第一次的表单信息
         name: '',
         info: '',
       },
       loading: false,
       activeTab: '修改信息', // tab 标题
-      rules: { // 表单验证规则
-        name: [
-          { required: true, message: '请输入分组名称', trigger: 'blur' },
-        ],
+      rules: {
+        // 表单验证规则
+        name: [{ required: true, message: '请输入分组名称', trigger: 'blur' }],
         info: [],
       },
     }
@@ -111,7 +120,9 @@ export default {
         if (this.form.name === '') {
           this.$message.warning('请将信息填写完整')
           return
-        } else if (this.cacheForm.name !== this.form.name || this.cacheForm.info !== this.form.info) { // eslint-disable-line
+        }
+        if (this.cacheForm.name !== this.form.name || this.cacheForm.info !== this.form.info) {
+          // eslint-disable-line
           const res = await Admin.updateOneGroup(this.form.name, this.form.info, this.id)
           if (res.error_code === 0) {
             this.$message.success(`${res.msg}`)
@@ -130,16 +141,20 @@ export default {
           let addRes = {}
           let delRes = {}
           // 判断增加的权限
-          for (let i = 0; i < addAuths.length; i++) { // eslint-disable-line
-            for (let j = 0; j < this.cacheAuths.length; j++) { // eslint-disable-line
+          for (let i = 0; i < addAuths.length; i++) {
+            // eslint-disable-line
+            for (let j = 0; j < this.cacheAuths.length; j++) {
+              // eslint-disable-line
               if (addAuths[i] === this.cacheAuths[j]) {
                 addAuths.splice(i, 1)
               }
             }
           }
           // 判断删除的权限
-          for (let i = 0; i < deleteAuths.length; i++) { // eslint-disable-line
-            for (let j = 0; j < this.auths.length; j++) { // eslint-disable-line
+          for (let i = 0; i < deleteAuths.length; i++) {
+            // eslint-disable-line
+            for (let j = 0; j < this.auths.length; j++) {
+              // eslint-disable-line
               if (deleteAuths[i] === this.auths[j]) {
                 deleteAuths.splice(i, 1)
               }
@@ -249,7 +264,10 @@ export default {
   async created() {
     await this.getAllGroups()
     this.tableColumn = [{ prop: 'name', label: '名称' }, { prop: 'info', label: '信息' }] // 设置表头信息
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
+    this.operate = [
+      { name: '编辑', func: 'handleEdit', type: 'primary' },
+      { name: '删除', func: 'handleDelete', type: 'danger' },
+    ]
     // 监听分组是否成功
     this.eventBus.$on('addGroup', this.addGroup)
   },

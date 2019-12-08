@@ -3,9 +3,7 @@
     <div class="lin-title">Rate 评分</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础用法</span>
-        </div>
+        <div slot="header"><span>基础用法</span></div>
         <el-row>
           <div class="block">
             <span class="demonstration">默认不区分颜色</span>
@@ -19,48 +17,31 @@
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>辅助文字</span>
-        </div>
-        <el-row>
-          <el-rate
-            v-model="value3"
-            show-text
-            :texts="texts"
-            :colors="colors3">
-          </el-rate>
-        </el-row>
+        <div slot="header"><span>辅助文字</span></div>
+        <el-row> <el-rate v-model="value3" show-text :texts="texts" :colors="colors3"> </el-rate> </el-row>
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{withText}}</div>
+            <div style="white-space: pre-wrap;">{{ withText }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>只读</span>
-        </div>
+        <div slot="header"><span>只读</span></div>
         <el-row>
-          <el-rate
-            v-model="value4"
-            disabled
-            show-score
-            text-color="#ff9900"
-            score-template="{value}分">
-          </el-rate>
+          <el-rate v-model="value4" disabled show-score text-color="#ff9900" score-template="{value}分"> </el-rate>
         </el-row>
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{disabled}}</div>
+            <div style="white-space: pre-wrap;">{{ disabled }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -97,9 +78,7 @@ export default {
           </el-rate>`,
     }
   },
-  components: {
-
-  },
+  components: {},
 }
 </script>
 

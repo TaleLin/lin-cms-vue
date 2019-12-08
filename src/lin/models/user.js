@@ -1,9 +1,4 @@
-
-import {
-  post,
-  get,
-  put,
-} from '@/lin/plugins/axios'
+import { post, get, put } from '@/lin/plugins/axios'
 import { saveTokens } from '../utils/token'
 
 const SUPER_VALUE = 2
@@ -73,7 +68,16 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.nickname, info.group_name)
+    return new User(
+      info.active,
+      info.email,
+      info.group_id,
+      info.username,
+      info.admin,
+      info.avatar,
+      info.nickname,
+      info.group_name,
+    )
   }
 
   /**
@@ -81,9 +85,18 @@ export default class User {
    */
   static async getAuths() {
     const info = await get('cms/user/auths')
-    return new User(info.active, info.email, info.group_id, info.username, info.admin, info.avatar, info.auths, info.nickname, info.group_name)
+    return new User(
+      info.active,
+      info.email,
+      info.group_id,
+      info.username,
+      info.admin,
+      info.avatar,
+      info.auths,
+      info.nickname,
+      info.group_name,
+    )
   }
-
 
   /**
    * 用户修改密码

@@ -7,12 +7,12 @@ function isAllowed(_auth, user, auths) {
   }
   if (typeof _auth === 'string') {
     return auths.includes(_auth)
-  } if (_auth instanceof Array) {
+  }
+  if (_auth instanceof Array) {
     return _auth.some(auth => auths.indexOf(auth) >= 0)
   }
   return false
 }
-
 
 Vue.directive('auth', {
   bind(el, binding) {
@@ -26,7 +26,7 @@ Vue.directive('auth', {
     } else {
       auth = binding.value
     }
-    const isAllow = isAllowed(auth, (store.state.user || {}), store.state.auths)
+    const isAllow = isAllowed(auth, store.state.user || {}, store.state.auths)
     const element = el
     if (!isAllow && auth) {
       if (type) {

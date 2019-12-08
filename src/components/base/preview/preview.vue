@@ -2,17 +2,10 @@
   <div v-if="data.length">
     <div ref="myGallery" class="my-gallery" :data-pswp-uid="radom">
       <div v-if="slides.length">
-        <div :key="radom + '_' + index" v-for="(l ,index) in slides">
-          <img preview :src="l" alt="">
-        </div>
+        <div :key="radom + '_' + index" v-for="(l, index) in slides"><img preview :src="l" alt="" /></div>
       </div>
     </div>
-    <div
-      ref="pswpWrap"
-      class="pswp"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true">
+    <div ref="pswpWrap" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="pswp__bg"></div>
       <div class="pswp__scroll-wrap">
         <div class="pswp__container">
@@ -29,22 +22,16 @@
             <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
             <div class="pswp__preloader">
               <div class="pswp__preloader__icn">
-                <div class="pswp__preloader__cut">
-                  <div class="pswp__preloader__donut"></div>
-                </div>
+                <div class="pswp__preloader__cut"><div class="pswp__preloader__donut"></div></div>
               </div>
             </div>
           </div>
           <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
             <div class="pswp__share-tooltip"></div>
           </div>
-          <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-          </button>
-          <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-          </button>
-          <div class="pswp__caption">
-            <div class="pswp__caption__center"></div>
-          </div>
+          <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+          <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+          <div class="pswp__caption"><div class="pswp__caption__center"></div></div>
         </div>
       </div>
     </div>
@@ -61,7 +48,9 @@ import PhotoSwipe from 'photoswipe/dist/photoswipe'
 import PhotoSwipeUIDefault from 'photoswipe/dist/photoswipe-ui-default'
 /** 生成随机字符串 */
 function createId() {
-  return Math.random().toString(36).substring(2)
+  return Math.random()
+    .toString(36)
+    .substring(2)
 }
 export default {
   name: 'PreviewImage',
@@ -127,22 +116,22 @@ export default {
       })
       const loadingInstance = Loading.service()
       const galleryElement = this.$refs.myGallery
-      this.radom = createId();
+      this.radom = createId()
       let pswpElement = this.$refs.pswpWrap
       const items = await this.transThumbnailElements()
       let photoSwipeOptions = {
         galleryUID: this.radom,
-        getThumbBoundsFn: function (index) {
+        getThumbBoundsFn: function(index) {
           let thumbnail = items[index].el
           let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
           let rect = thumbnail.getBoundingClientRect()
           return {
             x: rect.left,
             y: rect.top + pageYScroll,
-            w: rect.width
+            w: rect.width,
           }
         },
-        ...options
+        ...options,
       }
       this.gallery = new PhotoSwipe(pswpElement, PhotoSwipeUIDefault, items, photoSwipeOptions)
       this.gallery.init()
@@ -159,17 +148,17 @@ export default {
     },
     async getWH(elem) {
       return new Promise((resolve, reject) => {
-        if (typeof elem.naturalWidth === "undefined") {
+        if (typeof elem.naturalWidth === 'undefined') {
           // IE 6/7/8
           let img = new window.Image()
           img.src = elem.getAttribute('src')
-          img.onload = function () {
+          img.onload = function() {
             resolve({
               w: this.width,
               h: this.height,
             })
           }
-          img.onerror = function () {
+          img.onerror = function() {
             reject({
               w: 0,
               h: 0,
@@ -182,7 +171,7 @@ export default {
               h: elem.naturalHeight,
             })
           } else {
-            elem.onload = function () {
+            elem.onload = function() {
               resolve({
                 w: this.naturalWidth,
                 h: this.naturalHeight,
@@ -217,7 +206,7 @@ export default {
     destroy() {
       // 销毁
       if (this.gallery) {
-        this.gallery.close();
+        this.gallery.close()
         this.gallery = null
       }
     },

@@ -3,13 +3,8 @@
     <div class="header">
       <div class="title">用户列表</div>
       <!-- 分组选择下拉框 -->
-      <el-select  size="medium" filterable v-model="group_id" placeholder="请选择分组" @change="handleChange" clearable>
-        <el-option
-          v-for="(group, index) in groups"
-          :key="index"
-          :label="group.name"
-          :value="group.id">
-        </el-option>
+      <el-select size="medium" filterable v-model="group_id" placeholder="请选择分组" @change="handleChange" clearable>
+        <el-option v-for="(group, index) in groups" :key="index" :label="group.name" :value="group.id"> </el-option>
       </el-select>
     </div>
     <!-- 表格 -->
@@ -20,7 +15,8 @@
       @handleEdit="handleEdit"
       @handleDelete="handleDelete"
       @row-click="rowClick"
-      v-loading="loading"></lin-table>
+      v-loading="loading"
+    ></lin-table>
     <!-- 分页 -->
     <div class="pagination">
       <el-pagination
@@ -30,7 +26,8 @@
         :current-page="currentPage"
         v-if="refreshPagination"
         layout="prev, pager, next, jumper"
-        :total="total_nums">
+        :total="total_nums"
+      >
       </el-pagination>
     </div>
     <!-- 弹窗 -->
@@ -48,14 +45,11 @@
               :groups="groups"
               :info="form"
               :submit="false"
-              class="info" />
+              class="info"
+            />
           </el-tab-pane>
           <el-tab-pane label="修改密码" name="修改密码">
-            <user-password
-              @handlePasswordResult="handlePasswordResult"
-              ref="password"
-              :id="id"
-              class="password" />
+            <user-password @handlePasswordResult="handlePasswordResult" ref="password" :id="id" class="password" />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -63,7 +57,6 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="confirmEdit">确 定</el-button>
         <el-button @click="resetForm">重 置</el-button>
-
       </div>
     </el-dialog>
   </div>
@@ -94,7 +87,8 @@ export default {
       groups: [], // 所有分组
       group_id: undefined,
       activeTab: '修改信息',
-      form: { // 表单信息
+      form: {
+        // 表单信息
         username: '',
         password: '',
         confirm_password: '',
@@ -178,7 +172,8 @@ export default {
         }
         if (res.error_code === 0) {
           this.loading = false
-          if (this.total_nums % this.pageCount === 1 && this.currentPage !== 1) { // 判断删除的是不是每一页的最后一条数据
+          if (this.total_nums % this.pageCount === 1 && this.currentPage !== 1) {
+            // 判断删除的是不是每一页的最后一条数据
             this.currentPage--
           }
           await this.getAdminUsers()
@@ -238,7 +233,8 @@ export default {
     // 监听添加用户是否成功
     async addUser(flag) {
       if (flag === true) {
-        if (this.total_nums % this.pageCount === 0) { // 判断当前页的数据是不是满了，需要增加新的页码
+        if (this.total_nums % this.pageCount === 0) {
+          // 判断当前页的数据是不是满了，需要增加新的页码
           this.currentPage++
         }
         await this.getAdminUsers()
@@ -253,7 +249,10 @@ export default {
     await this.getAdminUsers()
     this.getAllGroups()
     this.tableColumn = [{ prop: 'username', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, { name: '删除', func: 'handleDelete', type: 'danger' }]
+    this.operate = [
+      { name: '编辑', func: 'handleEdit', type: 'primary' },
+      { name: '删除', func: 'handleDelete', type: 'danger' },
+    ]
     this.eventBus.$on('addUser', this.addUser)
   },
   beforeDestroy() {

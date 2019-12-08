@@ -3,25 +3,17 @@
     <div class="lin-title">画廊插件演示</div>
     <div class="lin-wrap container">
       <div class="imgs-upload-container">
-        <div
-          class="img-box"
-          @click="preview(index)"
-          v-for="(url, index) in thumbs"
-          :key="index">
-          <el-image
-            class="thumb-item-img"
-            :src="url"
-            fit="cover"
-            style="width: 100%; height: 100%;"></el-image>
+        <div class="img-box" @click="preview(index)" v-for="(url, index) in thumbs" :key="index">
+          <el-image class="thumb-item-img" :src="url" fit="cover" style="width: 100%; height: 100%;"></el-image>
           <div class="control">
-            <div class="preview">
-              <i class="el-icon-view"></i>
-            </div>
+            <div class="preview"><i class="el-icon-view"></i></div>
           </div>
         </div>
       </div>
     </div>
-    <source-code link="https://github.com/TaleLin/lin-cms-vue/blob/master/src/plugins/LinCmsUi/views/table/TableCombo.vue"></source-code>
+    <source-code
+      link="https://github.com/TaleLin/lin-cms-vue/blob/master/src/plugins/LinCmsUi/views/table/TableCombo.vue"
+    ></source-code>
   </div>
 </template>
 
@@ -67,8 +59,8 @@ export default {
     .img-box {
       border: 1px dashed #d9d9d9;
       border-radius: 3px;
-      -webkit-transition: all .1s;
-      transition: all .1s;
+      -webkit-transition: all 0.1s;
+      transition: all 0.1s;
       color: #666666;
       margin-right: 1em;
       margin-bottom: 1em;
@@ -105,17 +97,16 @@ export default {
         left: 0;
         opacity: 0;
         background-color: rgba(0, 0, 0, 0.3);
-        -webkit-transition: all .3s;
-        transition: all .3s;
-        -webkit-transition-delay: .1s;
-        transition-delay: .1s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        -webkit-transition-delay: 0.1s;
+        transition-delay: 0.1s;
 
         .preview {
           color: white;
           font-size: 2em;
-          transition: all .2s;
+          transition: all 0.2s;
         }
-
       }
 
       &:hover {

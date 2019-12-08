@@ -1,4 +1,3 @@
-
 export const movieList = [
   {
     rating: {
@@ -7,12 +6,10 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '犯罪',
-      '剧情',
-    ],
+    genres: ['犯罪', '剧情'],
     title: '肖申克的救赎',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p480747492.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p480747492.webp',
     casts: [
       {
         alt: 'https://movie.douban.com/celebrity/1054521/',
@@ -76,13 +73,10 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '同性',
-    ],
+    genres: ['剧情', '爱情', '同性'],
     title: '霸王别姬',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1910813120.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1910813120.webp',
     casts: [
       {
         alt: 'https://movie.douban.com/celebrity/1003494/',
@@ -146,11 +140,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '犯罪',
-    ],
+    genres: ['剧情', '动作', '犯罪'],
     title: '这个杀手不太冷',
     casts: [
       {
@@ -200,7 +190,8 @@ export const movieList = [
       },
     ],
     year: '1994',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p511118051.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p511118051.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p511118051.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p511118051.webp',
@@ -216,10 +207,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '阿甘正传',
     casts: [
       {
@@ -269,7 +257,8 @@ export const movieList = [
       },
     ],
     year: '1994',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p510876377.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p510876377.webp',
     images: {
       small: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p510876377.webp',
       large: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p510876377.webp',
@@ -285,11 +274,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '爱情',
-    ],
+    genres: ['剧情', '喜剧', '爱情'],
     title: '美丽人生',
     casts: [
       {
@@ -339,7 +324,8 @@ export const movieList = [
       },
     ],
     year: '1997',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p510861873.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p510861873.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p510861873.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p510861873.webp',
@@ -355,11 +341,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '灾难',
-    ],
+    genres: ['剧情', '爱情', '灾难'],
     title: '泰坦尼克号',
     casts: [
       {
@@ -409,7 +391,8 @@ export const movieList = [
       },
     ],
     year: '1997',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p457760035.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p457760035.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p457760035.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p457760035.webp',
@@ -425,11 +408,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动画',
-      '奇幻',
-    ],
+    genres: ['剧情', '动画', '奇幻'],
     title: '千与千寻',
     casts: [
       {
@@ -479,7 +458,8 @@ export const movieList = [
       },
     ],
     year: '2001',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1606727862.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1606727862.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1606727862.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1606727862.webp',
@@ -495,11 +475,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '历史',
-      '战争',
-    ],
+    genres: ['剧情', '历史', '战争'],
     title: '辛德勒的名单',
     casts: [
       {
@@ -549,7 +525,8 @@ export const movieList = [
       },
     ],
     year: '1993',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p492406163.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p492406163.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p492406163.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p492406163.webp',
@@ -565,11 +542,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '科幻',
-      '悬疑',
-    ],
+    genres: ['剧情', '科幻', '悬疑'],
     title: '盗梦空间',
     casts: [
       {
@@ -619,7 +592,8 @@ export const movieList = [
       },
     ],
     year: '2010',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p513344864.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p513344864.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p513344864.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p513344864.webp',
@@ -635,9 +609,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '忠犬八公的故事',
     casts: [
       {
@@ -687,7 +659,8 @@ export const movieList = [
       },
     ],
     year: '2009',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p524964016.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p524964016.webp',
     images: {
       small: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p524964016.webp',
       large: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p524964016.webp',
@@ -703,11 +676,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '爱情',
-      '科幻',
-      '动画',
-    ],
+    genres: ['爱情', '科幻', '动画'],
     title: '机器人总动员',
     casts: [
       {
@@ -757,7 +726,8 @@ export const movieList = [
       },
     ],
     year: '2008',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1461851991.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p1461851991.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1461851991.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p1461851991.webp',
@@ -773,11 +743,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '爱情',
-    ],
+    genres: ['剧情', '喜剧', '爱情'],
     title: '三傻大闹宝莱坞',
     casts: [
       {
@@ -827,7 +793,8 @@ export const movieList = [
       },
     ],
     year: '2009',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p579729551.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p579729551.webp',
     images: {
       small: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p579729551.webp',
       large: 'http://img1.doubanio.com/view/photo/s_ratio_poster/public/p579729551.webp',
@@ -843,10 +810,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '音乐',
-    ],
+    genres: ['剧情', '音乐'],
     title: '海上钢琴师',
     casts: [
       {
@@ -896,7 +860,8 @@ export const movieList = [
       },
     ],
     year: '1998',
-    thumb: 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p511146807.webp',
+    thumb:
+      'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/thumb/p511146807.webp',
     images: {
       small: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p511146807.webp',
       large: 'http://img3.doubanio.com/view/photo/s_ratio_poster/public/p511146807.webp',
@@ -912,10 +877,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '音乐',
-    ],
+    genres: ['剧情', '音乐'],
     title: '放牛班的春天',
     casts: [
       {
@@ -980,10 +942,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '科幻',
-    ],
+    genres: ['剧情', '科幻'],
     title: '楚门的世界',
     casts: [
       {
@@ -1048,11 +1007,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '爱情',
-      '奇幻',
-    ],
+    genres: ['喜剧', '爱情', '奇幻'],
     title: '大话西游之大圣娶亲',
     casts: [
       {
@@ -1117,11 +1072,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '科幻',
-      '冒险',
-    ],
+    genres: ['剧情', '科幻', '冒险'],
     title: '星际穿越',
     casts: [
       {
@@ -1186,11 +1137,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '龙猫',
     casts: [
       {
@@ -1255,10 +1202,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-    ],
+    genres: ['剧情', '犯罪'],
     title: '教父',
     casts: [
       {
@@ -1323,9 +1267,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '熔炉',
     casts: [
       {
@@ -1390,11 +1332,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '悬疑',
-    ],
+    genres: ['剧情', '犯罪', '悬疑'],
     title: '无间道',
     casts: [
       {
@@ -1469,11 +1407,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '动画',
-      '冒险',
-    ],
+    genres: ['喜剧', '动画', '冒险'],
     title: '疯狂动物城',
     casts: [
       {
@@ -1558,11 +1492,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '家庭',
-    ],
+    genres: ['剧情', '传记', '家庭'],
     title: '当幸福来敲门',
     casts: [
       {
@@ -1627,11 +1557,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '爱情',
-    ],
+    genres: ['剧情', '喜剧', '爱情'],
     title: '怦然心动',
     casts: [
       {
@@ -1696,10 +1622,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-    ],
+    genres: ['剧情', '喜剧'],
     title: '触不可及',
     casts: [
       {
@@ -1774,11 +1697,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '历史',
-      '爱情',
-    ],
+    genres: ['剧情', '历史', '爱情'],
     title: '乱世佳人',
     casts: [
       {
@@ -1863,11 +1782,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '科幻',
-    ],
+    genres: ['剧情', '动作', '科幻'],
     title: '蝙蝠侠：黑暗骑士',
     casts: [
       {
@@ -1932,11 +1847,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '历史',
-      '家庭',
-    ],
+    genres: ['剧情', '历史', '家庭'],
     title: '活着',
     casts: [
       {
@@ -2001,11 +1912,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['剧情', '奇幻', '冒险'],
     title: '少年派的奇幻漂流',
     casts: [
       {
@@ -2070,10 +1977,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '天堂电影院',
     casts: [
       {
@@ -2138,11 +2042,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '历史',
-      '战争',
-    ],
+    genres: ['剧情', '历史', '战争'],
     title: '鬼子来了',
     casts: [
       {
@@ -2207,9 +2107,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '十二怒汉',
     casts: [
       {
@@ -2274,11 +2172,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '悬疑',
-    ],
+    genres: ['剧情', '犯罪', '悬疑'],
     title: '控方证人',
     casts: [
       {
@@ -2343,11 +2237,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '奇幻',
-    ],
+    genres: ['剧情', '动作', '奇幻'],
     title: '指环王3：王者无敌',
     casts: [
       {
@@ -2412,11 +2302,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '天空之城',
     casts: [
       {
@@ -2481,11 +2367,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '动画',
-    ],
+    genres: ['剧情', '喜剧', '动画'],
     title: '飞屋环游记',
     casts: [
       {
@@ -2560,11 +2442,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '运动',
-    ],
+    genres: ['剧情', '传记', '运动'],
     title: '摔跤吧！爸爸',
     casts: [
       {
@@ -2629,11 +2507,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '悬疑',
-    ],
+    genres: ['剧情', '动作', '悬疑'],
     title: '搏击俱乐部',
     casts: [
       {
@@ -2698,11 +2572,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '爱情',
-      '奇幻',
-    ],
+    genres: ['喜剧', '爱情', '奇幻'],
     title: '大话西游之月光宝盒',
     casts: [
       {
@@ -2767,11 +2637,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '剧情',
-      '爱情',
-    ],
+    genres: ['喜剧', '剧情', '爱情'],
     title: '罗马假日',
     casts: [
       {
@@ -2836,11 +2702,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '哈尔的移动城堡',
     casts: [
       {
@@ -2905,10 +2767,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-    ],
+    genres: ['剧情', '悬疑'],
     title: '窃听风暴',
     casts: [
       {
@@ -2973,9 +2832,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '闻香识女人',
     casts: [
       {
@@ -3040,9 +2897,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '辩护人',
     casts: [
       {
@@ -3107,11 +2962,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '犯罪',
-    ],
+    genres: ['剧情', '喜剧', '犯罪'],
     title: '两杆大烟枪',
     casts: [
       {
@@ -3176,9 +3027,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '飞越疯人院',
     casts: [
       {
@@ -3243,9 +3092,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '死亡诗社',
     casts: [
       {
@@ -3310,11 +3157,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '科幻',
-    ],
+    genres: ['剧情', '动作', '科幻'],
     title: 'V字仇杀队',
     casts: [
       {
@@ -3379,11 +3222,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '奇幻',
-    ],
+    genres: ['剧情', '动作', '奇幻'],
     title: '指环王2：双塔奇兵',
     casts: [
       {
@@ -3448,11 +3287,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '历史',
-    ],
+    genres: ['剧情', '传记', '历史'],
     title: '末代皇帝',
     casts: [
       {
@@ -3517,10 +3352,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-    ],
+    genres: ['剧情', '犯罪'],
     title: '教父2',
     casts: [
       {
@@ -3585,11 +3417,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '奇幻',
-    ],
+    genres: ['剧情', '动作', '奇幻'],
     title: '指环王1：魔戒再现',
     casts: [
       {
@@ -3654,9 +3482,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '素媛',
     casts: [
       {
@@ -3721,9 +3547,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '纪录片',
-    ],
+    genres: ['纪录片'],
     title: '海豚湾',
     casts: [
       {
@@ -3780,10 +3604,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '家庭',
-    ],
+    genres: ['剧情', '家庭'],
     title: '饮食男女',
     casts: [
       {
@@ -3848,10 +3669,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '传记',
-      '剧情',
-    ],
+    genres: ['传记', '剧情'],
     title: '美丽心灵',
     casts: [
       {
@@ -3916,10 +3734,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '情书',
     casts: [
       {
@@ -3984,11 +3799,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动画',
-      '冒险',
-    ],
+    genres: ['剧情', '动画', '冒险'],
     title: '狮子王',
     casts: [
       {
@@ -4063,11 +3874,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '历史',
-    ],
+    genres: ['剧情', '传记', '历史'],
     title: '钢琴家',
     casts: [
       {
@@ -4132,10 +3939,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '犯罪',
-      '剧情',
-    ],
+    genres: ['犯罪', '剧情'],
     title: '美国往事',
     casts: [
       {
@@ -4200,11 +4004,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '哈尔的移动城堡',
     casts: [
       {
@@ -4269,10 +4069,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-    ],
+    genres: ['剧情', '悬疑'],
     title: '窃听风暴',
     casts: [
       {
@@ -4337,9 +4134,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '闻香识女人',
     casts: [
       {
@@ -4404,9 +4199,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '辩护人',
     casts: [
       {
@@ -4471,11 +4264,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '犯罪',
-    ],
+    genres: ['剧情', '喜剧', '犯罪'],
     title: '两杆大烟枪',
     casts: [
       {
@@ -4540,9 +4329,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '飞越疯人院',
     casts: [
       {
@@ -4607,9 +4394,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '死亡诗社',
     casts: [
       {
@@ -4674,11 +4459,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '科幻',
-    ],
+    genres: ['剧情', '动作', '科幻'],
     title: 'V字仇杀队',
     casts: [
       {
@@ -4743,11 +4524,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '奇幻',
-    ],
+    genres: ['剧情', '动作', '奇幻'],
     title: '指环王2：双塔奇兵',
     casts: [
       {
@@ -4812,11 +4589,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '历史',
-    ],
+    genres: ['剧情', '传记', '历史'],
     title: '末代皇帝',
     casts: [
       {
@@ -4881,10 +4654,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-    ],
+    genres: ['剧情', '犯罪'],
     title: '教父2',
     casts: [
       {
@@ -4949,11 +4719,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '奇幻',
-    ],
+    genres: ['剧情', '动作', '奇幻'],
     title: '指环王1：魔戒再现',
     casts: [
       {
@@ -5018,9 +4784,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '素媛',
     casts: [
       {
@@ -5085,9 +4849,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '纪录片',
-    ],
+    genres: ['纪录片'],
     title: '海豚湾',
     casts: [
       {
@@ -5144,10 +4906,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '家庭',
-    ],
+    genres: ['剧情', '家庭'],
     title: '饮食男女',
     casts: [
       {
@@ -5212,10 +4971,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '传记',
-      '剧情',
-    ],
+    genres: ['传记', '剧情'],
     title: '美丽心灵',
     casts: [
       {
@@ -5280,10 +5036,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '情书',
     casts: [
       {
@@ -5348,11 +5101,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动画',
-      '冒险',
-    ],
+    genres: ['剧情', '动画', '冒险'],
     title: '狮子王',
     casts: [
       {
@@ -5427,11 +5176,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '历史',
-    ],
+    genres: ['剧情', '传记', '历史'],
     title: '钢琴家',
     casts: [
       {
@@ -5496,10 +5241,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '犯罪',
-      '剧情',
-    ],
+    genres: ['犯罪', '剧情'],
     title: '美国往事',
     casts: [
       {
@@ -5564,11 +5306,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '动画',
-      '奇幻',
-    ],
+    genres: ['喜剧', '动画', '奇幻'],
     title: '寻梦环游记',
     casts: [
       {
@@ -5643,11 +5381,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '奇幻',
-    ],
+    genres: ['剧情', '爱情', '奇幻'],
     title: '本杰明·巴顿奇事',
     casts: [
       {
@@ -5712,19 +5446,18 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '儿童',
-      '家庭',
-    ],
+    genres: ['剧情', '儿童', '家庭'],
     title: '小鞋子',
     casts: [
       {
         alt: 'https://movie.douban.com/celebrity/1331041/',
         avatars: {
-          small: 'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pZqvenMj2VOEcel_avatar_uploaded1373251165.44.webp',
-          large: 'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pZqvenMj2VOEcel_avatar_uploaded1373251165.44.webp',
-          medium: 'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pZqvenMj2VOEcel_avatar_uploaded1373251165.44.webp',
+          small:
+            'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pZqvenMj2VOEcel_avatar_uploaded1373251165.44.webp',
+          large:
+            'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pZqvenMj2VOEcel_avatar_uploaded1373251165.44.webp',
+          medium:
+            'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pZqvenMj2VOEcel_avatar_uploaded1373251165.44.webp',
         },
         name: '法拉赫阿米尔·哈什米安',
         id: '1331041',
@@ -5742,9 +5475,12 @@ export const movieList = [
       {
         alt: 'https://movie.douban.com/celebrity/1328828/',
         avatars: {
-          small: 'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pLznNy3APypQcel_avatar_uploaded1368272766.01.webp',
-          large: 'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pLznNy3APypQcel_avatar_uploaded1368272766.01.webp',
-          medium: 'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pLznNy3APypQcel_avatar_uploaded1368272766.01.webp',
+          small:
+            'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pLznNy3APypQcel_avatar_uploaded1368272766.01.webp',
+          large:
+            'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pLznNy3APypQcel_avatar_uploaded1368272766.01.webp',
+          medium:
+            'http://img1.doubanio.com/view/celebrity/s_ratio_celebrity/public/pLznNy3APypQcel_avatar_uploaded1368272766.01.webp',
         },
         name: '巴哈丽·西迪奇',
         id: '1328828',
@@ -5781,10 +5517,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动作',
-      '科幻',
-    ],
+    genres: ['动作', '科幻'],
     title: '黑客帝国',
     casts: [
       {
@@ -5859,11 +5592,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '战争',
-      '情色',
-    ],
+    genres: ['剧情', '战争', '情色'],
     title: '西西里的美丽传说',
     casts: [
       {
@@ -5924,11 +5653,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '悬疑',
-    ],
+    genres: ['剧情', '犯罪', '悬疑'],
     title: '看不见的客人',
     casts: [
       {
@@ -5993,11 +5718,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '动作',
-    ],
+    genres: ['剧情', '喜剧', '动作'],
     title: '让子弹飞',
     casts: [
       {
@@ -6062,11 +5783,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-      '惊悚',
-    ],
+    genres: ['剧情', '悬疑', '惊悚'],
     title: '致命魔术',
     casts: [
       {
@@ -6131,11 +5848,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '悬疑',
-    ],
+    genres: ['剧情', '犯罪', '悬疑'],
     title: '七宗罪',
     casts: [
       {
@@ -6200,11 +5913,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '历史',
-      '战争',
-    ],
+    genres: ['剧情', '历史', '战争'],
     title: '拯救大兵瑞恩',
     casts: [
       {
@@ -6269,10 +5978,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '歌舞',
-    ],
+    genres: ['剧情', '歌舞'],
     title: '被嫌弃的松子的一生',
     casts: [
       {
@@ -6337,10 +6043,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-    ],
+    genres: ['动画', '奇幻'],
     title: '大闹天宫',
     casts: [
       {
@@ -6415,10 +6118,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['奇幻', '冒险'],
     title: '哈利·波特与魔法石',
     casts: [
       {
@@ -6483,11 +6183,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '爱情',
-    ],
+    genres: ['剧情', '传记', '爱情'],
     title: '音乐之声',
     casts: [
       {
@@ -6552,11 +6248,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '犯罪',
-    ],
+    genres: ['剧情', '喜剧', '犯罪'],
     title: '低俗小说',
     casts: [
       {
@@ -6621,10 +6313,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '爱情',
-    ],
+    genres: ['喜剧', '爱情'],
     title: '天使爱美丽',
     casts: [
       {
@@ -6689,11 +6378,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '惊悚',
-    ],
+    genres: ['剧情', '犯罪', '惊悚'],
     title: '沉默的羔羊',
     casts: [
       {
@@ -6758,11 +6443,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动作',
-      '传记',
-      '剧情',
-    ],
+    genres: ['动作', '传记', '剧情'],
     title: '勇敢的心',
     casts: [
       {
@@ -6827,11 +6508,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '奇幻',
-      '爱情',
-    ],
+    genres: ['剧情', '奇幻', '爱情'],
     title: '剪刀手爱德华',
     casts: [
       {
@@ -6896,11 +6573,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-      '科幻',
-    ],
+    genres: ['剧情', '悬疑', '科幻'],
     title: '蝴蝶效应',
     casts: [
       {
@@ -6975,11 +6648,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '同性',
-    ],
+    genres: ['剧情', '爱情', '同性'],
     title: '春光乍泄',
     casts: [
       {
@@ -7044,11 +6713,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '传记',
-      '犯罪',
-      '剧情',
-    ],
+    genres: ['传记', '犯罪', '剧情'],
     title: '猫鼠游戏',
     casts: [
       {
@@ -7113,9 +6778,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '心灵捕手',
     casts: [
       {
@@ -7180,11 +6843,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '冒险',
-    ],
+    genres: ['剧情', '喜剧', '冒险'],
     title: '布达佩斯大饭店',
     casts: [
       {
@@ -7249,11 +6908,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-      '惊悚',
-    ],
+    genres: ['剧情', '悬疑', '惊悚'],
     title: '禁闭岛',
     casts: [
       {
@@ -7318,9 +6973,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '入殓师',
     casts: [
       {
@@ -7385,10 +7038,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '战争',
-    ],
+    genres: ['剧情', '战争'],
     title: '穿条纹睡衣的男孩',
     casts: [
       {
@@ -7414,9 +7064,12 @@ export const movieList = [
       {
         alt: 'https://movie.douban.com/celebrity/1389184/',
         avatars: {
-          small: 'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pA6xRpJ9q3-Qcel_avatar_uploaded1519396316.98.webp',
-          large: 'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pA6xRpJ9q3-Qcel_avatar_uploaded1519396316.98.webp',
-          medium: 'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pA6xRpJ9q3-Qcel_avatar_uploaded1519396316.98.webp',
+          small:
+            'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pA6xRpJ9q3-Qcel_avatar_uploaded1519396316.98.webp',
+          large:
+            'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pA6xRpJ9q3-Qcel_avatar_uploaded1519396316.98.webp',
+          medium:
+            'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pA6xRpJ9q3-Qcel_avatar_uploaded1519396316.98.webp',
         },
         name: '卡拉·霍根',
         id: '1389184',
@@ -7453,11 +7106,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '幽灵公主',
     casts: [
       {
@@ -7522,9 +7171,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '阳光灿烂的日子',
     casts: [
       {
@@ -7589,11 +7236,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动作',
-      '战争',
-      '科幻',
-    ],
+    genres: ['动作', '战争', '科幻'],
     title: '阿凡达',
     casts: [
       {
@@ -7658,11 +7301,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '动画',
-    ],
+    genres: ['剧情', '喜剧', '动画'],
     title: '玛丽和马克思',
     casts: [
       {
@@ -7727,11 +7366,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-      '惊悚',
-    ],
+    genres: ['剧情', '悬疑', '惊悚'],
     title: '第六感',
     casts: [
       {
@@ -7796,9 +7431,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '狩猎',
     casts: [
       {
@@ -7863,11 +7496,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-      '惊悚',
-    ],
+    genres: ['剧情', '悬疑', '惊悚'],
     title: '致命ID',
     casts: [
       {
@@ -7932,10 +7561,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '重庆森林',
     casts: [
       {
@@ -8000,11 +7626,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '同性',
-    ],
+    genres: ['剧情', '爱情', '同性'],
     title: '断背山',
     casts: [
       {
@@ -8069,11 +7691,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动作',
-      '冒险',
-      '奇幻',
-    ],
+    genres: ['动作', '冒险', '奇幻'],
     title: '加勒比海盗',
     casts: [
       {
@@ -8138,11 +7756,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '爱情',
-    ],
+    genres: ['剧情', '喜剧', '爱情'],
     title: '摩登时代',
     casts: [
       {
@@ -8207,10 +7821,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '惊悚',
-    ],
+    genres: ['剧情', '惊悚'],
     title: '告白',
     casts: [
       {
@@ -8275,11 +7886,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '家庭',
-      '奇幻',
-    ],
+    genres: ['剧情', '家庭', '奇幻'],
     title: '大鱼',
     casts: [
       {
@@ -8344,11 +7951,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '家庭',
-    ],
+    genres: ['剧情', '爱情', '家庭'],
     title: '一一',
     casts: [
       {
@@ -8413,11 +8016,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '剧情',
-      '爱情',
-    ],
+    genres: ['喜剧', '剧情', '爱情'],
     title: '喜剧之王',
     casts: [
       {
@@ -8492,11 +8091,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '悬疑',
-    ],
+    genres: ['剧情', '犯罪', '悬疑'],
     title: '消失的爱人',
     casts: [
       {
@@ -8561,10 +8156,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '古装',
-    ],
+    genres: ['喜剧', '古装'],
     title: '射雕英雄传之东成西就',
     casts: [
       {
@@ -8629,10 +8221,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '甜蜜蜜',
     casts: [
       {
@@ -8697,10 +8286,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-    ],
+    genres: ['剧情', '喜剧'],
     title: '阳光姐妹淘',
     casts: [
       {
@@ -8765,10 +8351,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '爱在黎明破晓前',
     casts: [
       {
@@ -8833,9 +8416,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '小森林 夏秋篇',
     casts: [
       {
@@ -8900,11 +8481,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '动画',
-    ],
+    genres: ['剧情', '爱情', '动画'],
     title: '侧耳倾听',
     casts: [
       {
@@ -8969,11 +8546,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '悬疑',
-      '科幻',
-    ],
+    genres: ['动画', '悬疑', '科幻'],
     title: '红辣椒',
     casts: [
       {
@@ -9038,11 +8611,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '武侠',
-    ],
+    genres: ['剧情', '爱情', '武侠'],
     title: '倩女幽魂',
     casts: [
       {
@@ -9107,11 +8676,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '悬疑',
-    ],
+    genres: ['剧情', '犯罪', '悬疑'],
     title: '恐怖直播',
     casts: [
       {
@@ -9137,9 +8702,12 @@ export const movieList = [
       {
         alt: 'https://movie.douban.com/celebrity/1317027/',
         avatars: {
-          small: 'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pMjZ5k1NuTeAcel_avatar_uploaded1352774169.47.webp',
-          large: 'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pMjZ5k1NuTeAcel_avatar_uploaded1352774169.47.webp',
-          medium: 'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pMjZ5k1NuTeAcel_avatar_uploaded1352774169.47.webp',
+          small:
+            'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pMjZ5k1NuTeAcel_avatar_uploaded1352774169.47.webp',
+          large:
+            'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pMjZ5k1NuTeAcel_avatar_uploaded1352774169.47.webp',
+          medium:
+            'http://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/pMjZ5k1NuTeAcel_avatar_uploaded1352774169.47.webp',
         },
         name: '全慧珍',
         id: '1317027',
@@ -9176,10 +8744,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '犯罪',
-      '剧情',
-    ],
+    genres: ['犯罪', '剧情'],
     title: '上帝之城',
     casts: [
       {
@@ -9254,11 +8819,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '风之谷',
     casts: [
       {
@@ -9323,9 +8884,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '超脱',
     casts: [
       {
@@ -9390,11 +8949,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '同性',
-    ],
+    genres: ['剧情', '爱情', '同性'],
     title: '请以你的名字呼唤我',
     casts: [
       {
@@ -9459,10 +9014,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '爱在日落黄昏时',
     casts: [
       {
@@ -9527,11 +9079,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '驯龙高手',
     casts: [
       {
@@ -9606,10 +9154,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-    ],
+    genres: ['剧情', '喜剧'],
     title: '菊次郎的夏天',
     casts: [
       {
@@ -9674,11 +9219,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '剧情',
-      '爱情',
-    ],
+    genres: ['喜剧', '剧情', '爱情'],
     title: '幸福终点站',
     casts: [
       {
@@ -9743,11 +9284,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '悬疑',
-      '奇幻',
-    ],
+    genres: ['剧情', '悬疑', '奇幻'],
     title: '哈利·波特与死亡圣器(下)',
     casts: [
       {
@@ -9812,11 +9349,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '犯罪',
-      '剧情',
-      '悬疑',
-    ],
+    genres: ['犯罪', '剧情', '悬疑'],
     title: '杀人回忆',
     casts: [
       {
@@ -9881,9 +9414,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '小森林 冬春篇',
     casts: [
       {
@@ -9948,11 +9479,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '动画',
-      '冒险',
-    ],
+    genres: ['喜剧', '动画', '冒险'],
     title: '神偷奶爸',
     casts: [
       {
@@ -10027,11 +9554,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '奇幻',
-      '冒险',
-    ],
+    genres: ['动画', '奇幻', '冒险'],
     title: '借东西的小人阿莉埃蒂',
     casts: [
       {
@@ -10096,11 +9619,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '家庭',
-    ],
+    genres: ['剧情', '喜剧', '家庭'],
     title: '7号房的礼物',
     casts: [
       {
@@ -10165,11 +9684,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '儿童',
-      '喜剧',
-      '动画',
-    ],
+    genres: ['儿童', '喜剧', '动画'],
     title: '怪兽电力公司',
     casts: [
       {
@@ -10254,10 +9769,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '家庭',
-    ],
+    genres: ['剧情', '家庭'],
     title: '岁月神偷',
     casts: [
       {
@@ -10322,11 +9834,7 @@ export const movieList = [
       stars: '50',
       min: 0,
     },
-    genres: [
-      '动作',
-      '冒险',
-      '剧情',
-    ],
+    genres: ['动作', '冒险', '剧情'],
     title: '七武士',
     casts: [
       {
@@ -10391,11 +9899,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-      '动画',
-    ],
+    genres: ['剧情', '爱情', '动画'],
     title: '萤火之森',
     casts: [
       {
@@ -10460,11 +9964,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '爱情',
-      '古装',
-    ],
+    genres: ['喜剧', '爱情', '古装'],
     title: '唐伯虎点秋香',
     casts: [
       {
@@ -10529,11 +10029,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '动作',
-      '科幻',
-    ],
+    genres: ['喜剧', '动作', '科幻'],
     title: '超能陆战队',
     casts: [
       {
@@ -10608,11 +10104,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '悬疑',
-      '惊悚',
-      '恐怖',
-    ],
+    genres: ['悬疑', '惊悚', '恐怖'],
     title: '电锯惊魂',
     casts: [
       {
@@ -10677,11 +10169,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '科幻',
-    ],
+    genres: ['剧情', '动作', '科幻'],
     title: '蝙蝠侠：黑暗骑士崛起',
     casts: [
       {
@@ -10746,11 +10234,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '剧情',
-      '爱情',
-    ],
+    genres: ['喜剧', '剧情', '爱情'],
     title: '真爱至上',
     casts: [
       {
@@ -10815,11 +10299,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动作',
-      '悬疑',
-      '惊悚',
-    ],
+    genres: ['动作', '悬疑', '惊悚'],
     title: '谍影重重3',
     casts: [
       {
@@ -10884,11 +10364,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '动画',
-      '冒险',
-    ],
+    genres: ['喜剧', '动画', '冒险'],
     title: '疯狂原始人',
     casts: [
       {
@@ -10963,11 +10439,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动画',
-      '剧情',
-      '战争',
-    ],
+    genres: ['动画', '剧情', '战争'],
     title: '萤火虫之墓',
     casts: [
       {
@@ -11020,11 +10492,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '爱情',
-    ],
+    genres: ['剧情', '喜剧', '爱情'],
     title: '喜宴',
     casts: [
       {
@@ -11089,11 +10557,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '动作',
-      '爱情',
-    ],
+    genres: ['剧情', '动作', '爱情'],
     title: '东邪西毒',
     casts: [
       {
@@ -11158,10 +10622,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '贫民窟的百万富翁',
     casts: [
       {
@@ -11236,10 +10697,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '动作',
-      '犯罪',
-    ],
+    genres: ['动作', '犯罪'],
     title: '英雄本色',
     casts: [
       {
@@ -11304,11 +10762,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '犯罪',
-      '剧情',
-      '悬疑',
-    ],
+    genres: ['犯罪', '剧情', '悬疑'],
     title: '记忆碎片',
     casts: [
       {
@@ -11373,10 +10827,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '惊悚',
-    ],
+    genres: ['剧情', '惊悚'],
     title: '黑天鹅',
     casts: [
       {
@@ -11441,9 +10892,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '无人知晓',
     casts: [
       {
@@ -11508,11 +10957,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-      '悬疑',
-    ],
+    genres: ['剧情', '犯罪', '悬疑'],
     title: '心迷宫',
     casts: [
       {
@@ -11577,10 +11022,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '傲慢与偏见',
     casts: [
       {
@@ -11645,9 +11087,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-    ],
+    genres: ['剧情'],
     title: '雨人',
     casts: [
       {
@@ -11712,11 +11152,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '历史',
-    ],
+    genres: ['剧情', '传记', '历史'],
     title: '血战钢锯岭',
     casts: [
       {
@@ -11781,11 +11217,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '犯罪',
-    ],
+    genres: ['剧情', '喜剧', '犯罪'],
     title: '荒蛮故事',
     casts: [
       {
@@ -11850,11 +11282,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '爱情',
-      '奇幻',
-    ],
+    genres: ['喜剧', '爱情', '奇幻'],
     title: '时空恋旅人',
     casts: [
       {
@@ -11919,11 +11347,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '喜剧',
-      '动作',
-    ],
+    genres: ['剧情', '喜剧', '动作'],
     title: '纵横四海',
     casts: [
       {
@@ -11988,10 +11412,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-    ],
+    genres: ['剧情', '犯罪'],
     title: '教父3',
     casts: [
       {
@@ -12056,11 +11477,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '历史',
-      '战争',
-    ],
+    genres: ['剧情', '历史', '战争'],
     title: '卢旺达饭店',
     casts: [
       {
@@ -12125,11 +11542,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '喜剧',
-      '动画',
-      '奇幻',
-    ],
+    genres: ['喜剧', '动画', '奇幻'],
     title: '玩具总动员3',
     casts: [
       {
@@ -12194,11 +11607,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '传记',
-      '同性',
-    ],
+    genres: ['剧情', '传记', '同性'],
     title: '达拉斯买家俱乐部',
     casts: [
       {
@@ -12263,10 +11672,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '爱情',
-    ],
+    genres: ['剧情', '爱情'],
     title: '花样年华',
     casts: [
       {
@@ -12331,10 +11737,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '犯罪',
-    ],
+    genres: ['剧情', '犯罪'],
     title: '完美的世界',
     casts: [
       {
@@ -12399,10 +11802,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '剧情',
-      '家庭',
-    ],
+    genres: ['剧情', '家庭'],
     title: '海边的曼彻斯特',
     casts: [
       {
@@ -12467,9 +11867,7 @@ export const movieList = [
       stars: '45',
       min: 0,
     },
-    genres: [
-      '纪录片',
-    ],
+    genres: ['纪录片'],
     title: '海洋',
     casts: [
       {

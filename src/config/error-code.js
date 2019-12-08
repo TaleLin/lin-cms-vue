@@ -1,5 +1,4 @@
-
-const stateCode = {
+const errorCode = {
   777: '前端不知道，找后端小哥哥',
   999: '服务器未知错误',
   10000: '认证失败',
@@ -12,4 +11,4 @@ const stateCode = {
   10100: 'refreshToken异常',
 }
 
-export default stateCode
+export default errorCode

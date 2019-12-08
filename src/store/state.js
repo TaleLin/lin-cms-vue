@@ -1,4 +1,3 @@
-
 import stageConfig from '@/config/stage' // 引入舞台配置
 import AppConfig from '@/config/index' // 引入项目配置
 

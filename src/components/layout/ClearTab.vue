@@ -1,7 +1,5 @@
 <template>
-  <div title="关闭全部历史记录" class="tab" @click="closeReuseTab">
-    <i class="iconfont icon-moshubang"></i>
-  </div>
+  <div title="关闭全部历史记录" class="tab" @click="closeReuseTab"><i class="iconfont icon-moshubang"></i></div>
 </template>
 
 <script>

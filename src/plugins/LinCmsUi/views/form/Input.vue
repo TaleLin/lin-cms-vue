@@ -3,73 +3,65 @@
     <div class="lin-title">Input 输入框</div>
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础用法</span>
-        </div>
+        <div slot="header"><span>基础用法</span></div>
         <el-row>
-          <el-col :span="12">
-            <el-input placeholder="请输入内容" size="medium" v-model="input1"></el-input>
-          </el-col>
+          <el-col :span="12"> <el-input placeholder="请输入内容" size="medium" v-model="input1"></el-input> </el-col>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>禁用状态</span>
-        </div>
+        <div slot="header"><span>禁用状态</span></div>
         <el-row>
-          <el-col :span="12">
-            <el-input placeholder="禁止输入" size="medium" disabled></el-input>
-          </el-col>
+          <el-col :span="12"> <el-input placeholder="禁止输入" size="medium" disabled></el-input> </el-col>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{disabled}}</div>
+            <div style="white-space: pre-wrap;">{{ disabled }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>带icon的输入框</span>
-        </div>
+        <div slot="header"><span>带icon的输入框</span></div>
         <el-row>
           <el-col :span="12">
             <el-input placeholder="请输入内容" size="medium" suffix-icon="el-icon-edit" v-model="input2"></el-input>
           </el-col>
         </el-row>
-           <el-row style="margin-top:20px">
+        <el-row style="margin-top:20px">
           <el-col :span="12">
             <el-input placeholder="请输入内容" size="medium" prefix-icon="el-icon-search" v-model="input3"></el-input>
           </el-col>
-            </el-row>
+        </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{icon}}</div>
+            <div style="white-space: pre-wrap;">{{ icon }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>复合型输入框</span>
-        </div>
+        <div slot="header"><span>复合型输入框</span></div>
         <el-row>
           <el-col :span="12">
             <el-input placeholder="请输入内容" size="medium" v-model="input4">
-              <template slot="prepend">Http://</template>
+              <template slot="prepend"
+                >Http://</template
+              >
             </el-input>
           </el-col>
         </el-row>
         <el-row style="margin-top:20px;margin-bottom:20px;">
           <el-col :span="12">
             <el-input placeholder="请输入内容" size="medium" v-model="input5">
-              <template slot="append">.com</template>
+              <template slot="append"
+                >.com</template
+              >
             </el-input>
           </el-col>
         </el-row>
@@ -89,15 +81,13 @@
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{complex}}</div>
+            <div style="white-space: pre-wrap;">{{ complex }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header">
-          <span>尺寸</span>
-        </div>
+        <div slot="header"><span>尺寸</span></div>
         <el-row :gutter="20">
           <el-col :span="6">
             <el-input placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input6"></el-input>
@@ -105,16 +95,16 @@
           <el-col :span="6">
             <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input7"></el-input>
           </el-col>
-           <el-col :span="6">
+          <el-col :span="6">
             <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input8"></el-input>
-             </el-col>
-               <el-col :span="6">
+          </el-col>
+          <el-col :span="6">
             <el-input size="mini" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input9"></el-input>
           </el-col>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{size}}</div>
+            <div style="white-space: pre-wrap;">{{ size }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -200,16 +190,15 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
 @import '../../assets/style/container.scss';
 
- .input-with-select /deep/ .el-input-group__prepend {
-    background-color: #fff;
-    width: 100px;
-    border-top: 1px solid #dcdfe6;
-    border-left: 1px solid #dcdfe6;
-    border-bottom: 1px solid #dcdfe6;
-    border-right: none;
-  }
+.input-with-select /deep/ .el-input-group__prepend {
+  background-color: #fff;
+  width: 100px;
+  border-top: 1px solid #dcdfe6;
+  border-left: 1px solid #dcdfe6;
+  border-bottom: 1px solid #dcdfe6;
+  border-right: none;
+}
 </style>
