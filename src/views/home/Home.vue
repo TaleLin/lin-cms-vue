@@ -31,7 +31,7 @@ import { NavBar, SideBar, AppMain, ReuseTab, MenuTab, BackTop } from '@/componen
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
 const marginHeight = 20 // 历史记录栏与舞台的间距
-const sideBarWidth = '190px'
+const sideBarWidth = '210px'
 const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {

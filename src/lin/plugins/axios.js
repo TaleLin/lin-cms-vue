@@ -148,7 +148,7 @@ _axios.interceptors.response.use(
       console.log('msg', msg)
       // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
       if (params && params.showBackend) {
-        ;[message] = msg
+        message = msg
       } else {
         // 弹出前端自定义错误信息
         const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
@@ -165,7 +165,7 @@ _axios.interceptors.response.use(
         message,
         type: 'error',
       })
-      resolve(res.data)
+      reject()
     })
   },
   error => {
