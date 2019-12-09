@@ -172,7 +172,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/table/Table.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: '组合示例',
@@ -203,7 +202,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/Input.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'MultipleInput',
@@ -213,7 +211,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/MultipleInput.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'Radio',
@@ -223,7 +220,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/Radio.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'Checkbox',
@@ -233,7 +229,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/Checkbox.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'Select',
@@ -243,7 +238,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/form/Select.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'Switch 开关',
@@ -335,7 +329,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/notice/Alert.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'Message 消息提示',
@@ -345,7 +338,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/notice/Message.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'Notification 通知',
@@ -355,7 +347,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/notice/Notification.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
         {
           title: 'Loading 加载',
@@ -365,7 +356,6 @@ const LinCmsUiRouter = {
           filePath: 'plugins/LinCmsUi/views/notice/Loading.vue',
           inNav: true,
           icon: 'iconfont icon-jiemiansheji',
-
         },
       ],
     },

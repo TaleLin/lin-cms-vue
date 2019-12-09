@@ -6,6 +6,4 @@ import MenuTab from './MenuTab.vue'
 import BackTop from './BackTop.vue'
 import User from './User.vue'
 
-export {
-  NavBar, SideBar, AppMain, ReuseTab, MenuTab, BackTop, User,
-}
+export { NavBar, SideBar, AppMain, ReuseTab, MenuTab, BackTop, User }

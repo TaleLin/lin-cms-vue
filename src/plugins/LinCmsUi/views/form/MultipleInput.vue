@@ -6,22 +6,17 @@
         <div class="label-title">示例</div>
         <div class="block-box">
           <i class="iconfont icon-jia plus" v-if="!list.length" @click="addContent"></i>
-          <el-row class="input-row" v-for="(item,index) in list" :key="index">
-            <el-input
-              v-model="item.text"
-              placeholder="请输入内容"
-              size="medium"
-              class="input-detail"
-              ></el-input>
+          <el-row class="input-row" v-for="(item, index) in list" :key="index">
+            <el-input v-model="item.text" placeholder="请输入内容" size="medium" class="input-detail"></el-input>
             <div class="function">
               <i class="iconfont icon-jian1 minus" @click="removeContent(index)"></i>
-              <i class="iconfont icon-jia plus" v-if="index === list.length-1" @click="addContent"></i>
+              <i class="iconfont icon-jia plus" v-if="index === list.length - 1" @click="addContent"></i>
             </div>
           </el-row>
         </div>
-         <el-collapse>
+        <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -65,9 +60,7 @@ export default {
           },
         }
         <\/script>`,
-      list: [
-
-      ],
+      list: [],
     }
   },
   methods: {

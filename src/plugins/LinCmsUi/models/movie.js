@@ -8,10 +8,10 @@ class Movie {
     currentList.forEach((element, index) => {
       const tempCasts = []
       const tempDirectors = []
-      element.casts.forEach((el) => {
+      element.casts.forEach(el => {
         tempCasts.push(el.name)
       })
-      element.directors.forEach((el) => {
+      element.directors.forEach(el => {
         tempDirectors.push(el.name)
       })
 
@@ -28,7 +28,9 @@ class Movie {
         recommend: 0,
         remark: '这是一部不错的电影',
         editFlag: false,
-        thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
+        thumb: element.thumb
+          ? element.thumb
+          : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
       })
     })
 
@@ -43,13 +45,12 @@ class Movie {
       if (element.title.match(query)) {
         const tempCasts = []
         const tempDirectors = []
-        element.casts.forEach((el) => {
+        element.casts.forEach(el => {
           tempCasts.push(el.name)
         })
-        element.directors.forEach((el) => {
+        element.directors.forEach(el => {
           tempDirectors.push(el.name)
         })
-
 
         arr.push({
           title: element.title,
@@ -64,7 +65,9 @@ class Movie {
           recommend: 0,
           remark: '这是一部不错的电影',
           editFlag: false,
-          thumb: element.thumb ? element.thumb : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
+          thumb: element.thumb
+            ? element.thumb
+            : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
         })
       }
     }

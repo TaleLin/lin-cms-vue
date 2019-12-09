@@ -47,11 +47,11 @@ function filterPlugin(data) {
     return
   }
   if (Array.isArray(data)) {
-    data.forEach((item) => {
+    data.forEach(item => {
       filterPlugin(item)
     })
   } else {
-    const findResult = plugins.findIndex(item => (data === item))
+    const findResult = plugins.findIndex(item => data === item)
     if (findResult >= 0) {
       plugins.splice(findResult, 1)
     }
@@ -69,9 +69,9 @@ homeRouter = homeRouter.concat(plugins)
 homeRouter = Utils.sortByOrder(homeRouter)
 
 // 使用 Symbol 处理 name 字段, 保证唯一性
-const deepReduceName = (target) => {
+const deepReduceName = target => {
   if (Array.isArray(target)) {
-    target.forEach((item) => {
+    target.forEach(item => {
       if (typeof item !== 'object') {
         return
       }
@@ -88,7 +88,7 @@ const deepReduceName = (target) => {
     }
 
     if (Array.isArray(target.children)) {
-      target.children.forEach((item) => {
+      target.children.forEach(item => {
         if (typeof item !== 'object') {
           return
         }

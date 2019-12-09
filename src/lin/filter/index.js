@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import Utils from '../utils/util'
 /*
-* 全局的过滤函数
-* */
+ * 全局的过滤函数
+ * */
 function checkAddZone(num) {
   return num < 10 ? `0${num.toString()}` : num
 }
 
 const globalFilter = {
-
-  filterAddress(value) { // 过滤地址
+  filterAddress(value) {
+    // 过滤地址
     if (!value) return value
     const obj = value
     return `${obj.provinceName}${obj.cityName}${obj.countyName} ${obj.detailInfo}`
   },
 
-  filterTime(value) { // 过滤时间戳，返回值yyyy-mm-dd
+  filterTime(value) {
+    // 过滤时间戳，返回值yyyy-mm-dd
     if (!value) {
       return value
     }
@@ -27,7 +28,8 @@ const globalFilter = {
     return val
   },
 
-  filterTimeYmdHms(value) { // 过滤时间戳，返回值yyyy-mm-dd ss
+  filterTimeYmdHms(value) {
+    // 过滤时间戳，返回值yyyy-mm-dd ss
     if (!value) {
       return value
     }
@@ -42,7 +44,8 @@ const globalFilter = {
     return val
   },
 
-  filterTimeYear(value) { // 过滤时间戳, 返回值 今年:mm-dd 往年:yyyy-mm-dd
+  filterTimeYear(value) {
+    // 过滤时间戳, 返回值 今年:mm-dd 往年:yyyy-mm-dd
     const jy = 1900 + new Date().getYear()
     const date = new Date(value * 1000)
     const y = 1900 + date.getYear()
@@ -74,7 +77,7 @@ const globalFilter = {
     t = new Date(t).getTime() // eslint-disable-line
     t = new Date(t) // eslint-disable-line
     const year = t.getFullYear()
-    let month = (t.getMonth() + 1)
+    let month = t.getMonth() + 1
     month = checkAddZone(month)
 
     let date = t.getDate()
@@ -95,7 +98,6 @@ const globalFilter = {
   filterTitle(value, len = 9) {
     return Utils.cutString(value, len)
   },
-
 }
 
 // 全局过滤器

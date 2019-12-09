@@ -3,96 +3,84 @@
     <div class="lin-title">Tag 标签</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>基础用法</span>
-        </div>
+        <div slot="header"><span>基础用法</span></div>
         <el-row>
           <div>
-           <el-tag>标签一</el-tag>
-           <el-tag type="success">标签二</el-tag>
-           <el-tag type="info">标签三</el-tag>
-           <el-tag type="warning">标签四</el-tag>
-           <el-tag type="danger">标签五</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag type="success">标签二</el-tag>
+            <el-tag type="info">标签三</el-tag>
+            <el-tag type="warning">标签四</el-tag>
+            <el-tag type="danger">标签五</el-tag>
           </div>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{base}}</div>
-          </el-collapse-item>
-        </el-collapse>
-      </el-card>
-       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>可移除标签</span>
-        </div>
-        <el-row>
-        <div>
-          <el-tag
-            v-for="tag in tags"
-            :key="tag.name"
-            closable
-            @close="handleCloseTag(tag)"
-            :type="tag.type">
-            {{tag.name}}
-            </el-tag>
-        </div>
-        </el-row>
-        <el-collapse class="test" style="color:red;">
-          <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{closable}}</div>
+            <div style="white-space: pre-wrap;">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>动态编辑标签</span>
-        </div>
+        <div slot="header"><span>可移除标签</span></div>
         <el-row>
-        <div>
-          <el-tag
-            :key="tag"
-            v-for="tag in dynamicTags"
-            closable
-            :disable-transitions="false"
-            @close="handleClose(tag)">
-            {{tag}}
-          </el-tag>
-          <el-input
-            class="input-new-tag"
-            v-model="inputValue"
-            v-if="inputVisible"
-            ref="saveTagInput"
-            size="small"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm"
-          >
-          </el-input>
-          <i v-else class="el-icon-circle-plus button-new-tag" @click="showInput" ></i>
-          <!-- <el-button  class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
-        </div>
+          <div>
+            <el-tag v-for="tag in tags" :key="tag.name" closable @close="handleCloseTag(tag)" :type="tag.type">
+              {{ tag.name }}
+            </el-tag>
+          </div>
         </el-row>
         <el-collapse class="test" style="color:red;">
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{dynamic}}</div>
+            <div style="white-space: pre-wrap;">{{ closable }}</div>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
+      <el-card style="margin-bottom:50px;">
+        <div slot="header"><span>动态编辑标签</span></div>
+        <el-row>
+          <div>
+            <el-tag
+              :key="tag"
+              v-for="tag in dynamicTags"
+              closable
+              :disable-transitions="false"
+              @close="handleClose(tag)"
+            >
+              {{ tag }}
+            </el-tag>
+            <el-input
+              class="input-new-tag"
+              v-model="inputValue"
+              v-if="inputVisible"
+              ref="saveTagInput"
+              size="small"
+              @keyup.enter.native="handleInputConfirm"
+              @blur="handleInputConfirm"
+            >
+            </el-input>
+            <i v-else class="el-icon-circle-plus button-new-tag" @click="showInput"></i>
+            <!-- <el-button  class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
+          </div>
+        </el-row>
+        <el-collapse class="test" style="color:red;">
+          <el-collapse-item title="查看代码" name="2">
+            <div style="white-space: pre-wrap;">{{ dynamic }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header">
-          <span>不同尺寸</span>
-        </div>
+        <div slot="header"><span>不同尺寸</span></div>
         <el-row>
-         <div>
-          <el-tag closable>默认标签</el-tag>
-          <el-tag size="medium" closable>中等标签</el-tag>
-          <el-tag size="small" closable>小型标签</el-tag>
-          <el-tag size="mini" closable>超小标签</el-tag>
-        </div>
+          <div>
+            <el-tag closable>默认标签</el-tag>
+            <el-tag size="medium" closable>中等标签</el-tag>
+            <el-tag size="small" closable>小型标签</el-tag>
+            <el-tag size="mini" closable>超小标签</el-tag>
+          </div>
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{size}}</div>
+            <div style="white-space: pre-wrap;">{{ size }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -244,12 +232,12 @@ export default {
   },
   methods: {
     handleInputConfirm() {
-      let inputValue = this.inputValue;
+      let inputValue = this.inputValue
       if (inputValue) {
-        this.dynamicTags.push(inputValue);
+        this.dynamicTags.push(inputValue)
       }
-      this.inputVisible = false;
-      this.inputValue = '';
+      this.inputVisible = false
+      this.inputValue = ''
     },
     handleCloseTag(tag) {
       this.tags.splice(this.tags.indexOf(tag), 1)
@@ -277,7 +265,7 @@ export default {
 .button-new-tag {
   cursor: pointer;
   vertical-align: middle;
-  color: #3963BC;
+  color: #3963bc;
   margin-left: 10px;
   font-size: 24px;
   height: 24px;

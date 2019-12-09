@@ -2,22 +2,26 @@
   <div class="container" v-loading="loading">
     <div class="group">
       <div class="label">
-        <label>{{title}}</label>
+        <label>{{ title }}</label>
       </div>
       <div class="details">
-        <div class="permissions-box" v-for="(auth,moduleName) in allAuths" :key="moduleName">
+        <div class="permissions-box" v-for="(auth, moduleName) in allAuths" :key="moduleName">
           <el-checkbox-group v-model="auths">
             <div class="module-box">
               <el-checkbox
-                @change="moduleCheck($event, auth,moduleName)"
+                @change="moduleCheck($event, auth, moduleName)"
                 class="module"
                 :label="moduleName"
-                :indeterminate="halfAuths.includes(moduleName)"></el-checkbox>
+                :indeterminate="halfAuths.includes(moduleName)"
+              ></el-checkbox>
             </div>
 
             <ul class="permissions-ul">
-              <li class="permissions-li" v-for="(item,key) in auth" :key="key">
-                <el-checkbox :label="key | filterTitle(32)" @change="singleCheck($event, key, moduleName)"></el-checkbox>
+              <li class="permissions-li" v-for="(item, key) in auth" :key="key">
+                <el-checkbox
+                  :label="key | filterTitle(32)"
+                  @change="singleCheck($event, key, moduleName)"
+                ></el-checkbox>
               </li>
             </ul>
           </el-checkbox-group>
@@ -56,100 +60,88 @@ export default {
         let res = await Admin.getOneGroup(this.id)
         // 获取分组所拥有的权限
         /* eslint-disable */
-        res = JSON.parse(JSON.stringify(res)); // 去除__ob__
+        res = JSON.parse(JSON.stringify(res)) // 去除__ob__
         for (let i = 0; i < res.auths.length; i++) {
           for (const key in res.auths[i]) {
             for (let j = 0; j < res.auths[i][key].length; j++) {
-              this.auths.push(res.auths[i][key][j].auth);
+              this.auths.push(res.auths[i][key][j].auth)
             }
           }
         }
-        this.$emit("updateCacheAuths", this.auths);
+        this.$emit('updateCacheAuths', this.auths)
         // 检查module状态是否需要选中
         for (const key in this.allAuths) {
-          this.initModuleCheck(key);
+          this.initModuleCheck(key)
         }
       }
-      this.$emit("updateAuths", this.auths);
-      this.$emit("updateAllAuths", this.allAuths);
+      this.$emit('updateAuths', this.auths)
+      this.$emit('updateAllAuths', this.allAuths)
     },
     // 弹窗打开时，判断某一分类权限是否全部选中
     initModuleCheck(moduleName) {
-      const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName]);
-      const intersect = Utils.getIntersect(
-        currentModuleChildrenArr,
-        this.auths
-      );
+      const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName])
+      const intersect = Utils.getIntersect(currentModuleChildrenArr, this.auths)
       // 全选
       if (intersect.length === currentModuleChildrenArr.length) {
-        this.auths.push(moduleName);
+        this.auths.push(moduleName)
       }
       // 半选
-      if (
-        intersect.length > 0 &&
-        intersect.length < currentModuleChildrenArr.length
-      ) {
-        this.halfAuths.push(moduleName);
+      if (intersect.length > 0 && intersect.length < currentModuleChildrenArr.length) {
+        this.halfAuths.push(moduleName)
       }
     },
     moduleCheck(checked, auth, moduleName) {
-      const authArr = Object.keys(auth);
+      const authArr = Object.keys(auth)
       if (checked) {
         if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1);
+          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
         }
-        this.auths.push(...authArr);
+        this.auths.push(...authArr)
       } else {
         if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1);
+          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
         }
-        this.auths = this.auths.filter(x => authArr.indexOf(x) < 0);
+        this.auths = this.auths.filter(x => authArr.indexOf(x) < 0)
       }
-      this.$emit("updateAuths", this.auths);
+      this.$emit('updateAuths', this.auths)
     },
     singleCheck(checked, singleAuth, moduleName) {
-      const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName]);
-      const intersect = Utils.getIntersect(
-        currentModuleChildrenArr,
-        this.auths
-      );
+      const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName])
+      const intersect = Utils.getIntersect(currentModuleChildrenArr, this.auths)
       if (intersect.length === currentModuleChildrenArr.length) {
         if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1);
+          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
         }
-        this.auths.push(moduleName);
-      } else if (
-        intersect.length > 0 &&
-        intersect.length < currentModuleChildrenArr.length
-      ) {
+        this.auths.push(moduleName)
+      } else if (intersect.length > 0 && intersect.length < currentModuleChildrenArr.length) {
         if (this.auths.indexOf(moduleName) > -1) {
-          this.auths.splice(this.auths.indexOf(moduleName), 1);
+          this.auths.splice(this.auths.indexOf(moduleName), 1)
         }
-        this.halfAuths.push(moduleName);
-      } else if (intersect.length === 0){
+        this.halfAuths.push(moduleName)
+      } else if (intersect.length === 0) {
         if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1);
+          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
         }
         if (this.auths.indexOf(moduleName) > -1) {
-          this.auths.splice(this.auths.indexOf(moduleName), 1);
+          this.auths.splice(this.auths.indexOf(moduleName), 1)
         }
       }
-      this.halfAuths = Array.from(new Set(this.halfAuths));
-      this.auths = Array.from(new Set(this.auths));
-      this.$emit("updateAuths", this.auths);
-    }
+      this.halfAuths = Array.from(new Set(this.halfAuths))
+      this.auths = Array.from(new Set(this.auths))
+      this.$emit('updateAuths', this.auths)
+    },
   },
   async created() {
     try {
-      this.loading = true;
-      await this.getGroupAuths();
-      this.loading = false;
+      this.loading = true
+      await this.getGroupAuths()
+      this.loading = false
     } catch (e) {
-      this.loading = false;
-      console.log(e);
+      this.loading = false
+      console.log(e)
     }
-  }
-};
+  },
+}
 </script>
 
 <style lang="scss" scoped>

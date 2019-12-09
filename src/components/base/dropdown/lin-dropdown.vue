@@ -1,14 +1,9 @@
 <template>
   <div class="container">
     <el-dropdown @command="handleCommand">
-      <el-button>
-        {{title}}
-        <i class="el-icon-arrow-down el-icon--right"></i>
-      </el-button>
+      <el-button> {{ title }} <i class="el-icon-arrow-down el-icon--right"></i> </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item v-for="single in list" :key="single" :command="single">
-          {{single}}
-        </el-dropdown-item>
+        <el-dropdown-item v-for="single in list" :key="single" :command="single"> {{ single }} </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>

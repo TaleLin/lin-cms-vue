@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <div class="title">新建用户</div>
-    <div class="wrap">
-      <user-info :groups="groups" />
-    </div>
+    <div class="wrap"><user-info :groups="groups" /></div>
   </div>
 </template>
 
@@ -34,7 +32,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   .title {
     height: 59px;
