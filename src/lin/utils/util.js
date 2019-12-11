@@ -194,8 +194,8 @@ Utils.hasPermission = (auths, route, user) => {
   if (user && user.isSuper) {
     return true
   }
-  if (route.right) {
-    return auths.some(auth => route.right.indexOf(auth) > -1)
+  if (route.permission) {
+    return auths.some(auth => route.permission.indexOf(auth) > -1)
   }
   return true
 }
