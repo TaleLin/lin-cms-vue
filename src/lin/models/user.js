@@ -75,6 +75,7 @@ export default class User {
       info.username,
       info.admin,
       info.avatar,
+      info.auths,
       info.nickname,
       info.group_name,
     )
