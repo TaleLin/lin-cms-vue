@@ -10,11 +10,11 @@ Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  reducer: () => ({
+  reducer: stateData => ({
     // eslint-disable-line
-    logined: state.logined,
-    user: state.user,
-    auths: state.auths,
+    logined: stateData.logined,
+    user: stateData.user,
+    auths: stateData.auths,
   }),
 })
 
