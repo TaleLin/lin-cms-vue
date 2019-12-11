@@ -29,6 +29,10 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 
 [lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
 
+### 注意
+
+**Lin-CMS 是工程类开源项目，不能保证无缝升级**
+
 ### 文档地址
 
 [http://doc.cms.7yue.pro/](http://doc.cms.7yue.pro/)
