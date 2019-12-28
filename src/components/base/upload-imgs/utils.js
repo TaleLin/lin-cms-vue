@@ -1,51 +1,60 @@
-
 // 检测官方文档: https://mimesniff.spec.whatwg.org/#matching-an-image-type-pattern
 /** 类型检测掩码集合 */
-const patternMask = [{
-  name: 'image/x-icon',
-  mask: [0xFF, 0xFF, 0xFF, 0xFF],
-  byte: [0x00, 0x00, 0x01, 0x00],
-}, {
-  name: 'image/x-icon',
-  mask: [0xFF, 0xFF, 0xFF, 0xFF],
-  byte: [0x00, 0x00, 0x02, 0x00],
-}, {
-  name: 'image/bmp',
-  mask: [0xFF, 0xFF],
-  byte: [0x42, 0x4D],
-}, {
-  name: 'image/gif',
-  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
-  byte: [0x47, 0x49, 0x46, 0x38, 0x37, 0x61],
-}, {
-  name: 'image/gif',
-  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
-  byte: [0x47, 0x49, 0x46, 0x38, 0x39, 0x61],
-}, {
-  name: 'image/webp',
-  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
-  byte: [0x52, 0x49, 0x46, 0x46, 0x00, 0x00, 0x00, 0x00, 0x57, 0x45, 0x42, 0x50, 0x56, 0x50],
-}, {
-  name: 'image/png',
-  mask: [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
-  byte: [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A],
-}, {
-  name: 'image/jpeg',
-  mask: [0xFF, 0xFF, 0xFF],
-  byte: [0xFF, 0xD8, 0xFF],
-}]
+const patternMask = [
+  {
+    name: 'image/x-icon',
+    mask: [0xff, 0xff, 0xff, 0xff],
+    byte: [0x00, 0x00, 0x01, 0x00],
+  },
+  {
+    name: 'image/x-icon',
+    mask: [0xff, 0xff, 0xff, 0xff],
+    byte: [0x00, 0x00, 0x02, 0x00],
+  },
+  {
+    name: 'image/bmp',
+    mask: [0xff, 0xff],
+    byte: [0x42, 0x4d],
+  },
+  {
+    name: 'image/gif',
+    mask: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff],
+    byte: [0x47, 0x49, 0x46, 0x38, 0x37, 0x61],
+  },
+  {
+    name: 'image/gif',
+    mask: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff],
+    byte: [0x47, 0x49, 0x46, 0x38, 0x39, 0x61],
+  },
+  {
+    name: 'image/webp',
+    mask: [0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff],
+    byte: [0x52, 0x49, 0x46, 0x46, 0x00, 0x00, 0x00, 0x00, 0x57, 0x45, 0x42, 0x50, 0x56, 0x50],
+  },
+  {
+    name: 'image/png',
+    mask: [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff],
+    byte: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+  },
+  {
+    name: 'image/jpeg',
+    mask: [0xff, 0xff, 0xff],
+    byte: [0xff, 0xd8, 0xff],
+  },
+]
 
 /** 判断是否是空对象 */
 export function isEmptyObj(data) {
   if (!data) return true
-  return (JSON.stringify(data) === '{}')
+  return JSON.stringify(data) === '{}'
 }
 
 /** 生成随机字符串 */
 export function createId() {
-  return Math.random().toString(36).substring(2)
+  return Math.random()
+    .toString(36)
+    .substring(2)
 }
-
 
 /**
  * 检测是否是动图
@@ -63,17 +72,17 @@ export async function checkIsAnimated({ file, fileUrl, fileType }) {
   }
 
   if (fileType === 'image/webp') {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const request = new XMLHttpRequest()
       request.open('GET', fileUrl, true)
       request.addEventListener('load', () => {
-        resolve((request.response.indexOf('ANMF') !== -1))
+        resolve(request.response.indexOf('ANMF') !== -1)
       })
       request.send()
     })
   }
   if (fileType === 'image/gif') {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const request = new XMLHttpRequest()
       request.open('GET', fileUrl, true)
       request.responseType = 'arraybuffer'
@@ -95,7 +104,14 @@ export async function checkIsAnimated({ file, fileUrl, fileType }) {
         // at least 2 frame headers
         let frames = 0
         for (let i = 0, len = arr.length - 9; i < len && frames < 2; ++i) {
-          if (arr[i] === 0x00 && arr[i + 1] === 0x21 && arr[i + 2] === 0xF9 && arr[i + 3] === 0x04 && arr[i + 8] === 0x00 && (arr[i + 9] === 0x2C || arr[i + 9] === 0x21)) {
+          if (
+            arr[i] === 0x00
+            && arr[i + 1] === 0x21
+            && arr[i + 2] === 0xf9
+            && arr[i + 3] === 0x04
+            && arr[i + 8] === 0x00
+            && (arr[i + 9] === 0x2c || arr[i + 9] === 0x21)
+          ) {
             frames++
           }
         }
@@ -117,21 +133,21 @@ export async function getFileType(file) {
   if (!(file instanceof File)) {
     return 'unknown'
   }
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const fileReader = new FileReader()
-    fileReader.onloadend = (e) => {
-      const header = (new Uint8Array(e.target.result)).slice(0, 20)
+    fileReader.onloadend = e => {
+      const header = new Uint8Array(e.target.result).slice(0, 20)
       let type = 'unknown'
 
       // eslint-disable-next-line arrow-body-style
-      const index = patternMask.findIndex((item) => {
+      const index = patternMask.findIndex(item => {
         // eslint-disable-next-line arrow-body-style
         return item.mask.every((subItem, subI) => {
           // subItem 掩码标志
           // item.byte[subI] 规范值
           // header[subI] 文件实际值
           // eslint-disable-next-line
-          return ((subItem & (header[subI] ^ item.byte[subI])) === 0)
+          return (subItem & (header[subI] ^ item.byte[subI])) === 0
         })
       })
 

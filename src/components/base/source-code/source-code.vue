@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <script type="text/ecmascript-6">
 export default {
   props: {
@@ -36,14 +35,14 @@ export default {
   border-radius: 4px;
   padding: 7px 15px;
   padding-right: 19px;
-  background-color: rgba(0,0,0,.7);
+  background-color: rgba(0, 0, 0, 0.7);
   border: 1px solid #000;
   color: #fff;
-  -webkit-transition: all .3s;
-  transition: all .3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
   &:hover {
     right: -4px;
-    background-color: rgba(0,0,0,.9);
+    background-color: rgba(0, 0, 0, 0.9);
   }
 }
 </style>

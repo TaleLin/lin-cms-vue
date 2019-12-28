@@ -16,7 +16,7 @@ const CustomRouter = {
       filePath: 'plugins/custom/views/Demo.vue',
       inNav: true,
       icon: 'iconfont icon-zidingyi',
-      right: null,
+      permission: null,
     },
     {
       title: 'gallery 画廊',
@@ -26,7 +26,7 @@ const CustomRouter = {
       filePath: 'plugins/custom/views/Gallery.vue',
       inNav: true,
       icon: 'iconfont icon-zidingyi',
-      right: null,
+      permission: null,
     },
     {
       title: '富文本',
@@ -36,7 +36,7 @@ const CustomRouter = {
       filePath: 'plugins/custom/views/Tinymce.vue',
       inNav: true,
       icon: 'iconfont icon-zidingyi',
-      right: null,
+      permission: null,
     },
     {
       title: 'multiple 多重输入',
@@ -46,7 +46,7 @@ const CustomRouter = {
       filePath: 'plugins/custom/views/MultipleInput.vue',
       inNav: true,
       icon: 'iconfont icon-zidingyi',
-      right: null,
+      permission: null,
     },
   ],
 }

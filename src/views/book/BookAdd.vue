@@ -3,17 +3,8 @@
     <div class="title">新建图书</div>
     <div class="wrap">
       <el-row>
-        <el-col
-          :lg="16"
-          :md="20"
-          :sm="24"
-          :xs="24">
-          <el-form
-            :model="form"
-            status-icon
-            ref="form"
-            label-width="100px"
-            @submit.native.prevent>
+        <el-col :lg="16" :md="20" :sm="24" :xs="24">
+          <el-form :model="form" status-icon ref="form" label-width="100px" @submit.native.prevent>
             <el-form-item label="书名" prop="title">
               <el-input size="medium" v-model="form.title" placeholder="请填写书名"></el-input>
             </el-form-item>
@@ -27,9 +18,10 @@
               <el-input
                 size="medium"
                 type="textarea"
-                :autosize="{ minRows: 4, maxRows: 8}"
+                :autosize="{ minRows: 4, maxRows: 8 }"
                 placeholder="请输入简介"
-                v-model="form.summary">
+                v-model="form.summary"
+              >
               </el-input>
             </el-form-item>
 
@@ -41,7 +33,6 @@
         </el-col>
       </el-row>
     </div>
-
   </div>
 </template>
 
@@ -68,6 +59,7 @@ export default {
           this.resetForm(formName)
         }
       } catch (error) {
+        this.$message.error(error.data.msg)
         console.log(error)
       }
     },

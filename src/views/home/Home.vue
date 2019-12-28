@@ -8,12 +8,10 @@
         <el-header class="header">
           <div class="left">
             <div class="operate" ref="operate">
-              <i class="iconfont icon-fold" :class="{rotate: foldState}" @click="changeSlidebarState" />
+              <i class="iconfont icon-fold" :class="{ rotate: foldState }" @click="changeSlidebarState" />
               <nav-bar></nav-bar>
             </div>
-            <el-collapse-transition>
-              <reuse-tab ref="reuse"></reuse-tab>
-            </el-collapse-transition>
+            <el-collapse-transition> <reuse-tab ref="reuse"></reuse-tab> </el-collapse-transition>
           </div>
         </el-header>
         <el-main ref="main">
@@ -22,25 +20,18 @@
         </el-main>
         <back-top :right="50" :bottom="50" :fontSize="34"></back-top>
       </el-container>
-      <div class="sidenav-mask" :class="{show: isPhone && isCollapse}" @click="changeSlidebarState"></div>
+      <div class="sidenav-mask" :class="{ show: isPhone && isCollapse }" @click="changeSlidebarState"></div>
     </el-container>
   </div>
 </template>
 
 <script>
-import {
-  NavBar,
-  SideBar,
-  AppMain,
-  ReuseTab,
-  MenuTab,
-  BackTop,
-} from '@/components/layout'
+import { NavBar, SideBar, AppMain, ReuseTab, MenuTab, BackTop } from '@/components/layout'
 
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
 const marginHeight = 20 // 历史记录栏与舞台的间距
-const sideBarWidth = '190px'
+const sideBarWidth = '210px'
 const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {
@@ -55,8 +46,7 @@ export default {
       isPhone: false,
     }
   },
-  created() {
-  },
+  created() {},
   mounted() {
     this.setResize()
     // console.log(this.clientWidth)
@@ -140,9 +130,7 @@ export default {
     setResize() {
       this.clientHeight = document.body.clientHeight
       this.clientWidth = document.body.clientWidth
-      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight
-        - totalHeight
-        + 20}px`
+      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
     },
   },
   watch: {
@@ -277,7 +265,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .3);
+  background-color: rgba(0, 0, 0, 0.3);
   z-index: 10;
   display: none;
   cursor: pointer;

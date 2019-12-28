@@ -2,9 +2,7 @@
   <div>
     <!-- 列表页面 -->
     <div class="container" v-if="!showEdit">
-      <div class="header">
-        <div class="title">图书列表</div>
-      </div>
+      <div class="header"><div class="title">图书列表</div></div>
       <!-- 表格 -->
       <lin-table
         :tableColumn="tableColumn"
@@ -13,12 +11,12 @@
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
         @row-click="rowClick"
-        v-loading="loading"></lin-table>
+        v-loading="loading"
+      ></lin-table>
     </div>
 
     <!-- 编辑页面 -->
     <book-edit v-else @editClose="editClose" :editBookID="editBookID"></book-edit>
-
   </div>
 </template>
 
@@ -43,13 +41,16 @@ export default {
   },
   async created() {
     this.loading = true
-    this.getBooks()
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, {
-      name: '删除',
-      func: 'handleDelete',
-      type: 'danger',
-      auth: '删除图书',
-    }]
+    await this.getBooks()
+    this.operate = [
+      { name: '编辑', func: 'handleEdit', type: 'primary' },
+      {
+        name: '删除',
+        func: 'handleDelete',
+        type: 'danger',
+        auth: '删除图书',
+      },
+    ]
     this.loading = false
   },
   methods: {
@@ -84,9 +85,7 @@ export default {
         }
       })
     },
-    rowClick() {
-
-    },
+    rowClick() {},
     editClose() {
       this.showEdit = false
       this.getBooks()
