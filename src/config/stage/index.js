@@ -27,6 +27,15 @@ let homeRouter = [
     permission: ['查询所有日志'],
   },
   {
+    title: '个人中心',
+    type: 'view',
+    name: Symbol('center'),
+    route: '/center',
+    filePath: 'views/center/Center.vue',
+    inNav: false,
+    icon: 'iconfont icon-rizhiguanli',
+  },
+  {
     title: '404',
     type: 'view',
     name: Symbol('404'),
