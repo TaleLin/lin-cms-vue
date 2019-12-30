@@ -1,7 +1,7 @@
 import { post, get, put } from '@/lin/plugins/axios'
 import { saveTokens } from '../utils/token'
 
-const SUPER_VALUE = 2
+// const SUPER_VALUE = 2
 const ACTIVE_VALUE = 1
 
 export default class User {
@@ -29,14 +29,14 @@ export default class User {
   // 分组名称
   groupName = null
 
-  constructor(active, email, groupId, username, _super, avatar, auths, nickname, groupName) {
+  constructor(active, email, groupId, username, admin, avatar, permissions, nickname, groupName) {
     this.isActive = active === ACTIVE_VALUE
     this.email = email
     this.groupId = groupId
     this.username = username
     this.avatar = avatar
-    this.isSuper = _super === SUPER_VALUE
-    this.auths = auths || []
+    this.isSuper = admin
+    this.auths = permissions || []
     this.nickname = nickname
     this.groupName = groupName
   }
@@ -85,7 +85,7 @@ export default class User {
    * 获取当前用户信息和所拥有的权限
    */
   static async getAuths() {
-    const info = await get('cms/user/auths')
+    const info = await get('cms/user/permissions')
     return new User(
       info.active,
       info.email,
