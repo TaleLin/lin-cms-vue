@@ -14,7 +14,13 @@
         <el-input size="medium" clearable v-model="form.username" :disabled="isEdited"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input size="medium" clearable v-model="form.email" auto-complete="new-password"></el-input>
+        <el-input
+          size="medium"
+          clearable
+          v-model="form.email"
+          :disabled="isEdited"
+          auto-complete="new-password"
+        ></el-input>
       </el-form-item>
       <el-form-item v-if="pageType === 'add'" label="密码" prop="password">
         <el-input
@@ -31,8 +37,8 @@
       <el-form-item v-if="pageType !== 'password'" label="选择分组">
         <el-select
           size="medium"
-          filterable
-          v-model="form.group_id"
+          multiple
+          v-model="form.group_ids"
           :disabled="groups.length === 0"
           placeholder="请选择分组"
         >
@@ -124,7 +130,7 @@ export default {
         password: '',
         confirm_password: '',
         email: '',
-        group_id: '请先创建分组',
+        group_ids: [],
       },
       // 验证规则
       rules: {
@@ -172,13 +178,16 @@ export default {
             }
           } else {
             // 更新用户信息
-            if (this.form.email === this.info.email && this.form.group_id === this.info.group_id) {
+            if (
+              this.form.email === this.info.email
+              && this.form.group_ids.sort().toString() === this.info.group_ids.sort().toString()
+            ) {
               this.$emit('handleInfoResult', false)
               return
             }
             try {
               this.loading = true
-              res = await Admin.updateOneUser(this.form.email, this.form.group_id, this.id)
+              res = await Admin.updateOneUser(this.form.email, this.form.group_ids, this.id)
             } catch (e) {
               this.loading = false
               console.log(e)
@@ -203,14 +212,18 @@ export default {
       if (this.pageType === 'edit') {
         this.setInfo()
       } else {
-        this.form.group_id = this.groups[0].id
+        this.form.group_ids = [this.groups[0].id]
         this.$refs[formName].resetFields()
       }
     },
     setInfo() {
       this.form.username = this.info.username
       this.form.email = this.info.email
-      this.form.group_id = this.info.group_id
+      const temp = []
+      this.info.group_ids.forEach(item => {
+        temp.push(item.id)
+      })
+      this.form.group_ids = temp
     },
   },
   watch: {
@@ -218,7 +231,7 @@ export default {
       // 默认选中管理员组
       handler() {
         if (this.groups && this.groups[0] && this.groups[0].id) {
-          this.form.group_id = this.groups[0].id
+          this.form.group_ids = [this.groups[0].id]
         }
       },
       immediate: true,

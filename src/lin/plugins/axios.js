@@ -128,7 +128,7 @@ _axios.interceptors.response.use(
         return
       }
       // 令牌相关，刷新令牌
-      if (error_code === 10040 || error_code === 10050) {
+      if (error_code === 10040 || error_code === 10041 || error_code === 10050 || error_code === 10051) {
         const cache = {}
         if (cache.url !== url) {
           cache.url = url

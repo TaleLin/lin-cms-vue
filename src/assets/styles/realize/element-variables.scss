@@ -842,7 +842,7 @@ $typeMap: (primary:#3963BC,
 /* select */
 @include b(select) {
   .el-tag {
-    background-color: #3963bc !important;
+    // background-color: #3963bc !important;
     &__close.el-icon-close {
       background-color: #3963bc;
       right: -7px;

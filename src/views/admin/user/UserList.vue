@@ -93,7 +93,7 @@ export default {
         password: '',
         confirm_password: '',
         email: '',
-        group_id: '',
+        group_ids: [],
       },
       loading: false,
     }
@@ -139,7 +139,7 @@ export default {
       this.id = selectedData.id
       this.form.username = selectedData.username
       this.form.email = selectedData.email
-      this.form.group_id = selectedData.group_id
+      this.form.group_ids = selectedData.groups
       this.dialogFormVisible = true
     },
     // 下拉框选择分组

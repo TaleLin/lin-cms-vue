@@ -32,7 +32,7 @@ export default class Admin {
   }
 
   static getAllAuths() {
-    return get('cms/admin/authority')
+    return get('cms/admin/permission')
   }
 
   static async getAdminUsers({ group_id, count = this.uCount, page = this.uPag }) {
