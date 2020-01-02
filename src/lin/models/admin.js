@@ -90,11 +90,11 @@ export default class Admin {
     return group
   }
 
-  static async createOneGroup(name, info, auths) {
+  static async createOneGroup(name, info, permission_ids) {
     const res = await post('cms/admin/group', {
       name,
       info,
-      auths,
+      permission_ids,
     })
     return res
   }

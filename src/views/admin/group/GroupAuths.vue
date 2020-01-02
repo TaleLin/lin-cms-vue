@@ -6,7 +6,7 @@
       </div>
       <div class="details">
         <div class="permissions-box" v-for="(auth, moduleName) in allAuths" :key="moduleName">
-          <el-checkbox-group v-model="auths">
+          <el-checkbox-group v-model="auth_module_name">
             <div class="module-box">
               <el-checkbox
                 @change="moduleCheck($event, auth, moduleName)"
@@ -15,16 +15,16 @@
                 :indeterminate="halfAuths.includes(moduleName)"
               ></el-checkbox>
             </div>
-
-            <ul class="permissions-ul">
-              <li class="permissions-li" v-for="(item, key) in auth" :key="key">
-                <el-checkbox
-                  :label="key | filterTitle(32)"
-                  @change="singleCheck($event, key, moduleName)"
-                ></el-checkbox>
-              </li>
-            </ul>
           </el-checkbox-group>
+          <ul class="permissions-ul">
+            <li class="permissions-li" v-for="(item, key) in auth" :key="key">
+              <el-checkbox
+                :label="item.name"
+                :value="auth_module_ids.indexOf(item.id) > -1"
+                @change="singleCheck(item.id, auth, moduleName)"
+              ></el-checkbox>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import Utils from 'lin/utils/util'
 import Admin from '@/lin/models/admin'
 
 export default {
@@ -40,7 +39,9 @@ export default {
   data() {
     return {
       allAuths: {}, // 所有分组权限
-      auths: [], // 拥有的分组权限
+      // auths: [], // 拥有的分组权限
+      auth_module_name: [], // 权限组 module name
+      auth_module_ids: [], // 权限组 集合 id
       halfAuths: [], // 该分类下的权限没有全选中
       cacheFlag: true,
       loading: false,
@@ -53,82 +54,79 @@ export default {
     },
     // 获取分组权限
     async getGroupAuths() {
-      this.auths = [] // 父组件 重置
+      // this.auths = [] // 父组件 重置
       this.allAuths = await Admin.getAllAuths()
       // 通过判断有没有传入id，来判断当前页面是添加分组还是编辑分组
       if (this.id) {
-        let res = await Admin.getOneGroup(this.id)
-        // 获取分组所拥有的权限
-        /* eslint-disable */
-        res = JSON.parse(JSON.stringify(res)) // 去除__ob__
-        for (let i = 0; i < res.auths.length; i++) {
-          for (const key in res.auths[i]) {
-            for (let j = 0; j < res.auths[i][key].length; j++) {
-              this.auths.push(res.auths[i][key][j].auth)
-            }
+        const res = await Admin.getOneGroup(this.id)
+        let temp = []
+        const cache = {}
+        res.permissions.forEach(v => {
+          this.auth_module_ids.push(v.id)
+          temp.push(v.module)
+          if (!cache[v.module]) {
+            cache[v.module] = 1
+          } else {
+            cache[v.module]++
           }
-        }
-        this.$emit('updateCacheAuths', this.auths)
-        // 检查module状态是否需要选中
-        for (const key in this.allAuths) {
-          this.initModuleCheck(key)
-        }
+        })
+        temp = Array.from(new Set(temp))
+        temp.forEach(item => {
+          if (this.allAuths[item].length === cache[item]) {
+            this.auth_module_ids.push(item)
+          } else {
+            this.halfAuths.push(item)
+          }
+        })
+        this.auth_module_name = Array.from(new Set(temp))
       }
       this.$emit('updateAuths', this.auths)
       this.$emit('updateAllAuths', this.allAuths)
     },
-    // 弹窗打开时，判断某一分类权限是否全部选中
-    initModuleCheck(moduleName) {
-      const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName])
-      const intersect = Utils.getIntersect(currentModuleChildrenArr, this.auths)
-      // 全选
-      if (intersect.length === currentModuleChildrenArr.length) {
-        this.auths.push(moduleName)
-      }
-      // 半选
-      if (intersect.length > 0 && intersect.length < currentModuleChildrenArr.length) {
-        this.halfAuths.push(moduleName)
-      }
-    },
-    moduleCheck(checked, auth, moduleName) {
-      const authArr = Object.keys(auth)
+
+    // 批量选中
+    moduleCheck(checked, ids, moduleName) {
+      const _ids = ids.map(item => item.id)
       if (checked) {
-        if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
-        }
-        this.auths.push(...authArr)
+        this.auth_module_ids = Array.from(new Set(this.auth_module_ids.concat(_ids)))
+        this.auth_module_name.push(moduleName)
+        this.halfAuths = this.halfAuths.filter(v => v !== moduleName)
       } else {
-        if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
-        }
-        this.auths = this.auths.filter(x => authArr.indexOf(x) < 0)
+        this.auth_module_ids = this.auth_module_ids.filter(v => !_ids.includes(v))
+        this.auth_module_name = this.auth_module_name.filter(v => v !== moduleName)
       }
-      this.$emit('updateAuths', this.auths)
+      // this.$emit('updateAuths', this.auths)
     },
-    singleCheck(checked, singleAuth, moduleName) {
-      const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName])
-      const intersect = Utils.getIntersect(currentModuleChildrenArr, this.auths)
-      if (intersect.length === currentModuleChildrenArr.length) {
-        if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
-        }
-        this.auths.push(moduleName)
-      } else if (intersect.length > 0 && intersect.length < currentModuleChildrenArr.length) {
-        if (this.auths.indexOf(moduleName) > -1) {
-          this.auths.splice(this.auths.indexOf(moduleName), 1)
-        }
-        this.halfAuths.push(moduleName)
-      } else if (intersect.length === 0) {
-        if (this.halfAuths.indexOf(moduleName) > -1) {
-          this.halfAuths.splice(this.halfAuths.indexOf(moduleName), 1)
-        }
-        if (this.auths.indexOf(moduleName) > -1) {
-          this.auths.splice(this.auths.indexOf(moduleName), 1)
-        }
+
+    // 单选
+    singleCheck(id, auth, moduleName) {
+      const _ids = auth.map(item => item.id)
+      let count = 0
+      const index = this.auth_module_ids.indexOf(id)
+      if (index === -1) {
+        this.auth_module_ids.push(id)
+      } else {
+        this.auth_module_ids.splice(index, 1)
       }
-      this.halfAuths = Array.from(new Set(this.halfAuths))
-      this.auths = Array.from(new Set(this.auths))
-      this.$emit('updateAuths', this.auths)
+      _ids.forEach(item => {
+        if (this.auth_module_ids.indexOf(item) > -1) {
+          count++
+        }
+        // 全选状态
+        if (_ids.length === count) {
+          this.auth_module_name.push(moduleName)
+          this.halfAuths = this.halfAuths.filter(v => v !== moduleName)
+        } else if (count === 0) {
+          // 未选中状态
+          this.auth_module_name = this.auth_module_name.filter(v => v !== moduleName)
+          this.halfAuths = this.halfAuths.filter(v => v !== moduleName)
+        } else {
+          // 半选状态
+          this.auth_module_name = this.auth_module_name.filter(v => v !== moduleName)
+          this.halfAuths.push(moduleName)
+        }
+      })
+      this.$emit('updateAuths', this.auth_module_ids)
     },
   },
   async created() {
