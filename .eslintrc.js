@@ -25,6 +25,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'consistent-return': 'off',
     'arrow-parens': ['error', 'as-needed'],
+    'no-prototype-builtins': 'off',
     'object-curly-newline': [
       'error',
       {

@@ -25,11 +25,6 @@
             ></el-input>
           </div>
           <img src="../../assets/img/user/corner.png" class="corner" />
-          <div class="info">
-            <div class="username">{{ username }}</div>
-            <div class="mid">|</div>
-            <div class="desc">{{ groupName }}</div>
-          </div>
         </div>
         <ul class="dropdown-box">
           <li class="password" @click="goToCenter">
@@ -499,6 +494,8 @@ export default {
       .username {
         margin-bottom: 10px;
         font-size: 16px;
+        height: 32px;
+        line-height: 32px;
         cursor: pointer;
       }
 

@@ -125,10 +125,10 @@ export default class Admin {
     return res
   }
 
-  static async dispatchAuths(group_id, auths) {
-    const res = await post('cms/admin/dispatch/patch', {
+  static async dispatchAuths(group_id, permission_ids) {
+    const res = await post('cms/admin/permission/dispatch/batch', {
       group_id,
-      auths,
+      permission_ids,
     })
     return res
   }
@@ -141,10 +141,10 @@ export default class Admin {
     return res
   }
 
-  static async removeAuths(group_id, auths) {
-    const res = await post('cms/admin/remove', {
+  static async removeAuths(group_id, permission_ids) {
+    const res = await post('cms/admin/permission/remove', {
       group_id,
-      auths,
+      permission_ids,
     })
     return res
   }

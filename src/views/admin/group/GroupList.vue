@@ -44,7 +44,7 @@
               :id="id"
               ref="groupAuths"
               @updateAuths="updateAuths"
-              @updateCacheAuths="updateCacheAuths"
+              @getCacheAuthIds="getCacheAuthIds"
               @updateAllAuths="updateAllAuths"
               style="margin-right:-30px;margin-left:-25px;margin-bottom:-10px;"
             >
@@ -130,36 +130,16 @@ export default {
           }
         }
       } else {
-        // 修改权限
-        // 权限取子集(module)
-        this.auths = this.auths.filter(item => Object.keys(this.allAuths).indexOf(item) < 0)
-        this.cacheAuths = this.cacheAuths.filter(item => Object.keys(this.allAuths).indexOf(item) < 0) // eslint-disable-line
+        let addRes = 0
+        let delRes = 0
         // 判断是否更改了分组权限
         if (this.auths.sort().toString() !== this.cacheAuths.sort().toString()) {
-          const addAuths = [...this.auths] // 增加的权限
-          const deleteAuths = this.cacheAuths // 删除的权限
-          let addRes = {}
-          let delRes = {}
-          // 判断增加的权限
-          for (let i = 0; i < addAuths.length; i++) {
-            // eslint-disable-line
-            for (let j = 0; j < this.cacheAuths.length; j++) {
-              // eslint-disable-line
-              if (addAuths[i] === this.cacheAuths[j]) {
-                addAuths.splice(i, 1)
-              }
-            }
-          }
-          // 判断删除的权限
-          for (let i = 0; i < deleteAuths.length; i++) {
-            // eslint-disable-line
-            for (let j = 0; j < this.auths.length; j++) {
-              // eslint-disable-line
-              if (deleteAuths[i] === this.auths[j]) {
-                deleteAuths.splice(i, 1)
-              }
-            }
-          }
+          const deleteAuths = this.cacheAuths.concat(this.auths).filter(v => !this.auths.includes(v))
+          const addAuths = this.cacheAuths.concat(this.auths).filter(v => !this.cacheAuths.includes(v))
+
+          console.log(deleteAuths)
+          console.log(addAuths)
+
           if (addAuths.length > 0) {
             addRes = await Admin.dispatchAuths(this.id, addAuths)
           }
@@ -235,12 +215,16 @@ export default {
       }
     },
     // 弹窗打开时，记录缓存所拥有的全部权限
-    updateCacheAuths(cacheAuths) {
-      this.cacheAuths = cacheAuths
+    getCacheAuthIds(ids) {
+      this.cacheAuths = ids
     },
     // 获取拥有的权限
     updateAuths(auths) {
       this.auths = auths
+    },
+    // 权限id集合
+    getAllAuthIds(allAuthIds) {
+      this.allAuthIds = allAuthIds
     },
     // 获取所有权限
     updateAllAuths(allAuths) {

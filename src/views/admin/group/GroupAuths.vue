@@ -39,6 +39,7 @@ export default {
   data() {
     return {
       allAuths: {}, // 所有分组权限
+      allAuthIds: [],
       // auths: [], // 拥有的分组权限
       auth_module_name: [], // 权限组 module name
       auth_module_ids: [], // 权限组 集合 id
@@ -47,14 +48,19 @@ export default {
       loading: false,
     }
   },
+  async created() {
+    try {
+      this.loading = true
+      await this.getGroupAuths()
+      this.loading = false
+    } catch (e) {
+      this.loading = false
+      console.log(e)
+    }
+  },
   methods: {
-    // 获取全部权限
-    async getAllAuths() {
-      this.allAuths = await Admin.getAllAuths()
-    },
     // 获取分组权限
     async getGroupAuths() {
-      // this.auths = [] // 父组件 重置
       this.allAuths = await Admin.getAllAuths()
       // 通过判断有没有传入id，来判断当前页面是添加分组还是编辑分组
       if (this.id) {
@@ -64,6 +70,7 @@ export default {
         res.permissions.forEach(v => {
           this.auth_module_ids.push(v.id)
           temp.push(v.module)
+          // 每个module拥有权限个数
           if (!cache[v.module]) {
             cache[v.module] = 1
           } else {
@@ -71,16 +78,16 @@ export default {
           }
         })
         temp = Array.from(new Set(temp))
+        // 半选
         temp.forEach(item => {
-          if (this.allAuths[item].length === cache[item]) {
-            this.auth_module_ids.push(item)
-          } else {
+          if (this.allAuths[item].length !== cache[item]) {
             this.halfAuths.push(item)
           }
         })
         this.auth_module_name = Array.from(new Set(temp))
       }
-      this.$emit('updateAuths', this.auths)
+      this.$emit('getCacheAuthIds', this.auth_module_ids.slice())
+      this.$emit('updateAuths', this.auth_module_ids)
       this.$emit('updateAllAuths', this.allAuths)
     },
 
@@ -95,7 +102,7 @@ export default {
         this.auth_module_ids = this.auth_module_ids.filter(v => !_ids.includes(v))
         this.auth_module_name = this.auth_module_name.filter(v => v !== moduleName)
       }
-      // this.$emit('updateAuths', this.auths)
+      this.$emit('updateAuths', this.auth_module_ids)
     },
 
     // 单选
@@ -128,16 +135,6 @@ export default {
       })
       this.$emit('updateAuths', this.auth_module_ids)
     },
-  },
-  async created() {
-    try {
-      this.loading = true
-      await this.getGroupAuths()
-      this.loading = false
-    } catch (e) {
-      this.loading = false
-      console.log(e)
-    }
   },
 }
 </script>
