@@ -146,21 +146,26 @@ _axios.interceptors.response.use(
         return
       }
       console.log('msg', msg)
-      // 本次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
-      if (params && params.showBackend) {
-        message = msg
-      } else {
-        // 弹出前端自定义错误信息
-        const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
-        // 匹配到前端自定义的错误码
-        if (errorArr.length > 0) {
-          if (errorArr[0][1] !== '') {
-            message = errorArr[0][1] // eslint-disable-line
+      if (Config.useFrontEndErrorMsg) {
+        // 这一次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
+        if (params && params.showBackend) {
+          message = msg
+        } else {
+          // 弹出前端自定义错误信息
+          const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
+          // 匹配到前端自定义的错误码
+          if (errorArr.length > 0) {
+            if (errorArr[0][1] !== '') {
+              message = errorArr[0][1] // eslint-disable-line
+            }
           } else {
             message = ErrorCode['777']
           }
         }
+      } else {
+        message = msg
       }
+
       Vue.prototype.$message({
         message,
         type: 'error',
