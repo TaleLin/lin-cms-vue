@@ -10,7 +10,7 @@ export default {
   // 推送消息
   readedMessages: [],
   unreadMessages: [],
-  auths: [], // 每个用户的所有权限
+  permissions: [], // 每个用户的所有权限
 
   // 舞台配置
   stageConfig,

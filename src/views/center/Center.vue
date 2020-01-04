@@ -259,14 +259,14 @@ export default {
         // }
         return this.$axios({
           method: 'put',
-          url: '/cms/user/avatar',
+          url: '/cms/user',
           data: {
             avatar: res[0].path,
           },
         })
           .then(putRes => {
             // eslint-disable-line
-            if (putRes.error_code === 0) {
+            if (putRes.error_code < 100) {
               this.$message({
                 type: 'success',
                 message: '更新头像成功',
@@ -300,7 +300,7 @@ export default {
             },
           })
             .then(res => {
-              if (res.error_code === 0) {
+              if (res.error_code < 100) {
                 this.$message({
                   type: 'success',
                   message: '更新昵称成功',
@@ -308,11 +308,11 @@ export default {
                 // 触发重新获取用户信息
                 return User.getInformation()
               }
-              this.nickname = user.nickname
             })
             .then(res => {
               // eslint-disable-line
               this.setUserAndState(res)
+              this.nickname = res.nickname
             })
         }
       }
@@ -320,8 +320,6 @@ export default {
     },
     init() {
       const { user } = this.$store.state
-      this.username = user ? user.username : '未登录'
-      this.groupName = user.groupName ? user.groupName : '超级管理员'
       this.nickname = user && user.nickname ? user.nickname : '佚名'
     },
     goToCenter() {

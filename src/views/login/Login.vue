@@ -31,10 +31,8 @@ export default {
       wait: 2000, // 2000ms之内不能重复发起请求
       throttleLogin: null, // 节流登录
       form: {
-        username: 'root',
+        username: 'evan',
         password: '123456',
-        confirm_password: '123456',
-        email: '2285901508@qq.com',
       },
     }
   },
@@ -56,32 +54,16 @@ export default {
     async getInformation() {
       try {
         // 尝试获取当前用户信息
-        const user = await User.getAuths()
+        const user = await User.getPermissions()
         this.setUserAndState(user)
-        this.setUserAuths(user.auths)
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    async register() {
-      const obj = {
-        data: {
-          username: this.username,
-          password: this.password,
-          confirm_password: this.confirm_password,
-          email: this.email,
-        },
-      }
-      try {
-        await User.register(obj)
-        this.$message.success('注册成功！')
+        this.setUserPermissions(user.permissions)
       } catch (e) {
         console.log(e)
       }
     },
     ...mapActions(['setUserAndState']),
     ...mapMutations({
-      setUserAuths: 'SET_USER_AUTHS',
+      setUserPermissions: 'SET_USER_PERMISSIONS',
     }),
   },
   created() {

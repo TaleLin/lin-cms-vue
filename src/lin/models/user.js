@@ -1,18 +1,17 @@
 import { post, get, put } from '@/lin/plugins/axios'
 import { saveTokens } from '../utils/token'
 
-// const SUPER_VALUE = 2
-const ACTIVE_VALUE = 1
-
 export default class User {
-  // 当前用户是否在激活状态
-  isActive = null
+  // 昵称
+  nickname = null
 
   // 邮箱
   email = null
 
-  // 权限分组id
-  groupId = null
+  avatar = null // 头像
+
+  // 所属分组信息
+  groups = []
 
   // 用户名
   username = null
@@ -21,24 +20,16 @@ export default class User {
   isSuper = null
 
   // 拥有的权限
-  auths = []
+  permissions = []
 
-  // 昵称
-  nickname = null
-
-  // 分组名称
-  groupName = null
-
-  constructor(active, email, groupId, username, admin, avatar, permissions, nickname, groupName) {
-    this.isActive = active === ACTIVE_VALUE
+  constructor(nickname, username, admin, groups, permissions, email, avatar) {
     this.email = email
-    this.groupId = groupId
+    this.groups = groups
     this.username = username
     this.avatar = avatar
     this.isSuper = admin
-    this.auths = permissions || []
+    this.permissions = permissions || []
     this.nickname = nickname
-    this.groupName = groupName
   }
 
   /**
@@ -68,35 +59,15 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(
-      info.active,
-      info.email,
-      info.group_id,
-      info.username,
-      info.admin,
-      info.avatar,
-      info.auths,
-      info.nickname,
-      info.group_name,
-    )
+    return new User(info.nickname, info.username, info.admin, info.groups, info.permissions, info.email, info.avatar)
   }
 
   /**
    * 获取当前用户信息和所拥有的权限
    */
-  static async getAuths() {
+  static async getPermissions() {
     const info = await get('cms/user/permissions')
-    return new User(
-      info.active,
-      info.email,
-      info.group_id,
-      info.username,
-      info.admin,
-      info.avatar,
-      info.auths,
-      info.nickname,
-      info.group_name,
-    )
+    return new User(info.nickname, info.username, info.admin, info.groups, info.permissions, info.email, info.avatar)
   }
 
   /**

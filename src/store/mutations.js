@@ -13,6 +13,13 @@ export default {
 
   [types.SET_USER](state, payload) {
     state.user = payload
+    // state.user.avatar = payload.avatar ? payload.avatar : ''
+    // state.user.email = payload.email ? payload.email : ''
+    // state.user.isSuper = payload.isSuper ? payload.isSuper : false
+    // state.user.nickname = payload.nickname ? payload.nickname : '佚名'
+    // state.user.groups = payload.groups ? payload.groups : []
+    // state.user.permissions = payload.permissions ? payload.permissions : []
+    // state.user.username = payload.username ? payload.username : ''
   },
 
   [types.ADD_READED_MESSAGE](state, payload) {
@@ -31,17 +38,17 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  [types.SET_USER_AUTHS](state, auths) {
-    const _auths = []
-    for (let i = 0; i < auths.length; i++) {
-      for (const key in auths[i]) {
-        // console.log(i, state.user.auths[i][key])
-        for (let j = 0; j < auths[i][key].length; j++) {
-          _auths.push(auths[i][key][j].auth)
+  [types.SET_USER_PERMISSIONS](state, permissions) {
+    const _permissions = []
+    for (let i = 0; i < permissions.length; i++) {
+      for (const key in permissions[i]) {
+        // console.log(i, state.user.permissions[i][key])
+        for (let j = 0; j < permissions[i][key].length; j++) {
+          _permissions.push(permissions[i][key][j].permission)
         }
       }
     }
-    state.auths = _auths
+    state.permissions = _permissions
   },
 
   [types.SET_REFERSH_OPTION](state, option) {

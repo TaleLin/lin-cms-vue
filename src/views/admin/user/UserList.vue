@@ -107,7 +107,7 @@ export default {
         this.loading = true
         res = await Admin.getAdminUsers({ group_id: this.group_id, count: this.pageCount, page: currentPage }) // eslint-disable-line
         this.loading = false
-        this.tableData = [...res.items]
+        this.tableData = this.shuffleList(res.items)
         this.total_nums = res.total
       } catch (e) {
         this.loading = false
@@ -244,11 +244,23 @@ export default {
         })
       }
     },
+    shuffleList(users) {
+      const list = []
+      users.forEach(element => {
+        const groups = []
+        element.groups.forEach(item => {
+          groups.push(item.name)
+        })
+        element.groupNames = groups.join(',')
+        list.push(element)
+      })
+      return list
+    },
   },
   async created() {
     await this.getAdminUsers()
     this.getAllGroups()
-    this.tableColumn = [{ prop: 'username', label: '名称' }, { prop: 'group_name', label: '所属分组' }] // 设置表头信息
+    this.tableColumn = [{ prop: 'username', label: '名称' }, { prop: 'groupNames', label: '所属分组' }] // 设置表头信息
     this.operate = [
       { name: '编辑', func: 'handleEdit', type: 'primary' },
       { name: '删除', func: 'handleDelete', type: 'danger' },

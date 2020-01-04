@@ -270,14 +270,14 @@ export default {
         // }
         return this.$axios({
           method: 'put',
-          url: '/cms/user/avatar',
+          url: '/cms/user',
           data: {
             avatar: res[0].path,
           },
         })
           .then(putRes => {
             // eslint-disable-line
-            if (putRes.error_code === 0) {
+            if (putRes.error_code < 100) {
               this.$message({
                 type: 'success',
                 message: '更新头像成功',
@@ -325,11 +325,11 @@ export default {
                 // 触发重新获取用户信息
                 return User.getInformation()
               }
-              this.nickname = user.nickname
             })
             .then(res => {
               // eslint-disable-line
               this.setUserAndState(res)
+              this.nickname = res.nickname
             })
         }
       }
