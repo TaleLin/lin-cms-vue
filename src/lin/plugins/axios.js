@@ -84,7 +84,7 @@ _axios.interceptors.request.use(
       /* eslint-disable-next-line */
       console.warn(`其他请求类型: ${reqConfig.method}, 暂无自动处理`)
     }
-    // step2: auth 处理
+    // step2: permission 处理
     if (reqConfig.url === 'cms/user/refresh') {
       const refreshToken = getToken('refresh_token')
       if (refreshToken) {

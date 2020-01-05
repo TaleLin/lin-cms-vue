@@ -31,7 +31,7 @@ export default class Admin {
     }
   }
 
-  static getAllAuths() {
+  static getAllPermissions() {
     return get('cms/admin/permission')
   }
 
@@ -62,7 +62,7 @@ export default class Admin {
     return this.getAdminUsers({})
   }
 
-  async getGroupsWithAuths({ count = this.uCount, page = this.uPag }) {
+  async getGroupsWithPermissions({ count = this.uCount, page = this.uPag }) {
     const res = await get('cms/admin/groups', {
       count,
       page,
@@ -72,12 +72,12 @@ export default class Admin {
 
   async nextGroupsPage() {
     await this.increseGpage()
-    return this.getGroupsWithAuths({})
+    return this.getGroupsWithPermissions({})
   }
 
   async preGroupsPage() {
     await this.decreseGpage()
-    return this.getGroupsWithAuths({})
+    return this.getGroupsWithPermissions({})
   }
 
   static async getAllGroups() {
@@ -125,7 +125,7 @@ export default class Admin {
     return res
   }
 
-  static async dispatchAuths(group_id, permission_ids) {
+  static async dispatchPermissions(group_id, permission_ids) {
     const res = await post('cms/admin/permission/dispatch/batch', {
       group_id,
       permission_ids,
@@ -141,7 +141,7 @@ export default class Admin {
     return res
   }
 
-  static async removeAuths(group_id, permission_ids) {
+  static async removePermissions(group_id, permission_ids) {
     const res = await post('cms/admin/permission/remove', {
       group_id,
       permission_ids,

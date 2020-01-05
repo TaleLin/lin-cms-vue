@@ -317,7 +317,7 @@ export default {
             },
           })
             .then(res => {
-              if (res.error_code === 0) {
+              if (res.error_code < 100) {
                 this.$message({
                   type: 'success',
                   message: '更新昵称成功',

@@ -3,9 +3,14 @@
     <sticky-top>
       <div class="log-header">
         <div class="header-left"><p class="title">日志信息</p></div>
-        <div class="header-right" v-auth="'搜索日志'">
+        <div class="header-right" v-permission="'搜索日志'">
           <lin-search @query="onQueryChange" ref="searchKeyword" />
-          <el-dropdown size="medium" style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
+          <el-dropdown
+            size="medium"
+            style="margin: 0 10px;"
+            @command="handleCommand"
+            v-permission="'查询日志记录的用户'"
+          >
             <el-button size="medium">
               {{ searchUser ? searchUser : '全部人员' }} <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -88,7 +93,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['auths', 'user']),
+    ...mapGetters(['permissions', 'user']),
   },
   async created() {
     this.loading = true
@@ -161,7 +166,7 @@ export default {
     // 页面初始化
     async initPage() {
       try {
-        if (this.user.isSuper || this.auths.includes('查询日志记录的用户')) {
+        if (this.user.admin || this.permissions.includes('查询日志记录的用户')) {
           this.users = await log.getLoggedUsers({})
         }
         const res = await log.getLogs({ page: 0 })

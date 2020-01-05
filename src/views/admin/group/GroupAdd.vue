@@ -21,13 +21,13 @@
               <el-input size="medium" clearable v-model="form.info"></el-input>
             </el-form-item>
             <el-form-item>
-              <group-auths
-                @updateAuths="updateAuths"
-                @updateAllAuths="updateAllAuths"
-                ref="groupAuths"
+              <group-permissions
+                @updatePermissions="updatePermissions"
+                @updateAllPermissions="updateAllPermissions"
+                ref="groupPermissions"
                 title="分配权限"
               >
-              </group-auths>
+              </group-permissions>
             </el-form-item>
             <el-form-item class="submit">
               <el-button type="primary" @click="submitForm('form')">保 存</el-button>
@@ -42,11 +42,11 @@
 
 <script>
 import Admin from '@/lin/models/admin'
-import GroupAuths from './GroupAuths'
+import GroupPermissions from './GroupPermissions'
 
 export default {
   components: {
-    GroupAuths,
+    GroupPermissions,
   },
   inject: ['eventBus'],
   data() {
@@ -58,8 +58,8 @@ export default {
       callback()
     }
     return {
-      allAuths: [], // 所有权限
-      auths: [], // 最终选择的权限
+      allPermissions: [], // 所有权限
+      permissions: [], // 最终选择的权限
       form: {
         name: '',
         info: '',
@@ -72,21 +72,21 @@ export default {
     }
   },
   methods: {
-    updateAuths(auths) {
-      this.auths = auths
+    updatePermissions(permissions) {
+      this.permissions = permissions
     },
-    updateAllAuths(allAuths) {
-      this.allAuths = allAuths
+    updateAllPermissions(allPermissions) {
+      this.allPermissions = allPermissions
     },
     async submitForm(formName) {
       this.$refs[formName].validate(async valid => {
         // eslint-disable-line
         if (valid) {
           let res
-          const finalAuths = this.auths.filter(x => Object.keys(this.allAuths).indexOf(x) < 0)
+          const finalPermissions = this.permissions.filter(x => Object.keys(this.allPermissions).indexOf(x) < 0)
           try {
             this.loading = true
-            res = await Admin.createOneGroup(this.form.name, this.form.info, finalAuths, this.id) // eslint-disable-line
+            res = await Admin.createOneGroup(this.form.name, this.form.info, finalPermissions, this.id) // eslint-disable-line
           } catch (e) {
             this.loading = false
             console.log(e)
@@ -109,7 +109,7 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
-      this.$refs.groupAuths.getGroupAuths()
+      this.$refs.groupPermissions.getGroupPermissions()
     },
   },
 }

@@ -189,13 +189,13 @@ Utils.deepClone = data => cloneDeep(data)
 /**
  * 判断权限
  */
-Utils.hasPermission = (auths, route, user) => {
+Utils.hasPermission = (permissions, route, user) => {
   // eslint-disable-line
-  if (user && user.isSuper) {
+  if (user && user.admin) {
     return true
   }
   if (route.permission) {
-    return auths.some(auth => route.permission.indexOf(auth) > -1)
+    return permissions.some(permission => route.permission.indexOf(permission) > -1)
   }
   return true
 }

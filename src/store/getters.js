@@ -55,7 +55,7 @@ function permissionShaking(stageConfig, permissions, currentUser) {
 }
 
 // 获取有权限的舞台配置
-export const authStageConfig = state => {
+export const permissionStageConfig = state => {
   const { stageConfig, permissions, user } = state // eslint-disable-line
   const tempStageConfig = Util.deepClone(stageConfig)
   const shookConfig = permissionShaking(tempStageConfig, permissions, user)
@@ -72,7 +72,7 @@ export const authStageConfig = state => {
 // 获取侧边栏配置
 export const sideBarList = (state, getter) => {
   const { sideBarLevel } = state // eslint-disable-line
-  const { authStageConfig } = getter // eslint-disable-line
+  const { permissionStageConfig } = getter // eslint-disable-line
 
   function deepGetSideBar(target, level = 3) {
     // 集合节点处理
@@ -138,7 +138,7 @@ export const sideBarList = (state, getter) => {
     return null
   }
 
-  const sideBar = deepGetSideBar(authStageConfig, sideBarLevel)
+  const sideBar = deepGetSideBar(permissionStageConfig, sideBarLevel)
   return sideBar
 }
 

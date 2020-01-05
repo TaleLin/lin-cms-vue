@@ -39,16 +39,16 @@
             </el-form>
           </el-tab-pane>
           <el-tab-pane label="配置权限" name="配置权限" style="margin-top:10px;">
-            <group-auths
+            <group-permissions
               v-if="dialogFormVisible"
               :id="id"
-              ref="groupAuths"
-              @updateAuths="updateAuths"
+              ref="groupPermissions"
+              @updatePermissions="updatePermissions"
               @getCacheAuthIds="getCacheAuthIds"
-              @updateAllAuths="updateAllAuths"
+              @updateAllPermissions="updateAllPermissions"
               style="margin-right:-30px;margin-left:-25px;margin-bottom:-10px;"
             >
-            </group-auths>
+            </group-permissions>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -64,12 +64,12 @@
 import Utils from '@/lin/utils/util'
 import Admin from '@/lin/models/admin'
 import LinTable from '@/components/base/table/lin-table'
-import GroupAuths from './GroupAuths'
+import GroupPermissions from './GroupPermissions'
 
 export default {
   components: {
     LinTable,
-    GroupAuths,
+    GroupPermissions,
   },
   inject: ['eventBus'],
   data() {
@@ -85,9 +85,9 @@ export default {
         name: '',
         info: '',
       },
-      allAuths: {}, // 所有分组权限
-      auths: [], // 拥有的分组权限
-      cacheAuths: [], // 缓存第一次打开弹窗的数据
+      allPermissions: {}, // 所有分组权限
+      permissions: [], // 拥有的分组权限
+      cachePermissions: [], // 缓存第一次打开弹窗的数据
       cacheForm: {
         // 缓存第一次的表单信息
         name: '',
@@ -133,18 +133,22 @@ export default {
         let addRes = 0
         let delRes = 0
         // 判断是否更改了分组权限
-        if (this.auths.sort().toString() !== this.cacheAuths.sort().toString()) {
-          const deleteAuths = this.cacheAuths.concat(this.auths).filter(v => !this.auths.includes(v))
-          const addAuths = this.cacheAuths.concat(this.auths).filter(v => !this.cacheAuths.includes(v))
+        if (this.permissions.sort().toString() !== this.cachePermissions.sort().toString()) {
+          const deletePermissions = this.cachePermissions
+            .concat(this.permissions)
+            .filter(v => !this.permissions.includes(v))
+          const addPermissions = this.cachePermissions
+            .concat(this.permissions)
+            .filter(v => !this.cachePermissions.includes(v))
 
-          console.log(deleteAuths)
-          console.log(addAuths)
+          console.log(deletePermissions)
+          console.log(addPermissions)
 
-          if (addAuths.length > 0) {
-            addRes = await Admin.dispatchAuths(this.id, addAuths)
+          if (addPermissions.length > 0) {
+            addRes = await Admin.dispatchPermissions(this.id, addPermissions)
           }
-          if (deleteAuths.length > 0) {
-            delRes = await Admin.removeAuths(this.id, deleteAuths)
+          if (deletePermissions.length > 0) {
+            delRes = await Admin.removePermissions(this.id, deletePermissions)
           }
           if (addRes.error_code === 0 || delRes.error_code === 0) {
             this.$message.success('权限修改成功')
@@ -155,7 +159,7 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
-      this.$refs.groupAuths.getGroupAuths()
+      this.$refs.groupPermissions.getGroupPermissions()
     },
     // 获取所拥有的权限并渲染  由子组件提供
     handleEdit(val) {
@@ -208,27 +212,27 @@ export default {
     },
     // 弹窗打开时，判断某一分类权限是否全部选中
     initModuleCheck(moduleName) {
-      const currentModuleChildrenArr = Object.keys(this.allAuths[moduleName])
-      const intersect = Utils.getIntersect(currentModuleChildrenArr, this.auths)
+      const currentModuleChildrenArr = Object.keys(this.allPermissions[moduleName])
+      const intersect = Utils.getIntersect(currentModuleChildrenArr, this.permissions)
       if (intersect.length === currentModuleChildrenArr.length) {
-        this.auths.push(moduleName)
+        this.permissions.push(moduleName)
       }
     },
     // 弹窗打开时，记录缓存所拥有的全部权限
     getCacheAuthIds(ids) {
-      this.cacheAuths = ids
+      this.cachePermissions = ids
     },
     // 获取拥有的权限
-    updateAuths(auths) {
-      this.auths = auths
+    updatePermissions(permissions) {
+      this.permissions = permissions
     },
     // 权限id集合
     getAllAuthIds(allAuthIds) {
       this.allAuthIds = allAuthIds
     },
     // 获取所有权限
-    updateAllAuths(allAuths) {
-      this.allAuths = allAuths
+    updateAllPermissions(allPermissions) {
+      this.allPermissions = allPermissions
     },
     // 弹框 右上角 X
     handleClose(done) {

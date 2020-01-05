@@ -1,37 +1,8 @@
 import { post, get, put } from '@/lin/plugins/axios'
 import { saveTokens } from '../utils/token'
+import store from '@/store'
 
 export default class User {
-  // 昵称
-  nickname = null
-
-  // 邮箱
-  email = null
-
-  avatar = null // 头像
-
-  // 所属分组信息
-  groups = []
-
-  // 用户名
-  username = null
-
-  // 是否为超级管理员
-  isSuper = null
-
-  // 拥有的权限
-  permissions = []
-
-  constructor(nickname, username, admin, groups, permissions, email, avatar) {
-    this.email = email
-    this.groups = groups
-    this.username = username
-    this.avatar = avatar
-    this.isSuper = admin
-    this.permissions = permissions || []
-    this.nickname = nickname
-  }
-
   /**
    * 分配用户
    * @param {object} data 注册信息
@@ -59,7 +30,8 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    return new User(info.nickname, info.username, info.admin, info.groups, info.permissions, info.email, info.avatar)
+    const storeUser = store.getters.user === null ? {} : store.getters.user
+    return Object.assign({ ...storeUser }, info)
   }
 
   /**
@@ -67,7 +39,8 @@ export default class User {
    */
   static async getPermissions() {
     const info = await get('cms/user/permissions')
-    return new User(info.nickname, info.username, info.admin, info.groups, info.permissions, info.email, info.avatar)
+    const storeUser = store.getters.user === null ? {} : store.getters.user
+    return Object.assign({ ...storeUser }, info)
   }
 
   /**

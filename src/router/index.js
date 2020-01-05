@@ -55,8 +55,8 @@ router.beforeEach((to, from, next) => {
 
   // 权限验证
   if (store && store.state && store.getters) {
-    const { auths, user } = store.getters
-    if (to.path !== '/about' && !Util.hasPermission(auths, to.meta, user)) {
+    const { permissions, user } = store.getters
+    if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
       Vue.prototype.$notify({
         title: '无权限',
         dangerouslyUseHTMLString: true,

@@ -6,7 +6,7 @@ const centerRouter = {
   icon: 'iconfont icon-tushuguanli',
   filePath: 'views/center/', // 文件路径
   order: null,
-  inNav: true,
+  inNav: false,
 }
 
 export default centerRouter

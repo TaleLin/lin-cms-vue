@@ -2,7 +2,7 @@ import Vue from 'vue'
 import store from '@/store'
 
 function isAllowed(permission, user, permissions) {
-  if (user.isSuper) {
+  if (user.admin) {
     return true
   }
   if (typeof permission === 'string') {
@@ -14,21 +14,21 @@ function isAllowed(permission, user, permissions) {
   return false
 }
 
-Vue.directive('auth', {
+Vue.directive('permission', {
   bind(el, binding) {
-    let auth
+    let permission
     let type
     if (Object.prototype.toString.call(binding.value) === '[object Object]') {
       // eslint-disable-next-line prefer-destructuring
-      auth = binding.value.auth
+      permission = binding.value.permission
       // eslint-disable-next-line prefer-destructuring
       type = binding.value.type
     } else {
-      auth = binding.value
+      permission = binding.value
     }
-    const isAllow = isAllowed(auth, store.state.user || {}, store.state.permissions)
+    const isAllow = isAllowed(permission, store.state.user || {}, store.state.permissions)
     const element = el
-    if (!isAllow && auth) {
+    if (!isAllow && permission) {
       if (type) {
         element.disabled = true
         element.style.opacity = 0.4
@@ -40,4 +40,4 @@ Vue.directive('auth', {
   },
 })
 
-export default Vue.directive('auth')
+export default Vue.directive('permission')

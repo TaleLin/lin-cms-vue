@@ -13,13 +13,6 @@ export default {
 
   [types.SET_USER](state, payload) {
     state.user = payload
-    // state.user.avatar = payload.avatar ? payload.avatar : ''
-    // state.user.email = payload.email ? payload.email : ''
-    // state.user.isSuper = payload.isSuper ? payload.isSuper : false
-    // state.user.nickname = payload.nickname ? payload.nickname : '佚名'
-    // state.user.groups = payload.groups ? payload.groups : []
-    // state.user.permissions = payload.permissions ? payload.permissions : []
-    // state.user.username = payload.username ? payload.username : ''
   },
 
   [types.ADD_READED_MESSAGE](state, payload) {
