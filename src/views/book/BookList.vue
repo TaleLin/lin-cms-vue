@@ -76,7 +76,7 @@ export default {
         type: 'warning',
       }).then(async () => {
         const res = await book.delectBook(val.row.id)
-        if (res.error_code === 0) {
+        if (res.error_code < window.SUCCESS_CODE) {
           this.getBooks()
           this.$message({
             type: 'success',

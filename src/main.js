@@ -2,6 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 
+import '@/config/global'
 import '@/lin/mixin'
 import '@/lin/filter'
 import '@/lin/plugins'

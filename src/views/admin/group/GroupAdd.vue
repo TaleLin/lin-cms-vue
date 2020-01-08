@@ -91,7 +91,7 @@ export default {
             this.loading = false
             console.log(e)
           }
-          if (res.error_code === 0) {
+          if (res.error_code < window.SUCCESS_CODE) {
             this.loading = false
             this.$message.success(`${res.msg}`)
             this.eventBus.$emit('addGroup', true)

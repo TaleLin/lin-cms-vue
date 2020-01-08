@@ -35,7 +35,7 @@
         <el-input size="medium" clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-if="pageType !== 'password'" label="选择分组">
-        <el-select
+        <!-- <el-select
           size="medium"
           multiple
           v-model="form.group_ids"
@@ -43,10 +43,10 @@
           placeholder="请选择分组"
         >
           <el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-        </el-select>
-        <!-- <el-radio-group v-model="form.group_id" label-position="top" class="user-info">
-              <el-radio :label="item.id" v-for="(item, index) in groups" :key="index">{{item.name}}</el-radio>
-            </el-radio-group> -->
+        </el-select> -->
+        <el-checkbox-group v-model="form.group_ids">
+          <el-checkbox v-for="item in groups" :key="item.id" :label="item.id">{{ item.name }}</el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
       <el-form-item v-show="submit" class="submit">
         <el-button type="primary" @click="submitForm('form')">保 存</el-button>
@@ -165,7 +165,7 @@ export default {
             try {
               this.loading = true
               res = await User.register(this.form)
-              if (res.error_code === 0) {
+              if (res.error_code < window.SUCCESS_CODE) {
                 this.loading = false
                 this.$message.success(`${res.msg}`)
                 this.eventBus.$emit('addUser', true)
@@ -192,7 +192,7 @@ export default {
               this.loading = false
               console.log(e)
             }
-            if (res.error_code === 0) {
+            if (res.error_code < window.SUCCESS_CODE) {
               this.loading = false
               this.$message.success(`${res.msg}`)
               this.$emit('handleInfoResult', true)
@@ -226,17 +226,17 @@ export default {
       this.form.group_ids = temp
     },
   },
-  watch: {
-    groups: {
-      // 默认选中管理员组
-      handler() {
-        if (this.groups && this.groups[0] && this.groups[0].id) {
-          this.form.group_ids = [this.groups[0].id]
-        }
-      },
-      immediate: true,
-    },
-  },
+  // watch: {
+  //   groups: {
+  //     // 默认选中管理员组
+  //     handler() {
+  //       if (this.groups && this.groups[0] && this.groups[0].id) {
+  //         this.form.group_ids = [this.groups[0].id]
+  //       }
+  //     },
+  //     immediate: true,
+  //   },
+  // },
   created() {
     // 通过是否接收到数据来判断当前页面是添加数据还是编辑数据
     if (this.pageType === 'edit') {

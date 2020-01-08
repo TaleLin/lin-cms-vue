@@ -54,7 +54,7 @@ export default {
     async submitForm(formName) {
       try {
         const res = await book.addBook(this.form)
-        if (res.error_code === 0) {
+        if (res.error_code < window.SUCCESS_CODE) {
           this.$message.success(`${res.msg}`)
           this.resetForm(formName)
         }

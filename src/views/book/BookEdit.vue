@@ -60,7 +60,7 @@ export default {
   methods: {
     async submitForm() {
       const res = await book.editBook(this.editBookID, this.form)
-      if (res.error_code === 0) {
+      if (res.error_code < window.SUCCESS_CODE) {
         this.$message.success(`${res.msg}`)
         this.$emit('editClose')
       }

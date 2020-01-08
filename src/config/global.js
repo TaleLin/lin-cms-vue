@@ -1,0 +1,1 @@
+window.SUCCESS_CODE = 9999

@@ -277,7 +277,7 @@ export default {
         })
           .then(putRes => {
             // eslint-disable-line
-            if (putRes.error_code < 100) {
+            if (putRes.error_code < window.SUCCESS_CODE) {
               this.$message({
                 type: 'success',
                 message: '更新头像成功',
@@ -317,7 +317,8 @@ export default {
             },
           })
             .then(res => {
-              if (res.error_code < 100) {
+              debugger
+              if (res.error_code < window.SUCCESS_CODE) {
                 this.$message({
                   type: 'success',
                   message: '更新昵称成功',
@@ -366,7 +367,7 @@ export default {
         // eslint-disable-line
         if (valid) {
           const res = await User.updatePassword(this.form)
-          if (res.error_code === 0) {
+          if (res.error_code < window.SUCCESS_CODE) {
             this.$message.success(`${res.msg}`)
             this.resetForm(formName)
             this.dialogFormVisible = false

@@ -124,7 +124,7 @@ export default {
         if (this.cacheForm.name !== this.form.name || this.cacheForm.info !== this.form.info) {
           // eslint-disable-line
           const res = await Admin.updateOneGroup(this.form.name, this.form.info, this.id)
-          if (res.error_code === 0) {
+          if (res.error_code < window.SUCCESS_CODE) {
             this.$message.success(`${res.msg}`)
             this.getAllGroups()
           }
@@ -150,7 +150,7 @@ export default {
           if (deletePermissions.length > 0) {
             delRes = await Admin.removePermissions(this.id, deletePermissions)
           }
-          if (addRes.error_code === 0 || delRes.error_code === 0) {
+          if (addRes.error_code < window.SUCCESS_CODE || delRes.error_code < window.SUCCESS_CODE) {
             this.$message.success('权限修改成功')
           }
         }
@@ -191,7 +191,7 @@ export default {
           this.loading = false
           console.log(e)
         }
-        if (res.error_code === 0) {
+        if (res.error_code < window.SUCCESS_CODE) {
           await this.getAllGroups()
           this.$message({
             type: 'success',
