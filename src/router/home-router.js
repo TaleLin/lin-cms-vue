@@ -26,7 +26,7 @@ deepTravel(stageConfig, viewConfig => {
   viewRouter.meta = {
     title: viewConfig.title,
     icon: viewConfig.icon,
-    right: viewConfig.right,
+    permission: viewConfig.permission,
     type: viewConfig.type,
     blueBaseColor: viewConfig.blueBaseColor ? 'viewConfig.blueBaseColor' : '',
   }
