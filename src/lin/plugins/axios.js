@@ -124,8 +124,7 @@ _axios.interceptors.response.use(
           const { origin } = window.location
           window.location.href = origin
         }, 1500)
-        resolve(null)
-        return
+        return resolve(null)
       }
       // 令牌相关，刷新令牌
       if (error_code === 10040 || error_code === 10041 || error_code === 10050 || error_code === 10051) {
@@ -136,14 +135,12 @@ _axios.interceptors.response.use(
           saveAccessToken(refreshResult.access_token)
           // 将上次失败请求重发
           const result = await _axios(res.config)
-          resolve(result)
-          return
+          return resolve(result)
         }
       }
       // 本次请求添加 params 参数：handleError 为 true，用户自己try catch，框架不做处理
       if (params && params.handleError) {
-        reject(res)
-        return
+        return reject(res)
       }
       console.log('msg', msg)
       if (Config.useFrontEndErrorMsg) {
