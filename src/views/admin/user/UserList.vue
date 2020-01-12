@@ -170,7 +170,7 @@ export default {
           this.loading = false
           console.log(e)
         }
-        if (res.error_code < window.SUCCESS_CODE) {
+        if (res.code < window.SUCCESS_CODE) {
           this.loading = false
           if (this.total_nums % this.pageCount === 1 && this.currentPage !== 1) {
             // 判断删除的是不是每一页的最后一条数据
@@ -179,11 +179,11 @@ export default {
           await this.getAdminUsers()
           this.$message({
             type: 'success',
-            message: `${res.msg}`,
+            message: `${res.message}`,
           })
         } else {
           this.loading = false
-          this.$message.error(`${res.msg}`)
+          this.$message.error(`${res.message}`)
         }
       })
     },

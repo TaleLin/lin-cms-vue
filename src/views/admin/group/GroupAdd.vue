@@ -91,15 +91,15 @@ export default {
             this.loading = false
             console.log(e)
           }
-          if (res.error_code < window.SUCCESS_CODE) {
+          if (res.code < window.SUCCESS_CODE) {
             this.loading = false
-            this.$message.success(`${res.msg}`)
+            this.$message.success(`${res.message}`)
             this.eventBus.$emit('addGroup', true)
             this.$router.push('/admin/group/list')
             this.resetForm('form')
           } else {
             this.loading = false
-            this.$message.error(`${res.msg}`)
+            this.$message.error(`${res.message}`)
           }
         } else {
           this.$message.error('请将信息填写完整')

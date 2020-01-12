@@ -109,8 +109,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   async res => {
-    let { error_code, msg } = res.data // eslint-disable-line
-    let message = '' // 错误提示
+    let { error_code, message } = res.data // eslint-disable-line
     if (res.status.toString().charAt(0) === '2') {
       return res.data
     }
@@ -142,12 +141,10 @@ _axios.interceptors.response.use(
       if (params && params.handleError) {
         return reject(res)
       }
-      console.log('msg', msg)
+      console.log('message', message)
       if (Config.useFrontEndErrorMsg) {
         // 这一次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
-        if (params && params.showBackend) {
-          message = msg
-        } else {
+        if (params && !params.showBackend) {
           // 弹出前端自定义错误信息
           const errorArr = Object.entries(ErrorCode).filter(v => v[0] === error_code.toString())
           // 匹配到前端自定义的错误码
@@ -159,8 +156,6 @@ _axios.interceptors.response.use(
             message = ErrorCode['777']
           }
         }
-      } else {
-        message = msg
       }
 
       Vue.prototype.$message({

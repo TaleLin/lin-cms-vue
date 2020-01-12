@@ -59,7 +59,7 @@ export default {
         const books = await book.getBooks()
         this.tableData = books
       } catch (error) {
-        if (error.error_code === 10020) {
+        if (error.code === 10020) {
           this.tableData = []
         }
       }
@@ -76,11 +76,11 @@ export default {
         type: 'warning',
       }).then(async () => {
         const res = await book.delectBook(val.row.id)
-        if (res.error_code < window.SUCCESS_CODE) {
+        if (res.code < window.SUCCESS_CODE) {
           this.getBooks()
           this.$message({
             type: 'success',
-            message: `${res.msg}`,
+            message: `${res.message}`,
           })
         }
       })

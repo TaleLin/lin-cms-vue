@@ -483,10 +483,8 @@ export default {
             item.cb(false)
           })
           let msg = '图像上传失败, 请重试'
-          if (err.msg) {
+          if (err.message) {
             // eslint-disable-next-line
-            msg = err.msg
-          } else if (err.message) {
             msg = err.message
           }
           console.error(err)

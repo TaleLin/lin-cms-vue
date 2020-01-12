@@ -254,7 +254,7 @@ export default {
           return false
         }
         // TODO: 错误码处理
-        // if (res.error_code === 10110) {
+        // if (res.code === 10110) {
         //   throw new Error('文件体积过大')
         // }
         return this.$axios({
@@ -266,7 +266,7 @@ export default {
         })
           .then(putRes => {
             // eslint-disable-line
-            if (putRes.error_code < window.SUCCESS_CODE) {
+            if (putRes.code < window.SUCCESS_CODE) {
               this.$message({
                 type: 'success',
                 message: '更新头像成功',
@@ -300,7 +300,7 @@ export default {
             },
           })
             .then(res => {
-              if (res.error_code < window.SUCCESS_CODE) {
+              if (res.code < window.SUCCESS_CODE) {
                 this.$message({
                   type: 'success',
                   message: '更新昵称成功',
@@ -338,8 +338,8 @@ export default {
         // eslint-disable-line
         if (valid) {
           const res = await User.updatePassword(this.form)
-          if (res.error_code < window.SUCCESS_CODE) {
-            this.$message.success(`${res.msg}`)
+          if (res.code < window.SUCCESS_CODE) {
+            this.$message.success(`${res.message}`)
             this.resetForm(formName)
             this.dialogFormVisible = false
             setTimeout(() => {
