@@ -164,7 +164,7 @@ export default {
 .swiper-slide {
   width: 126px;
   display: flex;
-  height: 26px;
+  height: $reusetab-height;
   flex-direction: column;
   justify-content: center;
   background-color: $reuse-tab-item-background;
@@ -175,7 +175,7 @@ export default {
   bottom: 0;
   left: 0;
   // width: calc(100% -40px);
-  height: 26px;
+  height: $reusetab-height;
   background: $header-background;
   font-size: 14px;
   color: #8c98ae;
@@ -186,7 +186,7 @@ export default {
   .reuse-tab-item {
     box-sizing: border-box;
     width: auto;
-    height: 26px;
+    height: $reusetab-height;
     width: 126px;
     display: flex;
     justify-content: center;

@@ -16,7 +16,11 @@
             </el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
-              <el-dropdown-item icon="el-icon-user-solid" v-for="(user, index) in users" :key="index" :command="[user]"
+              <el-dropdown-item
+                icon="el-icon-user-solid"
+                v-for="(user, index) in users.items"
+                :key="index"
+                :command="[user]"
                 >{{ user }}
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -48,16 +52,19 @@
         </section>
       </article>
 
-      <el-divider></el-divider>
-      <div class="more" :class="{ nothing: finished }">
-        <i v-if="more" class="iconfont icon-loading"></i>
-        <div v-show="!more && !finished" @click="nextPage">
-          <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size:14px"></i>
-        </div>
-        <div v-if="finished">
-          <span>{{ totalCount === 0 ? '暂无数据' : '没有更多数据了' }}</span>
+      <div v-if="logs && logs.length">
+        <el-divider></el-divider>
+        <div class="more" :class="{ nothing: finished }">
+          <i v-if="more" class="iconfont icon-loading"></i>
+          <div v-show="!more && !finished" @click="nextPage">
+            <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size:14px"></i>
+          </div>
+          <div v-if="finished">
+            <span>{{ totalCount === 0 ? '暂无数据' : '没有更多数据了' }}</span>
+          </div>
         </div>
       </div>
+      <div class="nothing">暂无日志信息</div>
     </div>
   </div>
 </template>
@@ -422,6 +429,10 @@ export default {
       }
     }
   }
+}
+.nothing {
+  color: #45526b;
+  font-size: 14px;
 }
 
 @keyframes spin {
