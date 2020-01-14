@@ -84,6 +84,34 @@
           </el-collapse-item>
         </el-collapse>
       </el-card>
+
+      <el-card style="margin-bottom:50px;">
+        <div slot="header"><span>不同主题,通过设置effect属性来改变主题，默认为 light</span></div>
+        <el-row>
+          <div class="block">
+            <span class="demonstration">Dark主题</span>
+            <div class="tag-group">
+              <el-tag v-for="item in items" :key="item.label" :type="item.type" effect="dark">
+                {{ item.label }}
+              </el-tag>
+            </div>
+          </div>
+          <div class="block">
+            <span class="demonstration">Plain主题</span>
+            <div class="tag-group">
+              <el-tag v-for="item in items" :key="item.label" :type="item.type" effect="plain">
+                {{ item.label }}
+              </el-tag>
+            </div>
+          </div>
+        </el-row>
+
+        <el-collapse>
+          <el-collapse-item title="查看代码" name="2">
+            <div style="white-space: pre-wrap;">{{ theme }}</div>
+          </el-collapse-item>
+        </el-collapse>
+      </el-card>
     </div>
   </div>
 </template>
@@ -94,6 +122,13 @@ export default {
   components: {},
   data() {
     return {
+      items: [
+        { type: '', label: '标签一' },
+        { type: 'success', label: '标签二' },
+        { type: 'info', label: '标签三' },
+        { type: 'danger', label: '标签四' },
+        { type: 'warning', label: '标签五' },
+      ],
       dynamicTags: ['标签一', '标签二', '标签三'],
       inputVisible: false,
       inputValue: '',
@@ -221,6 +256,42 @@ export default {
             <el-tag size="small" closable>小型标签</el-tag>
             <el-tag size="mini" closable>超小标签</el-tag>
             `,
+      theme: `<div class="tag-group">
+              <span class="tag-group__title">Dark</span>
+              <el-tag
+                v-for="item in items"
+                :key="item.label"
+                :type="item.type"
+                effect="dark">
+                {{ item.label }}
+              </el-tag>
+            </div>
+            <div class="tag-group">
+              <span class="tag-group__title">Plain</span>
+              <el-tag
+                v-for="item in items"
+                :key="item.label"
+                :type="item.type"
+                effect="plain">
+                {{ item.label }}
+              </el-tag>
+            </div>
+
+            <script>
+              export default {
+                data() {
+                  return {
+                    items: [
+                      { type: '', label: '标签一' },
+                      { type: 'success', label: '标签二' },
+                      { type: 'info', label: '标签三' },
+                      { type: 'danger', label: '标签四' },
+                      { type: 'warning', label: '标签五' }
+                    ]
+                  }
+                }
+              }
+            <\/script>`,
     }
   },
   // 计算属性设置
@@ -259,6 +330,25 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/style/container.scss';
+.block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: 1px solid #eff2f6;
+  display: inline-block;
+  width: 49%;
+  box-sizing: border-box;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.demonstration {
+  display: block;
+  color: #8492a6;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
 .el-tag + .el-tag {
   margin-left: 10px;
 }

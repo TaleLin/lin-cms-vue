@@ -681,7 +681,6 @@ $typeMap: (primary:#3963BC,
   color:rgba(255,255,255,1);
   border-radius: 12px;
   border: 1px solid #3963BC;
-
   .el-icon-close {
     border-radius: 50%;
     font-size: 12px;
@@ -701,7 +700,31 @@ $typeMap: (primary:#3963BC,
       color: #3963BC;
     }
   }
+  @include m(dark) {
+    background-color: #0a1949;
+    color: rgba(255,255,255,1);
+    .el-tag__close {
+      color:rgba(255,255,255,1);
+    }
 
+    .el-tag__close:hover {
+      color: #FFFFFF;
+      background-color: #0a1949;
+    }
+  }
+
+  @include m(plain) {
+    background-color: rgba(255,255,255,1);
+    color: #3963BC;
+    .el-tag__close {
+      color:#3963BC;
+    }
+
+    .el-tag__close:hover {
+      background-color:#3963BC;
+      color: rgba(255,255,255,1);
+    }
+  }
   @include m(info) {
     background-color: #8C98AE;
     border-color: #8C98AE;
