@@ -109,12 +109,13 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   async res => {
+    console.log('res--------', res)
     let { code, message } = res.data // eslint-disable-line
     if (res.status.toString().charAt(0) === '2') {
       return res.data
     }
     return new Promise(async (resolve, reject) => {
-      const { params, url } = res.config
+      const { url } = res.config
 
       // refresh_token 异常，直接登出
       if (code === 10000 || code === 10100) {
@@ -137,24 +138,20 @@ _axios.interceptors.response.use(
           return resolve(result)
         }
       }
-      // 本次请求添加 params 参数：handleError 为 true，用户自己try catch，框架不做处理
-      if (params && params.handleError) {
+      // 如果本次请求添加了 handleError: true，用户自己try catch，框架不做处理
+      if (res.config.handleError) {
         return reject(res)
       }
       console.log('message', message)
-      if (Config.useFrontEndErrorMsg) {
-        // 这一次请求添加 params 参数：showBackend 为 true, 弹出后端返回错误信息
-        if (params && !params.showBackend) {
-          // 弹出前端自定义错误信息
-          const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
-          // 匹配到前端自定义的错误码
-          if (errorArr.length > 0) {
-            if (errorArr[0][1] !== '') {
-              message = errorArr[0][1] // eslint-disable-line
-            }
-          } else {
-            message = ErrorCode['777']
-          }
+      // 如果本次请求添加了 showBackend: true, 弹出后端返回错误信息
+      if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
+        // 弹出前端自定义错误信息
+        const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
+        // 匹配到前端自定义的错误码
+        if (errorArr.length > 0 && errorArr[0][1] !== '') {
+          message = errorArr[0][1] // eslint-disable-line
+        } else {
+          message = ErrorCode['777']
         }
       }
 

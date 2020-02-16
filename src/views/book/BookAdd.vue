@@ -59,7 +59,7 @@ export default {
           this.resetForm(formName)
         }
       } catch (error) {
-        this.$message.error(error.data.message)
+        this.$message.error('图书添加失败，请检测填写信息')
         console.log(error)
       }
     },
