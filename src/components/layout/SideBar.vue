@@ -282,7 +282,7 @@ export default {
 
   .mobile-logo {
     width: 64px;
-    height: 72px;
+    height: 86px;
     display: flex;
     justify-content: center;
     align-items: center;
