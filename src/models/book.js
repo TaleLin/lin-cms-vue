@@ -1,14 +1,18 @@
 /* eslint-disable class-methods-use-this */
-import { post, get, put, _delete } from '@/lin/plugins/axios'
+import _axios, { get, put, _delete } from '@/lin/plugins/axios'
 
 // 我们通过 class 这样的语法糖使模型这个概念更加具象化，其优点：耦合性低、可维护性。
 class Book {
   // constructor() {}
 
   // 类中的方法可以代表一个用户行为
-  async addBook(info) {
-    const res = await post('v1/book', info, { handleError: true })
-    return res
+  async addBook(data) {
+    return _axios({
+      method: 'post',
+      url: 'v1/book',
+      data,
+      handleError: true,
+    })
   }
 
   // 在这里通过 async await 语法糖让代码同步执行
@@ -30,8 +34,11 @@ class Book {
   }
 
   async getBooks() {
-    const res = await get('v1/book', { handleError: true })
-    return res
+    return _axios({
+      method: 'get',
+      url: 'v1/book',
+      handleError: true,
+    })
   }
 }
 

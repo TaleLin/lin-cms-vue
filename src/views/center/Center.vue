@@ -295,9 +295,7 @@ export default {
             data: {
               nickname: this.nickname,
             },
-            params: {
-              showBackend: true,
-            },
+            showBackend: true,
           })
             .then(res => {
               if (res.code < window.SUCCESS_CODE) {

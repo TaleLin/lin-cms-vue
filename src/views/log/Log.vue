@@ -64,7 +64,7 @@
           </div>
         </div>
       </div>
-      <div class="nothing">暂无日志信息</div>
+      <div class="nothing" v-else>暂无日志信息</div>
     </div>
   </div>
 </template>

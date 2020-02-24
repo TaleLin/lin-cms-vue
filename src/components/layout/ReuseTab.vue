@@ -229,7 +229,7 @@ export default {
 
   .active {
     box-sizing: border-box;
-    height: 30px;
+    height: 40px;
     color: #ffffff;
     background: $theme;
     border: none;

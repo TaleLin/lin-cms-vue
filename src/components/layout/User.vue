@@ -312,12 +312,9 @@ export default {
             data: {
               nickname: this.nickname,
             },
-            params: {
-              showBackend: true,
-            },
+            showBackend: true,
           })
             .then(res => {
-              debugger
               if (res.code < window.SUCCESS_CODE) {
                 this.$message({
                   type: 'success',

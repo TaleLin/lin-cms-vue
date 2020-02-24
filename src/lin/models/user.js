@@ -1,4 +1,4 @@
-import { post, get, put } from '@/lin/plugins/axios'
+import _axios, { post, get, put } from '@/lin/plugins/axios'
 import { saveTokens } from '../utils/token'
 import store from '@/store'
 
@@ -8,7 +8,12 @@ export default class User {
    * @param {object} data 注册信息
    */
   static register(data) {
-    return post('cms/user/register', data, { handleError: true })
+    return _axios({
+      method: 'post',
+      url: 'cms/user/register',
+      data,
+      handleError: true,
+    })
   }
 
   /**

@@ -85,10 +85,10 @@ export default {
     }
 
     this.eventBus.$on('noReuse', () => {
-      this.$refs.operate.style.height = '71px'
+      this.$refs.operate.style.height = '86px'
     })
     this.eventBus.$on('hasReuse', () => {
-      this.$refs.operate.style.height = '43px'
+      this.$refs.operate.style.height = '45px'
     })
   },
   inject: ['eventBus'],
