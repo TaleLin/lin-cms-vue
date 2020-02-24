@@ -134,7 +134,7 @@ export default class Admin {
   }
 
   static async changePassword(new_password, confirm_password, id) {
-    const res = await put(`cms/admin/password/${id}`, {
+    const res = await put(`cms/admin/user/${id}/password`, {
       new_password,
       confirm_password,
     })
