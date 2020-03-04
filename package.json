@@ -13,6 +13,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@antv/g2plot": "^0.11.35",
     "@babel/polyfill": "^7.4.4",
     "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "~0.18.0",
