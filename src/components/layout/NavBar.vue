@@ -4,7 +4,16 @@
       <breadcrumb />
       <!-- 暂时放这里 -->
       <div class="right-info">
-        <lin-notify @readMessages="readMessages" :messages="messages" :props="props"> </lin-notify>
+        <lin-notify
+          @readMessages="readMessages"
+          :messages="messages"
+          @readAll="readAll"
+          @viewAll="viewAll"
+          class="lin-notify"
+          :value="value"
+          :hidden="hidden"
+        >
+        </lin-notify>
         <clear-tab></clear-tab>
         <screenfull /> <user></user>
       </div>
@@ -18,6 +27,7 @@ import Screenfull from './Screenfull'
 import User from './User'
 import ClearTab from './ClearTab'
 import { getToken } from '@/lin/utils/token'
+import store from '@/store'
 
 export default {
   name: 'NavBar',
@@ -27,27 +37,44 @@ export default {
       console.log(JSON.parse(data.data))
       this.messages.push(JSON.parse(data.data))
     }
+    this.$options.sockets.onerror = err => {
+      console.log(err)
+      this.$message.error('token已过期,请重新登录')
+      store.dispatch('loginOut')
+      const { origin } = window.location
+      window.location.href = origin
+    }
+  },
+  watch: {
+    messages() {
+      // eslint-disable-next-line
+      this.value = this.messages.filter(msg => {
+        return msg.is_read === false
+      }).length
+      if (this.value === 0) {
+        this.hidden = true
+      } else {
+        this.hidden = false
+      }
+    },
   },
   data() {
     return {
-      props: {
-        id: 'key',
-        content: 'detail',
-        readed: 'readed',
-        time: 'time',
-        user: 'user',
-      },
-      messages: [
-        { id: 1, detail: '哈哈哈家乐', readed: false, time: '08-16 13:22:07', user: '流乔' },
-        { id: 2, detail: '新收款2459元', readed: true, time: '08-16 13:22:07', user: '流乔' },
-        { id: 3, detail: '您的套餐普洱森泉天然水已售完', readed: true, time: '08-16 13:22:07', user: '流乔' },
-      ],
+      value: 0,
+      hidden: true,
+      messages: [],
       path: `//api.s.colorful3.com/ws/message?token=${getToken('access_token').split(' ')[1]}`,
     }
   },
   methods: {
-    readMessages(msg) {
-      console.log(msg)
+    readAll() {
+      console.log('点击了readAll')
+    },
+    viewAll() {
+      console.log('点击了viewAll')
+    },
+    readMessages(msg, index) {
+      this.messages[index].is_read = true
     },
   },
   components: {
@@ -60,6 +87,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.lin-notify {
+  margin-right: 20px;
+}
 .app-nav-bar {
   width: 100%;
   height: $navbar-height;

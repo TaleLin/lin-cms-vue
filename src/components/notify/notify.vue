@@ -10,17 +10,18 @@
         <p>消息提醒</p>
         <p class="button" @click="readAll">全部已读</p>
       </div>
-      <el-dropdown-item v-for="msg in messages" :key="msg[props.id]" @click.native="readMessages(msg)">
+      <el-dropdown-item v-for="(msg, index) in messages" :key="index" @click.native="readMessages(msg, index)">
         <slot :row="msg">
-          <p :class="msg[props.is_read] ? 'unread-messages' : 'read-messages'">{{ msg[props.content] }}</p>
+          <p :class="msg[props.is_read] ? 'read-messages' : 'unread-messages'">{{ msg[props.content] }}</p>
           <div class="sketchynformation">
             <p class="user">{{ msg[props.user] }}</p>
             <p class="date-time">{{ msg[props.time] }}</p>
           </div>
         </slot>
       </el-dropdown-item>
+      <p class="nomessages" v-if="messages.length === 0">暂无新消息</p>
       <div class="notify-footer">
-        <p class="viewAll">查看全部 &gt;</p>
+        <p class="viewAll" @click="viewAll">查看全部 &gt;</p>
       </div>
     </el-dropdown-menu>
   </el-dropdown>
@@ -47,7 +48,6 @@ export default {
       default() {
         return {
           user: 'user',
-          id: 'id',
           is_read: 'is_read',
           content: 'content',
           time: 'time',
@@ -73,11 +73,14 @@ export default {
     return {}
   },
   methods: {
-    readMessages(msg) {
-      this.$emit('readMessages', msg)
+    readMessages(msg, index) {
+      this.$emit('readMessages', msg, index)
     },
     readAll() {
       this.$emit('readAll')
+    },
+    viewAll() {
+      this.$emit('viewAll')
     },
   },
 }
@@ -86,13 +89,16 @@ export default {
 <style lang="scss" scoped>
 .notify {
   font-size: 18px;
-  margin-right: 20px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   cursor: pointer;
+}
+.nomessages {
+  padding: 20px 0px;
+  text-align: center;
 }
 .sketchynformation {
   display: flex;
@@ -159,6 +165,7 @@ export default {
   padding: 19px 0px;
   border-top: solid 1px #dee2e6;
   .viewAll {
+    cursor: pointer;
     font-size: 14px;
     text-align: center;
     font-size: #45526b;
