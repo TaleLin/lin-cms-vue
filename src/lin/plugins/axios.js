@@ -109,7 +109,6 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   async res => {
-    console.log('res--------', res)
     let { code, message } = res.data // eslint-disable-line
     if (res.status.toString().charAt(0) === '2') {
       return res.data
@@ -138,12 +137,11 @@ _axios.interceptors.response.use(
           return resolve(result)
         }
       }
-      // 如果本次请求添加了 handleError: true，用户自己try catch，框架不做处理
+      // 第一种情况：默认直接提示后端返回的异常信息；特殊情况：如果本次请求添加了 handleError: true，用户自己try catch，框架不做处理
       if (res.config.handleError) {
         return reject(res)
       }
-      console.log('message', message)
-      // 如果本次请求添加了 showBackend: true, 弹出后端返回错误信息
+      // 第二种情况：采用前端自己的一套异常提示信息；特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
       if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
         // 弹出前端自定义错误信息
         const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())

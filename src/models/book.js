@@ -11,7 +11,6 @@ class Book {
       method: 'post',
       url: 'v1/book',
       data,
-      handleError: true,
     })
   }
 

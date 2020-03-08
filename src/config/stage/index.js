@@ -13,7 +13,7 @@ let homeRouter = [
     filePath: 'views/about/About.vue',
     inNav: true,
     icon: 'iconfont icon-iconset0103',
-    order: 0,
+    order: 1,
   },
   {
     title: '日志管理',
@@ -23,7 +23,7 @@ let homeRouter = [
     filePath: 'views/log/Log.vue',
     inNav: true,
     icon: 'iconfont icon-rizhiguanli',
-    order: 1,
+    order: 2,
     permission: ['查询所有日志'],
   },
   {
