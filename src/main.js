@@ -9,6 +9,7 @@ import '@/lin/plugins'
 import '@/lin/directives'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
+import LinNotify from '@/components/notify'
 import router from '@/router'
 import store from '@/store'
 import App from '@/App.vue'
@@ -24,6 +25,11 @@ import 'element-ui/lib/theme-chalk/display.css'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+Vue.use(LinNotify, {
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+})
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 
