@@ -46,16 +46,16 @@ export default {
     }
   },
   watch: {
-    messages() {
-      // eslint-disable-next-line
-      this.value = this.messages.filter(msg => {
-        return msg.is_read === false
-      }).length
-      if (this.value === 0) {
-        this.hidden = true
-      } else {
-        this.hidden = false
-      }
+    messages: {
+      handler() {
+        this.value = this.messages.filter(msg => msg.is_read === false).length
+        if (this.value === 0) {
+          this.hidden = true
+        } else {
+          this.hidden = false
+        }
+      },
+      immediate: true,
     },
   },
   data() {
