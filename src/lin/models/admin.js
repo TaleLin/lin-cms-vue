@@ -113,7 +113,7 @@ export default class Admin {
   }
 
   static async deleteOneUser(id) {
-    const res = await _delete(`cms/admin/${id}`)
+    const res = await _delete(`cms/admin/user/${id}`)
     return res
   }
 
