@@ -5,7 +5,9 @@
       <!-- 暂时放这里 -->
       <div class="right-info">
         <lin-notify
+          height="370"
           @readMessages="readMessages"
+          :trigger="'click'"
           :messages="messages"
           @readAll="readAll"
           @viewAll="viewAll"

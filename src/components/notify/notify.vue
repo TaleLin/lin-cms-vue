@@ -1,17 +1,21 @@
 <template>
-  <el-dropdown>
+  <el-dropdown :trigger="trigger" :placement="placement" :hide-on-click="hideOnClick">
     <div class="notify">
       <el-badge :value="value" class="item" :hidden="hidden" :max="max" :is-dot="isDot">
         <i :class="icon"></i>
       </el-badge>
     </div>
-    <el-dropdown-menu slot="dropdown" style="position:relative;">
+    <el-dropdown-menu slot="dropdown">
       <div class="notify-title">
         <p>消息提醒</p>
         <p class="button" @click="readAll">全部已读</p>
       </div>
-      <div class="content">
-        <div class="css-nomessage" v-if="messages.length === 0">
+      <div class="content" :style="{ 'min-height': height + 'px', 'max-height': height + 'px' }">
+        <div
+          class="css-nomessage"
+          v-if="messages.length === 0"
+          :style="{ 'min-height': height + 'px', 'max-height': height + 'px' }"
+        >
           <div class="css-sumlaa">
             <svg width="150" height="120" viewBox="0 0 150 120" fill="currentColor">
               <!-- eslint-disable-next-line -->
@@ -43,6 +47,19 @@
 <script>
 export default {
   props: {
+    height: {
+      type: [String, Number],
+      default: 200,
+    },
+    trigger: {
+      type: String,
+    },
+    placement: {
+      type: String,
+    },
+    hideOnClick: {
+      type: Boolean,
+    },
     max: {
       type: Number,
     },
@@ -73,14 +90,6 @@ export default {
         return []
       },
     },
-    // unreadMessages: {
-    //   type: Array,
-    //   default: () => []
-    // },
-    // readedMessages: {
-    //   type: Array,
-    //   default: () => []
-    // }
   },
   data() {
     return {}
@@ -111,8 +120,6 @@ export default {
 }
 .content {
   overflow-y: auto;
-  min-height: 369px;
-  max-height: 369px;
 }
 .css-nomessage {
   box-sizing: border-box;
@@ -121,7 +128,6 @@ export default {
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-  min-height: 369px;
   display: flex;
   margin: 0px;
   flex: 1 1 0%;
