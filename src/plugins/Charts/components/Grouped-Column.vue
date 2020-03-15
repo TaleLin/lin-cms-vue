@@ -56,16 +56,12 @@ export default {
       forceFit: true,
       color: ['#4577FF', '#00C292', '#FEC108'],
       columnSize: 12,
-      columnStyle: res => {
-        console.log(res, 'res')
-      },
       legend: {
         visible: true,
         position: 'top-right',
       },
     })
     canvas.render()
-    console.log(canvas)
   },
 }
 </script>

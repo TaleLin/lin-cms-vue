@@ -29,23 +29,23 @@ import Screenfull from './Screenfull'
 import User from './User'
 import ClearTab from './ClearTab'
 import { getToken } from '@/lin/utils/token'
-import store from '@/store'
+// import store from '@/store'
 
 export default {
   name: 'NavBar',
   created() {
-    this.$connect(this.path, { format: 'json' })
-    this.$options.sockets.onmessage = data => {
-      console.log(JSON.parse(data.data))
-      this.messages.push(JSON.parse(data.data))
-    }
-    this.$options.sockets.onerror = err => {
-      console.log(err)
-      this.$message.error('token已过期,请重新登录')
-      store.dispatch('loginOut')
-      const { origin } = window.location
-      window.location.href = origin
-    }
+    // this.$connect(this.path, { format: 'json' })
+    // this.$options.sockets.onmessage = data => {
+    //   console.log(JSON.parse(data.data))
+    //   this.messages.push(JSON.parse(data.data))
+    // }
+    // this.$options.sockets.onerror = err => {
+    //   console.log(err)
+    //   this.$message.error('token已过期,请重新登录')
+    //   store.dispatch('loginOut')
+    //   const { origin } = window.location
+    //   window.location.href = origin
+    // }
   },
   watch: {
     messages: {

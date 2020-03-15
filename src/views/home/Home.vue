@@ -205,7 +205,7 @@ export default {
       align-items: center;
       background: $header-background;
       padding-left: 20px;
-      height: 72px;
+      height: 86px;
 
       .iconfont {
         font-size: 16px;
