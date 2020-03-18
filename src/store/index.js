@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createLogger from 'vuex/dist/logger'
 import VuexPersistence from 'vuex-persist'
 import mutations from './mutations'
 import state from './state'
@@ -18,11 +19,13 @@ const vuexLocal = new VuexPersistence({
   }),
 })
 
+const debug = process.env.NODE_ENV !== 'production'
+
 export default new Vuex.Store({
   state,
   getters,
   mutations,
   actions,
-  plugins: [vuexLocal.plugin],
-  strict: process.env.NODE_ENV !== 'production',
+  plugins: debug ? [vuexLocal.plugin, createLogger()] : [vuexLocal.plugin],
+  strict: debug,
 })

@@ -46,7 +46,7 @@
           <aside>
             <p class="things" v-html="log.message"></p>
             <p class="brief">
-              <span class="text-yellow">{{ log.user_name }}</span> {{ log.time | dateTimeFormatter }}
+              <span class="text-yellow">{{ log.username }}</span> {{ log.time | dateTimeFormatter }}
             </p>
           </aside>
         </section>
