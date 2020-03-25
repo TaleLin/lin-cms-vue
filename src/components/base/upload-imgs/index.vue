@@ -175,7 +175,7 @@ function createItem(data = null, oldData = {}) {
   }
 
   // 存在id, 说明是传入已存在数据
-  item.id = data.id
+  item.id = data.id || createId()
   item.imgId = data.imgId || item.imgId
   item.src = data.src || item.src
   item.display = data.display || item.display
