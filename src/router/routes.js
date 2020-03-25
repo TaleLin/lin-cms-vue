@@ -1,4 +1,3 @@
-import Home from '@/views/home/Home'
 import homeRouter from './home-router'
 
 const routes = [
@@ -6,7 +5,7 @@ const routes = [
     path: '/',
     name: 'Home',
     redirect: '/about',
-    component: Home,
+    component: () => import('@/views/home/Home'),
     children: [...homeRouter],
   },
   {
