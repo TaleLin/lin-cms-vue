@@ -41,15 +41,15 @@ class Log {
     // lCount && this.lCount = lCount
   }
 
-  async increseUpage() {
+  async increaseUpage() {
     this.uPage += 1
   }
 
-  async increseLpage() {
+  async increaseLpage() {
     this.lPage += 1
   }
 
-  increseSpage() {
+  increaseSpage() {
     this.sPage += 1
   }
 
@@ -149,17 +149,17 @@ class Log {
   }
 
   async moreUserPage() {
-    await this.increseUpage()
+    await this.increaseUpage()
     return this.getLoggedUsers({})
   }
 
   async moreLogPage() {
-    await this.increseLpage()
+    await this.increaseLpage()
     return this.getLogs({ next: true })
   }
 
   async moreSearchPage() {
-    this.increseSpage()
+    this.increaseSpage()
     return this.searchLogs({ next: true })
   }
 }

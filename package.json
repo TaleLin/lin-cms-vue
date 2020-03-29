@@ -1,6 +1,6 @@
 {
   "name": "lin-cms",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "private": true,
   "scripts": {
     "serve": "node script/plugin-get-config.js && vue-cli-service serve",
@@ -17,7 +17,7 @@
     "@babel/polyfill": "^7.4.4",
     "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "~0.18.0",
-    "element-ui": "^2.10.1",
+    "element-ui": "^2.13.0",
     "event-source-polyfill": "^1.0.7",
     "fastscan": "^1.0.4",
     "good-storage": "^1.1.0",

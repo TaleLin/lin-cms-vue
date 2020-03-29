@@ -170,7 +170,7 @@ export default {
           this.loading = false
           console.log(e)
         }
-        if (res.code < window.SUCCESS_CODE) {
+        if (res.code < window.MAX_SUCCESS_CODE) {
           this.loading = false
           if (this.total_nums % this.pageCount === 1 && this.currentPage !== 1) {
             // 判断删除的是不是每一页的最后一条数据

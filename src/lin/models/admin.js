@@ -9,22 +9,22 @@ export default class Admin {
     this.gCount = gCount
   }
 
-  async increseUpage() {
+  async increaseUPage() {
     this.uPage += 1
   }
 
-  async increseGpage() {
+  async increaseGPage() {
     this.lPage += 1
   }
 
-  async decreseUpage() {
+  async decreaseUPage() {
     this.uPage -= 1
     if (this.uPage < 0) {
       this.uPage = 0
     }
   }
 
-  async decreseGpage() {
+  async decreaseGPage() {
     this.lPage -= 1
     if (this.lPage < 0) {
       this.lPage = 0
@@ -53,12 +53,12 @@ export default class Admin {
   }
 
   async nextUsersPage() {
-    await this.increseUpage()
+    await this.increaseUPage()
     return this.getAdminUsers({})
   }
 
   async preUsersPage() {
-    await this.decreseUpage()
+    await this.decreaseUPage()
     return this.getAdminUsers({})
   }
 
@@ -71,12 +71,12 @@ export default class Admin {
   }
 
   async nextGroupsPage() {
-    await this.increseGpage()
+    await this.increaseGPage()
     return this.getGroupsWithPermissions({})
   }
 
   async preGroupsPage() {
-    await this.decreseGpage()
+    await this.decreaseGPage()
     return this.getGroupsWithPermissions({})
   }
 

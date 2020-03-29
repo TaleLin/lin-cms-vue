@@ -167,7 +167,7 @@ export default {
             try {
               this.loading = true
               res = await User.register(this.form)
-              if (res.code < window.SUCCESS_CODE) {
+              if (res.code < window.MAX_SUCCESS_CODE) {
                 this.loading = false
                 this.$message.success(`${res.message}`)
                 this.eventBus.$emit('addUser', true)
@@ -198,7 +198,7 @@ export default {
               this.loading = false
               console.log(e)
             }
-            if (res.code < window.SUCCESS_CODE) {
+            if (res.code < window.MAX_SUCCESS_CODE) {
               this.loading = false
               this.$message.success(`${res.message}`)
               this.$emit('handleInfoResult', true)
