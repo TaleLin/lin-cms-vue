@@ -10,7 +10,7 @@
         >
           <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
           <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
-          <span style="padding: 0 5px;">{{ stageList[item.stageId].title | filterTitle }}</span>
+          <span style="padding: 0 5px;">{{ stageList[item.stageId].title }}</span>
           <span class="el-icon-close" @click.prevent.stop="close(index)" />
         </router-link>
       </swiper-slide>
@@ -162,7 +162,8 @@ export default {
 
 <style lang="scss" scoped>
 .swiper-slide {
-  width: 126px;
+  width: auto;
+  min-width: 126px;
   display: flex;
   height: $reusetab-height;
   flex-direction: column;
@@ -187,7 +188,7 @@ export default {
     box-sizing: border-box;
     width: auto;
     height: $reusetab-height;
-    width: 126px;
+    min-width: 126px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -195,6 +196,10 @@ export default {
     margin-right: 1px;
     position: relative;
     white-space: nowrap;
+
+    > i {
+      color: $theme;
+    }
 
     .el-icon-close {
       opacity: 0;
@@ -205,6 +210,10 @@ export default {
       background: $theme;
       border: none;
       color: #fff;
+
+      > i {
+        color: #fff;
+      }
 
       .el-icon-close {
         position: absolute;
@@ -234,6 +243,10 @@ export default {
     background: $theme;
     border: none;
     position: relative;
+
+    > i {
+      color: #fff;
+    }
 
     .el-icon-close {
       position: absolute;
