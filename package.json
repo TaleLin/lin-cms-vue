@@ -7,9 +7,9 @@
     "build": "node script/plugin-get-config.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "commit": "git-cz",
-    "plugin-init": "node script/plugin-init.js",
-    "plugin-new": "node script/plugin-new.js",
-    "plugin-reconfig": "node script/plugin-get-config.js",
+    "plugin:init": "node script/plugin-init.js",
+    "plugin:new": "node script/plugin-new.js",
+    "plugin:reconfig": "node script/plugin-get-config.js",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {

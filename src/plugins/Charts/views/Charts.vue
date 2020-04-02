@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import GroupColumn from '../components/Grouped-Column'
+import GroupColumn from '../components/GroupedColumn'
 import Radar from '../components/Radar'
 import TinyAreaJuly from '../components/TinyAreaJuly'
 import TinyAreaJune from '../components/TinyAreaJune'

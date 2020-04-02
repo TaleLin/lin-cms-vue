@@ -126,13 +126,15 @@ export default {
         },
         {
           id: '12d3',
-          display: 'http://img-home.7yue.pro/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
+          display:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           src: '/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
           imgId: 'sd9873429',
         },
         {
           id: 'hahah',
-          display: 'http://img-home.7yue.pro/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
+          display:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           src: '/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
           imgId: 'ccsd2123',
         },
@@ -148,13 +150,15 @@ export default {
         },
         {
           id: '12d3',
-          display: 'http://img-home.7yue.pro/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
+          display:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           src: '/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
           imgId: '238287',
         },
         {
           id: 'hahah',
-          display: 'http://img-home.7yue.pro/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
+          display:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           src: '/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
           imgId: '1232323',
         },
@@ -190,13 +194,15 @@ export default {
       this.initData1 = [
         {
           id: 'hahah',
-          display: 'http://img-home.7yue.pro/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
+          display:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           src: '/images/index/Lin_UI_%E5%B0%81%E9%9D%A2.png',
           imgId: '2477899809',
         },
         {
           id: '12d3',
-          display: 'http://img-home.7yue.pro/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
+          display:
+            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
           src: '/images/index/Lin_cms_%E5%B0%81%E9%9D%A2.png',
           imgId: '4dfg43234',
         },

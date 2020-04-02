@@ -16,19 +16,19 @@
     </div>
 
     <!-- 编辑页面 -->
-    <book-edit v-else @editClose="editClose" :editBookID="editBookID"></book-edit>
+    <book-modify v-else @editClose="editClose" :editBookID="editBookID"></book-modify>
   </div>
 </template>
 
 <script>
 import book from '@/models/book'
 import LinTable from '@/components/base/table/lin-table'
-import BookEdit from './BookEdit'
+import BookModify from './BookModify'
 
 export default {
   components: {
     LinTable,
-    BookEdit,
+    BookModify,
   },
   data() {
     return {

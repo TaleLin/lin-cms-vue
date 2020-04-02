@@ -53,7 +53,7 @@ export default {
   methods: {
     async submitForm(formName) {
       try {
-        const res = await book.addBook(this.form)
+        const res = await book.createBook(this.form)
         if (res.code < window.MAX_SUCCESS_CODE) {
           this.$message.success(`${res.message}`)
           this.resetForm(formName)

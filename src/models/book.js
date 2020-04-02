@@ -6,7 +6,7 @@ class Book {
   // constructor() {}
 
   // 类中的方法可以代表一个用户行为
-  async addBook(data) {
+  async createBook(data) {
     return _axios({
       method: 'post',
       url: 'v1/book',

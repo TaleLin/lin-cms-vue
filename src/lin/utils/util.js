@@ -187,6 +187,13 @@ Utils.sortByOrder = (source = []) => {
 Utils.deepClone = data => cloneDeep(data)
 
 /**
+ * 中划线转驼峰
+ */
+Utils.came = str => {
+  return `${str}`.replace(/-\D/g, match => match.charAt(1).toUpperCase())
+}
+
+/**
  * 判断权限
  */
 Utils.hasPermission = (permissions, route, user) => {

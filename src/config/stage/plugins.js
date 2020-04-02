@@ -1,8 +1,8 @@
 // 本文件是自动生成, 请勿修改
-import Charts from '@/plugins/Charts/stage-config'
-import LinCmsUi from '@/plugins/LinCmsUi/stage-config'
+import charts from '@/plugins/charts/stage-config'
 import custom from '@/plugins/custom/stage-config'
+import linCmsUi from '@/plugins/lin-cms-ui/stage-config'
 
-const pluginsConfig = [Charts, LinCmsUi, custom]
+const pluginsConfig = [charts, custom, linCmsUi]
 
 export default pluginsConfig

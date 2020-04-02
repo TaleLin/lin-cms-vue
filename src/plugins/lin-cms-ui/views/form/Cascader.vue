@@ -2289,6 +2289,9 @@ export default {
         }
       }, 300)
     },
+    handleChange(e) {
+      console.log(e)
+    },
   },
 }
 </script>
