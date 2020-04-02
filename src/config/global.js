@@ -1,0 +1,1 @@
+window.MAX_MAX_SUCCESS_CODE = 9998

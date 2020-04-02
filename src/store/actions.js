@@ -1,9 +1,7 @@
 import * as types from './mutation-types'
-import { removeToken } from '@/lin/utils/cookie'
-
+import { removeToken } from '@/lin/utils/token'
 
 export default {
-
   setUserAndState({ commit }, user) {
     // 如果登陆成功，设置logined标志位
     commit(types.SET_LOGINED, true)
@@ -13,7 +11,6 @@ export default {
 
   loginOut({ commit }) {
     removeToken()
-    commit(types.ADD_TAB, [])
     commit(types.REMOVE_LOGINED, false)
   },
 
@@ -21,6 +18,4 @@ export default {
     commit(types.REMOVE_UNREAD_MESSAGE, message.id)
     commit(types.ADD_READED_MESSAGE, message)
   },
-
-  // getRouteInfo({ status }, path)
 }

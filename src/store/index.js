@@ -1,30 +1,31 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createLogger from 'vuex/dist/logger'
 import VuexPersistence from 'vuex-persist'
 import mutations from './mutations'
 import state from './state'
 import * as getters from './getters'
 import actions from './actions'
 
-
 Vue.use(Vuex)
 
-// TODO: 处理持久化
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  reducer: state => ({ // eslint-disable-line
-    tabs: state.tabs,
-    logined: state.logined,
-    user: state.user,
-    auths: state.auths,
+  reducer: stateData => ({
+    // eslint-disable-line
+    logined: stateData.logined,
+    user: stateData.user,
+    permissions: stateData.permissions,
   }),
 })
 
+const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state,
   getters,
   mutations,
   actions,
-  plugins: [vuexLocal.plugin],
+  plugins: debug ? [vuexLocal.plugin, createLogger()] : [vuexLocal.plugin],
+  strict: debug,
 })

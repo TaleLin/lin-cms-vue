@@ -13,7 +13,7 @@ let homeRouter = [
     filePath: 'views/about/About.vue',
     inNav: true,
     icon: 'iconfont icon-iconset0103',
-    order: 0,
+    order: 1,
   },
   {
     title: '日志管理',
@@ -23,8 +23,26 @@ let homeRouter = [
     filePath: 'views/log/Log.vue',
     inNav: true,
     icon: 'iconfont icon-rizhiguanli',
-    order: 1,
-    right: ['查询所有日志'],
+    order: 2,
+    permission: ['查询所有日志'],
+  },
+  {
+    title: '个人中心',
+    type: 'view',
+    name: Symbol('center'),
+    route: '/center',
+    filePath: 'views/center/Center.vue',
+    inNav: false,
+    icon: 'iconfont icon-rizhiguanli',
+  },
+  {
+    title: '404',
+    type: 'view',
+    name: Symbol('404'),
+    route: '/404',
+    filePath: 'views/error-page/404.vue',
+    inNav: false,
+    icon: 'iconfont icon-rizhiguanli',
   },
   bookConfig,
   adminConfig,
@@ -38,11 +56,11 @@ function filterPlugin(data) {
     return
   }
   if (Array.isArray(data)) {
-    data.forEach((item) => {
+    data.forEach(item => {
       filterPlugin(item)
     })
   } else {
-    const findResult = plugins.findIndex(item => (data === item))
+    const findResult = plugins.findIndex(item => data === item)
     if (findResult >= 0) {
       plugins.splice(findResult, 1)
     }
@@ -60,9 +78,9 @@ homeRouter = homeRouter.concat(plugins)
 homeRouter = Utils.sortByOrder(homeRouter)
 
 // 使用 Symbol 处理 name 字段, 保证唯一性
-const deepReduceName = (target) => {
+const deepReduceName = target => {
   if (Array.isArray(target)) {
-    target.forEach((item) => {
+    target.forEach(item => {
       if (typeof item !== 'object') {
         return
       }
@@ -79,7 +97,7 @@ const deepReduceName = (target) => {
     }
 
     if (Array.isArray(target.children)) {
-      target.children.forEach((item) => {
+      target.children.forEach(item => {
         if (typeof item !== 'object') {
           return
         }

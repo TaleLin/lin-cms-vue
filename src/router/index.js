@@ -8,7 +8,7 @@ import Util from '@/lin/utils/util'
 Vue.use(Router)
 
 // 判断是否需要登录访问, 配置位于 config 文件夹
-let isLoginRequired = (routeName) => {
+let isLoginRequired = routeName => {
   // 首次执行时缓存配置
   let { notLoginRoute } = appConfig
   const notLoginMark = {}
@@ -23,13 +23,13 @@ let isLoginRequired = (routeName) => {
   notLoginRoute = null // 释放内存
 
   // 重写初始化函数
-  isLoginRequired = (name) => {
+  isLoginRequired = name => {
     if (!name) {
       return true
     }
     // 处理 Symbol 类型
-    const target = (typeof name === 'symbol') ? name.description : name
-    return !(notLoginMark[target])
+    const target = typeof name === 'symbol' ? name.description : name
+    return !notLoginMark[target]
   }
 
   return isLoginRequired(routeName)
@@ -51,12 +51,12 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  // tab 模式重复点击验证
+  // TODO: tab 模式重复点击验证
 
-  // TODO: 权限验证
+  // 权限验证
   if (store && store.state && store.getters) {
-    const { auths, user } = store.getters
-    if (to.path !== '/about' && !Util.hasPermission(auths, to.meta, user)) {
+    const { permissions, user } = store.getters
+    if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
       Vue.prototype.$notify({
         title: '无权限',
         dangerouslyUseHTMLString: true,

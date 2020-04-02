@@ -1,14 +1,18 @@
 <template>
   <div class="container">
-    <el-date-picker v-model="value"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    align="right"
-                    popper-class="date-box"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    :picker-options="pickerOptions">
+    <el-date-picker
+      v-model="value"
+      type="daterange"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
+      align="right"
+      size="medium"
+      popper-class="date-box"
+      value-format="yyyy-MM-dd HH:mm:ss"
+      :default-time="['00:00:00', '23:59:59']"
+      :picker-options="pickerOptions"
+    >
     </el-date-picker>
   </div>
 </template>
@@ -59,22 +63,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.el-popper[x-placement^="bottom"]{
-  margin-top: 10px;
-}
-.el-input__inner{
-  height: 36px;
-  line-height: 36px;
-}
-.el-date-table td.start-date span, .el-date-table td.end-date span{
-  background-color: #3963BC;
-}
-.el-date-table td.today span{
-  color: #3963BC;
-}
-.el-picker-panel__shortcut:hover{
-  color: #3963BC;
-}
-</style>

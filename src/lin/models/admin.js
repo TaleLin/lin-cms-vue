@@ -1,7 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import {
-  post, get, put, _delete,
-} from '../utils/http'
+import { post, get, put, _delete } from '@/lin/plugins/axios'
 
 export default class Admin {
   constructor(uPage = 0, uCount = 10, gPage = 0, gCount = 5) {
@@ -11,30 +9,30 @@ export default class Admin {
     this.gCount = gCount
   }
 
-  async increseUpage() {
+  async increaseUPage() {
     this.uPage += 1
   }
 
-  async increseGpage() {
+  async increaseGPage() {
     this.lPage += 1
   }
 
-  async decreseUpage() {
+  async decreaseUPage() {
     this.uPage -= 1
     if (this.uPage < 0) {
       this.uPage = 0
     }
   }
 
-  async decreseGpage() {
+  async decreaseGPage() {
     this.lPage -= 1
     if (this.lPage < 0) {
       this.lPage = 0
     }
   }
 
-  static getAllAuths() {
-    return get('cms/admin/authority')
+  static getAllPermissions() {
+    return get('cms/admin/permission')
   }
 
   static async getAdminUsers({ group_id, count = this.uCount, page = this.uPag }) {
@@ -55,16 +53,16 @@ export default class Admin {
   }
 
   async nextUsersPage() {
-    await this.increseUpage()
+    await this.increaseUPage()
     return this.getAdminUsers({})
   }
 
   async preUsersPage() {
-    await this.decreseUpage()
+    await this.decreaseUPage()
     return this.getAdminUsers({})
   }
 
-  async getGroupsWithAuths({ count = this.uCount, page = this.uPag }) {
+  async getGroupsWithPermissions({ count = this.uCount, page = this.uPag }) {
     const res = await get('cms/admin/groups', {
       count,
       page,
@@ -73,13 +71,13 @@ export default class Admin {
   }
 
   async nextGroupsPage() {
-    await this.increseGpage()
-    return this.getGroupsWithAuths({})
+    await this.increaseGPage()
+    return this.getGroupsWithPermissions({})
   }
 
   async preGroupsPage() {
-    await this.decreseGpage()
-    return this.getGroupsWithAuths({})
+    await this.decreaseGPage()
+    return this.getGroupsWithPermissions({})
   }
 
   static async getAllGroups() {
@@ -92,11 +90,11 @@ export default class Admin {
     return group
   }
 
-  static async createOneGroup(name, info, auths) {
+  static async createOneGroup(name, info, permission_ids) {
     const res = await post('cms/admin/group', {
       name,
       info,
-      auths,
+      permission_ids,
     })
     return res
   }
@@ -115,38 +113,38 @@ export default class Admin {
   }
 
   static async deleteOneUser(id) {
-    const res = await _delete(`cms/admin/${id}`)
+    const res = await _delete(`cms/admin/user/${id}`)
     return res
   }
 
-  static async updateOneUser(email, group_id, id) {
-    const res = await put(`cms/admin/${id}`, {
+  static async updateOneUser(email, group_ids, id) {
+    const res = await put(`cms/admin/user/${id}`, {
       email,
-      group_id,
+      group_ids,
     })
     return res
   }
 
-  static async dispatchAuths(group_id, auths) {
-    const res = await post('cms/admin/dispatch/patch', {
+  static async dispatchPermissions(group_id, permission_ids) {
+    const res = await post('cms/admin/permission/dispatch/batch', {
       group_id,
-      auths,
+      permission_ids,
     })
     return res
   }
 
   static async changePassword(new_password, confirm_password, id) {
-    const res = await put(`cms/admin/password/${id}`, {
+    const res = await put(`cms/admin/user/${id}/password`, {
       new_password,
       confirm_password,
     })
     return res
   }
 
-  static async removeAuths(group_id, auths) {
-    const res = await post('cms/admin/remove', {
+  static async removePermissions(group_id, permission_ids) {
+    const res = await post('cms/admin/permission/remove', {
       group_id,
-      auths,
+      permission_ids,
     })
     return res
   }

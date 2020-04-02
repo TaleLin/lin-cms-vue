@@ -1,9 +1,11 @@
 <template>
   <div class="lin-table">
     <el-table
-      border
       ref="linTable"
       v-loading="loading"
+      stripe
+      row-key="id"
+      :border="border"
       :data="currentData"
       :highlight-current-row="highlightCurrentRow ? true : false"
       :element-loading-text="loadingText"
@@ -13,15 +15,10 @@
       @current-change="handleCurrentChange"
       @selection-change="handleSelectionChange"
       @select-all="selectAll"
-      @row-click="rowClick">
-      <el-table-column v-if="type" :type="type" width="55">
-      </el-table-column>
-      <el-table-column
-        v-if="index"
-        :type="index"
-        :index="currentIndex"
-        width="55">
-      </el-table-column>
+      @row-click="rowClick"
+    >
+      <el-table-column v-if="type" :type="type" width="55"></el-table-column>
+      <el-table-column v-if="index" :type="index" :index="currentIndex" width="55"></el-table-column>
       <el-table-column
         v-for="item in filterTableColumn"
         :key="item.id"
@@ -29,25 +26,25 @@
         :label="item.label"
         :show-overflow-tooltip="true"
         :filters="item.filters ? item.filters : null"
-        :filter-method="item.filterMethod ? item.filterMethod: null"
-        :column-key="item.filterMethod ? item.prop: null"
+        :filter-method="item.filterMethod ? item.filterMethod : null"
+        :column-key="item.filterMethod ? item.prop : null"
         :formatter="item.formatter ? item.formatter : null"
         :sortable="item.sortable ? item.sortable : false"
         :fixed="item.fixed ? item.fixed : false"
-        :width="item.width ? item.width : ''"></el-table-column>
-      <el-table-column
-        v-if="operate.length > 0"
-        label="操作"
-        fixed="right"
-        width="175">
+        :width="item.width ? item.width : ''"
+      ></el-table-column>
+      <el-table-column v-if="operate.length > 0" label="操作" fixed="right" width="175">
         <template slot-scope="scope">
-          <l-button
-            v-for="(item,index) in operate"
+          <el-button
+            v-for="(item, index) in operate"
             :type="item.type"
+            plain
             :key="index"
-            v-auth="item.auth ? item.auth : ''"
-            @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)">{{item.name}}
-          </l-button>
+            size="mini"
+            v-permission="{ permission: item.permission ? item.permission : '', type: 'disabled' }"
+            @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
+            >{{ item.name }}</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -56,15 +53,16 @@
       v-if="pagination"
       background
       layout="prev, pager, next"
-      :page-size="pagination.pageSize ? pagination.pageSize: 10 "
-      :total="pagination.pageTotal ? pagination.pageTotal : null "
-      @current-change="currentChange">
-    </el-pagination>
+      :page-size="pagination.pageSize ? pagination.pageSize : 10"
+      :total="pagination.pageTotal ? pagination.pageTotal : null"
+      @current-change="currentChange"
+    ></el-pagination>
   </div>
 </template>
 
 <script>
-import FileSaver from 'file-saver'
+// import Sortable from 'sortablejs'
+// import FileSaver from 'file-saver'
 
 export default {
   props: {
@@ -138,6 +136,11 @@ export default {
       type: [Object, Boolean],
       default: false,
     },
+    border: {
+      // 边框
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -175,7 +178,7 @@ export default {
     // 多选-选中checkbox
     toggleSelection(rows, flag) {
       if (rows) {
-        rows.forEach((row) => {
+        rows.forEach(row => {
           this.$refs.linTable.toggleRowSelection(row, flag)
         })
       } else {
@@ -192,7 +195,8 @@ export default {
       this.$emit('handleCurrentChange', { val, oldVal })
     },
     // 单击某一行
-    rowClick(row, column, event) { // eslint-disable-line
+    rowClick(row) {
+      // eslint-disable-line
       // 选中-多选
       if (!this.oldKey.includes(row.key)) {
         this.oldKey.push(row.key)
@@ -222,10 +226,13 @@ export default {
       this.oldVal = []
       this.currentPage = page
       this.selectedTableData = JSON.parse(sessionStorage.getItem('selectedTableData'))
-      this.currentData = this.tableData.filter((item, index) => (index >= (this.currentPage - 1) * this.pagination.pageSize) && (index < (this.currentPage * this.pagination.pageSize))) // eslint-disable-line
+      this.currentData = this.tableData.filter(
+        (item, index) => index >= (this.currentPage - 1) * this.pagination.pageSize
+          && index < this.currentPage * this.pagination.pageSize,
+      ) // eslint-disable-line
       this.$emit('currentChange', page)
       // 已选中的数据打勾
-      this.selectedTableData.forEach((item) => {
+      this.selectedTableData.forEach(item => {
         for (let i = 0; i < this.currentData.length; i++) {
           if (this.currentData[i].key === item.key) {
             // 切换页码重新计算oldVal
@@ -269,54 +276,49 @@ export default {
       this.oldVal = [...val]
     },
     // 拖拽
-    setDrag() {
-      const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-      let oldIndex
-      let newIndex
-      this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
-      this.sortable = Sortable.create(el, {
-        setData(dataTransfer) {
-          dataTransfer.setData('Text', '')
-        },
-        onEnd: (evt) => {
-          const dragData = [...this.currentData]
-          let oldIndex
-          let newIndex
-          if (this.pagination) {
-            oldIndex = evt.oldIndex * this.currentPage
-            newIndex = evt.newIndex * this.currentPage
-          } else {
-            oldIndex = evt.oldIndex
-            newIndex = evt.newIndex
-          }
-          dragData[oldIndex] = this.currentData[newIndex]
-          dragData[newIndex] = this.currentData[oldIndex]
-          this.$emit('getDragData', { dragData, oldIndex, newIndex })
-        },
-      })
-    },
+    // setDrag() {
+    //   const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+    //   this.rowClassName = 'rowClassName' // 设置行样式，添加移动手势
+    //   this.sortable = Sortable.create(el, {
+    //     setData(dataTransfer) {
+    //       dataTransfer.setData('Text', '')
+    //     },
+    //     onEnd: (evt) => {
+    //       const dragData = [...this.currentData]
+    //       let { oldIndex, newIndex } = evt
+    //       if (this.pagination) {
+    //         oldIndex = evt.oldIndex * this.currentPage
+    //         newIndex = evt.newIndex * this.currentPage
+    //       }
+    //       dragData[oldIndex] = this.currentData[newIndex]
+    //       dragData[newIndex] = this.currentData[oldIndex]
+    //       this.$emit('getDragData', { dragData, oldIndex, newIndex })
+    //     },
+    //   })
+    // },
     // 导出excel
-    exportExcel(fileName = 'sheet') {
-      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = this.$XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
-      try {
-        FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
-      } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
-      return writeTable
-    },
+    // exportExcel(fileName = 'sheet') {
+    //   const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+    //   const writeTable = this.$XLSX.write(targetTable, { bookType: 'xlsx', bookSST: true, type: 'array' })
+    //   try {
+    //     FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.xlsx`)
+    //   } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
+    //   return writeTable
+    // },
     // 导出csv
-    exportCsv(fileName = 'sheet') {
-      const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
-      const writeTable = this.$XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
-      try {
-        FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.csv`)
-      } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
-      return writeTable
-    },
+    // exportCsv(fileName = 'sheet') {
+    //   const targetTable = this.$XLSX.utils.table_to_book(document.querySelectorAll('.el-table__body-wrapper > table')[0])
+    //   const writeTable = this.$XLSX.write(targetTable, { bookType: 'csv', bookSST: true, type: 'array' })
+    //   try {
+    //     FileSaver.saveAs(new Blob([writeTable], { type: 'application/octet-stream' }), `${fileName}.csv`)
+    //   } catch (e) { if (typeof console !== 'undefined') console.log(e, writeTable) }
+    //   return writeTable
+    // },
   },
   watch: {
     fixedLeftList: {
-      handler(val, oldVal) { // eslint-disable-line
+      handler() {
+        // eslint-disable-line
         this.filterTableColumn.map((item, index) => {
           if (this.fixedLeftList.indexOf(item.label) > -1) {
             this.$set(this.filterTableColumn[index], 'fixed', 'left')
@@ -330,7 +332,8 @@ export default {
       immediate: true,
     },
     fixedRightList: {
-      handler(val, oldVal) { // eslint-disable-line
+      handler() {
+        // eslint-disable-line
         this.filterTableColumn.map((item, index) => {
           if (this.fixedRightList.indexOf(item.label) > -1) {
             this.$set(this.filterTableColumn[index], 'fixed', 'right')
@@ -344,53 +347,15 @@ export default {
       immediate: true,
     },
     customColumn: {
-      handler(val, oldVal) { // eslint-disable-line
+      handler(val) {
         if (val.length > 1) {
-          this.filterTableColumn = this.tableColumn.filter(
-            v => val.indexOf(v.label) > -1,
-          )
+          this.filterTableColumn = this.tableColumn.filter(v => val.indexOf(v.label) > -1)
         }
       },
       deep: true,
     },
     tableData: {
-      handler(val, oldVal) { // eslint-disable-line
-        // 传了分页配置
-        if (this.pagination && this.pagination.pageSize) {
-          this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize) // eslint-disable-line
-        } else {
-          this.currentData = this.tableData
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-    tableColumn: {
-      handler(val, oldVal) { // eslint-disable-line
-        // 如果一开始没有传要展示的列 就默认全展示
-        if (this.customColumn.length > 1) {
-          this.filterTableColumn = this.tableColumn.filter(
-            v => this.customColumn.indexOf(v.label) > -1,
-          )
-        } else {
-          this.filterTableColumn = this.tableColumn
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-    customColumn: {
-      handler(val, oldVal) {
-        if (val.length > 1) {
-          this.filterTableColumn = this.tableColumn.filter(
-            v => val.indexOf(v.label) > -1,
-          )
-        } else {}
-      },
-      deep: true,
-    },
-    tableData: {
-      handler(val, oldVal) {
+      handler() {
         // 传了分页配置
         if (this.pagination && this.pagination.pageSize) {
           this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize)
@@ -402,12 +367,10 @@ export default {
       immediate: true,
     },
     tableColumn: {
-      handler(val, oldVal) {
+      handler() {
         // 如果一开始没有传要展示的列 就默认全展示
         if (this.customColumn.length > 1) {
-          this.filterTableColumn = this.tableColumn.filter(
-            v => this.customColumn.indexOf(v.label) > -1,
-          )
+          this.filterTableColumn = this.tableColumn.filter(v => this.customColumn.indexOf(v.label) > -1)
         } else {
           this.filterTableColumn = this.tableColumn
         }
@@ -420,7 +383,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .lin-table {
   position: relative;
 }

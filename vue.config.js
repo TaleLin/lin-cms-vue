@@ -6,7 +6,6 @@ function resolve(dir) {
 
 module.exports = {
   lintOnSave: true,
-  publicPath: '/',
   productionSourceMap: false,
   // assetsDir: 'static',
   chainWebpack: (config) => {
@@ -14,6 +13,14 @@ module.exports = {
       .set('@', resolve('src'))
       .set('lin', resolve('src/lin'))
       .set('assets', resolve('src/assets'))
+    config.module
+      .rule('md')
+      .test(/\.md$/)
+      .use('vue-loader')
+      .loader('vue-loader')
+      .end()
+      .use("vue-markdown-loader")
+      .loader('vue-markdown-loader/lib/markdown-compiler')     
   },
   configureWebpack: {
     resolve: {

@@ -2,9 +2,7 @@
   <div>
     <!-- 列表页面 -->
     <div class="container" v-if="!showEdit">
-      <div class="header">
-        <div class="title">图书列表</div>
-      </div>
+      <div class="header"><div class="title">图书列表</div></div>
       <!-- 表格 -->
       <lin-table
         :tableColumn="tableColumn"
@@ -13,17 +11,17 @@
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
         @row-click="rowClick"
-        v-loading="loading"></lin-table>
+        v-loading="loading"
+      ></lin-table>
     </div>
 
     <!-- 编辑页面 -->
     <book-edit v-else @editClose="editClose" :editBookID="editBookID"></book-edit>
-
   </div>
 </template>
 
 <script>
-import book from '@/lin/models/book'
+import book from '@/models/book'
 import LinTable from '@/components/base/table/lin-table'
 import BookEdit from './BookEdit'
 
@@ -43,16 +41,28 @@ export default {
   },
   async created() {
     this.loading = true
-    this.getBooks()
-    this.operate = [{ name: '编辑', func: 'handleEdit', type: 'primary' }, {
-      name: '删除', func: 'handleDelete', type: 'danger', auth: '删除图书',
-    }]
+    await this.getBooks()
+    this.operate = [
+      { name: '编辑', func: 'handleEdit', type: 'primary' },
+      {
+        name: '删除',
+        func: 'handleDelete',
+        type: 'danger',
+        permission: '删除图书',
+      },
+    ]
     this.loading = false
   },
   methods: {
     async getBooks() {
-      const books = await book.getBooks()
-      this.tableData = books
+      try {
+        const books = await book.getBooks()
+        this.tableData = books
+      } catch (error) {
+        if (error.code === 10020) {
+          this.tableData = []
+        }
+      }
     },
     handleEdit(val) {
       console.log('val', val)
@@ -66,18 +76,16 @@ export default {
         type: 'warning',
       }).then(async () => {
         const res = await book.delectBook(val.row.id)
-        if (res.error_code === 0) {
+        if (res.code < window.MAX_SUCCESS_CODE) {
           this.getBooks()
           this.$message({
             type: 'success',
-            message: `${res.msg}`,
+            message: `${res.message}`,
           })
         }
       })
     },
-    rowClick() {
-
-    },
+    rowClick() {},
     editClose() {
       this.showEdit = false
       this.getBooks()
@@ -87,7 +95,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   padding: 0 30px;
 
@@ -101,7 +108,6 @@ export default {
       line-height: 59px;
       color: $parent-title-color;
       font-size: 16px;
-      font-family: PingFangSC-Medium;
       font-weight: 500;
     }
   }

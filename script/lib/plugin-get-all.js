@@ -24,6 +24,10 @@ function isPlugin(source) {
 }
 
 function getPlugins(source) {
+  if (!fs.existsSync(source)) {
+    console.log(chalk.yellow(`目录不存在: ${source}`))
+    return []
+  }
   const folders = fs.readdirSync(source)
   const pluginsList = []
 
@@ -35,6 +39,7 @@ function getPlugins(source) {
     const config = {}
     config.name = item
     config.path = path.resolve(__dirname, `../src/plugins/${item}/`)
+    config.packageCtx = JSON.parse(fs.readFileSync(path.resolve(itemPath, './package.json'), 'utf8'))
     pluginsList.push(config)
   })
 

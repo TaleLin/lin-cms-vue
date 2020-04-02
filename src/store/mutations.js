@@ -8,30 +8,11 @@ export default {
 
   [types.REMOVE_LOGINED](state) {
     state.logined = false
+    state.user = null
   },
 
   [types.SET_USER](state, payload) {
     state.user = payload
-  },
-
-  async [types.ADD_TAB](state, payload) {
-    if (!(payload instanceof Array)) {
-      const { tabs } = state
-      const flag = await tabs.find(el => el.path === payload.path)
-      if (!flag) {
-        state.tabs = [payload, ...tabs]
-      }
-    } else {
-      state.tabs = []
-    }
-  },
-
-  [types.REMOVE_TAB](state, payload) {
-    state.tabs.splice(payload, 1)
-  },
-
-  [types.SET_DEFAULT_ACTIVE_TAB](state, payload) {
-    state.defaultActive = payload
   },
 
   [types.ADD_READED_MESSAGE](state, payload) {
@@ -50,17 +31,17 @@ export default {
     unreadMessages.splice(index, 1)
   },
 
-  [types.SET_USER_AUTHS](state, auths) {
-    const _auths = []
-    for (let i = 0; i < auths.length; i++) {
-      for (const key in auths[i]) {
-        // console.log(i, state.user.auths[i][key])
-        for (let j = 0; j < auths[i][key].length; j++) {
-          _auths.push(auths[i][key][j].auth)
+  [types.SET_USER_PERMISSIONS](state, permissions) {
+    const _permissions = []
+    for (let i = 0; i < permissions.length; i++) {
+      for (const key in permissions[i]) {
+        // console.log(i, state.user.permissions[i][key])
+        for (let j = 0; j < permissions[i][key].length; j++) {
+          _permissions.push(permissions[i][key][j].permission)
         }
       }
     }
-    state.auths = _auths
+    state.permissions = _permissions
   },
 
   [types.SET_REFERSH_OPTION](state, option) {

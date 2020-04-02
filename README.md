@@ -1,23 +1,21 @@
 
 <p align="center">
   <a href="http://doc.cms.7yue.pro/">
-    <img width="200" src="https://consumervssalonqa01.blob.core.chinacloudapi.cn/vssaloncontainer/lin/left-logo.png">
+    <img width="200" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/left-logo.png">
   </a>
 </p>
 
 <p align="center">
-  <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#下个版本开发计划">下个版本开发计划</a>
+  <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#版本日志">版本日志</a>
 </p>
 
-![](https://img.shields.io/badge/版本-0.0.1.alpha.1-3963bc.svg)
+![](https://img.shields.io/badge/版本-0.2.1-3963bc.svg)
 ![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
-![](https://img.shields.io/badge/vue-~2.5.17-3963bc.svg)
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
-![](https://img.shields.io/badge/element-~2.4.6-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@vanoneang-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@GongJS-3963bc.svg)
-
+![](https://img.shields.io/badge/developer-@quanquan-3963bc.svg)
 
 ## 简介
 
@@ -25,7 +23,15 @@ Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内�
 
 Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
 
-Lin-CMS 是一套前后端完整的解决方案，后端部署请移步[后端仓库](https://github.com/TaleLin/lin-cms-flask)。
+Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
+
+[lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
+
+[lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
+
+### 注意
+
+**Lin-CMS 是工程类开源项目，不能保证无缝升级**
 
 ### 文档地址
 
@@ -34,6 +40,10 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步[后端�
 ### 线上 Demo
 
 [http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
+
+### 案例
+
+[http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
 
 
 ### Lin CMS 的特点
@@ -79,15 +89,90 @@ npm run serve or yarn (run) serve
 ## 讨论交流
 微信公众号搜索：林间有风
 <br>
-<img class="QR-img" src="http://imglf6.nosdn0.126.net/img/YUdIR2E3ME5weEdlNThuRmI4TFh3UWhiNmladWVoaTlXUXpicEFPa1F6czFNYkdmcWRIbGRRPT0.jpg?imageView&thumbnail=500x0&quality=96&stripmeta=0&type=jpg" width="150" height="150" style='text-align:left;width: 100px;height: 100px'>
+<img class="QR-img" src="http://i1.sleeve.7yue.pro/wechat-account.jpeg" width="150" height="150">
 
-QQ群搜索：Lin CMS 或 814597236
+QQ群搜索：林间有风 或 643205479
 
-<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qqgroup.jpg" width="150" height="205" >
+<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qrcode_1558012902375.jpg" width="150" height="205" >
 
-## 下个版本开发计划
+## 版本日志
 
-- [ ]  完成插件机制
-- [ ]  添加消息推送机制
-- [ ]  完善表单组件
+最新版本 `0.3.4`
+
+### 0.3.4
+
+1. `U` 优化变量命名，升级 `element-ui` 版本，
+2. `F` `Home` 组件改为异步加载
+
+### 0.3.3
+
+1. `A` 新增消息中心组件
+
+### 0.3.2
+
+1. `A` 新增图表插件
+
+### 0.3.1
+
+1. `F` 增加历史栏高度
+
+### 0.3.0
+
+1. `A` 新增一个用户可以属于多个分组
+2. `F` 权限相关 auth right 统一替换为 permission
+
+### 0.2.2
+
+1. `F` 修复 tinymce 富文本动态绑定问题
+2. `U` 保持代码风格一致优化
+
+### 0.2.1
+
+1. `A` 新增一键清除 reuse tab
+2. `A` 新增侧边导航搜索，可在 config 配置是否启用
+3. `F` 修复 post put 等请求不能自动重发问题
+4. `U` 优化异常处理，框架默认弹出前端配置异常信息，可通过 handleError 和 showBackend 控制本次请求是否开发者自行处理和是否直接展示后端返回异常信息
+5. `C` 登录用户名字段由 nickname -> username，同时新增 nickname 为昵称字段，可以更新昵称(需后端同步修改)
+6. `U` 优化了一些移动端适配
+7. `C` 列表信息字段由 collection -> items, total_nums -> total, 增加 count、page、total_page字段（需后端同步修改）
+
+### 0.2.0
+
+1. `A` 新增图像上传、图像预览、富文本等自定义组件
+2. `A` 新增 lin-cms-ui 多个基础组件
+
+### 0.1.0-beta.3
+
+1. `U` 首页更新为 card 设计
+2. `A` 新增头像上传
+3. `A` 新增单元测试
+2. `A` 新增switch、rate、tabs、link、tag组件
+
+### 0.1.0-beta.2
+
+1. `F` 修复无感知刷新令牌异常
+2. `A` 新增入场动画
+3. `A` 新增全屏功能
+2. `A` 新增Icon、Form组件
+
+### 0.1.0-beta.1
+
+1. `U` 新UI界面
+2. `A` button组件、table组件
+3. `F` 修复令牌刷新异常
+
+### 0.0.1-alpha.3
+
+1.  `A` 添加插件机制
+2.  `U` 重构路由设计
+2.  `A` 可配置三级路由导航
+
+### 0.0.1-alpha.2
+
+1.  `U` 升级到 `vue-cli3.4` 
+2.  `A` 慕课网专题插件
+
+### 0.0.1-alpha.1
+
+1.  `A` 初始化内测版
 

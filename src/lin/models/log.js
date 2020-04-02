@@ -1,14 +1,14 @@
 /* eslint-disable class-methods-use-this */
-import { get } from '../utils/http'
+import { get } from '@/lin/plugins/axios'
 
 class Log {
-  name = null;
+  name = null
 
-  start = null;
+  start = null
 
-  end = null;
+  end = null
 
-  keyword = null;
+  keyword = null
 
   constructor({
     uPage = 0,
@@ -41,17 +41,16 @@ class Log {
     // lCount && this.lCount = lCount
   }
 
-  async increseUpage() {
+  async increaseUpage() {
     this.uPage += 1
   }
 
-  async increseLpage() {
+  async increaseLpage() {
     this.lPage += 1
   }
 
-  increseSpage() {
+  increaseSpage() {
     this.sPage += 1
-    console.log(this.sPage)
   }
 
   init() {
@@ -96,28 +95,25 @@ class Log {
    * @param {number} start 起始时间 # 2018-11-01 09:39:35
    * @param {number} end 结束时间
    */
-  async getLogs({
-    count,
-    page,
-    name,
-    start,
-    end,
-    next = false,
-  }) {
-    if (!next) {
-      this.setBaseInfo(name, start, end)
+  async getLogs({ count, page, name, start, end, next = false }) {
+    try {
+      if (!next) {
+        this.setBaseInfo(name, start, end)
+      }
+      if (page === 0) {
+        this.lPage = 0
+      }
+      const res = await get('cms/log', {
+        count: count || this.lCount,
+        page: page || this.lPage,
+        name: name || this.name,
+        start: start || this.start,
+        end: end || this.end,
+      })
+      return res
+    } catch (error) {
+      console.log('error', error)
     }
-    if (page === 0) {
-      this.lPage = 0
-    }
-    const res = await get('cms/log/', {
-      count: count || this.lCount,
-      page: page || this.lPage,
-      name: name || this.name,
-      start: start || this.start,
-      end: end || this.end,
-    })
-    return res
   }
 
   /**
@@ -129,15 +125,7 @@ class Log {
    * @param {number} start 起始时间 # 2018-11-01 09:39:35
    * @param {number} end 结束时间
    */
-  async searchLogs({
-    count,
-    page,
-    keyword,
-    name,
-    start,
-    end,
-    next = false,
-  }) {
+  async searchLogs({ count, page, keyword, name, start, end, next = false }) {
     if (!next) {
       this.setBaseInfo(name, start, end)
       this.setKeyword(keyword)
@@ -145,29 +133,33 @@ class Log {
     if (page === 0) {
       this.sPage = 0
     }
-    const res = await get('cms/log/search', {
-      count: count || this.sCount,
-      page: page || this.sPage,
-      keyword: keyword || this.keyword,
-      name: name || this.name,
-      start: start || this.start,
-      end: end || this.end,
-    })
-    return res
+    try {
+      const res = await get('cms/log/search', {
+        count: count || this.sCount,
+        page: page || this.sPage,
+        keyword: keyword || this.keyword,
+        name: name || this.name,
+        start: start || this.start,
+        end: end || this.end,
+      })
+      return res
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async moreUserPage() {
-    await this.increseUpage()
+    await this.increaseUpage()
     return this.getLoggedUsers({})
   }
 
   async moreLogPage() {
-    await this.increseLpage()
+    await this.increaseLpage()
     return this.getLogs({ next: true })
   }
 
   async moreSearchPage() {
-    this.increseSpage()
+    this.increaseSpage()
     return this.searchLogs({ next: true })
   }
 }

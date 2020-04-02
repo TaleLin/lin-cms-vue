@@ -1,6 +1,6 @@
 <template>
   <div class="backTop" :style="{ right: right + 'px', bottom: bottom + 'px' }" v-if="showBackTop">
-    <i class="iconfont icon-top" :style="{ fontSize: fontSize + 'px'}" @click="backTop"></i>
+    <i class="iconfont icon-xsaaa" :style="{ fontSize: fontSize + 'px' }" @click="backTop"></i>
   </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
         const currentTop = _this.targetDom.target.scrollTop
         if (currentTop > 0) {
           // 平滑滚动
-          const scrollSpeed = currentTop + ((0 - currentTop) / 6)
+          const scrollSpeed = currentTop + (0 - currentTop) / 6
           _this.targetDom.target.scrollTop = scrollSpeed
           timer = requestAnimationFrame(fn)
         } else {
@@ -66,10 +66,15 @@ export default {
   display: inline-block;
   text-align: center;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 4px;
-  line-height: 45px;
+  line-height: 50px;
   z-index: 3;
+  color: $theme;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
 }
 </style>

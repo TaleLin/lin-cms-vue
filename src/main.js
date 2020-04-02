@@ -1,47 +1,49 @@
 import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import XLSX from 'xlsx'
 
-import Lin1px from '@/components/base/line/lin-1px'
-import LButton from '@/components/base/button/lin-button'
-import LButtonGroup from '@/components/base/button/lin-button-group'
-import LIcon from '@/components/base/icon/lin-icon'
+import '@/config/global'
+import '@/lin/mixin'
+import '@/lin/filter'
+import '@/lin/plugins'
+import '@/lin/directives'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
-import GlobalMixin from 'lin/mixin/global'
-import AuthorizeDirective from 'lin/directives/authorize'
-import filters from 'lin/filter'
+import LinNotify from '@/components/notify'
+import router from '@/router'
+import store from '@/store'
+import App from '@/App.vue'
 
-import plugins from 'lin/utils/plugins'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import StickyTop from '@/components/base/sticky-top/sticky-top'
+import LIcon from '@/components/base/icon/lin-icon'
+import SourceCode from '@/components/base/source-code/source-code'
 
 import '@/assets/styles/index.scss' // eslint-disable-line
+import '@/assets/styles/realize/element-variables.scss'
+import 'element-ui/lib/theme-chalk/display.css'
 
-// 全局过滤器
-Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
-Vue.use(plugins)
+Vue.use(LinNotify, {
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+})
 
 Vue.component(CollapseTransition.name, CollapseTransition)
 
-Vue.component('lin-1px', Lin1px)
-Vue.component('l-button', LButton)
-Vue.component('l-button-group', LButtonGroup)
+// base 组件注册
+Vue.component('sticky-top', StickyTop)
 Vue.component('l-icon', LIcon)
-
-Vue.use(GlobalMixin)
-Vue.use(AuthorizeDirective)
-Vue.prototype.$XLSX = XLSX
+Vue.component('source-code', SourceCode)
 
 /* eslint no-unused-vars: 0 */
-new Vue({
+const AppInstance = new Vue({
   router,
   store,
   render: h => h(App),
 }).$mount('#app')
+
+// 设置 App 实例
+window.App = AppInstance

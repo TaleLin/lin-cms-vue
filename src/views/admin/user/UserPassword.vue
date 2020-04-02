@@ -7,24 +7,17 @@
       label-position="right"
       ref="form"
       v-loading="loading"
-      label-width="100px">
+      label-width="100px"
+    >
       <el-form-item label="密码" prop="new_password">
-        <el-input
-          clearable
-          type="password"
-          v-model="form.new_password"
-          autocomplete="off"></el-input>
+        <el-input size="medium" clearable type="password" v-model="form.new_password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirm_password" label-position="top">
-        <el-input
-          clearable
-          type="password"
-          v-model="form.confirm_password"
-          autocomplete="off"></el-input>
+        <el-input size="medium" clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-show="false">
-        <l-button type="primary" @click="submitForm('form')">保存</l-button>
-        <l-button @click="resetForm('form')">取消</l-button>
+        <el-button type="primary" @click="submitForm('form')">保存</el-button>
+        <el-button @click="resetForm('form')">取消</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -65,12 +58,8 @@ export default {
       },
       // 验证规则
       rules: {
-        new_password: [
-          { validator: validatePassword, trigger: 'blur', required: true },
-        ],
-        confirm_password: [
-          { validator: validatePassword2, trigger: 'blur', required: true },
-        ],
+        new_password: [{ validator: validatePassword, trigger: 'blur', required: true }],
+        confirm_password: [{ validator: validatePassword2, trigger: 'blur', required: true }],
       },
     }
   },
@@ -81,7 +70,8 @@ export default {
         this.$emit('handlePasswordResult', true)
         return
       }
-      this.$refs[formName].validate(async (valid) => { // eslint-disable-line
+      this.$refs[formName].validate(async valid => {
+        // eslint-disable-line
         if (valid) {
           let res
           try {
@@ -91,14 +81,14 @@ export default {
             this.loading = false
             console.log(e)
           }
-          if (res.error_code === 0) {
+          if (res.code < window.MAX_SUCCESS_CODE) {
             this.loading = false
-            this.$message.success(`${res.msg}`)
+            this.$message.success(`${res.message}`)
             this.resetForm(formName)
             this.$emit('handlePasswordResult', true)
           } else {
             this.loading = false
-            this.$message.error(`${res.msg}`)
+            this.$message.error(`${res.message}`)
           }
         } else {
           console.log('error submit!!')
