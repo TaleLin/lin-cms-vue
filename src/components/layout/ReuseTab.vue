@@ -218,7 +218,7 @@ export default {
 .reuse-tab-wrap {
   bottom: 0;
   left: 0;
-  // width: calc(100% -40px);
+  user-select: none;
   height: $reusetab-height;
   background: $header-background;
   font-size: 14px;
