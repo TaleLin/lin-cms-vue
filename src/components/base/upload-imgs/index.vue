@@ -468,8 +468,8 @@ export default {
             throw new Error('图像上传失败')
           }
 
-          const resObj = res.reduce((acc, item) => {
-            acc[item.key] = item
+          const resObj = res.reduce((acc, item, index) => {
+            acc[`file_${index}`] = item
             return acc
           }, {})
 
@@ -540,9 +540,9 @@ export default {
           return
         }
         // eslint-disable-next-line
-        imgItem.display = res.url
+        imgItem.display = res.path
         // eslint-disable-next-line
-        imgItem.src = res.path
+        imgItem.src = res.src
         // eslint-disable-next-line
         imgItem.imgId = res.id
         // eslint-disable-next-line
