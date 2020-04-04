@@ -1,12 +1,12 @@
 <template>
-  <div v-if="histories.length > 1" ref="resueTab">
+  <div v-if="histories.length > 1" ref="resueTab" class="reuse-tab">
     <swiper :options="swiperOption" class="reuse-tab-wrap">
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
           :class="item.path === $route.path ? 'active' : ''"
           :to="item.path"
-          @contextmenu.prevent.native="onTags"
+          @contextmenu.prevent.native="onTags(index, $event)"
         >
           <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
           <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
@@ -15,6 +15,13 @@
         </router-link>
       </swiper-slide>
     </swiper>
+
+    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
+      <li @click="closeAll">关闭所有</li>
+      <li @click="closeOthers">关闭其他</li>
+      <li @click="closeLeft">关闭左侧</li>
+      <li @click="closeRight">关闭右侧</li>
+    </ul>
   </div>
 </template>
 
@@ -32,7 +39,7 @@ export default {
       visible: false,
       top: 0,
       left: 0,
-      selectedTag: {},
+      index: 0,
       swiperOption: {
         slidesPerView: 'auto',
         initialSlide: 0,
@@ -65,6 +72,13 @@ export default {
         return
       }
       this.closeAll()
+    },
+    visible(value) {
+      if (value) {
+        document.body.addEventListener('click', this.closeMenu)
+      } else {
+        document.body.removeEventListener('click', this.closeMenu)
+      }
     },
     // 舞台改变时触发
     stageList() {
@@ -140,6 +154,35 @@ export default {
     closeAll() {
       this.histories = []
       this.$router.push(this.defaultRoute)
+    },
+    closeOthers() {
+      this.histories = []
+    },
+    closeLeft() {
+      this.histories.splice(0, this.index)
+    },
+    closeRight() {
+      this.histories.splice(this.index + 1, this.histories.length - this.index - 1)
+    },
+    onTags(index, event) {
+      const menuMinWidth = 126
+      const offsetLeft = this.$el.getBoundingClientRect().left
+      const { offsetWidth } = this.$el
+      const maxLeft = offsetWidth - menuMinWidth
+      const left = event.clientX - offsetLeft + 15
+
+      if (left > maxLeft) {
+        this.left = maxLeft
+      } else {
+        this.left = left
+      }
+
+      this.top = 18
+      this.index = index
+      this.visible = true
+    },
+    closeMenu() {
+      this.visible = false
     },
     close(index) {
       // 检测是否是当前页, 如果是当前页则自动切换路由
@@ -270,6 +313,31 @@ export default {
 
   .reuse-tab-wrap {
     height: 100%;
+  }
+}
+.reuse-tab {
+  position: relative;
+  .contextmenu {
+    margin: 0;
+    background: #ffffff;
+    z-index: 3000;
+    position: absolute;
+    list-style-type: none;
+    padding: 5px 0;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #596c8e;
+    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    li {
+      margin: 0;
+      padding: 10px 20px;
+      cursor: pointer;
+      &:hover {
+        background: #ebeff8;
+        color: #6182c9;
+      }
+    }
   }
 }
 </style>

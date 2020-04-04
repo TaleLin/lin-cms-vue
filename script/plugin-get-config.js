@@ -18,7 +18,5 @@ const result = ejs.render(template, { plugins: puginList })
 
 fs.writeFile(targetDir, result)
 
-console.log(puginList, '==')
-
 // eslint-disable-next-line
 console.log(chalk.green(`插件配置完成: ${targetDir}\n`))
