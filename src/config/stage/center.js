@@ -4,7 +4,7 @@ const centerRouter = {
   title: '个人',
   type: 'view', // 类型: folder, tab, view
   icon: 'iconfont icon-tushuguanli',
-  filePath: 'views/center/', // 文件路径
+  filePath: 'view/center/', // 文件路径
   order: null,
   inNav: false,
 }

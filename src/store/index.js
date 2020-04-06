@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
 import VuexPersistence from 'vuex-persist'
-import mutations from './mutations'
+import mutations from './mutation'
 import state from './state'
-import * as getters from './getters'
-import actions from './actions'
+import * as getters from './getter'
+import actions from './action'
 
 Vue.use(Vuex)
 

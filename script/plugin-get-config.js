@@ -5,8 +5,8 @@ const chalk = require('chalk')
 const ejs = require('ejs')
 const getAllPlugin = require('./lib/plugin-get-all')
 
-const targetDir = path.resolve(__dirname, '../src/config/stage/plugins.js')
-const pluginsPath = path.resolve(__dirname, '../src/plugins')
+const targetDir = path.resolve(__dirname, '../src/config/stage/plugin.js')
+const pluginsPath = path.resolve(__dirname, '../src/plugin')
 const templatePath = path.resolve(__dirname, './template/plugin-stage-config.js.ejs')
 
 // eslint-disable-next-line

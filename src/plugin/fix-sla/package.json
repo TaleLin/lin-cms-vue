@@ -1,0 +1,10 @@
+{
+  "name": "lc-plugin-fix-sla",
+  "title": "插件标题",
+  "version": "1.0.0",
+  "_linVersion": "0.3.5",
+  "description": "",
+  "author": "",
+  "dependencies": {},
+  "devDependencies": {}
+}

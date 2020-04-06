@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Utils from '../utils/util'
+import Utils from '../util/util'
 /*
  * 全局的过滤函数
  * */

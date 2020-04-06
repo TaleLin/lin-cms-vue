@@ -8,7 +8,9 @@ const yaml = require('js-yaml')
 const dirTree = require('directory-tree')
 const validatePName = require('validate-npm-package-name')
 const semver = require('semver')
-const came = require('./lib/util')
+// const came = require('./lib/util')
+
+const came = str => `${str}`.replace(/-\D/g, match => match.charAt(1).toUpperCase())
 
 const questions = []
 
@@ -31,7 +33,7 @@ questions.push({
         return
       }
 
-      const filePath = path.resolve(__dirname, `../src/plugins/${value}`)
+      const filePath = path.resolve(__dirname, `../src/plugin/${value}`)
       if (fs.existsSync(filePath)) {
         done('项目中已存在该插件, 请更换其他插件名')
         return
@@ -86,9 +88,9 @@ questions.push({
 const cachePath = path.resolve(__dirname, './.cache')
 const cachePluginPath = path.resolve(__dirname, './.cache/plugin')
 const pluginTmpPath = path.resolve(__dirname, './template/plugin')
-const pluginViewsPath = path.resolve(__dirname, './template/plugin/views')
+const pluginViewsPath = path.resolve(__dirname, './template/plugin/view')
 const pluginStrPos = __dirname.length + '/template/'.length
-const pluginsPath = path.resolve(__dirname, '../src/plugins')
+const pluginsPath = path.resolve(__dirname, '../src/plugin')
 
 // 检测是否有插件文件夹
 if (!fs.existsSync(pluginsPath)) {
@@ -125,7 +127,7 @@ inquirer
         const template = fs.readFileSync(item.path, 'utf8')
         const fileConfig = { ...config }
         // 舞台 view 文件配置处理
-        if (item.path.slice(pluginStrPos).split(path.sep)[1] === 'views' && item.name.slice(-8) === '.vue.ejs') {
+        if (item.path.slice(pluginStrPos).split(path.sep)[1] === 'view' && item.name.slice(-8) === '.vue.ejs') {
           const viewConfig = {}
           viewConfig.icon = 'iconfont icon-demo'
           viewConfig.name = fileConfig.camelCaseName + item.name.slice(0, -8)
@@ -160,7 +162,7 @@ inquirer
   .then(answers => {
     // 复制 .cache 到 plugin
     const sourcePath = path.resolve(__dirname, './.cache/plugin')
-    const targetPath = path.resolve(__dirname, `../src/plugins/${answers.name}`)
+    const targetPath = path.resolve(__dirname, `../src/plugin/${answers.name}`)
     fs.copySync(sourcePath, targetPath)
 
     console.log(chalk.green(`创建插件 ${answers.name}: ${targetPath}`))
