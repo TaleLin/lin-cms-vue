@@ -78,6 +78,9 @@
           <upload-imgs ref="uploadEle33" :rules="rules" :before-upload="beforeFuc" :multiple="true" />
           <div><el-button @click="getValue('uploadEle33')">获取当前图像数据</el-button></div>
         </el-form-item>
+        <el-form-item label="上传成功、失败钩子函数">
+          <upload-imgs :multiple="true" :on-success="handleSuccess" :on-error="handleError" />
+        </el-form-item>
       </el-form>
     </div>
   </div>
@@ -223,6 +226,14 @@ export default {
           url: 'http://dev.koa.7yue.pro/assets/2019/06/30/abc823a9-5ef4-48e1-bdf6-dd4f0ab92482.jpg',
         })
       }, 3000)
+    },
+    handleSuccess(item) {
+      console.log('on-success', item)
+      this.$message.info('上传完成')
+    },
+    handleError(item) {
+      console.log('on-error', item)
+      this.$message.info('上传失败')
     },
   },
 }
