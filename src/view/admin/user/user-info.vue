@@ -218,7 +218,7 @@ export default {
       if (this.pageType === 'edit') {
         this.setInfo()
       } else {
-        this.form.group_ids = [this.groups[0].id]
+        this.form.group_ids = []
         this.$refs[formName].resetFields()
       }
     },

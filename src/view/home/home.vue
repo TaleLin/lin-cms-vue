@@ -194,7 +194,6 @@ export default {
   justify-content: space-between;
   box-shadow: 0px 2px 6px 0px rgba(190, 204, 216, 0.4);
   border-bottom: 1px solid rgba(190, 204, 216, 0.4);
-  z-index: 1;
 
   .left {
     height: 100%;

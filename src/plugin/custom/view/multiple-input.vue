@@ -115,7 +115,7 @@ export default {
     cursor: pointer;
     font-size: 24px;
     font-weight: 500;
-    color: #7289b2;
+    color: #3765b6;
   }
 
   .input-row {
@@ -141,12 +141,12 @@ export default {
         font-weight: 500;
 
         &.plus {
-          color: #7289b2;
+          color: #3765b6;
         }
 
         &.minus {
           font-size: 26px;
-          color: #c6848e;
+          color: #c7485b;
         }
       }
     }

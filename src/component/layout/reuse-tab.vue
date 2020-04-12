@@ -19,8 +19,8 @@
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
       <li @click="closeAll">关闭所有</li>
       <li @click="closeOthers">关闭其他</li>
-      <li @click="closeLeft">关闭左侧</li>
-      <li @click="closeRight">关闭右侧</li>
+      <li @click="closeLeft" v-if="hasLeft">关闭左侧</li>
+      <li @click="closeRight" v-if="hasRight">关闭右侧</li>
     </ul>
   </div>
 </template>
@@ -37,6 +37,8 @@ export default {
     return {
       histories: [],
       visible: false,
+      hasLeft: true,
+      hasRight: true,
       top: 0,
       left: 0,
       index: 0,
@@ -177,12 +179,22 @@ export default {
         this.left = left
       }
 
+      if (index === 0) {
+        this.hasLeft = false
+      }
+
+      if (index + 1 === this.histories.length) {
+        this.hasRight = false
+      }
+
       this.top = 18
       this.index = index
       this.visible = true
     },
     closeMenu() {
       this.visible = false
+      this.hasLeft = true
+      this.hasRight = true
     },
     close(index) {
       // 检测是否是当前页, 如果是当前页则自动切换路由
