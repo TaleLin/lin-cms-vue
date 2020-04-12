@@ -33,7 +33,7 @@
         :fixed="item.fixed ? item.fixed : false"
         :width="item.width ? item.width : ''"
       ></el-table-column>
-      <el-table-column v-if="operate.length > 0" label="操作" fixed="right" width="175">
+      <el-table-column v-if="operate.length > 0" label="操作" fixed="right" width="275">
         <template slot-scope="scope">
           <el-button
             v-for="(item, index) in operate"
@@ -175,6 +175,10 @@ export default {
     handleDelete(_this, index, row) {
       _this.$emit('handleDelete', { index, row })
     },
+    // 行内跳转页面
+    goToGroupEditPage(_this, index, row) {
+      _this.$emit('goToGroupEditPage', { index, row })
+    },
     // 多选-选中checkbox
     toggleSelection(rows, flag) {
       if (rows) {
@@ -209,7 +213,10 @@ export default {
         this.oldKey = this.oldKey.filter(item => item !== row.key)
         const data = this.oldVal.filter(item => item.key !== row.key)
         this.handleSelectionChange(data)
-        this.toggleSelection(this.currentData.filter(item => item.key === row.key), false)
+        this.toggleSelection(
+          this.currentData.filter(item => item.key === row.key),
+          false,
+        )
       }
       // 选中-单选
       if (this.currentOldRow && this.currentOldRow.key === row.key) {
