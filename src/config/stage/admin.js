@@ -74,7 +74,7 @@ const adminRouter = {
           type: 'view',
           name: 'GroupEdit',
           filePath: 'view/admin/group/group-edit.vue',
-          inNav: true,
+          inNav: false,
           title: '修改分组',
           icon: 'iconfont icon-add',
           permission: ['超级管理员独有权限'],

@@ -29,11 +29,18 @@ export default {
       }
       const father = this.stageInfo[this.stageInfo.length - 2]
       if (father.type === 'tab') {
-        return father.children.map(item => ({
-          icon: item.icon || '',
-          title: item.title,
-          path: item.route,
-        }))
+        console.log(father.children)
+        const menus = []
+        father.children.forEach(item => {
+          if (item.inNav) {
+            menus.push({
+              icon: item.icon || '',
+              title: item.title,
+              path: item.route,
+            })
+          }
+        })
+        return menus
       }
       return []
     },
