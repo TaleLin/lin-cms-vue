@@ -894,3 +894,17 @@ $typeMap: (primary:#3963BC,
     border-left: none !important;
   }
 }
+
+/* dialog */
+@include b(dialog) {
+  box-shadow:0px 0px 14px 0px rgba(38,38,38,0.5);
+  border-radius:12px;
+  @include e(header) {
+    border-top-left-radius:12px;
+    border-top-right-radius:12px;
+    background:rgba(206,218,240,1);
+  }
+  @include e(title) {
+    color: #333333;
+  }
+}
