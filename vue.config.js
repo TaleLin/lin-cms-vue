@@ -30,7 +30,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "@/asset/style/share.scss";',
+        data: '@import "@/assets/style/share.scss";',
       },
     },
   },

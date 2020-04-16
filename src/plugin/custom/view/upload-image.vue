@@ -220,14 +220,14 @@ export default {
     remoteFucSuccessAsync() {
       return Promise.resolve({
         id: createId,
-        url: 'http://dev.koa.7yue.pro/asset/2019/06/30/abc823a9-5ef4-48e1-bdf6-dd4f0ab92482.jpg',
+        url: 'http://dev.koa.7yue.pro/assets/2019/06/30/abc823a9-5ef4-48e1-bdf6-dd4f0ab92482.jpg',
       })
     },
     remoteFucSuccess(file, cb) {
       setTimeout(() => {
         cb({
           id: createId,
-          url: 'http://dev.koa.7yue.pro/asset/2019/06/30/abc823a9-5ef4-48e1-bdf6-dd4f0ab92482.jpg',
+          url: 'http://dev.koa.7yue.pro/assets/2019/06/30/abc823a9-5ef4-48e1-bdf6-dd4f0ab92482.jpg',
         })
       }, 3000)
     },

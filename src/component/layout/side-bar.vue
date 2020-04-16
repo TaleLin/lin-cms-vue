@@ -1,7 +1,7 @@
 <template>
   <div class="app-sidebar">
-    <div class="logo" v-if="!elMenuCollapse"><img src="../../asset/image/logo.png" alt="" /></div>
-    <div class="mobile-logo" v-else><img src="../../asset/image/mobile-logo.png" alt="" /></div>
+    <div class="logo" v-if="!elMenuCollapse"><img src="../../assets/image/logo.png" alt="" /></div>
+    <div class="mobile-logo" v-else><img src="../../assets/image/mobile-logo.png" alt="" /></div>
     <div style="margin-bottom:50px">
       <div v-if="showSidebarSearch" style="margin-top: 15px">
         <div class="search-display" v-if="!showSearchList" @click="toSearch"><i class="el-icon-search"></i></div>
@@ -231,7 +231,7 @@ export default {
       return mapData
     },
     imgSrc() {
-      return this.elMenuCollapse === false ? '../../asset/image/left-logo.png' : '../../asset/image/logo.png'
+      return this.elMenuCollapse === false ? '../../assets/image/left-logo.png' : '../../assets/image/logo.png'
     },
     ...mapGetters(['sideBarList']),
   },

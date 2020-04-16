@@ -24,7 +24,7 @@
               @blur="blur"
             ></el-input>
           </div>
-          <img src="../../asset/image/user/corner.png" class="corner" />
+          <img src="../../assets/image/user/corner.png" class="corner" />
         </div>
         <ul class="dropdown-box">
           <li class="password" @click="goToCenter">
@@ -110,7 +110,7 @@ import Vue from 'vue'
 import Croppa from 'vue-croppa'
 import User from '@/lin/model/user'
 import 'vue-croppa/dist/vue-croppa.css'
-import defaultAvatar from '@/asset/image/user/user.png'
+import defaultAvatar from '@/assets/image/user/user.png'
 
 Vue.use(Croppa)
 
@@ -428,7 +428,7 @@ export default {
   border: none;
 
   .user-info {
-    background-image: url('../../asset/image/user/user-bg.png');
+    background-image: url('../../assets/image/user/user-bg.png');
     background-size: 100% 100%;
     transform: translateY(-10px);
     border-top-left-radius: 4px;

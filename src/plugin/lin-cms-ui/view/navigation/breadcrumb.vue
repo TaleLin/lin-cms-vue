@@ -99,7 +99,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../asset/style/container';
+@import '../../assets/style/container';
 .block {
   padding: 30px 0;
   text-align: center;

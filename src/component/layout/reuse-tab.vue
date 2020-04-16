@@ -167,6 +167,7 @@ export default {
       this.histories.splice(this.index + 1, this.histories.length - this.index - 1)
     },
     onTags(index, event) {
+      this.closeMenu()
       const menuMinWidth = 126
       const offsetLeft = this.$el.getBoundingClientRect().left
       const { offsetWidth } = this.$el

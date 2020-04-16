@@ -363,7 +363,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../asset/style/container';
+@import '../../assets/style/container';
 .el-date-editor + .el-date-editor {
   margin-left: 10px;
 }

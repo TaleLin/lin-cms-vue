@@ -161,5 +161,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../asset/style/container';
+@import '../../../assets/style/container';
 </style>

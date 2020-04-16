@@ -3,13 +3,13 @@
     <div class="lin-info">
       <div class="lin-info-left">
         <div class="welcome">
-          <img src="../../asset/image/about/welcome.png" class="welcome-title" alt="" />
+          <img src="../../assets/image/about/welcome.png" class="welcome-title" alt="" />
           <div class="subtitle">
             <div class="guide">您还可以点击林间有风官方网站，查看更多作品</div>
             <div class="link"><a href="https://www.talelin.com" target="_blank">https://talelin.com</a></div>
           </div>
         </div>
-        <img class="welcome-bg" src="../../asset/image/about/header-bg.png" alt="" />
+        <img class="welcome-bg" src="../../assets/image/about/header-bg.png" alt="" />
       </div>
       <div class="lin-info-right">
         <div class="team-detail">
@@ -31,6 +31,7 @@
                     <li>家乐</li>
                     <li>Jocky</li>
                     <li>流乔</li>
+                    <li>西麦</li>
                   </ul>
                   <ul v-else>
                     <li>林间有风 CMS 组</li>
@@ -43,7 +44,7 @@
               </li>
             </ul>
           </div>
-          <div class="team-icon"><img src="../../asset/image/about/qrcode.jpg" alt="" /></div>
+          <div class="team-icon"><img src="../../assets/image/about/qrcode.jpg" alt="" /></div>
           <p class="team-label">林间有风公众号</p>
         </div>
       </div>
@@ -57,7 +58,7 @@
             <div class="quantity">11,590</div>
           </div>
         </div>
-        <div class="quantity-icon"><img src="../../asset/image/about/icon.png" alt="" /></div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -67,7 +68,7 @@
             <div class="quantity">51,862</div>
           </div>
         </div>
-        <div class="quantity-icon"><img src="../../asset/image/about/icon.png" alt="" /></div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -77,7 +78,7 @@
             <div class="quantity">1,862</div>
           </div>
         </div>
-        <div class="quantity-icon"><img src="../../asset/image/about/icon.png" alt="" /></div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
       </div>
       <div class="quantity-item">
         <div class="quantity-detail">
@@ -87,13 +88,13 @@
             <div class="quantity">1,323</div>
           </div>
         </div>
-        <div class="quantity-icon"><img src="../../asset/image/about/icon.png" alt="" /></div>
+        <div class="quantity-icon"><img src="../../assets/image/about/icon.png" alt="" /></div>
       </div>
     </div>
     <div class="information">
       <div class="personal">
         <div class="personal-title">个人信息</div>
-        <img src="../../asset/image/about/avatar.png" class="personal-avatar" />
+        <img src="../../assets/image/about/avatar.png" class="personal-avatar" />
         <div class="personal-influence">
           <div class="personal-influence-item">
             <div class="personal-influence-num color1">5411</div>
@@ -121,7 +122,7 @@
         <div class="article-title">文章</div>
         <div class="article-list">
           <div class="article-item" @click="handleArticle('https://opensource.guide/how-to-contribute/')">
-            <img class="article-thumb" src="../../asset/image/about/open-source.jpg" alt="" />
+            <img class="article-thumb" src="../../assets/image/about/open-source.jpg" alt="" />
             <div class="article-detail">
               <p class="article-detail-title">How to Contribute to Open Source?</p>
               <div class="article-detail-content">
@@ -143,7 +144,7 @@
             </div>
           </div>
           <div class="article-item" @click="handleArticle('https://www.zhihu.com/question/269033309')">
-            <img class="article-thumb" src="../../asset/image/about/open-source.jpg" alt="" />
+            <img class="article-thumb" src="../../assets/image/about/open-source.jpg" alt="" />
             <div class="article-detail article-last">
               <p class="article-detail-title">为什么程序员们愿意在GitHub上开源自己的成果给别人免费使用和学习？</p>
               <div class="article-detail-content">

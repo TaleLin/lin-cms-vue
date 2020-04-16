@@ -179,7 +179,7 @@ export default {
         const res = await log.getLogs({ page: 0 })
         this.logs = res.items
       } catch (err) {
-        console.error(err)
+        console.error(err.data)
       }
     },
     // 条件检索
@@ -213,21 +213,30 @@ export default {
     async nextPage() {
       this.more = true
       let res
-      if (this.isSearch) {
-        res = await log.moreSearchPage()
-      } else {
-        res = await log.moreLogPage()
-      }
-      if (res) {
+      try {
+        if (this.isSearch) {
+          res = await log.moreSearchPage()
+        } else {
+          res = await log.moreLogPage()
+        }
+        console.log('res', res)
+
         let moreLogs = res.items
         if (this.isSearch && this.searchKeyword) {
           moreLogs = await searchLogKeyword(this.searchKeyword, moreLogs)
         }
         this.logs = this.logs.concat(moreLogs)
-      } else {
-        this.finished = true
+
+        this.more = false
+      } catch (error) {
+        console.log('error', error)
+
+        if (error.data.code === 10020) {
+          this.finished = true
+        }
+
+        this.more = false
       }
-      this.more = false
     },
     searchByUser(user) {
       this.searchUser = user

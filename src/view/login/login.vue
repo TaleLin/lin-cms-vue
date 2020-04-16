@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div class="team-name hidden-sm-and-down"><img src="@/asset/image/login/team-name.png" alt="logo" /></div>
+    <div class="team-name hidden-sm-and-down"><img src="@/assets/image/login/team-name.png" alt="logo" /></div>
     <div class="form-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title"><h1 title="Lin">Lin CMS</h1></div>
       <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
@@ -79,7 +79,7 @@ export default {
   width: 100%;
   height: 100%;
   background-size: auto;
-  background: #1b2c5f url('../../asset/image/login/login-ba.png') no-repeat center center;
+  background: #1b2c5f url('../../assets/image/login/login-ba.png') no-repeat center center;
 
   .team-name {
     position: fixed;
@@ -132,13 +132,13 @@ export default {
       }
 
       .form-item.nickname {
-        background: url('../../asset/image/login/nickname.png') no-repeat;
+        background: url('../../assets/image/login/nickname.png') no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
 
       .form-item.password {
-        background: url('../../asset/image/login/password.png') no-repeat;
+        background: url('../../assets/image/login/password.png') no-repeat;
         background-size: 100% auto;
         background-position: left bottom;
       }
@@ -152,7 +152,7 @@ export default {
         box-sizing: border-box;
         padding: 0 10px;
         padding-left: 74px;
-        background: url('../../asset/image/login/login-btn.png') no-repeat;
+        background: url('../../assets/image/login/login-btn.png') no-repeat;
         background-size: 90% auto;
         background-position: center bottom;
         border: none;

@@ -102,7 +102,7 @@ import Vue from 'vue'
 import Croppa from 'vue-croppa'
 import User from '@/lin/model/user'
 import 'vue-croppa/dist/vue-croppa.css'
-import defaultAvatar from '@/asset/image/user/user.png'
+import defaultAvatar from '@/assets/image/user/user.png'
 
 Vue.use(Croppa)
 

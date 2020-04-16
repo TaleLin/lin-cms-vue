@@ -18,8 +18,8 @@ import StickyTop from '@/component/base/sticky-top/sticky-top'
 import LIcon from '@/component/base/icon/lin-icon'
 import SourceCode from '@/component/base/source-code/source-code'
 
-import '@/asset/style/index.scss' // eslint-disable-line
-import '@/asset/style/realize/element-variable.scss'
+import '@/assets/style/index.scss' // eslint-disable-line
+import '@/assets/style/realize/element-variable.scss'
 import 'element-ui/lib/theme-chalk/display.css'
 
 Vue.config.productionTip = false

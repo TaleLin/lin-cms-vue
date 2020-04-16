@@ -13,6 +13,7 @@
     >
     </lin-table>
     <el-dialog
+      title="分组信息"
       :append-to-body="true"
       :visible.sync="dialogFormVisible"
       :before-close="handleClose"
@@ -190,10 +191,7 @@ export default {
   },
   async created() {
     await this.getAllGroups()
-    this.tableColumn = [
-      { prop: 'name', label: '名称' },
-      { prop: 'info', label: '信息' },
-    ] // 设置表头信息
+    this.tableColumn = [{ prop: 'name', label: '名称' }, { prop: 'info', label: '信息' }] // 设置表头信息
     this.operate = [
       { name: '信息', func: 'handleEdit', type: 'primary' },
       { name: '权限', func: 'goToGroupEditPage', type: 'info' },

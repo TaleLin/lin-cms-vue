@@ -31,7 +31,7 @@
       </el-pagination>
     </div>
     <!-- 弹窗 -->
-    <el-dialog :append-to-body="true" :before-close="handleClose" :visible.sync="dialogFormVisible">
+    <el-dialog title="用户信息" :append-to-body="true" :before-close="handleClose" :visible.sync="dialogFormVisible">
       <div style="margin-top:-25px;">
         <el-tabs v-model="activeTab" @tab-click="handleClick">
           <el-tab-pane label="修改信息" name="修改信息">

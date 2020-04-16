@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import { get } from '@/lin/plugin/axios'
+import _axios, { get } from '@/lin/plugin/axios'
 
 class Log {
   name = null
@@ -96,24 +96,24 @@ class Log {
    * @param {number} end 结束时间
    */
   async getLogs({ count, page, name, start, end, next = false }) {
-    try {
-      if (!next) {
-        this.setBaseInfo(name, start, end)
-      }
-      if (page === 0) {
-        this.lPage = 0
-      }
-      const res = await get('cms/log', {
+    if (!next) {
+      this.setBaseInfo(name, start, end)
+    }
+    if (page === 0) {
+      this.lPage = 0
+    }
+    const res = await _axios({
+      url: 'cms/log',
+      params: {
         count: count || this.lCount,
         page: page || this.lPage,
         name: name || this.name,
         start: start || this.start,
         end: end || this.end,
-      })
-      return res
-    } catch (error) {
-      console.log('error', error)
-    }
+      },
+      handleError: true,
+    })
+    return res
   }
 
   /**

@@ -191,7 +191,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../asset/style/container.scss';
+@import '../../assets/style/container.scss';
 
 .input-with-select /deep/ .el-input-group__prepend {
   background-color: #fff;
