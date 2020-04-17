@@ -1,6 +1,8 @@
-const fs = require('fs-extra')
+// eslint-disable-next-line import/no-extraneous-dependencies
 const path = require('path')
+const fs = require('fs-extra')
 const chalk = require('chalk')
+const { came } = require('./util')
 
 // 验证是否是插件
 function isPlugin(source) {
@@ -31,13 +33,14 @@ function getPlugins(source) {
   const folders = fs.readdirSync(source)
   const pluginsList = []
 
-  folders.forEach((item) => {
+  folders.forEach(item => {
     const itemPath = path.join(source, item)
     if (!isPlugin(itemPath)) {
       return
     }
     const config = {}
     config.name = item
+    config.camelCaseName = came(item)
     config.path = path.resolve(__dirname, `../src/plugins/${item}/`)
     config.packageCtx = JSON.parse(fs.readFileSync(path.resolve(itemPath, './package.json'), 'utf8'))
     pluginsList.push(config)

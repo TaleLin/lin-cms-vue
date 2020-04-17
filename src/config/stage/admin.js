@@ -4,7 +4,7 @@ const adminRouter = {
   title: '权限管理',
   type: 'folder',
   icon: 'iconfont icon-huiyuanguanli',
-  filePath: 'views/admin/',
+  filePath: 'view/admin/',
   order: null,
   inNav: true,
   permission: ['超级管理员独有权限'],
@@ -15,7 +15,7 @@ const adminRouter = {
       title: '用户管理',
       type: 'folder', // 取 route 为默认加载页
       icon: 'iconfont icon-huiyuanguanli',
-      filePath: 'views/admin/user/',
+      filePath: 'view/admin/user/',
       inNav: true,
       children: [
         {
@@ -23,7 +23,7 @@ const adminRouter = {
           type: 'view',
           name: 'userList',
           route: '/admin/user/list',
-          filePath: 'views/admin/user/UserList.vue',
+          filePath: 'view/admin/user/user-list.vue',
           inNav: true,
           icon: 'iconfont icon-huiyuanguanli',
           permission: ['超级管理员独有权限'],
@@ -34,8 +34,8 @@ const adminRouter = {
           inNav: true,
           route: '/admin/user/add',
           icon: 'iconfont icon-add',
-          name: 'userAdd',
-          filePath: 'views/admin/user/UserAdd.vue',
+          name: 'UserCreate',
+          filePath: 'view/admin/user/user-create.vue',
           permission: ['超级管理员独有权限'],
         },
       ],
@@ -46,7 +46,7 @@ const adminRouter = {
       title: '分组管理',
       type: 'tab', // 取 route 为默认加载页
       icon: null,
-      filePath: 'views/admin/group',
+      filePath: 'view/admin/group',
       inNav: true,
       children: [
         {
@@ -54,7 +54,7 @@ const adminRouter = {
           type: 'view',
           name: 'groupList',
           inNav: true,
-          filePath: 'views/admin/group/GroupList.vue',
+          filePath: 'view/admin/group/group-list.vue',
           title: '分组列表',
           icon: 'iconfont icon-huiyuanguanli',
           permission: ['超级管理员独有权限'],
@@ -62,10 +62,20 @@ const adminRouter = {
         {
           route: '/admin/group/add',
           type: 'view',
-          name: 'groupAdd',
-          filePath: 'views/admin/group/GroupAdd.vue',
+          name: 'GroupCreate',
+          filePath: 'view/admin/group/group-create.vue',
           inNav: true,
           title: '添加分组',
+          icon: 'iconfont icon-add',
+          permission: ['超级管理员独有权限'],
+        },
+        {
+          route: '/admin/group/edit',
+          type: 'view',
+          name: 'GroupEdit',
+          filePath: 'view/admin/group/group-edit.vue',
+          inNav: false,
+          title: '修改分组',
           icon: 'iconfont icon-add',
           permission: ['超级管理员独有权限'],
         },
