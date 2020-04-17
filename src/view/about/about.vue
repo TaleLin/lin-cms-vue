@@ -1,3 +1,6 @@
+<!--
+  Author: 一飞同学
+-->
 <template>
   <div class="container">
     <div class="lin-info">
@@ -169,22 +172,29 @@
 </template>
 
 <script>
+import { reactive, toRefs, onMounted } from '@vue/composition-api'
+
 export default {
-  data() {
-    return {
-      activeName: 'first',
+  setup() {
+    const data = reactive({
       showTeam: false,
-    }
-  },
-  mounted() {
-    if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
-      this.showTeam = true
-    }
-  },
-  methods: {
-    handleArticle(link) {
+      activeName: 'first',
+    })
+
+    onMounted(() => {
+      if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
+        data.showTeam = true
+      }
+    })
+
+    function handleArticle(link) {
       window.open(link)
-    },
+    }
+
+    return {
+      ...toRefs(data),
+      handleArticle,
+    }
   },
 }
 </script>

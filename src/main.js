@@ -1,5 +1,6 @@
 import '@babel/polyfill'
 import Vue from 'vue'
+import VueCompositionApi from '@vue/composition-api'
 import ElementUI from 'element-ui'
 
 import '@/config/global'
@@ -25,6 +26,7 @@ import 'element-ui/lib/theme-chalk/display.css'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+Vue.use(VueCompositionApi)
 Vue.use(LinNotify, {
   reconnection: true,
   reconnectionAttempts: 5,
