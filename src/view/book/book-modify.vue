@@ -1,3 +1,6 @@
+<!--
+  Author: 一飞同学
+-->
 <template>
   <div class="container">
     <div class="title">
@@ -7,18 +10,18 @@
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
-          <el-form :model="form" status-icon ref="form" label-width="100px" v-loading="loading" @submit.native.prevent>
+          <el-form :model="book" status-icon ref="form" label-width="100px" v-loading="loading" @submit.native.prevent>
             <el-form-item label="书名" prop="title">
-              <el-input size="medium" v-model="form.title" placeholder="请填写书名"></el-input>
+              <el-input size="medium" v-model="book.title" placeholder="请填写书名"></el-input>
             </el-form-item>
             <el-form-item label="作者" prop="author">
-              <el-input size="medium" v-model="form.author" placeholder="请填写作者"></el-input>
+              <el-input size="medium" v-model="book.author" placeholder="请填写作者"></el-input>
             </el-form-item>
             <el-form-item label="封面" prop="image">
-              <el-input size="medium" v-model="form.image" placeholder="请填写封面地址"></el-input>
+              <el-input size="medium" v-model="book.image" placeholder="请填写封面地址"></el-input>
             </el-form-item>
             <el-form-item label="简介" prop="summary">
-              <el-input size="medium" type="textarea" :rows="4" placeholder="请输入简介" v-model="form.summary">
+              <el-input size="medium" type="textarea" :rows="4" placeholder="请输入简介" v-model="book.summary">
               </el-input>
             </el-form-item>
             <el-form-item class="submit">
@@ -33,7 +36,9 @@
 </template>
 
 <script>
-import book from '@/model/book'
+import { reactive, ref } from '@vue/composition-api'
+import { Message } from 'element-ui'
+import bookModel from '@/model/book'
 
 export default {
   props: {
@@ -41,37 +46,55 @@ export default {
       type: Number,
     },
   },
-  data() {
-    return {
-      loading: false,
-      form: {
-        title: '',
-        author: '',
-        summary: '',
-        image: '',
-      },
-    }
-  },
-  async mounted() {
-    this.loading = true
-    this.form = await book.getBook(this.editBookID)
-    this.loading = false
-  },
-  methods: {
-    async submitForm() {
-      const res = await book.editBook(this.editBookID, this.form)
-      if (res.code < window.MAX_SUCCESS_CODE) {
-        this.$message.success(`${res.message}`)
-        this.$emit('editClose')
-      }
-    },
+  setup(props, context) {
+    const loading = ref(false)
+    const book = reactive({
+      title: '',
+      author: '',
+      summary: '',
+      image: '',
+    })
+
+    const listAssign = (arrA, arrB) => Object.keys(arrA).forEach(key => {
+      arrA[key] = arrB[key] || arrA[key]
+    })
+
+    loading.value = true
+    bookModel
+      .getBook(props.editBookID)
+      .then(res => {
+        listAssign(book, res)
+        loading.value = false
+      })
+      .catch(error => {
+        console.error('modify book error:', error)
+        loading.value = false
+      })
+
     // 重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
-    },
-    back() {
-      this.$emit('editClose')
-    },
+    const resetForm = formName => {
+      context.refs[formName].resetFields()
+    }
+
+    const submitForm = async () => {
+      const res = await bookModel.editBook(props.editBookID, book)
+      if (res.code < window.MAX_SUCCESS_CODE) {
+        Message.success(`${res.message}`)
+        context.emit('editClose')
+      }
+    }
+
+    const back = () => {
+      context.emit('editClose')
+    }
+
+    return {
+      loading,
+      book,
+      resetForm,
+      submitForm,
+      back,
+    }
   },
 }
 </script>

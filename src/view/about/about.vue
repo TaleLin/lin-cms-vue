@@ -172,27 +172,30 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted } from '@vue/composition-api'
+import { ref, onMounted } from '@vue/composition-api'
 
 export default {
   setup() {
-    const data = reactive({
-      showTeam: false,
-      activeName: 'first',
-    })
-
+    const showTeam = ref(false)
     onMounted(() => {
-      if (document.body.clientWidth > 1200 && document.body.clientWidth < 1330) {
-        data.showTeam = true
+      const { clientWidth } = document.body
+      console.log('clientWidth', clientWidth)
+      if (clientWidth > 1200 && clientWidth < 1330) {
+        showTeam.value = true
+      } else {
+        showTeam.value = false
       }
     })
 
-    function handleArticle(link) {
+    const activeName = ref('first')
+
+    const handleArticle = link => {
       window.open(link)
     }
 
     return {
-      ...toRefs(data),
+      activeName,
+      showTeam,
       handleArticle,
     }
   },

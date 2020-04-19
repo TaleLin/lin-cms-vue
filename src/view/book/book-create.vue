@@ -45,7 +45,7 @@ import { Message } from 'element-ui'
 import bookModel from '@/model/book'
 
 export default {
-  setup(initProps, setupContext) {
+  setup(props, context) {
     const data = reactive({
       book: {
         title: '',
@@ -56,11 +56,11 @@ export default {
     })
 
     // 重置表单
-    function resetForm(formName) {
-      setupContext.refs[formName].resetFields()
+    const resetForm = formName => {
+      context.refs[formName].resetFields()
     }
 
-    async function submitForm(formName) {
+    const submitForm = async formName => {
       try {
         const res = await bookModel.createBook(data.book)
         if (res.code < window.MAX_SUCCESS_CODE) {
