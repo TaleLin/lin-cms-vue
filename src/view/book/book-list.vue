@@ -1,3 +1,6 @@
+<!--
+  Author: 一飞同学
+-->
 <template>
   <div>
     <!-- 列表页面 -->
@@ -10,7 +13,6 @@
         :operate="operate"
         @handleEdit="handleEdit"
         @handleDelete="handleDelete"
-        @row-click="rowClick"
         v-loading="loading"
       ></lin-table>
     </div>
@@ -21,7 +23,9 @@
 </template>
 
 <script>
-import book from '@/model/book'
+import { reactive, onMounted, ref, toRefs } from '@vue/composition-api'
+import { MessageBox, Message } from 'element-ui'
+import bookModel from '@/model/book'
 import LinTable from '@/component/base/table/lin-table'
 import BookModify from './book-modify'
 
@@ -30,66 +34,75 @@ export default {
     LinTable,
     BookModify,
   },
-  data() {
-    return {
+  setup() {
+    const bookList = reactive({
       tableColumn: [{ prop: 'title', label: '书名' }, { prop: 'author', label: '作者' }],
+      operate: [
+        { name: '编辑', func: 'handleEdit', type: 'primary' },
+        {
+          name: '删除',
+          func: 'handleDelete',
+          type: 'danger',
+          permission: '删除图书',
+        },
+      ],
       tableData: [],
-      operate: [],
-      showEdit: false,
-      editBookID: 1,
-    }
-  },
-  async created() {
-    this.loading = true
-    await this.getBooks()
-    this.operate = [
-      { name: '编辑', func: 'handleEdit', type: 'primary' },
-      {
-        name: '删除',
-        func: 'handleDelete',
-        type: 'danger',
-        permission: '删除图书',
-      },
-    ]
-    this.loading = false
-  },
-  methods: {
-    async getBooks() {
+      loading: false,
+    })
+
+    const getBooks = async () => {
       try {
-        const books = await book.getBooks()
-        this.tableData = books
+        bookList.loading = true
+        const books = await bookModel.getBooks()
+        bookList.loading = false
+        bookList.tableData = books
       } catch (error) {
+        bookList.loading = false
         if (error.code === 10020) {
-          this.tableData = []
+          bookList.tableData = []
         }
       }
-    },
-    handleEdit(val) {
-      console.log('val', val)
-      this.showEdit = true
-      this.editBookID = val.row.id
-    },
-    handleDelete(val) {
-      this.$confirm('此操作将永久删除该图书, 是否继续?', '提示', {
+    }
+
+    onMounted(() => {
+      getBooks()
+    })
+
+    const showEdit = ref(false)
+    const editBookID = ref(1)
+
+    const handleEdit = val => {
+      showEdit.value = true
+      editBookID.value = val.row.id
+    }
+
+    const handleDelete = val => {
+      MessageBox.confirm('此操作将永久删除该图书, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
-        const res = await book.delectBook(val.row.id)
+        const res = await bookModel.delectBook(val.row.id)
         if (res.code < window.MAX_SUCCESS_CODE) {
-          this.getBooks()
-          this.$message({
-            type: 'success',
-            message: `${res.message}`,
-          })
+          getBooks()
+          Message.success(`${res.message}`)
         }
       })
-    },
-    rowClick() {},
-    editClose() {
-      this.showEdit = false
-      this.getBooks()
-    },
+    }
+
+    const editClose = () => {
+      showEdit.value = false
+      getBooks()
+    }
+
+    return {
+      ...toRefs(bookList),
+      showEdit,
+      editBookID,
+      editClose,
+      handleEdit,
+      handleDelete,
+    }
   },
 }
 </script>

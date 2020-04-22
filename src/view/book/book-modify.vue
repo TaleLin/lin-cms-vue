@@ -55,8 +55,8 @@ export default {
       image: '',
     })
 
-    const listAssign = (arrA, arrB) => Object.keys(arrA).forEach(key => {
-      arrA[key] = arrB[key] || arrA[key]
+    const listAssign = (a, b) => Object.keys(a).forEach(key => {
+      a[key] = b[key] || a[key]
     })
 
     loading.value = true
