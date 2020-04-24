@@ -158,6 +158,7 @@ export default {
       this.$router.push(this.defaultRoute)
     },
     closeOthers() {
+      this.$router.push(this.histories[this.index].path)
       this.histories = []
     },
     closeLeft() {
