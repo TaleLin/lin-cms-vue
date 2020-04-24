@@ -337,6 +337,10 @@ thead tr {
   font-size: 16px;
   font-weight: 500;
 }
+.el-dialog__headerbtn{
+  font-size: 20px;
+  top: 16px;
+}
 // tab
 .el-tabs__item.is-active {
   color: $theme;
@@ -902,7 +906,7 @@ $typeMap: (primary:#3963BC,
   @include e(header) {
     border-top-left-radius:12px;
     border-top-right-radius:12px;
-    background:rgba(206,218,240,1);
+    // background:rgba(206,218,240,1);
   }
   @include e(title) {
     color: #333333;
