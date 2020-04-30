@@ -1,3 +1,6 @@
+<!--
+  Author: 一飞同学
+-->
 <template>
   <div class="log">
     <sticky-top>
@@ -70,17 +73,79 @@
 </template>
 
 <script>
+import logModel from 'lin/model/log'
 import { mapGetters } from 'vuex'
-import log from 'lin/model/log'
 import { searchLogKeyword } from 'lin/util/search'
+// import { computed, ref, reactive, watch } from '@vue/composition-api'
 import LinSearch from '@/component/base/search/lin-search'
 import LinDatePicker from '@/component/base/date-picker/lin-date-picker'
+// import { init } from './init'
 
 export default {
   components: {
     LinSearch,
     LinDatePicker,
   },
+  // setup(props, ctx) {
+  //   const { $store } = ctx.root
+  //   const permissions = computed(() => $store.getters.permissions)
+  //   const user = computed(() => $store.getters.user)
+
+  //   const { users, logs, loading } = init(permissions, user)
+
+  //   const keyword = ref(null)
+  //   const searchUser = ref('')
+  //   const searchKeyword = ref('')
+  //   const searchDate = reactive([])
+
+  //   // 异步任务：打印用户输入的关键词
+  //   // const asyncPrint = keyword => {
+  //   //   // 延时 1 秒后打印
+  //   //   return setTimeout(() => {
+  //   //     console.log(keyword)
+  //   //   }, 1000)
+  //   // }
+
+  //   watch(
+  //     [searchUser, searchKeyword, () => searchDate],
+  //     ([newUser, newKeyword, newDate]) => {
+  //       // 用户搜索
+  //       keyword.value = newUser
+  //       if (searchKeyword) {
+  //         keyword.value = `${newUser} ${searchKeyword}`
+  //       }
+  //       if (searchDate.length) {
+  //         keyword.value = `${user} ${searchKeyword} ${searchDate}`
+  //       }
+
+  //       // 关键字搜索
+  //       if (newKeyword) {
+  //         keyword.value = newKeyword
+  //         if (searchUser) {
+  //           keyword.value = `${searchUser} ${newKeyword}`
+  //         }
+  //         if (searchDate.length) {
+  //           keyword.value = `${searchUser} ${newKeyword} ${searchDate}`
+  //         }
+  //       } else {
+  //         keyword.value = ''
+  //         if (searchUser) {
+  //           keyword.value = `${searchUser}`
+  //         }
+  //         if (searchDate.length) {
+  //           keyword.value = `${searchUser} ${searchDate}`
+  //         }
+  //         this.$refs.searchKeyword.clear()
+  //       }
+  //     }
+  //   )
+
+  //   return {
+  //     users,
+  //     logs,
+  //     loading
+  //   }
+  // }
   data() {
     return {
       log: null,
@@ -174,9 +239,9 @@ export default {
     async initPage() {
       try {
         if (this.user.admin || this.permissions.includes('查询日志记录的用户')) {
-          this.users = await log.getLoggedUsers({})
+          this.users = await logModel.getLoggedUsers({})
         }
-        const res = await log.getLogs({ page: 0 })
+        const res = await logModel.getLogs({ page: 0 })
         this.logs = res.items
       } catch (err) {
         console.error(err.data)
@@ -189,7 +254,7 @@ export default {
       this.loading = true
       this.finished = false
       const name = this.searchUser === '全部人员' ? '' : this.searchUser
-      const res = await log.searchLogs({
+      const res = await logModel.searchLogs({
         page: 0, // 初始化
         keyword: this.searchKeyword,
         name,
@@ -215,9 +280,9 @@ export default {
       let res
       try {
         if (this.isSearch) {
-          res = await log.moreSearchPage()
+          res = await logModel.moreSearchPage()
         } else {
-          res = await log.moreLogPage()
+          res = await logModel.moreLogPage()
         }
         console.log('res', res)
 
@@ -262,7 +327,7 @@ export default {
     },
   },
   destroyed() {
-    log.init()
+    logModel.init()
   },
 }
 </script>
