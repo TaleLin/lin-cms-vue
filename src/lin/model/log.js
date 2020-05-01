@@ -15,10 +15,10 @@ class Log {
     uCount = 5,
 
     lPage = 0,
-    lCount = 15,
+    lCount = 10,
 
     sPage = 0,
-    sCount = 15,
+    sCount = 10,
   }) {
     if (uPage === 0) {
       this.uPage = uPage

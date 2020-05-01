@@ -1,5 +1,6 @@
 <!--
   Author: 一飞同学
+  TODO: Vue3 mapGetters 简化用法
 -->
 <template>
   <div class="log">
@@ -7,7 +8,7 @@
       <div class="log-header">
         <div class="header-left"><p class="title">日志信息</p></div>
         <div class="header-right" v-permission="'搜索日志'">
-          <lin-search @query="onQueryChange" ref="searchKeyword" />
+          <lin-search @query="onQueryChange" ref="searchKeywordDOM" />
           <el-dropdown
             size="medium"
             style="margin: 0 10px;"
@@ -28,7 +29,7 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date"> </lin-date-picker>
+          <lin-date-picker @dateChange="handleDateChange" ref="searchDateDOM" class="date"> </lin-date-picker>
         </div>
       </div>
       <el-divider v-if="!keyword"></el-divider>
@@ -74,260 +75,225 @@
 
 <script>
 import logModel from 'lin/model/log'
-import { mapGetters } from 'vuex'
 import { searchLogKeyword } from 'lin/util/search'
-// import { computed, ref, reactive, watch } from '@vue/composition-api'
+import { computed, ref, reactive, watch, onMounted, toRefs } from '@vue/composition-api'
 import LinSearch from '@/component/base/search/lin-search'
 import LinDatePicker from '@/component/base/date-picker/lin-date-picker'
-// import { init } from './init'
 
 export default {
   components: {
     LinSearch,
     LinDatePicker,
   },
-  // setup(props, ctx) {
-  //   const { $store } = ctx.root
-  //   const permissions = computed(() => $store.getters.permissions)
-  //   const user = computed(() => $store.getters.user)
+  setup(props, ctx) {
+    // Part 0
+    const { $store } = ctx.root
+    const permissions = computed(() => $store.getters.permissions)
+    const user = computed(() => $store.getters.user)
 
-  //   const { users, logs, loading } = init(permissions, user)
+    const loading = ref(false)
+    const users = ref([])
+    const logs = ref([])
+    const isSearch = ref(false)
+    const finished = ref(false)
 
-  //   const keyword = ref(null)
-  //   const searchUser = ref('')
-  //   const searchKeyword = ref('')
-  //   const searchDate = reactive([])
-
-  //   // 异步任务：打印用户输入的关键词
-  //   // const asyncPrint = keyword => {
-  //   //   // 延时 1 秒后打印
-  //   //   return setTimeout(() => {
-  //   //     console.log(keyword)
-  //   //   }, 1000)
-  //   // }
-
-  //   watch(
-  //     [searchUser, searchKeyword, () => searchDate],
-  //     ([newUser, newKeyword, newDate]) => {
-  //       // 用户搜索
-  //       keyword.value = newUser
-  //       if (searchKeyword) {
-  //         keyword.value = `${newUser} ${searchKeyword}`
-  //       }
-  //       if (searchDate.length) {
-  //         keyword.value = `${user} ${searchKeyword} ${searchDate}`
-  //       }
-
-  //       // 关键字搜索
-  //       if (newKeyword) {
-  //         keyword.value = newKeyword
-  //         if (searchUser) {
-  //           keyword.value = `${searchUser} ${newKeyword}`
-  //         }
-  //         if (searchDate.length) {
-  //           keyword.value = `${searchUser} ${newKeyword} ${searchDate}`
-  //         }
-  //       } else {
-  //         keyword.value = ''
-  //         if (searchUser) {
-  //           keyword.value = `${searchUser}`
-  //         }
-  //         if (searchDate.length) {
-  //           keyword.value = `${searchUser} ${searchDate}`
-  //         }
-  //         this.$refs.searchKeyword.clear()
-  //       }
-  //     }
-  //   )
-
-  //   return {
-  //     users,
-  //     logs,
-  //     loading
-  //   }
-  // }
-  data() {
-    return {
-      log: null,
-      value: '',
-      logs: [],
-      users: [],
-      searchUser: '',
-      more: false,
-      loading: false,
-      finished: false,
-      isSearch: false,
-      error: false,
-      searchKeyword: '',
-      searchDate: [],
-      keyword: null,
-      totalCount: 0,
-    }
-  },
-  computed: {
-    ...mapGetters(['permissions', 'user']),
-  },
-  async created() {
-    this.loading = true
-    await this.initPage()
-    this.loading = false
-  },
-  watch: {
-    // 用户搜索
-    searchUser(user) {
-      this.keyword = user
-      if (this.searchKeyword) {
-        this.keyword = `${user} ${this.searchKeyword}`
-      }
-      if (this.searchDate.length) {
-        this.keyword = `${user} ${this.searchKeyword} ${this.searchDate}`
-      }
-      this.searchPage()
-    },
-    // 关键字搜索
-    searchKeyword(newVal) {
-      if (newVal) {
-        this.keyword = newVal
-        if (this.searchUser) {
-          this.keyword = `${this.searchUser} ${newVal}`
-        }
-        if (this.searchDate.length) {
-          this.keyword = `${this.searchUser} ${newVal} ${this.searchDate}`
-        }
-      } else {
-        this.keyword = ''
-        if (this.searchUser) {
-          this.keyword = `${this.searchUser}`
-        }
-        if (this.searchDate.length) {
-          this.keyword = `${this.searchUser} ${this.searchDate}`
-        }
-        this.$refs.searchKeyword.clear()
-      }
-      this.searchPage()
-    },
-    // 日期搜索
-    searchDate(newDate) {
-      if (newDate && newDate.length) {
-        this.keyword = `${newDate[0]}至${newDate[1]}`
-        if (this.searchUser) {
-          this.keyword = `${this.searchUser} ${newDate[0]}至${newDate[1]}`
-        }
-        if (this.searchKeyword) {
-          this.keyword = `${this.searchUser} ${this.searchKeyword} ${newDate[0]}至${newDate[1]}`
-        }
-      } else {
-        this.keyword = ''
-        this.isSearch = false
-        if (this.searchUser) {
-          this.keyword = `${this.searchUser}`
-        }
-        if (this.searchKeyword) {
-          this.keyword = `${this.searchUser} ${this.searchKeyword}`
-        }
-        this.$refs.searchDate.clear()
-      }
-      this.searchPage()
-    },
-  },
-  methods: {
-    // 下拉框
-    handleCommand(user) {
-      this.searchUser = user[0] // eslint-disable-line
-    },
-    // 页面初始化
-    async initPage() {
+    // Part 1
+    const initPage = async () => {
       try {
-        if (this.user.admin || this.permissions.includes('查询日志记录的用户')) {
-          this.users = await logModel.getLoggedUsers({})
+        loading.value = true
+        if (user.value.admin || permissions.value.includes('查询日志记录的用户')) {
+          users.value = await logModel.getLoggedUsers({})
         }
         const res = await logModel.getLogs({ page: 0 })
-        this.logs = res.items
+        logs.value = res.items
+        loading.value = false
       } catch (err) {
+        loading.value = false
         console.error(err.data)
       }
-    },
+    }
+    onMounted(async () => {
+      await initPage()
+    })
+
+    // Part 2
+    const search = reactive({
+      keyword: '',
+      searchUser: '',
+      searchKeyword: '',
+      searchDate: [],
+      totalCount: 0,
+    })
+
+    const onQueryChange = query => {
+      search.searchKeyword = query.trim()
+    }
+    const handleDateChange = date => {
+      search.searchDate = date
+    }
+    const handleCommand = currentUser => {
+      search.searchUser = currentUser[0] // eslint-disable-line
+    }
     // 条件检索
-    async searchPage() {
-      this.totalCount = 0
-      this.logs = []
-      this.loading = true
-      this.finished = false
-      const name = this.searchUser === '全部人员' ? '' : this.searchUser
+    const searchPage = async () => {
+      if (!search.searchUser && !search.searchKeyword && !search.searchDate.length) {
+        return
+      }
+      search.totalCount = 0
+      logs.value = []
+      loading.value = true
+      finished.value = false
+      const name = search.searchUser === '全部人员' ? '' : search.searchUser
       const res = await logModel.searchLogs({
         page: 0, // 初始化
-        keyword: this.searchKeyword,
+        keyword: search.searchKeyword,
         name,
-        start: this.searchDate[0],
-        end: this.searchDate[1],
+        start: search.searchDate[0],
+        end: search.searchDate[1],
       })
       if (res) {
-        let logs = res.items
-        this.totalCount = res.total
-        if (this.searchKeyword) {
-          logs = await searchLogKeyword(this.searchKeyword, logs)
+        let searchLogs = res.items
+        search.totalCount = res.total
+        if (search.searchKeyword) {
+          searchLogs = searchLogKeyword(search.searchKeyword, searchLogs)
         }
-        this.logs = logs
+        logs.value = searchLogs
       } else {
-        this.finished = true
+        finished.value = true
       }
-      this.isSearch = true
-      this.loading = false
-    },
-    // 下一页
-    async nextPage() {
-      this.more = true
+      isSearch.value = true
+      loading.value = false
+    }
+
+    watch(
+      () => search.searchKeyword,
+      newKeyword => {
+        // 关键字搜索
+        if (newKeyword) {
+          search.keyword = newKeyword
+          if (search.searchUser) {
+            search.keyword = `${search.searchUser} ${newKeyword}`
+          }
+          if (search.searchDate.length) {
+            search.keyword = `${search.searchUser} ${newKeyword} ${search.searchDate[0]}至${search.searchDate[1]}`
+          }
+        } else {
+          search.keyword = ''
+          if (search.searchUser) {
+            search.keyword = `${search.searchUser}`
+          }
+          if (search.searchDate.length) {
+            search.keyword = `${search.searchUser} ${search.searchDate[0]}至${search.searchDate[1]}`
+          }
+          ctx.refs.searchKeywordDOM.clear()
+        }
+        searchPage()
+      },
+      { lazy: true },
+    )
+
+    watch(
+      () => search.searchUser,
+      newUser => {
+        // 用户搜索
+        search.keyword = newUser
+        if (search.searchKeyword) {
+          search.keyword = `${newUser} ${search.searchKeyword}`
+        }
+        if (search.searchDate.length) {
+          search.keyword = `${newUser} ${search.searchKeyword} ${search.searchDate[0]}至${search.searchDate[1]}`
+        }
+        searchPage()
+      },
+      { lazy: true },
+    )
+
+    watch(
+      () => search.searchDate,
+      newDate => {
+        if (newDate && newDate.length) {
+          search.keyword = `${newDate[0]}至${newDate[1]}`
+          if (search.searchUser) {
+            search.keyword = `${search.searchUser} ${newDate[0]}至${newDate[1]}`
+          }
+          if (search.searchKeyword) {
+            search.keyword = `${search.searchUser} ${search.searchKeyword} ${newDate[0]}至${newDate[1]}`
+          }
+        } else {
+          search.keyword = ''
+          isSearch.value = false
+          if (search.searchUser) {
+            search.keyword = `${search.searchUser}`
+          }
+          if (search.searchKeyword) {
+            search.keyword = `${search.searchUser} ${search.searchKeyword}`
+          }
+          ctx.refs.searchDateDOM.clear()
+        }
+        searchPage()
+      },
+      { lazy: true },
+    )
+
+    const backInit = async () => {
+      search.searchUser = ''
+      search.searchKeyword = ''
+      search.searchDate = []
+      search.keyword = ''
+      search.totalCount = 0
+      logs.value = []
+      isSearch.value = false
+      await initPage()
+    }
+
+    // Part 3
+    const more = ref(false)
+    const nextPage = async () => {
+      more.value = true
       let res
       try {
-        if (this.isSearch) {
+        if (isSearch.value) {
           res = await logModel.moreSearchPage()
         } else {
           res = await logModel.moreLogPage()
         }
-        console.log('res', res)
 
         let moreLogs = res.items
-        if (this.isSearch && this.searchKeyword) {
-          moreLogs = await searchLogKeyword(this.searchKeyword, moreLogs)
+        if (!moreLogs.length) {
+          finished.value = true
+        } else {
+          if (isSearch.value && search.searchKeyword) {
+            moreLogs = await searchLogKeyword(search.searchKeyword, moreLogs)
+          }
+          logs.value = logs.value.concat(moreLogs)
         }
-        this.logs = this.logs.concat(moreLogs)
 
-        this.more = false
+        more.value = false
       } catch (error) {
-        console.log('error', error)
+        console.error('error', error)
 
         if (error.data.code === 10020) {
-          this.finished = true
+          finished.value = true
         }
-
-        this.more = false
+        more.value = false
       }
-    },
-    searchByUser(user) {
-      this.searchUser = user
-    },
-    onQueryChange(query) {
-      // 处理带空格的情况
-      this.searchKeyword = query.trim()
-    },
-    handleDateChange(date) {
-      this.searchDate = date
-    },
-    // 清空检索
-    async backInit() {
-      this.searchUser = ''
-      this.searchKeyword = ''
-      this.searchDate = []
-      this.keyword = ''
-      this.logs = []
-      this.isSearch = false
-      this.loading = true
-      await this.initPage()
-      this.loading = false
-    },
-  },
-  destroyed() {
-    logModel.init()
+    }
+
+    // Part 4
+    return {
+      users,
+      logs,
+      more,
+      loading,
+      finished,
+      backInit,
+      nextPage,
+      isSearch,
+      onQueryChange,
+      handleCommand,
+      handleDateChange,
+      ...toRefs(search),
+    }
   },
 }
 </script>
