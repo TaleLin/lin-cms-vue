@@ -86,7 +86,7 @@ export default {
     LinDatePicker,
   },
   setup(props, ctx) {
-    // Part 0
+    // originally data properties
     const { $store } = ctx.root
     const permissions = computed(() => $store.getters.permissions)
     const user = computed(() => $store.getters.user)
@@ -97,7 +97,10 @@ export default {
     const isSearch = ref(false)
     const finished = ref(false)
 
-    // Part 1
+    /**
+     * Part 1
+     * 日志页面初始化
+     */
     const initPage = async () => {
       try {
         loading.value = true
@@ -116,7 +119,10 @@ export default {
       await initPage()
     })
 
-    // Part 2
+    /**
+     * Part 2
+     * 根据调解筛选查询日志
+     */
     const search = reactive({
       keyword: '',
       searchUser: '',
@@ -246,7 +252,10 @@ export default {
       await initPage()
     }
 
-    // Part 3
+    /**
+     * Part 3
+     * 翻页处理
+     */
     const more = ref(false)
     const nextPage = async () => {
       more.value = true
@@ -279,7 +288,6 @@ export default {
       }
     }
 
-    // Part 4
     return {
       users,
       logs,

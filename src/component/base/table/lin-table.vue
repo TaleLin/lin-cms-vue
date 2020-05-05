@@ -200,6 +200,7 @@ export default {
     },
     // 单击某一行
     rowClick(row) {
+      console.log('12121')
       // eslint-disable-line
       // 选中-多选
       if (!this.oldKey.includes(row.key)) {
@@ -213,10 +214,7 @@ export default {
         this.oldKey = this.oldKey.filter(item => item !== row.key)
         const data = this.oldVal.filter(item => item.key !== row.key)
         this.handleSelectionChange(data)
-        this.toggleSelection(
-          this.currentData.filter(item => item.key === row.key),
-          false,
-        )
+        this.toggleSelection(this.currentData.filter(item => item.key === row.key), false)
       }
       // 选中-单选
       if (this.currentOldRow && this.currentOldRow.key === row.key) {

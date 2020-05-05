@@ -1,4 +1,7 @@
-aa<template>
+<!--
+  Author: 一飞同学、凉面
+-->
+<template>
   <div class="container">
     <div class="title">编辑分组权限</div>
     <div class="content">
@@ -17,7 +20,7 @@ aa<template>
           </div>
           <div style="padding-left:5px;margin-top: 30px;">
             <el-button type="primary" @click="confirmEdit">确 定</el-button>
-            <el-button @click="goBack">返回</el-button>
+            <el-button @click="back">返回</el-button>
           </div>
         </el-col>
       </el-row>
@@ -26,58 +29,84 @@ aa<template>
 </template>
 
 <script>
-import Admin from '@/lin/model/admin'
+import { ref } from '@vue/composition-api'
+import { Message } from 'element-ui'
+import AdminModel from '@/lin/model/admin'
 import GroupPermissions from './group-permission'
 
 export default {
   components: {
     GroupPermissions,
   },
-  inject: ['eventBus'],
-  data() {
-    return {
-      allPermissions: [], // 所有权限
-      permissions: [], // 最终选择的权限
-      loading: false,
+  setup(props, ctx) {
+    // originally data properties
+    const allPermissions = ref([])
+    const permissions = ref([])
+    const cachePermissions = ref([])
+
+    /**
+     * 编辑后的最终权限
+     */
+    const updatePermissions = picked => {
+      permissions.value = picked
     }
-  },
-  methods: {
-    updatePermissions(permissions) {
-      this.permissions = permissions
-    },
-    updateAllPermissions(allPermissions) {
-      this.allPcrmissions = allPermissions
-    },
-    // 页面打开时候，记录缓存所拥有的全部权限
-    getCacheAuthIds(ids) {
-      this.cachePermissions = ids
-    },
-    async confirmEdit() {
+
+    /**
+     * 全部权限
+     */
+    const updateAllPermissions = all => {
+      allPermissions.value = all
+    }
+
+    /**
+     * 页面打开时候，记录当前分组所拥有的全部权限
+     */
+    const getCacheAuthIds = ids => {
+      cachePermissions.value = ids
+    }
+
+    /**
+     * 确认修改
+     */
+    const confirmEdit = async () => {
       let addRes = 0
       let delRes = 0
       // 判断是否更改了分组权限
-      if (this.permissions.sort().toString() !== this.cachePermissions.sort().toString()) {
-        const deletePermissions = this.cachePermissions
-          .concat(this.permissions)
-          .filter(v => !this.permissions.includes(v))
-        const addPermissions = this.cachePermissions
-          .concat(this.permissions)
-          .filter(v => !this.cachePermissions.includes(v))
+      if (permissions.value.sort().toString() !== cachePermissions.value.sort().toString()) {
+        const deletePermissions = cachePermissions.value
+          .concat(permissions.value)
+          .filter(v => !permissions.value.includes(v))
+        const addPermissions = cachePermissions.value
+          .concat(permissions.value)
+          .filter(v => !cachePermissions.value.includes(v))
 
         if (addPermissions.length > 0) {
-          addRes = await Admin.dispatchPermissions(this.$route.query.id, addPermissions)
+          addRes = await AdminModel.dispatchPermissions(ctx.root.$route.query.id, addPermissions)
         }
         if (deletePermissions.length > 0) {
-          delRes = await Admin.removePermissions(this.$route.query.id, deletePermissions)
+          delRes = await AdminModel.removePermissions(ctx.root.$route.query.id, deletePermissions)
         }
         if (addRes.code < window.MAX_SUCCESS_CODE || delRes.code < window.MAX_SUCCESS_CODE) {
-          this.$message.success('权限修改成功')
+          Message.success('权限修改成功')
         }
       }
-    },
-    goBack() {
-      this.$router.go(-1)
-    },
+    }
+
+    /**
+     * 返回
+     */
+    const back = () => {
+      const { router } = ctx.root.$options
+      router.go(-1)
+    }
+
+    return {
+      back,
+      confirmEdit,
+      getCacheAuthIds,
+      updatePermissions,
+      updateAllPermissions,
+    }
   },
 }
 </script>

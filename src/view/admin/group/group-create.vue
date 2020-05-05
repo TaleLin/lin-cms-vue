@@ -1,3 +1,6 @@
+<!--
+  Author: 一飞同学、凉面
+-->
 <template>
   <div class="container">
     <div class="title">新建分组信息</div>
@@ -7,7 +10,7 @@
           <el-form
             status-icon
             :rules="rules"
-            :model="form"
+            :model="group"
             ref="form"
             label-position="right"
             label-width="100px"
@@ -15,10 +18,10 @@
             @submit.native.prevent
           >
             <el-form-item label="分组名称" prop="name">
-              <el-input size="medium" clearable v-model="form.name"></el-input>
+              <el-input size="medium" clearable v-model="group.name"></el-input>
             </el-form-item>
             <el-form-item label="分组描述" prop="info">
-              <el-input size="medium" clearable v-model="form.info"></el-input>
+              <el-input size="medium" clearable v-model="group.info"></el-input>
             </el-form-item>
             <el-form-item>
               <group-permissions
@@ -41,7 +44,9 @@
 </template>
 
 <script>
-import Admin from '@/lin/model/admin'
+import { ref, reactive } from '@vue/composition-api'
+import { Message } from 'element-ui'
+import AdminModel from '@/lin/model/admin'
 import GroupPermissions from './group-permission'
 
 export default {
@@ -49,68 +54,89 @@ export default {
     GroupPermissions,
   },
   inject: ['eventBus'],
-  data() {
+  setup(props, ctx) {
+    /**
+     * 表单验证规则
+     */
     const checkName = (rule, value, callback) => {
-      // eslint-disable-line
       if (!value) {
         return callback(new Error('分组名称不能为空'))
       }
       callback()
     }
-    return {
-      allPermissions: [], // 所有权限
-      permissions: [], // 最终选择的权限
-      form: {
-        name: '',
-        info: '',
-      },
-      rules: {
-        name: [{ validator: checkName, trigger: ['blur', 'change'], required: true }],
-        info: [],
-      },
-      loading: false,
+    const rules = {
+      name: [{ validator: checkName, trigger: ['blur', 'change'], required: true }],
+      info: [],
     }
-  },
-  methods: {
-    updatePermissions(permissions) {
-      this.permissions = permissions
-    },
-    updateAllPermissions(allPermissions) {
-      this.allPermissions = allPermissions
-    },
-    async submitForm(formName) {
-      this.$refs[formName].validate(async valid => {
-        // eslint-disable-line
+
+    // originally data properties
+    const loading = ref(false)
+    const permissions = ref([])
+    const allPermissions = ref([])
+    const { router } = ctx.root.$options
+    const group = reactive({ name: '', info: '' })
+
+    /**
+     * 重置表单
+     */
+    const resetForm = formName => {
+      ctx.refs[formName].resetFields()
+      ctx.refs.groupPermissions.getGroupPermissions()
+    }
+
+    /**
+     * 提交表单
+     * 添加新的分组
+     */
+    const submitForm = async formName => {
+      ctx.refs[formName].validate(async valid => {
         if (valid) {
           let res
-          const finalPermissions = this.permissions.filter(x => Object.keys(this.allPermissions).indexOf(x) < 0)
+          const finalPermissions = permissions.value.filter(x => Object.keys(allPermissions.value).indexOf(x) < 0)
           try {
-            this.loading = true
-            res = await Admin.createOneGroup(this.form.name, this.form.info, finalPermissions, this.id) // eslint-disable-line
+            loading.value = true
+            res = await AdminModel.createOneGroup(group.name, group.info, finalPermissions)
           } catch (e) {
-            this.loading = false
-            console.log(e)
+            loading.value = false
+            console.error(e)
           }
           if (res.code < window.MAX_SUCCESS_CODE) {
-            this.loading = false
-            this.$message.success(`${res.message}`)
-            this.eventBus.$emit('addGroup', true)
-            this.$router.push('/admin/group/list')
-            this.resetForm('form')
+            loading.value = false
+            Message.success(`${res.message}`)
+            router.push('/admin/group/list')
+            resetForm('form')
           } else {
-            this.loading = false
-            this.$message.error(`${res.message}`)
+            loading.value = false
+            Message.error(`${res.message}`)
           }
         } else {
-          this.$message.error('请将信息填写完整')
-          return false
+          Message.error('请将信息填写完整')
         }
       })
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
-      this.$refs.groupPermissions.getGroupPermissions()
-    },
+    }
+
+    /**
+     * 编辑后的最终权限
+     */
+    const updatePermissions = picked => {
+      permissions.value = picked
+    }
+
+    /**
+     * 全部权限
+     */
+    const updateAllPermissions = all => {
+      allPermissions.value = all
+    }
+
+    return {
+      rules,
+      group,
+      resetForm,
+      submitForm,
+      updatePermissions,
+      updateAllPermissions,
+    }
   },
 }
 </script>
