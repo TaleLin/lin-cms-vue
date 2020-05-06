@@ -52,13 +52,12 @@
 
 <script>
 import LinTable from '@/component/base/table/lin-table'
-import { groupList, editGroup } from './hook'
+import { useGroupList, useEditGroup } from './hook'
 
 export default {
   components: {
     LinTable,
   },
-  inject: ['eventBus'],
   setup(props, ctx) {
     // originally data properties
     const tableColumn = [{ prop: 'name', label: '名称' }, { prop: 'info', label: '分组描述' }]
@@ -71,7 +70,7 @@ export default {
     /**
      * 分组列表所需数据
      */
-    const { tableData, loading, handleDelete, getAllGroups } = groupList()
+    const { tableData, loading, handleDelete, getAllGroups } = useGroupList()
 
     /**
      * 编辑分组信息
@@ -86,7 +85,7 @@ export default {
       confirmEdit,
       handleClose,
       dialogFormVisible,
-    } = editGroup(ctx, getAllGroups)
+    } = useEditGroup(ctx, getAllGroups)
 
     /**
      * 前往修改分组权限页

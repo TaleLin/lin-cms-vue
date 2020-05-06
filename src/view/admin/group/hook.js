@@ -2,11 +2,13 @@ import { ref, onMounted, reactive } from '@vue/composition-api'
 import { MessageBox, Message } from 'element-ui'
 import AdminModel from '@/lin/model/admin'
 
-export const groupList = () => {
+export const useGroupList = () => {
   const tableData = ref([]) // 表格数据
   const loading = ref(false)
 
-  // 获取所有分组并传给table渲染
+  /**
+   * 获取所有分组并传给table渲染
+   */
   const getAllGroups = async () => {
     try {
       loading.value = true
@@ -18,7 +20,10 @@ export const groupList = () => {
     }
   }
 
-  // delete an element
+  /**
+   * 删除某项数据
+   * @param {object} val 选中的一行数据
+   */
   const handleDelete = val => {
     let res
     MessageBox.confirm('此操作将永久删除该分组, 是否继续?', '提示', {
@@ -61,46 +66,38 @@ export const groupList = () => {
   }
 }
 
-export const editGroup = (ctx, getAllGroups) => {
-  const group = reactive({
-    // 表单信息
-    name: '',
-    info: '',
-  })
+export const useEditGroup = (ctx, getAllGroups) => {
+  let cacheGroup
+  const id = ref(0) // 分组id
+  const group = reactive({ name: '', info: '' })
+  const dialogFormVisible = ref(false) // 是否弹窗
   const rules = {
     // 表单验证规则
     name: [{ required: true, message: '请输入分组名称', trigger: 'blur' }],
     info: [],
   }
-  let cacheGroup = reactive({})
-  const dialogFormVisible = ref(false) // 是否弹窗
-  const id = ref(0) // 分组id
 
-  // 获取所拥有的权限并渲染  由子组件提供
+  /**
+   * 获取所拥有的权限并渲染  由子组件提供
+   * @param {*} val 选中的某行数据
+   */
   const handleEdit = val => {
-    let selectedData
-    // 单击 编辑按键
-    if (val.index >= 0) {
-      selectedData = val.row
-    } else {
-      // 单机 table row
-      selectedData = val
-    }
-    id.value = selectedData.id
-    group.name = selectedData.name
-    group.info = selectedData.info
+    id.value = val.row.id
+    group.name = val.row.name
+    group.info = val.row.info
     cacheGroup = { ...group }
     dialogFormVisible.value = true
   }
 
+  /**
+   * 修改分组信息
+   */
   const confirmEdit = async () => {
-    // 修改分组信息
     if (group.name === '') {
       Message.warning('请将信息填写完整')
       return
     }
     if (cacheGroup.name !== group.name || cacheGroup.info !== group.info) {
-      // eslint-disable-line
       const res = await AdminModel.updateOneGroup(group.name, group.info, id.value)
       if (res.code < window.MAX_SUCCESS_CODE) {
         Message.success(`${res.message}`)
@@ -113,13 +110,11 @@ export const editGroup = (ctx, getAllGroups) => {
   const handleClose = done => {
     done()
   }
-  const resetForm = formName => {
-    ctx.refs[formName].resetFields()
-  }
-
-  // 双击 table row
   const rowClick = row => {
     handleEdit(row)
+  }
+  const resetForm = formName => {
+    ctx.refs[formName].resetFields()
   }
 
   return {
@@ -128,7 +123,6 @@ export const editGroup = (ctx, getAllGroups) => {
     group,
     rowClick,
     resetForm,
-    cacheGroup,
     handleEdit,
     confirmEdit,
     handleClose,
