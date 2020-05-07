@@ -1,7 +1,10 @@
+<!--
+  Author: 一飞同学
+-->
 <template>
   <div class="container">
     <el-form
-      :model="form"
+      :model="user"
       status-icon
       :rules="rules"
       :label-position="labelPosition"
@@ -11,13 +14,13 @@
       @submit.native.prevent
     >
       <el-form-item label="用户名" prop="username">
-        <el-input size="medium" clearable v-model="form.username" :disabled="isEdited"></el-input>
+        <el-input size="medium" clearable v-model="user.username" :disabled="isEdited"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input
           size="medium"
           clearable
-          v-model="form.email"
+          v-model="user.email"
           :disabled="isEdited"
           auto-complete="new-password"
         ></el-input>
@@ -27,24 +30,15 @@
           size="medium"
           clearable
           type="password"
-          v-model="form.password"
+          v-model="user.password"
           auto-complete="new-password"
         ></el-input>
       </el-form-item>
-      <el-form-item v-if="pageType === 'add'" label="确认密码" prop="confirm_password" label-position="top">
-        <el-input size="medium" clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
+      <el-form-item v-if="pageType === 'add'" label="确认密码" prop="confirmPassword" label-position="top">
+        <el-input size="medium" clearable type="password" v-model="user.confirmPassword" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-if="pageType !== 'password'" label="选择分组">
-        <!-- <el-select
-          size="medium"
-          multiple
-          v-model="form.group_ids"
-          :disabled="groups.length === 0"
-          placeholder="请选择分组"
-        >
-          <el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-        </el-select> -->
-        <el-checkbox-group v-model="form.group_ids" size="small" style="transform: translateY(5px);">
+        <el-checkbox-group v-model="user.groupIDs" size="small" style="transform: translateY(5px);">
           <el-checkbox v-for="item in groups" :key="item.id" :label="item.id" border style="margin-left: 0">{{
             item.name
           }}</el-checkbox>
@@ -59,13 +53,16 @@
 </template>
 
 <script>
-import Admin from '@/lin/model/admin'
-import User from '@/lin/model/user'
+import { ref, reactive, onMounted } from '@vue/composition-api'
+import { Message } from 'element-ui'
+import AdminModel from '@/lin/model/admin'
+import UserModel from '@/lin/model/user'
 
 export default {
   props: {
     submit: {
-      type: Boolean, // 表单是否显示功能按钮
+      // 表单是否显示功能按钮
+      type: Boolean,
       default: true,
     },
     id: {
@@ -93,163 +90,166 @@ export default {
       default: 'add', // 区分编辑页面/添加页面
     },
   },
-  inject: ['eventBus'],
-  data() {
-    // 验证回调函数
-    const checkUserName = (rule, value, callback) => {
-      // eslint-disable-line
-      if (!value) {
-        callback(new Error('用户名不能为空'))
-      }
-      callback()
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      } else if (value.length < 6) {
-        callback(new Error('密码长度不能少于6位数'))
-      } else {
-        if (this.form.checkPassword !== '') {
-          this.$refs.form.validateField('confirm_password')
-        }
-        callback()
-      }
-    }
-    const validatePassword2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.form.password) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      loading: false, // 加载动画
-      isEdited: false, // 能否编辑
-      form: {
-        username: '',
-        password: '',
-        confirm_password: '',
-        email: '',
-        group_ids: [],
-      },
-      // 验证规则
-      rules: {
-        username: [
-          {
-            validator: checkUserName,
-            trigger: ['blur', 'change'],
-            required: true,
-          },
-        ],
-        password: [{ validator: validatePassword, trigger: 'blur', required: true }],
-        confirm_password: [{ validator: validatePassword2, trigger: 'blur', required: true }],
-        email: [
-          {
-            type: 'email',
-            message: '请输入正确的邮箱地址或者不填',
-            trigger: ['blur', 'change'],
-          },
-        ],
-      },
-    }
-  },
-  methods: {
-    // 提交表单
-    async submitForm(formName) {
-      this.$refs[formName].validate(async valid => {
-        // eslint-disable-line
+  setup(props, ctx) {
+    const loading = ref(false)
+    const isEdited = ref(false) // 能否编辑
+    const { rules } = getRules()
+
+    const user = reactive({
+      email: '',
+      username: '',
+      password: '',
+      groupIDs: [],
+      confirmPassword: '',
+    })
+
+    /**
+     * 新增或更新管理员信息
+     */
+    const submitForm = formName => {
+      ctx.refs[formName].validate(async valid => {
         if (valid) {
-          // 新增用户
           let res
-          if (this.pageType === 'add') {
+          // 1. 新增用户
+          if (props.pageType === 'add') {
             try {
-              this.loading = true
-              res = await User.register(this.form)
+              loading.value = true
+              res = await UserModel.register(user)
               if (res.code < window.MAX_SUCCESS_CODE) {
-                this.loading = false
-                this.$message.success(`${res.message}`)
-                this.eventBus.$emit('addUser', true)
-                this.resetForm(formName)
+                loading.value = false
+                Message.success(`${res.message}`)
+                // this.eventBus.$emit('addUser', true)
+                resetForm(formName)
               }
             } catch (e) {
-              this.loading = false
+              loading.value = false
               if (e.data.code === 10073) {
-                this.$message.error(e.data.message)
+                Message.error(e.data.message)
               } else {
-                this.$message.error('新增用户失败')
+                Message.error('新增用户失败')
               }
-              console.log(e)
+              console.error(e)
             }
           } else {
-            // 更新用户信息
-            if (
-              this.form.email === this.info.email
-              && this.form.group_ids.sort().toString() === this.info.group_ids.sort().toString()
-            ) {
-              this.$emit('handleInfoResult', false)
+            // 2. 更新用户信息
+            if (user.groupIDs.sort().toString() === props.info.group_ids.sort().toString()) {
+              ctx.emit('handleInfoResult', false)
               return
             }
             try {
-              this.loading = true
-              res = await Admin.updateOneUser(this.form.email, this.form.group_ids, this.id)
+              loading.value = true
+              res = await AdminModel.updateOneUser(user.email, user.group_ids, this.id)
             } catch (e) {
-              this.loading = false
-              console.log(e)
+              loading.value = false
+              console.error(e)
             }
             if (res.code < window.MAX_SUCCESS_CODE) {
-              this.loading = false
-              this.$message.success(`${res.message}`)
-              this.$emit('handleInfoResult', true)
+              loading.value = false
+              Message.success(`${res.message}`)
+              ctx.emit('handleInfoResult', true)
             } else {
-              this.loading = false
-              this.$message.error(`${res.message}`)
+              loading.value = false
+              Message.error(`${res.message}`)
             }
           }
         } else {
           console.log('error submit!!')
-          this.$message.error('请填写正确的信息')
+          Message.error('请填写正确的信息')
         }
       })
-    },
-    // 重置表单
-    resetForm(formName) {
-      if (this.pageType === 'edit') {
-        this.setInfo()
+    }
+
+    /**
+     * reset表单内容
+     */
+    const resetForm = formName => {
+      if (props.pageType === 'edit') {
+        setInfo()
       } else {
-        this.form.group_ids = []
-        this.$refs[formName].resetFields()
+        user.groupIDs = []
+        ctx.refs[formName].resetFields()
       }
-    },
-    setInfo() {
-      this.form.username = this.info.username
-      this.form.email = this.info.email
+    }
+
+    /**
+     * 编辑页面设置初始值
+     */
+    const setInfo = () => {
       const temp = []
-      this.info.group_ids.forEach(item => {
+      user.email = props.info.email
+      user.username = props.info.username
+      props.info.groupIDs.forEach(item => {
         temp.push(item.id)
       })
-      this.form.group_ids = temp
-    },
-  },
-  // watch: {
-  //   groups: {
-  //     // 默认选中管理员组
-  //     handler() {
-  //       if (this.groups && this.groups[0] && this.groups[0].id) {
-  //         this.form.group_ids = [this.groups[0].id]
-  //       }
-  //     },
-  //     immediate: true,
-  //   },
-  // },
-  created() {
-    // 通过是否接收到数据来判断当前页面是添加数据还是编辑数据
-    if (this.pageType === 'edit') {
-      this.setInfo()
-      this.isEdited = true
+      user.groupIDs = temp
+    }
+
+    /**
+     * 通过是否接收到数据来判断当前页面是添加数据还是编辑数据
+     */
+    onMounted(() => {
+      if (props.pageType === 'edit') {
+        setInfo()
+        isEdited.value = true
+      }
+    })
+    return {
+      user,
+      rules,
+      loading,
+      resetForm,
+      submitForm,
     }
   },
+}
+
+/**
+ * 表单验证规则
+ */
+function getRules() {
+  /**
+   * 验证回调函数
+   */
+  const checkUserName = (rule, value, callback) => {
+    if (!value) {
+      callback(new Error('用户名不能为空'))
+    }
+    callback()
+  }
+  /**
+   * 验证密码
+   */
+  const validatePassword = (rule, value, callback) => {
+    if (value === '') {
+      callback(new Error('请输入密码'))
+    } else if (value.length < 6) {
+      callback(new Error('密码长度不能少于6位数'))
+    } else {
+      if (this.form.checkPassword !== '') {
+        this.$refs.form.validateField('confirm_password')
+      }
+      callback()
+    }
+  }
+  /**
+   * 再次验证密码
+   */
+  const validatePassword2 = (rule, value, callback) => {
+    if (value === '') {
+      callback(new Error('请再次输入密码'))
+    } else if (value !== this.form.password) {
+      callback(new Error('两次输入密码不一致!'))
+    } else {
+      callback()
+    }
+  }
+  const rules = {
+    password: [{ validator: validatePassword, trigger: 'blur', required: true }],
+    username: [{ validator: checkUserName, trigger: ['blur', 'change'], required: true }],
+    confirmPassword: [{ validator: validatePassword2, trigger: 'blur', required: true }],
+    email: [{ type: 'email', message: '请输入正确的邮箱地址或者不填', trigger: ['blur', 'change'] }],
+  }
+  return { rules }
 }
 </script>
 
@@ -263,21 +263,4 @@ export default {
     float: left;
   }
 }
-</style>
-
-<style lang="scss">
-// .el-radio-group {
-//   &.user-info {
-//     display: flex;
-//     flex-wrap: wrap;
-//     > .el-radio {
-//       width: 150px;
-//       margin-left: 0px !important;
-//       margin-right: 10px;
-//       margin-bottom: 20px;
-//       white-space: normal;
-//       display: flex;
-//     }
-//   }
-// }
 </style>

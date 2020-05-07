@@ -35,13 +35,13 @@ export default class Admin {
     return get('cms/admin/permission')
   }
 
-  static async getAdminUsers({ group_id, count = this.uCount, page = this.uPag }) {
+  static async getAdminUsers({ groupID, count = this.uCount, page = this.uPag }) {
     let res
-    if (group_id) {
+    if (groupID) {
       res = await get('cms/admin/users', {
         count,
         page,
-        group_id,
+        group_id: groupID,
       })
     } else {
       res = await get('cms/admin/users', {
