@@ -1,5 +1,6 @@
 <!--
   Author: 一飞同学
+  TODO: nextTick refreash pagination
 -->
 <template>
   <div class="container">
@@ -42,11 +43,12 @@
               ref="userInfo"
               v-if="dialogFormVisible"
               @handleInfoResult="handleInfoResult"
+              @handleAddUser="handleAddUser"
               labelPosition="right"
               pageType="edit"
               :id="id"
               :groups="groups"
-              :info="user"
+              :info="userInfo"
               :submit="false"
               class="info"
             />
@@ -67,11 +69,12 @@
 
 <script>
 import { ref, reactive } from '@vue/composition-api'
-// import AdminModel from '@/lin/model/admin'
+import { MessageBox, Message } from 'element-ui'
+import AdminModel from '@/lin/model/admin'
 import LinTable from '@/component/base/table/lin-table'
 import UserInfo from './user-info'
 import UserPassword from './user-password'
-import { useUserList } from './hook'
+import { useUserList, useFormData } from './hook'
 
 export default {
   components: { LinTable, UserInfo, UserPassword },
@@ -81,306 +84,123 @@ export default {
       { name: '编辑', func: 'handleEdit', type: 'primary' },
       { name: '删除', func: 'handleDelete', type: 'danger' },
     ]
+    const dialogFormVisible = ref(false) // 弹窗遮罩层
+    const refreshPagination = ref(true) // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
 
-    console.log(ctx)
+    const { groups, loading, groupID, totalNum, tableData, pageCount, currentPage, getAdminUsers } = useUserList()
+    const {
+      id,
+      activeTab,
+      resetForm,
+      confirmEdit,
+      handleClose,
+      handleClick,
+      handleChange,
+      handleInfoResult,
+      handleCurrentChange,
+      handlePasswordResult,
+    } = useFormData(ctx, dialogFormVisible, getAdminUsers, currentPage, loading)
 
-    const { groups, loading, groupID, totalNum, tableData, currentPage, getAdminUsers } = useUserList()
-
-    const id = ref(null)
-    const activeTab = ref('修改信息')
-    const user = reactive({
+    const userInfo = reactive({
       email: '',
       username: '',
       password: '',
       groupIDs: [],
       confirm_password: '',
     })
-    const dialogFormVisible = ref(false)
 
     /**
      * 修改管理员信息
      */
     const handleEdit = val => {
       id.value = val.row.id
-      user.username = val.row.username
-      user.email = val.row.email
-      user.groupIDs = val.row.groups
+      userInfo.username = val.row.username
+      userInfo.email = val.row.email
+      userInfo.groupIDs = val.row.groups
       dialogFormVisible.value = true
     }
 
     /**
-     * 监听子组件更新管理员信息是否成功
-     * 如果更新了管理员信息，重新请求管理员列表
+     * 删除管理员数据
      */
-    const handleInfoResult = flag => {
-      dialogFormVisible.value = false
+    const handleDelete = val => {
+      let res
+      MessageBox.confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        try {
+          loading.value = true
+          res = await AdminModel.deleteOneUser(val.row.id)
+        } catch (e) {
+          loading.value = false
+          console.error(e)
+        }
+        if (res.code < window.MAX_SUCCESS_CODE) {
+          loading.value = false
+          if (totalNum.value % pageCount.value === 1 && currentPage.value !== 1) {
+            // 判断删除的是不是每一页的最后一条数据
+            currentPage.value--
+          }
+          await getAdminUsers()
+          Message.success(`${res.message}`)
+        } else {
+          loading.value = false
+          Message.error(`${res.message}`)
+        }
+      })
+    }
+
+    /**
+     * 监听添加用户是否成功
+     */
+    const handleAddUser = async flag => {
       if (flag === true) {
-        getAdminUsers()
+        if (totalNum.value % pageCount.value === 0) {
+          // 判断当前页的数据是不是满了，需要增加新的页码
+          currentPage.value++
+        }
+        await getAdminUsers()
+        // refreshPagination.value = false // 刷新pagination组件
+        // this.$nextTick(() => {
+        //   this.refreshPagination = true
+        // })
       }
     }
-
-    const handleDelete = () => {}
-
-    const rowClick = () => {}
-
-    /**
-     * 根据分组查询管理员
-     */
-    const handleChange = async () => {
-      currentPage.value = 1
-      loading.value = true
-      await getAdminUsers()
-      loading.value = false
+    const rowClick = row => {
+      handleEdit(row)
     }
-
-    const handleCurrentChange = () => {}
-
-    /**
-     * 切换弹窗Tab栏
-     */
-    const handleClick = tab => {
-      activeTab.value = tab.name
-    }
-
-    const handlePasswordResult = () => {}
-
-    const confirmEdit = () => {}
-
-    /**
-     * 关闭编辑弹窗
-     */
-    const handleClose = done => {
-      dialogFormVisible.value = false
-      done()
-    }
-
-    const resetForm = () => {}
 
     return {
       id,
-      user,
       groups,
       groupID,
       operate,
       loading,
       rowClick,
+      userInfo,
       totalNum,
       tableData,
+      activeTab,
       resetForm,
-      tableColumn,
+      pageCount,
       handleEdit,
       confirmEdit,
+      tableColumn,
       handleClose,
       currentPage,
       handleClick,
       handleChange,
       handleDelete,
+      handleAddUser,
       handleInfoResult,
+      refreshPagination,
       dialogFormVisible,
       handleCurrentChange,
       handlePasswordResult,
     }
   },
-  // inject: ['eventBus'],
-  // data() {
-  //   return {
-  //     id: 0, // 用户id
-  //     refreshPagination: true, // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
-  //     editIndex: null, // 编辑的行
-  //     total_nums: 0, // 分组内的用户总数
-  //     currentPage: 1, // 默认获取第一页的数据
-  //     pageCount: 10, // 每页10条数据
-  //     tableData: [], // 表格数据
-  //     tableColumn: [], // 表头数据
-  //     operate: [], // 表格按键操作区
-  //     dialogFormVisible: false, // 控制弹窗显示
-  //     selectGroup: '', // 选中的分组Id
-  //     groups: [], // 所有分组
-  //     group_id: undefined,
-  //     activeTab: '修改信息',
-  //     form: {
-  //       // 表单信息
-  //       username: '',
-  //       password: '',
-  //       confirm_password: '',
-  //       email: '',
-  //       group_ids: [],
-  //     },
-  //     loading: false,
-  //   }
-  // },
-  // methods: {
-  //   // 根据分组 刷新/获取分组内的用户
-  //   async getAdminUsers() {
-  //     let res
-  //     const currentPage = this.currentPage - 1
-  //     try {
-  //       this.loading = true
-  //       res = await Admin.getAdminUsers({ group_id: this.group_id, count: this.pageCount, page: currentPage }) // eslint-disable-line
-  //       this.loading = false
-  //       this.tableData = this.shuffleList(res.items)
-  //       this.total_nums = res.total
-  //     } catch (e) {
-  //       this.loading = false
-  //       console.log(e)
-  //     }
-  //   },
-  //   // 获取所有分组
-  //   async getAllGroups() {
-  //     try {
-  //       this.loading = true
-  //       this.groups = await Admin.getAllGroups()
-  //       this.loading = false
-  //     } catch (e) {
-  //       this.loading = false
-  //       console.log(e)
-  //     }
-  //   },
-  //   // 获取所拥有的权限并渲染  由子组件提供
-  //   async handleEdit(val) {
-  //     this.editIndex = val.index
-  //     let selectedData
-  //     // 单击 编辑按键
-  //     if (val.index >= 0) {
-  //       selectedData = val.row
-  //     } else {
-  //       // 单击 table row
-  //       selectedData = val
-  //     }
-  //     this.id = selectedData.id
-  //     this.form.username = selectedData.username
-  //     this.form.email = selectedData.email
-  //     this.form.group_ids = selectedData.groups
-  //     this.dialogFormVisible = true
-  //   },
-  //   // 下拉框选择分组
-  //   async handleChange() {
-  //     this.currentPage = 1
-  //     this.loading = true
-  //     await this.getAdminUsers()
-  //     this.loading = false
-  //   },
-  //   // 切换table页
-  //   async handleCurrentChange(val) {
-  //     this.currentPage = val
-  //     this.loading = true
-  //     await this.getAdminUsers('changePage')
-  //     this.loading = false
-  //   },
-  //   handleDelete(val) {
-  //     let res
-  //     this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-  //       confirmButtonText: '确定',
-  //       cancelButtonText: '取消',
-  //       type: 'warning',
-  //     }).then(async () => {
-  //       try {
-  //         this.loading = true
-  //         res = await Admin.deleteOneUser(val.row.id)
-  //       } catch (e) {
-  //         this.loading = false
-  //         console.log(e)
-  //       }
-  //       if (res.code < window.MAX_SUCCESS_CODE) {
-  //         this.loading = false
-  //         if (this.total_nums % this.pageCount === 1 && this.currentPage !== 1) {
-  //           // 判断删除的是不是每一页的最后一条数据
-  //           this.currentPage--
-  //         }
-  //         await this.getAdminUsers()
-  //         this.$message({
-  //           type: 'success',
-  //           message: `${res.message}`,
-  //         })
-  //       } else {
-  //         this.loading = false
-  //         this.$message.error(`${res.message}`)
-  //       }
-  //     })
-  //   },
-  //   // 提交表单信息
-  //   async confirmEdit() {
-  //     if (this.activeTab === '修改信息') {
-  //       await this.$refs.userInfo.submitForm('form')
-  //     } else {
-  //       await this.$refs.password.submitForm('form')
-  //     }
-  //   },
-  //   // 重置
-  //   resetForm() {
-  //     if (this.activeTab === '修改信息') {
-  //       this.$refs.userInfo.resetForm('form')
-  //     } else {
-  //       this.$refs.password.resetForm('form')
-  //     }
-  //   },
-  //   // 双击 table ro
-  //   rowClick(row) {
-  //     this.handleEdit(row)
-  //   },
-  //   // 弹框 右上角 X
-  //   handleClose(done) {
-  //     this.dialogFormVisible = false
-  //     done()
-  //   },
-  //   // 切换tab栏
-  //   handleClick(tab) {
-  //     console.log(tab)
-  //     this.activeTab = tab.name
-  //   },
-  //   // 监听子组件更新用户信息是否成功
-  //   async handleInfoResult(flag) {
-  //     this.dialogFormVisible = false
-  //     if (flag === true) {
-  //       this.getAdminUsers()
-  //     }
-  //   },
-  //   // 监听子组件更新密码是否成功
-  //   handlePasswordResult(result) {
-  //     if (result === true) {
-  //       this.dialogFormVisible = false
-  //     }
-  //   },
-  //   // 监听添加用户是否成功
-  //   async addUser(flag) {
-  //     if (flag === true) {
-  //       if (this.total_nums % this.pageCount === 0) {
-  //         // 判断当前页的数据是不是满了，需要增加新的页码
-  //         this.currentPage++
-  //       }
-  //       await this.getAdminUsers()
-  //       this.refreshPagination = false // 刷新pagination组件
-  //       this.$nextTick(() => {
-  //         this.refreshPagination = true
-  //       })
-  //     }
-  //   },
-  //   shuffleList(users) {
-  //     const list = []
-  //     users.forEach(element => {
-  //       const groups = []
-  //       element.groups.forEach(item => {
-  //         groups.push(item.name)
-  //       })
-  //       element.groupNames = groups.join(',')
-  //       list.push(element)
-  //     })
-  //     return list
-  //   },
-  // },
-  // async created() {
-  //   await this.getAdminUsers()
-  //   this.getAllGroups()
-  //   this.tableColumn = [{ prop: 'username', label: '名称' }, { prop: 'groupNames', label: '所属分组' }] // 设置表头信息
-  //   this.operate = [
-  //     { name: '编辑', func: 'handleEdit', type: 'primary' },
-  //     { name: '删除', func: 'handleDelete', type: 'danger' },
-  //   ]
-  //   this.eventBus.$on('addUser', this.addUser)
-  // },
-  // beforeDestroy() {
-  //   this.eventBus.$off('addUser', this.addUser)
-  // },
 }
 </script>
 

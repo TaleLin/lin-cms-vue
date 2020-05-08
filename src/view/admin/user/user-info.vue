@@ -4,7 +4,7 @@
 <template>
   <div class="container">
     <el-form
-      :model="user"
+      :model="userInfo"
       status-icon
       :rules="rules"
       :label-position="labelPosition"
@@ -14,13 +14,13 @@
       @submit.native.prevent
     >
       <el-form-item label="用户名" prop="username">
-        <el-input size="medium" clearable v-model="user.username" :disabled="isEdited"></el-input>
+        <el-input size="medium" clearable v-model="userInfo.username" :disabled="isEdited"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input
           size="medium"
           clearable
-          v-model="user.email"
+          v-model="userInfo.email"
           :disabled="isEdited"
           auto-complete="new-password"
         ></el-input>
@@ -30,15 +30,21 @@
           size="medium"
           clearable
           type="password"
-          v-model="user.password"
+          v-model="userInfo.password"
           auto-complete="new-password"
         ></el-input>
       </el-form-item>
       <el-form-item v-if="pageType === 'add'" label="确认密码" prop="confirmPassword" label-position="top">
-        <el-input size="medium" clearable type="password" v-model="user.confirmPassword" autocomplete="off"></el-input>
+        <el-input
+          size="medium"
+          clearable
+          type="password"
+          v-model="userInfo.confirmPassword"
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
       <el-form-item v-if="pageType !== 'password'" label="选择分组">
-        <el-checkbox-group v-model="user.groupIDs" size="small" style="transform: translateY(5px);">
+        <el-checkbox-group v-model="userInfo.groupIDs" size="small" style="transform: translateY(5px);">
           <el-checkbox v-for="item in groups" :key="item.id" :label="item.id" border style="margin-left: 0">{{
             item.name
           }}</el-checkbox>
@@ -93,15 +99,19 @@ export default {
   setup(props, ctx) {
     const loading = ref(false)
     const isEdited = ref(false) // 能否编辑
-    const { rules } = getRules()
 
-    const user = reactive({
+    const userInfo = reactive({
       email: '',
       username: '',
       password: '',
       groupIDs: [],
       confirmPassword: '',
     })
+
+    /**
+     * 表单规则验证
+     */
+    const { rules } = getRules(userInfo)
 
     /**
      * 新增或更新管理员信息
@@ -114,31 +124,27 @@ export default {
           if (props.pageType === 'add') {
             try {
               loading.value = true
-              res = await UserModel.register(user)
+              res = await UserModel.register(userInfo)
               if (res.code < window.MAX_SUCCESS_CODE) {
                 loading.value = false
                 Message.success(`${res.message}`)
-                // this.eventBus.$emit('addUser', true)
+                ctx.emit('handleAddUser', true)
                 resetForm(formName)
               }
             } catch (e) {
               loading.value = false
-              if (e.data.code === 10073) {
-                Message.error(e.data.message)
-              } else {
-                Message.error('新增用户失败')
-              }
+              Message.error('新增用户失败')
               console.error(e)
             }
           } else {
             // 2. 更新用户信息
-            if (user.groupIDs.sort().toString() === props.info.group_ids.sort().toString()) {
+            if (userInfo.groupIDs.sort().toString() === props.info.groupIDs.sort().toString()) {
               ctx.emit('handleInfoResult', false)
               return
             }
             try {
               loading.value = true
-              res = await AdminModel.updateOneUser(user.email, user.group_ids, this.id)
+              res = await AdminModel.updateOneUser(userInfo.email, userInfo.groupIDs, props.id)
             } catch (e) {
               loading.value = false
               console.error(e)
@@ -166,7 +172,7 @@ export default {
       if (props.pageType === 'edit') {
         setInfo()
       } else {
-        user.groupIDs = []
+        userInfo.groupIDs = []
         ctx.refs[formName].resetFields()
       }
     }
@@ -176,12 +182,12 @@ export default {
      */
     const setInfo = () => {
       const temp = []
-      user.email = props.info.email
-      user.username = props.info.username
+      userInfo.email = props.info.email
+      userInfo.username = props.info.username
       props.info.groupIDs.forEach(item => {
         temp.push(item.id)
       })
-      user.groupIDs = temp
+      userInfo.groupIDs = temp
     }
 
     /**
@@ -194,9 +200,10 @@ export default {
       }
     })
     return {
-      user,
       rules,
       loading,
+      isEdited,
+      userInfo,
       resetForm,
       submitForm,
     }
@@ -206,7 +213,7 @@ export default {
 /**
  * 表单验证规则
  */
-function getRules() {
+function getRules(userInfo) {
   /**
    * 验证回调函数
    */
@@ -225,9 +232,6 @@ function getRules() {
     } else if (value.length < 6) {
       callback(new Error('密码长度不能少于6位数'))
     } else {
-      if (this.form.checkPassword !== '') {
-        this.$refs.form.validateField('confirm_password')
-      }
       callback()
     }
   }
@@ -237,7 +241,7 @@ function getRules() {
   const validatePassword2 = (rule, value, callback) => {
     if (value === '') {
       callback(new Error('请再次输入密码'))
-    } else if (value !== this.form.password) {
+    } else if (value !== userInfo.password) {
       callback(new Error('两次输入密码不一致!'))
     } else {
       callback()

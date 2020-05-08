@@ -5,13 +5,18 @@ import store from '@/store'
 export default class User {
   /**
    * 分配用户
-   * @param {object} data 注册信息
+   * @param {object} user 注册信息
    */
-  static register(data) {
+  static register(user) {
     return _axios({
       method: 'post',
       url: 'cms/user/register',
-      data,
+      data: {
+        email: user.email,
+        username: user.username,
+        password: user.password,
+        confirm_password: user.confirmPassword,
+      },
       handleError: true,
     })
   }

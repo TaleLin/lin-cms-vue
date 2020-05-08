@@ -5,8 +5,13 @@
 <script>
 import { mapActions } from 'vuex'
 import Vue from 'vue'
+import { useProvide } from './lin/context/index'
 
 export default {
+  setup() {
+    useProvide()
+    return {}
+  },
   data() {
     return {
       timer: null,

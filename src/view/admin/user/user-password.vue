@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-form
-      :model="form"
+      :model="info"
       status-icon
       :rules="rules"
       label-position="right"
@@ -9,11 +9,11 @@
       v-loading="loading"
       label-width="100px"
     >
-      <el-form-item label="密码" prop="new_password">
-        <el-input size="medium" clearable type="password" v-model="form.new_password" autocomplete="off"></el-input>
+      <el-form-item label="密码" prop="newPassword">
+        <el-input size="medium" clearable type="password" v-model="info.newPassword" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码" prop="confirm_password" label-position="top">
-        <el-input size="medium" clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
+      <el-form-item label="确认密码" prop="confirmPassword" label-position="top">
+        <el-input size="medium" clearable type="password" v-model="info.confirmPassword" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-show="false">
         <el-button type="primary" @click="submitForm('form')">保存</el-button>
@@ -24,84 +24,104 @@
 </template>
 
 <script>
-import Admin from '@/lin/model/admin'
+import { Message } from 'element-ui'
+import { reactive, ref } from '@vue/composition-api'
+import AdminModel from '@/lin/model/admin'
 
 export default {
   props: ['id'],
-  data() {
-    const validatePassword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      } else if (value.length < 6) {
-        callback(new Error('密码长度不能少于6位数'))
-      } else {
-        if (this.form.confirm_password !== '') {
-          this.$refs.form.validateField('confirm_password')
-        }
-        callback()
-      }
-    }
-    const validatePassword2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.form.new_password) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      loading: false,
-      form: {
-        new_password: '',
-        confirm_password: '',
-      },
-      // 验证规则
-      rules: {
-        new_password: [{ validator: validatePassword, trigger: 'blur', required: true }],
-        confirm_password: [{ validator: validatePassword2, trigger: 'blur', required: true }],
-      },
-    }
-  },
-  methods: {
-    // 提交表单
-    submitForm(formName) {
-      if (this.form.new_password === '' && this.form.confirm_password === '') {
-        this.$emit('handlePasswordResult', true)
+  setup(props, ctx) {
+    const loading = ref(false)
+    const info = reactive({
+      newPassword: '',
+      confirmPassword: '',
+    })
+
+    /**
+     * 表单规则
+     */
+    const rules = getRules(ctx, info)
+
+    /**
+     * 提交表单数据
+     */
+    const submitForm = formName => {
+      if (info.newPassword === '' && info.confirmPassword === '') {
+        ctx.emit('handlePasswordResult', true)
         return
       }
-      this.$refs[formName].validate(async valid => {
-        // eslint-disable-line
+      ctx.refs[formName].validate(async valid => {
         if (valid) {
           let res
           try {
-            this.loading = true
-            res = await Admin.changePassword(this.form.new_password, this.form.confirm_password, this.id) // eslint-disable-line
+            loading.value = true
+            res = await AdminModel.changePassword(info.newPassword, info.confirmPassword, props.id)
           } catch (e) {
-            this.loading = false
-            console.log(e)
+            loading.value = false
+            console.error(e)
           }
           if (res.code < window.MAX_SUCCESS_CODE) {
-            this.loading = false
-            this.$message.success(`${res.message}`)
-            this.resetForm(formName)
-            this.$emit('handlePasswordResult', true)
+            loading.value = false
+            Message.success(`${res.message}`)
+            resetForm(formName)
+            ctx.emit('handlePasswordResult', true)
           } else {
-            this.loading = false
-            this.$message.error(`${res.message}`)
+            loading.value = false
+            Message.error(`${res.message}`)
           }
         } else {
-          console.log('error submit!!')
-          this.$message.error('请填写正确的信息')
-          this.$emit('handlePasswordResult', false)
-          return false
+          console.error('error submit!!')
+          Message.error('请填写正确的信息')
+          ctx.emit('handlePasswordResult', false)
         }
       })
-    },
+    }
+
     // 重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
-    },
+    const resetForm = formName => {
+      ctx.refs[formName].resetFields()
+    }
+
+    return {
+      info,
+      rules,
+      loading,
+      resetForm,
+      submitForm,
+    }
   },
+}
+
+/**
+ * 表单规则
+ */
+function getRules(ctx, info) {
+  const validatePassword = (rule, value, callback) => {
+    if (value === '') {
+      callback(new Error('请输入密码'))
+    } else if (value.length < 6) {
+      callback(new Error('密码长度不能少于6位数'))
+    } else {
+      if (info.confirmPassword !== '') {
+        ctx.refs.form.validateField('confirmPassword')
+      }
+      callback()
+    }
+  }
+  const validatePassword2 = (rule, value, callback) => {
+    if (value === '') {
+      callback(new Error('请再次输入密码'))
+    } else if (value !== info.newPassword) {
+      callback(new Error('两次输入密码不一致!'))
+    } else {
+      callback()
+    }
+  }
+
+  // 验证规则
+  return {
+    newPassword: [{ validator: validatePassword, trigger: 'blur', required: true }],
+    confirmPassword: [{ validator: validatePassword2, trigger: 'blur', required: true }],
+  }
 }
 </script>

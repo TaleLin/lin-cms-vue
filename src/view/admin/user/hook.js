@@ -3,7 +3,7 @@ import AdminModel from '@/lin/model/admin'
 
 export const useUserList = () => {
   const groups = ref([])
-  const pageCount = 10 // 每页10条数据
+  const pageCount = ref(10) // 每页10条数据
   const tableData = ref([])
   const groupID = ref(null)
   const loading = ref(false)
@@ -15,10 +15,13 @@ export const useUserList = () => {
    */
   const getAdminUsers = async () => {
     let res
-    currentPage.value -= 1
     try {
       loading.value = true
-      res = await AdminModel.getAdminUsers({ groupID: groupID.value, count: pageCount, page: currentPage.value })
+      res = await AdminModel.getAdminUsers({
+        groupID: groupID.value,
+        count: pageCount.value,
+        page: currentPage.value - 1,
+      })
       loading.value = false
       tableData.value = shuffleList(res.items)
       totalNum.value = res.total
@@ -68,10 +71,103 @@ export const useUserList = () => {
     groupID,
     loading,
     totalNum,
+    pageCount,
     tableData,
     currentPage,
     getAdminUsers,
   }
 }
 
-export const a = 1
+export const useFormData = (ctx, dialogFormVisible, getAdminUsers, currentPage, loading) => {
+  const id = ref(null)
+  const activeTab = ref('修改信息')
+
+  /**
+   * 监听子组件更新管理员信息是否成功
+   * 如果更新了管理员信息，重新请求管理员列表
+   */
+  const handleInfoResult = flag => {
+    dialogFormVisible.value = false
+    if (flag === true) {
+      getAdminUsers()
+    }
+  }
+
+  /**
+   * 根据分组查询管理员
+   */
+  const handleChange = async () => {
+    currentPage.value = 1
+    loading.value = true
+    await getAdminUsers()
+    loading.value = false
+  }
+
+  /**
+   * 监听是否完成密码更新
+   * @param {boolean} result 是否完成密码更新
+   */
+  const handlePasswordResult = result => {
+    if (result === true) {
+      dialogFormVisible.value = false
+    }
+  }
+
+  /**
+   * 切换弹窗Tab栏
+   */
+  const handleClick = tab => {
+    activeTab.value = tab.name
+  }
+
+  /**
+   * 翻页
+   */
+  const handleCurrentChange = async val => {
+    currentPage.value = val
+    await getAdminUsers()
+  }
+
+  /**
+   * 提交表单信息，更新管理员信息
+   */
+  const confirmEdit = async () => {
+    if (activeTab.value === '修改信息') {
+      await ctx.refs.userInfo.submitForm('form')
+    } else {
+      await ctx.refs.password.submitForm('form')
+    }
+  }
+
+  /**
+   * 关闭编辑弹窗
+   */
+  const handleClose = done => {
+    dialogFormVisible.value = false
+    done()
+  }
+
+  /**
+   * 重置表单
+   */
+  const resetForm = () => {
+    if (activeTab.value === '修改信息') {
+      ctx.refs.userInfo.resetForm('form')
+    } else {
+      ctx.refs.password.resetForm('form')
+    }
+  }
+
+  return {
+    id,
+    activeTab,
+    resetForm,
+    confirmEdit,
+    handleClose,
+    handleClick,
+    handleChange,
+    handleInfoResult,
+    handleCurrentChange,
+    handlePasswordResult,
+  }
+}

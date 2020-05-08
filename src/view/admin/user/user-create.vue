@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { ref, onMounted } from '@vue/composition-api'
 import Admin from '@/lin/model/admin'
 import UserInfo from './user-info'
 
@@ -13,19 +14,24 @@ export default {
   components: {
     UserInfo,
   },
-  data() {
+  setup() {
+    const groups = ref([])
+    const loading = ref(false)
+
+    onMounted(async () => {
+      try {
+        loading.value = true
+        groups.value = await Admin.getAllGroups()
+        loading.value = false
+      } catch (e) {
+        loading.value = false
+        console.error(e)
+      }
+    })
+
     return {
-      groups: [],
-    }
-  },
-  async created() {
-    try {
-      this.loading = true
-      this.groups = await Admin.getAllGroups()
-      this.loading = false
-    } catch (e) {
-      this.loading = false
-      console.log(e)
+      groups,
+      loading,
     }
   },
 }
