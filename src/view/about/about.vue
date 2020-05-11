@@ -177,9 +177,10 @@ import { ref, onMounted } from '@vue/composition-api'
 export default {
   setup() {
     const showTeam = ref(false)
+    const activeName = ref('first')
+    const { clientWidth } = document.body
+
     onMounted(() => {
-      const { clientWidth } = document.body
-      console.log('clientWidth', clientWidth)
       if (clientWidth > 1200 && clientWidth < 1330) {
         showTeam.value = true
       } else {
@@ -187,15 +188,16 @@ export default {
       }
     })
 
-    const activeName = ref('first')
-
+    /**
+     * 切换选项
+     */
     const handleArticle = link => {
       window.open(link)
     }
 
     return {
-      activeName,
       showTeam,
+      activeName,
       handleArticle,
     }
   },
