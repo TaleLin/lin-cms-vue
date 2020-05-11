@@ -1,3 +1,7 @@
+<!--
+  Author: 一飞同学
+  TODO: mapActions, mapMutations
+-->
 <template>
   <div class="login">
     <div class="team-name hidden-sm-and-down"><img src="@/assets/image/login/team-name.png" alt="logo" /></div>
@@ -6,11 +10,11 @@
       <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
         <div class="form-item nickname">
           <span class="icon account-icon"></span>
-          <input type="text" v-model="form.username" autocomplete="off" placeholder="请填写用户名" />
+          <input type="text" v-model="account.username" autocomplete="off" placeholder="请填写用户名" />
         </div>
         <div class="form-item password">
           <span class="icon secret-icon"></span>
-          <input type="password" v-model="form.password" autocomplete="off" placeholder="请填写用户登录密码" />
+          <input type="password" v-model="account.password" autocomplete="off" placeholder="请填写用户登录密码" />
         </div>
         <button class="submit-btn" type="submit">登录</button>
       </form>
@@ -19,58 +23,69 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex'
-import User from '@/lin/model/user'
+import { reactive, ref, onMounted } from '@vue/composition-api'
+import { Message } from 'element-ui'
+import UserModel from '@/lin/model/user'
 import Utils from '@/lin/util/util'
 
 export default {
-  name: 'login',
-  data() {
-    return {
-      loading: false, // 加载动画
-      wait: 2000, // 2000ms之内不能重复发起请求
-      throttleLogin: null, // 节流登录
-      form: {
-        username: 'root',
-        password: '123456',
-      },
-    }
-  },
-  methods: {
-    async login() {
-      const { username, password } = this.form
+  setup(props, ctx) {
+    const wait = 2000 // 2000ms之内不能重复发起请求
+    const loading = ref(false)
+    const { $store } = ctx.root
+    const throttleLogin = ref(null)
+
+    const account = reactive({
+      username: 'root',
+      password: '123456',
+    })
+
+    /**
+     * 根据账号密码登录，拿到 token 并储存
+     */
+    const login = async () => {
+      const { username, password } = account
       try {
-        this.loading = true
-        await User.getToken(username, password)
-        await this.getInformation()
-        this.loading = false
-        this.$router.push('/about')
-        this.$message.success('登录成功')
+        loading.value = true
+        await UserModel.getToken(username, password)
+        await getInformation()
+        loading.value = false
+        const { router } = ctx.root.$options
+        router.push('/about')
+        Message.success('登录成功')
       } catch (e) {
-        this.loading = false
+        loading.value = false
         console.log(e)
       }
-    },
-    async getInformation() {
+    }
+
+    /**
+     * 获取并更新当前管理员信息
+     */
+    const getInformation = async () => {
       try {
         // 尝试获取当前用户信息
-        const user = await User.getPermissions()
-        this.setUserAndState(user)
-        this.setUserPermissions(user.permissions)
+        const user = await UserModel.getPermissions()
+        $store.dispatch('setUserAndState', user)
+        $store.commit('SET_USER_PERMISSIONS', user.permissions)
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
-    },
-    ...mapActions(['setUserAndState']),
-    ...mapMutations({
-      setUserPermissions: 'SET_USER_PERMISSIONS',
-    }),
+    }
+
+    /**
+     * 节流登录
+     */
+    onMounted(() => {
+      throttleLogin.value = Utils.throttle(login, wait)
+    })
+
+    return {
+      account,
+      loading,
+      throttleLogin,
+    }
   },
-  created() {
-    // 节流登录
-    this.throttleLogin = Utils.throttle(this.login, this.wait)
-  },
-  components: {},
 }
 </script>
 
