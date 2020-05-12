@@ -6,12 +6,16 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { onMounted } from '@vue/composition-api'
+
 export default {
-  mounted() {
-    const headerHeight = 72
-    const { clientHeight } = document.body
-    this.$refs.container.style.height = `${clientHeight - headerHeight}px`
-  },
+  setup(props, ctx) {
+    onMounted(() => {
+      const headerHeight = 72
+      const { clientHeight } = document.body
+      ctx.refs.container.style.height = `${clientHeight - headerHeight}px`
+    })
+  }
 }
 </script>
 
