@@ -7,7 +7,7 @@
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
-          <el-form :model="book" status-icon ref="form" label-width="100px" @submit.native.prevent>
+          <el-form :model="book" status-icon ref="form" label-width="100px" @submit.native.prevent :rules="rules">
             <el-form-item label="书名" prop="title">
               <el-input size="medium" v-model="book.title" placeholder="请填写书名"></el-input>
             </el-form-item>
@@ -45,7 +45,7 @@ import { Message } from 'element-ui'
 import bookModel from '@/model/book'
 
 export default {
-  setup(props, context) {
+  setup(props, ctx) {
     const data = reactive({
       book: {
         title: '',
@@ -55,30 +55,65 @@ export default {
       },
     })
 
+    /**
+     * 表单规则验证
+     */
+    const { rules } = getRules()
+
     // 重置表单
     const resetForm = formName => {
-      context.refs[formName].resetFields()
+      ctx.refs[formName].resetFields()
     }
 
     const submitForm = async formName => {
-      try {
-        const res = await bookModel.createBook(data.book)
-        if (res.code < window.MAX_SUCCESS_CODE) {
-          Message.success(`${res.message}`)
-          resetForm(formName)
+      ctx.refs[formName].validate(async valid => {
+        if (valid) {
+          try {
+            const res = await bookModel.createBook(data.book)
+            if (res.code < window.MAX_SUCCESS_CODE) {
+              Message.success(`${res.message}`)
+              resetForm(formName)
+            }
+          } catch (error) {
+            Message.error('图书添加失败，请检测填写信息')
+            console.error(error)
+          }
+        } else {
+          console.error('error submit!!')
+          Message.error('请将信息填写完整')
         }
-      } catch (error) {
-        Message.error('图书添加失败，请检测填写信息')
-        console.log(error)
-      }
+      })
     }
 
     return {
-      ...toRefs(data),
-      submitForm,
+      rules,
       resetForm,
+      submitForm,
+      ...toRefs(data),
     }
   },
+}
+
+/**
+ * 表单验证规则
+ */
+function getRules() {
+  /**
+   * 验证回调函数
+   */
+  const checkInfo = (rule, value, callback) => {
+    if (!value) {
+      callback(new Error('信息不能为空'))
+    }
+    callback()
+  }
+  const rules = {
+    title: [{ validator: checkInfo, trigger: 'blur', required: true }],
+    author: [{ validator: checkInfo, trigger: 'blur', required: true }],
+    summary: [{ validator: checkInfo, trigger: 'blur', required: true }],
+    image: [{ validator: checkInfo, trigger: 'blur', required: true }],
+  }
+  return { rules }
 }
 </script>
 

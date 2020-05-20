@@ -35,7 +35,14 @@ const sideBarWidth = '210px'
 const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {
-  name: 'layout',
+  components: {
+    NavBar,
+    SideBar,
+    AppMain,
+    ReuseTab,
+    MenuTab,
+    BackTop,
+  },
   data() {
     return {
       isCollapse: false, // 左侧菜单栏是否折叠
@@ -46,7 +53,6 @@ export default {
       isPhone: false,
     }
   },
-  created() {},
   mounted() {
     this.setResize()
     // console.log(this.clientWidth)
@@ -159,14 +165,7 @@ export default {
       }
     },
   },
-  components: {
-    NavBar,
-    SideBar,
-    AppMain,
-    ReuseTab,
-    MenuTab,
-    BackTop,
-  },
+
   beforeDestroy() {
     this.eventBus.$off('noReuse')
     this.eventBus.$off('hasReuse')
