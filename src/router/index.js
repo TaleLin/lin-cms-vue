@@ -1,11 +1,9 @@
 import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter } from 'vue-router'
 import routes from './route'
 import store from '../store'
 import appConfig from '@/config/index'
 import Util from '@/lin/util/util'
-
-Vue.use(Router)
 
 // 判断是否需要登录访问, 配置位于 config 文件夹
 let isLoginRequired = routeName => {
@@ -35,8 +33,7 @@ let isLoginRequired = routeName => {
   return isLoginRequired(routeName)
 }
 
-const router = new Router({
-  // mode: 'history',
+const router = createRouter({
   scrollBehavior: () => ({
     y: 0,
   }),

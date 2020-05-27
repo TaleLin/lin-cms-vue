@@ -1,5 +1,4 @@
-import '@babel/polyfill'
-import Vue from 'vue'
+import Vue, { createApp } from 'vue'
 import VueCompositionApi from '@vue/composition-api'
 import ElementUI from 'element-ui'
 
@@ -23,16 +22,6 @@ import '@/assets/style/index.scss' // eslint-disable-line
 import '@/assets/style/realize/element-variable.scss'
 import 'element-ui/lib/theme-chalk/display.css'
 
-Vue.config.productionTip = false
-
-Vue.use(ElementUI)
-Vue.use(VueCompositionApi)
-Vue.use(LinNotify, {
-  reconnection: true,
-  reconnectionAttempts: 5,
-  reconnectionDelay: 3000,
-})
-
 Vue.component(CollapseTransition.name, CollapseTransition)
 
 // base 组件注册
@@ -41,11 +30,10 @@ Vue.component('l-icon', LIcon)
 Vue.component('source-code', SourceCode)
 
 /* eslint no-unused-vars: 0 */
-const AppInstance = new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+const AppInstance = createApp(App)
+  .use(router)
+  .use(store)
+  .mount('#app')
 
 // 设置 App 实例
 window.App = AppInstance

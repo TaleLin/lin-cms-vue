@@ -37,9 +37,10 @@
             :index="idMap[item.name]"
             popper-class="abc"
           >
-            <template slot="title">
-              <i v-if="!filterIcon(item.icon)" :class="item.icon"></i> <img v-else :src="item.icon" class="imgIcon" />
-              <span slot="title">{{ item.title }}</span>
+            <template v-slot:title>
+              <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+              <img v-else :src="item.icon" class="imgIcon" />
+              <span>{{ item.title }}</span>
             </template>
 
             <!-- 二级菜单 -->
@@ -50,9 +51,9 @@
                 :index="idMap[subItem.name]"
                 class="subMenuContent"
               >
-                <template slot="title">
+                <template v-slot:title>
                   <i class="iconfont icon-erjizhibiao"></i>
-                  <span slot="title" class="two-folder">{{ subItem.title }}</span>
+                  <span class="two-folder">{{ subItem.title }}</span>
                 </template>
 
                 <!-- 三级菜单 -->
@@ -84,8 +85,9 @@
             v-else
             :key="idMap[item.name]"
           >
-            <i v-if="!filterIcon(item.icon)" :class="item.icon"></i> <img v-else :src="item.icon" class="imgIcon" />
-            <span slot="title">{{ item.title }}</span>
+            <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+            <img v-else :src="item.icon" class="imgIcon" />
+            <span>{{ item.title }}</span>
           </el-menu-item>
         </template>
       </el-menu>
