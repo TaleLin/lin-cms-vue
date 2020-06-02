@@ -21,10 +21,6 @@ export default {
       return this.stageInfo.map(item => item.title).filter(item => !!item)
     },
   },
-  // created() {},
-  // mounted() {},
-  // watch: {},
-  // components: {},
 }
 </script>
 

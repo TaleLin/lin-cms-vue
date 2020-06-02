@@ -31,8 +31,8 @@ function IterationDelateMenuChildren(arr) {
   if (arr.length) {
     for (const i in arr) {
       if (arr[i].children && !arr[i].children.length) {
-        delete arr[i] // eslint-disable-line
-      } else if (arr[i].children && !arr[i].children.length) {
+        delete arr[i].children
+      } else if (arr[i].children && arr[i].children.length) {
         IterationDelateMenuChildren(arr[i].children)
       }
     }
@@ -58,7 +58,10 @@ function permissionShaking(stageConfig, permissions, currentUser) {
 export const permissionStageConfig = state => {
   const { stageConfig, permissions, user } = state // eslint-disable-line
   const tempStageConfig = Util.deepClone(stageConfig)
+  console.log('0', tempStageConfig)
   const shookConfig = permissionShaking(tempStageConfig, permissions, user)
+
+  console.log('1', shookConfig)
 
   // 设置舞台缓存
   const list = {}
@@ -176,7 +179,7 @@ export const getStageInfo = state => {
       return result
     }
 
-    if (stages.children) {
+    if (stages.children && stages.children.length) {
       result = findStage(stages.children, name)
       if (result) {
         result.unshift(stages)
