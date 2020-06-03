@@ -27,11 +27,15 @@ export const readedMessages = state => state.readedMessages
 
 export const unreadMessages = state => state.unreadMessages
 
+/**
+ * 在侧边栏展示时，如果当前路由 children 属性为空，则删除该路由
+ * @param {*} arr 路由配置项数据
+ */
 function IterationDelateMenuChildren(arr) {
   if (arr.length) {
     for (const i in arr) {
       if (arr[i].children && !arr[i].children.length) {
-        delete arr[i].children
+        delete arr[i]
       } else if (arr[i].children && arr[i].children.length) {
         IterationDelateMenuChildren(arr[i].children)
       }
@@ -40,12 +44,17 @@ function IterationDelateMenuChildren(arr) {
   return arr
 }
 
+/**
+ * Shaking 掉无限制路由
+ * @param {array} stageConfig 路由配置项数据
+ * @param {array} permissions 当前登录管理员所拥有的权限集合
+ * @param {object} currentUser 当前登录管理员
+ */
 function permissionShaking(stageConfig, permissions, currentUser) {
-  // eslint-disable-line
   const shookConfig = stageConfig.filter(route => {
     if (Util.hasPermission(permissions, route, currentUser)) {
       if (route.children && route.children.length) {
-        route.children = permissionShaking(route.children, permissions, currentUser) // eslint-disable-line
+        route.children = permissionShaking(route.children, permissions, currentUser)
       }
       return true
     }
@@ -58,10 +67,7 @@ function permissionShaking(stageConfig, permissions, currentUser) {
 export const permissionStageConfig = state => {
   const { stageConfig, permissions, user } = state // eslint-disable-line
   const tempStageConfig = Util.deepClone(stageConfig)
-  console.log('0', tempStageConfig)
   const shookConfig = permissionShaking(tempStageConfig, permissions, user)
-
-  console.log('1', shookConfig)
 
   // 设置舞台缓存
   const list = {}
