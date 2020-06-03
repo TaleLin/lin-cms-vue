@@ -12,6 +12,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'max-len': 0,
+    'no-shadow': 0,
     camelcase: 0, // 变量可以用下划线
     'no-plusplus': 0, // 禁止使用++，--
     'guard-for-in': 0,

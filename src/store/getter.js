@@ -65,7 +65,7 @@ function permissionShaking(stageConfig, permissions, currentUser) {
 
 // 获取有权限的舞台配置
 export const permissionStageConfig = state => {
-  const { stageConfig, permissions, user } = state // eslint-disable-line
+  const { stageConfig, permissions, user } = state
   const tempStageConfig = Util.deepClone(stageConfig)
   const shookConfig = permissionShaking(tempStageConfig, permissions, user)
 
