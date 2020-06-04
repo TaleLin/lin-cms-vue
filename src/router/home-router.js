@@ -6,7 +6,7 @@ function deepTravel(config, fuc) {
     config.forEach(subConfig => {
       deepTravel(subConfig, fuc)
     })
-  } else if (config.children) {
+  } else if (config.children && config.children.length) {
     config.children.forEach(subConfig => {
       deepTravel(subConfig, fuc)
     })
