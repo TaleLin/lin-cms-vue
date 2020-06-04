@@ -29,7 +29,6 @@ export default {
       }
       const father = this.stageInfo[this.stageInfo.length - 2]
       if (father.type === 'tab') {
-        console.log(father.children)
         const menus = []
         father.children.forEach(item => {
           if (item.inNav) {

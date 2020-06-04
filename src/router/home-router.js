@@ -1,7 +1,5 @@
 import stageConfig from '@/config/stage' // 引入舞台配置
 
-console.log('stageConfig', stageConfig)
-
 // 深度遍历配置树, 摘取叶子节点作为路由部分
 function deepTravel(config, fuc) {
   if (Array.isArray(config)) {
@@ -34,7 +32,5 @@ deepTravel(stageConfig, viewConfig => {
   }
   homeRouter.push(viewRouter)
 })
-
-console.log(homeRouter)
 
 export default homeRouter

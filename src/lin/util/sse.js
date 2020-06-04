@@ -15,7 +15,6 @@ export default class Sse {
    */
   constructor(url, events) {
     /* eslint-disable no-undef */
-    console.log(url, events)
     this.source = new EventSourcePolyfill(url, {
       headers: {
         Authorization: getToken('access_token'),
