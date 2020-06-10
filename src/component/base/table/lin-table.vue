@@ -34,7 +34,7 @@
         :width="item.width ? item.width : ''"
       ></el-table-column>
       <el-table-column v-if="operate.length > 0" label="操作" fixed="right" width="275">
-        <template slot-scope="scope">
+        <template v-solt:scope>
           <el-button
             v-for="(item, index) in operate"
             :type="item.type"
@@ -42,7 +42,7 @@
             :key="index"
             size="mini"
             v-permission="{ permission: item.permission ? item.permission : '', type: 'disabled' }"
-            @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
+            @click.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
             >{{ item.name }}</el-button
           >
         </template>
@@ -214,7 +214,10 @@ export default {
         this.oldKey = this.oldKey.filter(item => item !== row.key)
         const data = this.oldVal.filter(item => item.key !== row.key)
         this.handleSelectionChange(data)
-        this.toggleSelection(this.currentData.filter(item => item.key === row.key), false)
+        this.toggleSelection(
+          this.currentData.filter(item => item.key === row.key),
+          false,
+        )
       }
       // 选中-单选
       if (this.currentOldRow && this.currentOldRow.key === row.key) {

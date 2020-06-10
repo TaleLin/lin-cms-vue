@@ -3,8 +3,6 @@ import VueCompositionApi from '@vue/composition-api'
 import ElementUI from 'element-ui'
 
 import '@/config/global'
-import '@/lin/mixin'
-import '@/lin/filter'
 import '@/lin/plugin'
 import '@/lin/directive'
 
