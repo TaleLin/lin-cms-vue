@@ -50,18 +50,14 @@
         <el-row>
           <el-col :span="12">
             <el-input placeholder="请输入内容" size="medium" v-model="input4">
-              <template slot="prepend"
-                >Http://</template
-              >
+              <template v-slot:prepend>Http://</template>
             </el-input>
           </el-col>
         </el-row>
         <el-row style="margin-top:20px;margin-bottom:20px;">
           <el-col :span="12">
             <el-input placeholder="请输入内容" size="medium" v-model="input5">
-              <template slot="append"
-                >.com</template
-              >
+              <template v-slot:append>.com</template>
             </el-input>
           </el-col>
         </el-row>
@@ -193,7 +189,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/style/container.scss';
 
-.input-with-select /deep/ .el-input-group__prepend {
+.input-with-select >>> .el-input-group__prepend {
   background-color: #fff;
   width: 100px;
   border-top: 1px solid #dcdfe6;

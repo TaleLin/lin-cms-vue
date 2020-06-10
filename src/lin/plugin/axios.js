@@ -1,13 +1,14 @@
 // ajax 封装插件, 使用 axios
 import Vue from 'vue'
 import axios from 'axios'
-import Config from '@/config'
-import ErrorCode from '@/config/error-code'
 import store from '@/store'
+import Config from '@/config'
+import autoJump from '@/lin/util/auto-jump'
+import ErrorCode from '@/config/error-code'
 import { getToken, saveAccessToken } from '@/lin/util/token'
 
 const config = {
-  baseURL: Config.baseURL || process.env.apiUrl || '',
+  baseURL: Config.baseURL || '',
   timeout: 5 * 1000, // 请求超时时间设置
   crossDomain: true,
   // withCredentials: true, // Check cross-site Access-Control
@@ -18,16 +19,13 @@ const config = {
   },
 }
 
-// const retryTime = 2 // 请求失败重试次数
-// const retryDelay = 1500 // 请求失败重试间隔
-
 // 创建请求实例
 const _axios = axios.create(config)
 
 _axios.interceptors.request.use(
   originConfig => {
     // 有 API 请求重新计时
-    Vue.prototype.$_lin_jump()
+    autoJump()
 
     const reqConfig = { ...originConfig }
 

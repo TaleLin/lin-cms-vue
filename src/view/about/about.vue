@@ -1,6 +1,3 @@
-<!--
-  Author: 一飞同学
--->
 <template>
   <div class="container">
     <div class="lin-info">
@@ -469,12 +466,12 @@ export default {
       .personal-tabs {
         margin-bottom: 20px;
       }
-      .personal-tabs /deep/ .is-top {
+      .personal-tabs >>> .is-top {
         width: 320px;
         display: flex;
         justify-content: space-around;
       }
-      .personal-tabs /deep/ .el-tabs__content {
+      .personal-tabs >>> .el-tabs__content {
         text-indent: 20px;
       }
     }

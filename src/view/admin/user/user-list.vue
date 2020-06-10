@@ -1,5 +1,4 @@
 <!--
-  Author: 一飞同学
   TODO: nextTick refreash pagination
 -->
 <template>
@@ -35,7 +34,7 @@
       </el-pagination>
     </div>
     <!-- 弹窗 -->
-    <el-dialog title="用户信息" :append-to-body="true" :before-close="handleClose" :visible.sync="dialogFormVisible">
+    <el-dialog title="用户信息" :append-to-body="true" :before-close="handleClose" v-model:visible="dialogFormVisible">
       <div style="margin-top:-25px;">
         <el-tabs v-model="activeTab" @tab-click="handleClick">
           <el-tab-pane label="修改信息" name="修改信息">
@@ -59,7 +58,7 @@
         </el-tabs>
       </div>
       <!-- 按键操作 -->
-      <div slot="footer" class="dialog-footer">
+      <div v-solt:footer class="dialog-footer">
         <el-button type="primary" @click="confirmEdit">确 定</el-button>
         <el-button @click="resetForm">重 置</el-button>
       </div>
@@ -79,7 +78,10 @@ import { useUserList, useFormData } from './hook'
 export default {
   components: { LinTable, UserInfo, UserPassword },
   setup(props, ctx) {
-    const tableColumn = [{ prop: 'username', label: '名称' }, { prop: 'groupNames', label: '所属分组' }] // 设置表头信息
+    const tableColumn = [
+      { prop: 'username', label: '名称' },
+      { prop: 'groupNames', label: '所属分组' },
+    ] // 设置表头信息
     const operate = [
       { name: '编辑', func: 'handleEdit', type: 'primary' },
       { name: '删除', func: 'handleDelete', type: 'danger' },

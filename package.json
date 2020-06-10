@@ -55,6 +55,7 @@
     "eslint": "^6.0.1",
     "eslint-plugin-vue": "^7.0.0-alpha.0",
     "fs-extra": "^8.1.0",
+    "html-loader": "^1.1.0",
     "inquirer": "^6.5.0",
     "js-yaml": "^3.13.1",
     "lint-staged": "^9.5.0",
@@ -88,7 +89,6 @@
   "lint-staged": {
     "*.{js,vue}": [
       "prettier --write",
-      "vue-cli-service lint",
       "git add"
     ]
   }

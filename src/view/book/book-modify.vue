@@ -1,6 +1,3 @@
-<!--
-  Author: 一飞同学
--->
 <template>
   <div class="container">
     <div class="title">
@@ -10,7 +7,7 @@
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
-          <el-form :model="book" status-icon ref="form" label-width="100px" v-loading="loading" @submit.native.prevent>
+          <el-form :model="book" status-icon ref="form" label-width="100px" v-loading="loading" @submit.prevent>
             <el-form-item label="书名" prop="title">
               <el-input size="medium" v-model="book.title" placeholder="请填写书名"></el-input>
             </el-form-item>
@@ -55,9 +52,10 @@ export default {
       image: '',
     })
 
-    const listAssign = (a, b) => Object.keys(a).forEach(key => {
-      a[key] = b[key] || a[key]
-    })
+    const listAssign = (a, b) =>
+      Object.keys(a).forEach(key => {
+        a[key] = b[key] || a[key]
+      })
 
     loading.value = true
     bookModel

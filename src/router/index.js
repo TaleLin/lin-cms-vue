@@ -4,6 +4,7 @@ import routes from './route'
 import store from '../store'
 import appConfig from '@/config/index'
 import Util from '@/lin/util/util'
+import autoJump from '@/lin/util/auto-jump'
 
 // 判断是否需要登录访问, 配置位于 config 文件夹
 let isLoginRequired = routeName => {
@@ -65,7 +66,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // 路由发生变化重新计时
-  Vue.prototype.$_lin_jump()
+  autoJump()
 
   // 路由发生变化修改页面title
   if (to.meta.title) {

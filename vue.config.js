@@ -16,8 +16,8 @@ module.exports = {
     config.module
       .rule('md')
       .test(/\.md$/)
-      .use('vue-loader')
-      .loader('vue-loader')
+      .use('html-loader')
+      .loader('html-loader')
       .end()
       .use('vue-markdown-loader')
       .loader('vue-markdown-loader/lib/markdown-compiler')

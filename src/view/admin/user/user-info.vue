@@ -1,6 +1,3 @@
-<!--
-  Author: 一飞同学
--->
 <template>
   <div class="container">
     <el-form
@@ -11,7 +8,7 @@
       ref="form"
       v-loading="loading"
       label-width="100px"
-      @submit.native.prevent
+      @submit.prevent
     >
       <el-form-item label="用户名" prop="username">
         <el-input size="medium" clearable v-model="userInfo.username" :disabled="isEdited"></el-input>

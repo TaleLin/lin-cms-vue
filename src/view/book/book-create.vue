@@ -1,13 +1,10 @@
-<!--
-  Author: 一飞同学
--->
 <template>
   <div class="container">
     <div class="title">新建图书</div>
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
-          <el-form :model="book" status-icon ref="form" label-width="100px" @submit.native.prevent :rules="rules">
+          <el-form :model="book" status-icon ref="form" label-width="100px" @submit.prevent :rules="rules">
             <el-form-item label="书名" prop="title">
               <el-input size="medium" v-model="book.title" placeholder="请填写书名"></el-input>
             </el-form-item>

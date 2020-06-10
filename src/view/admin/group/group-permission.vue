@@ -1,6 +1,3 @@
-<!--
-  Author: 一飞同学、凉面
--->
 <template>
   <div class="container" v-loading="loading">
     <div class="group">

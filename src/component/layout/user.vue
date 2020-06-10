@@ -4,40 +4,42 @@
       <span class="el-dropdown-link">
         <div class="nav-avatar"><img :src="user.avatar || defaultAvatar" alt="头像" /></div>
       </span>
-      <el-dropdown-menu slot="dropdown" class="user-box">
-        <div class="user-info">
-          <div class="avatar" title="点击修改头像">
-            <img :src="user.avatar || defaultAvatar" alt="头像" />
-            <label class="mask">
-              <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
-              <input ref="avatarInput" type="file" accept="image/*" @change="fileChange" />
-            </label>
+      <template v-slot:dropdown>
+        <el-dropdown-menu class="user-box">
+          <div class="user-info">
+            <div class="avatar" title="点击修改头像">
+              <img :src="user.avatar || defaultAvatar" alt="头像" />
+              <label class="mask">
+                <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
+                <input ref="avatarInput" type="file" accept="image/*" @change="fileChange" />
+              </label>
+            </div>
+            <div class="text">
+              <div class="username" @click="changeNickname" v-if="!nicknameChanged">{{ nickname }}</div>
+              <el-input
+                placeholder="请输入内容"
+                size="small"
+                v-else
+                v-model="nickname"
+                ref="input"
+                @blur="blur"
+              ></el-input>
+            </div>
+            <img src="../../assets/image/user/corner.png" class="corner" />
           </div>
-          <div class="text">
-            <div class="username" @click="changeNickname" v-if="!nicknameChanged">{{ nickname }}</div>
-            <el-input
-              placeholder="请输入内容"
-              size="small"
-              v-else
-              v-model="nickname"
-              ref="input"
-              @blur="blur"
-            ></el-input>
-          </div>
-          <img src="../../assets/image/user/corner.png" class="corner" />
-        </div>
-        <ul class="dropdown-box">
-          <li class="password" @click="goToCenter">
-            <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i> <span>个人中心</span>
-          </li>
-          <li class="account" @click="outLogin"><i class="iconfont icon-tuichu"></i> <span>退出账户</span></li>
-        </ul>
-      </el-dropdown-menu>
+          <ul class="dropdown-box">
+            <li class="password" @click="goToCenter">
+              <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i> <span>个人中心</span>
+            </li>
+            <li class="account" @click="outLogin"><i class="iconfont icon-tuichu"></i> <span>退出账户</span></li>
+          </ul>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
     <!-- 修改头像 -->
     <el-dialog
       title="裁剪"
-      :visible.sync="cropVisible"
+      v-model:visible="cropVisible"
       width="300px"
       :append-to-body="true"
       :close-on-click-modal="false"
@@ -65,16 +67,19 @@
         </div>
         <div style="margin-top: 1em;">通过鼠标滚轮调节头像大小</div>
       </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cropVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
-      </div>
+
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="cropVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
+        </div>
+      </template>
     </el-dialog>
     <el-dialog
       title="修改密码"
       :append-to-body="true"
       :before-close="handleClose"
-      :visible.sync="dialogFormVisible"
+      v-model:visible="dialogFormVisible"
       class="user-dialog"
     >
       <el-form
@@ -84,7 +89,7 @@
         label-position="left"
         ref="form"
         label-width="90px"
-        @submit.native.prevent
+        @submit.prevent
       >
         <el-form-item label="原始密码" prop="old_password">
           <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
@@ -394,12 +399,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-dialog /deep/ .el-dialog .el-dialog__header {
+.user-dialog >>> .el-dialog .el-dialog__header {
   border-bottom: 1px solid #dae1ed;
   padding-bottom: 20px;
 }
 
-.user-dialog /deep/ .el-dialog .el-dialog__body {
+.user-dialog >>> .el-dialog .el-dialog__body {
   padding-bottom: 00px;
 }
 

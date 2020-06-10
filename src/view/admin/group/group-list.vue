@@ -1,6 +1,3 @@
-<!--
-  Author: 一飞同学、凉面
--->
 <template>
   <!-- 列表页面 -->
   <div class="container">
@@ -19,7 +16,7 @@
     <el-dialog
       title="分组信息"
       :append-to-body="true"
-      :visible.sync="dialogFormVisible"
+      v-model:visible="dialogFormVisible"
       :before-close="handleClose"
       class="groupListInfoDialog"
     >
@@ -60,7 +57,10 @@ export default {
   },
   setup(props, ctx) {
     // originally data properties
-    const tableColumn = [{ prop: 'name', label: '名称' }, { prop: 'info', label: '分组描述' }]
+    const tableColumn = [
+      { prop: 'name', label: '名称' },
+      { prop: 'info', label: '分组描述' },
+    ]
     const operate = [
       { name: '信息', func: 'handleEdit', type: 'primary' },
       { name: '权限', func: 'goToGroupEditPage', type: 'info' },

@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="table-main">
-      <el-dialog top="5vh" width="60%" :visible.sync="dialogTableVisible">
+      <el-dialog top="5vh" width="60%" v-model:visible="dialogTableVisible">
         <!-- 定制列 -->
         <span>选择要展示的列:</span>
         <el-checkbox-group v-model="checkList" @change="handleChange" class="m-20">
@@ -51,7 +51,7 @@
       >
         <!-- 展示摘要 -->
         <el-table-column type="expand">
-          <template slot-scope="props">
+          <template v-slot="props">
             <div class="summary">
               <img :src="props.row.thumb" alt />
               <el-form label-position="left" inline class="demo-table-expand">
@@ -72,7 +72,7 @@
         <template v-for="item in filterTableColumn">
           <!-- 自定义排序 -->
           <el-table-column label="排序" v-if="item.label === '排序'" v-bind:key="item.label">
-            <template slot-scope="props">
+            <template v-slot="props">
               <input
                 type="number"
                 class="sort-input"
@@ -110,7 +110,7 @@
             show-overflow-tooltip
             v-if="item.label === '备注'"
           >
-            <template slot-scope="props">
+            <template v-slot="props">
               <div v-if="!props.row.editFlag" class="table-edit">
                 <div @click="handleEdit(props.row)" class="content">{{ props.row.remark }}</div>
                 <div class="cell-icon" @click="handleCellEdit(props.row)"><i class="el-icon-edit"></i></div>
@@ -126,7 +126,7 @@
           </el-table-column>
           <!-- 推荐 -->
           <el-table-column label="推荐" v-if="item.label === '推荐'" v-bind:key="item.label">
-            <template slot-scope="props">
+            <template v-slot="props">
               <el-switch
                 v-model="props.row.recommend"
                 active-color="#3963bc"
@@ -137,7 +137,7 @@
         </template>
         <!-- 操作列 -->
         <el-table-column label="操作" fixed="right" width="170">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button
               v-for="(item, index) in operate"
               :type="item.type"
@@ -518,16 +518,16 @@ export default {
   }
 }
 // dialog
-.tableSample /deep/ .el-dialog__footer {
+.tableSample >>> .el-dialog__footer {
   text-align: left;
   padding-left: 30px;
 }
 
-.tableSample /deep/ .el-dialog__header {
+.tableSample >>> .el-dialog__header {
   padding-left: 30px;
 }
 
-.tableSample /deep/ .el-dialog__body {
+.tableSample >>> .el-dialog__body {
   padding: 30px;
 }
 </style>

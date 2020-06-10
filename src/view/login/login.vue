@@ -1,5 +1,4 @@
 <!--
-  Author: 一飞同学
   TODO: mapActions, mapMutations
 -->
 <template>

@@ -3,7 +3,9 @@
     <div class="lin-title">Tag 标签</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>基础用法</span></div>
+        <template #header>
+          <span>基础用法</span>
+        </template>
         <el-row>
           <div>
             <el-tag>标签一</el-tag>
@@ -20,7 +22,9 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>可移除标签</span></div>
+        <template #header>
+          <span>可移除标签</span>
+        </template>
         <el-row>
           <div>
             <el-tag v-for="tag in tags" :key="tag.name" closable @close="handleCloseTag(tag)" :type="tag.type">
@@ -213,7 +217,7 @@ export default {
               margin-left: 10px;
               vertical-align: bottom;
             }
-            .input-new-tag /deep/ .el-input__inner {
+            .input-new-tag >>> .el-input__inner {
               height: 24px;
             }
           </style>
@@ -366,7 +370,7 @@ export default {
   margin-left: 10px;
   vertical-align: bottom;
 }
-.input-new-tag /deep/ .el-input__inner {
+.input-new-tag >>> .el-input__inner {
   height: 24px;
 }
 </style>

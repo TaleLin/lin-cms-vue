@@ -1,6 +1,3 @@
-<!--
-  Author: 一飞同学
--->
 <template>
   <div>
     <!-- 列表页面 -->
@@ -36,7 +33,10 @@ export default {
   },
   setup() {
     const bookList = reactive({
-      tableColumn: [{ prop: 'title', label: '书名' }, { prop: 'author', label: '作者' }],
+      tableColumn: [
+        { prop: 'title', label: '书名' },
+        { prop: 'author', label: '作者' },
+      ],
       operate: [
         { name: '编辑', func: 'handleEdit', type: 'primary' },
         {

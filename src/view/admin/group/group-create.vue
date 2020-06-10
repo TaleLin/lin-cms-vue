@@ -1,6 +1,3 @@
-<!--
-  Author: 一飞同学、凉面
--->
 <template>
   <div class="container">
     <div class="title">新建分组信息</div>
@@ -15,7 +12,7 @@
             label-position="right"
             label-width="100px"
             v-loading="loading"
-            @submit.native.prevent
+            @submit.prevent
           >
             <el-form-item label="分组名称" prop="name">
               <el-input size="medium" clearable v-model="group.name"></el-input>
