@@ -1,0 +1,8 @@
+diff a/src/config/stage/plugin.js b/src/config/stage/plugin.js	(rejected hunks)
+@@ -6,5 +6 @@ import linCmsUi from '@/plugin/lin-cms-ui/stage-config'
+-const pluginsConfig = [
+-  chart,
+-  custom,
+-  linCmsUi,
+-]
++const pluginsConfig = [chart, custom, linCmsUi]

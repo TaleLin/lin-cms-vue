@@ -7,6 +7,8 @@
 // eslint-disable-next-line
 import tinymce from 'tinymce/tinymce'
 import Editor from '@tinymce/tinymce-vue'
+import { post } from '@/lin/plugin/axios'
+
 import 'tinymce/themes/silver'
 import './import-all'
 
@@ -59,7 +61,6 @@ export default {
     }
   },
   created() {
-    const _this = this
     this.tinymceInit = {
       language_url: `${this.baseUrl}/tinymce/langs/zh_CN.js`,
       skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
@@ -81,14 +82,9 @@ export default {
         const file = new File([blobInfo.blob()], blobInfo.filename(), {
           type: 'image/*',
         })
-        _this
-          .$axios({
-            method: 'post',
-            url: '/cms/file',
-            data: {
-              file,
-            },
-          })
+        post('cms/file', {
+          file,
+        })
           .then(res => {
             if (res[0] && res[0].url) {
               success(res[0].url)

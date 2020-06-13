@@ -113,6 +113,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
+import axios, { post } from '@/lin/plugin/axios'
 import User from '@/lin/model/user'
 import 'vue-croppa/dist/vue-croppa.css'
 import defaultAvatar from '@/assets/image/user/user.png'
@@ -256,12 +257,8 @@ export default {
         type: 'image/jpeg',
       })
 
-      return this.$axios({
-        method: 'post',
-        url: '/cms/file',
-        data: {
-          file,
-        },
+      return post('/cms/file', {
+        file,
       }).then(res => {
         // 清空输入框
         this.clearFileInput(this.$refs.avatarInput)
@@ -273,12 +270,8 @@ export default {
         // if (res.code === 10110) {
         //   throw new Error('文件体积过大')
         // }
-        return this.$axios({
-          method: 'put',
-          url: '/cms/user',
-          data: {
-            avatar: res[0].path,
-          },
+        return post('/cms/user', {
+          avatar: res[0].path,
         })
           .then(putRes => {
             // eslint-disable-line
@@ -311,7 +304,7 @@ export default {
       if (this.nickname) {
         const { user } = this.$store.state
         if (this.nickname !== user.nickname && this.nickname !== '佚名') {
-          this.$axios({
+          axios({
             method: 'put',
             url: '/cms/user',
             data: {

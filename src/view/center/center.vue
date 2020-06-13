@@ -38,7 +38,7 @@
               label-position="left"
               ref="form"
               label-width="90px"
-              @submit.native.prevent
+              @submit.prevent
             >
               <el-form-item label="原始密码" prop="old_password">
                 <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
@@ -61,7 +61,7 @@
     <!-- 修改头像 -->
     <el-dialog
       title="裁剪"
-      :visible.sync="cropVisible"
+      v-model:visible="cropVisible"
       width="300px"
       :append-to-body="true"
       :close-on-click-modal="false"
@@ -88,10 +88,12 @@
         </div>
         <div style="margin-top: 1em;">通过鼠标滚轮调节头像大小</div>
       </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cropVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
-      </div>
+      <template v-solt:footer>
+        <div class="dialog-footer">
+          <el-button @click="cropVisible = false" size="small">取 消</el-button>
+          <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
+        </div>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -101,6 +103,7 @@ import { mapActions, mapGetters } from 'vuex'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
 import User from '@/lin/model/user'
+import axios, { post, put } from '@/lin/plugin/axios'
 import 'vue-croppa/dist/vue-croppa.css'
 import defaultAvatar from '@/assets/image/user/user.png'
 
@@ -240,12 +243,8 @@ export default {
         type: 'image/jpeg',
       })
 
-      return this.$axios({
-        method: 'post',
-        url: '/cms/file',
-        data: {
-          file,
-        },
+      return post('cms/file', {
+        file,
       }).then(res => {
         // 清空输入框
         this.clearFileInput(this.$refs.avatarInput)
@@ -257,12 +256,8 @@ export default {
         // if (res.code === 10110) {
         //   throw new Error('文件体积过大')
         // }
-        return this.$axios({
-          method: 'put',
-          url: '/cms/user',
-          data: {
-            avatar: res[0].path,
-          },
+        return put('/cms/user', {
+          avatar: res[0].path,
         })
           .then(putRes => {
             // eslint-disable-line
@@ -289,7 +284,7 @@ export default {
       if (this.nickname) {
         const { user } = this.$store.state
         if (this.nickname !== user.nickname && this.nickname !== '佚名') {
-          this.$axios({
+          axios({
             method: 'put',
             url: '/cms/user',
             data: {

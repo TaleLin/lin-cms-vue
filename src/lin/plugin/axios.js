@@ -1,6 +1,9 @@
-// ajax 封装插件, 使用 axios
-import Vue from 'vue'
+/**
+ * 封装 axios
+ */
 import axios from 'axios'
+import { Message } from 'element-ui'
+
 import store from '@/store'
 import Config from '@/config'
 import autoJump from '@/lin/util/auto-jump'
@@ -151,56 +154,23 @@ _axios.interceptors.response.use(
         }
       }
 
-      Vue.prototype.$message({
-        message,
-        type: 'error',
-      })
+      Message.error(message)
       reject()
     })
   },
   error => {
     if (!error.response) {
-      Vue.prototype.$notify({
-        title: 'Network Error',
-        dangerouslyUseHTMLString: true,
-        message: '<strong class="my-notify">请检查 API 是否异常</strong>',
-      })
+      Message.error('请检查 API 是否异常')
       console.log('error', error)
     }
 
     // 判断请求超时
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
-      Vue.prototype.$message({
-        type: 'warning',
-        message: '请求超时',
-      })
+      Message.warning('请求超时')
     }
     return Promise.reject(error)
   },
 )
-
-// eslint-disable-next-line
-Plugin.install = function(Vue, options) {
-  // eslint-disable-next-line
-  Vue.axios = _axios
-  window.axios = _axios
-  Object.defineProperties(Vue.prototype, {
-    axios: {
-      get() {
-        return _axios
-      },
-    },
-    $axios: {
-      get() {
-        return _axios
-      },
-    },
-  })
-}
-
-if (!Vue.axios) {
-  Vue.use(Plugin)
-}
 
 // 导出常用函数
 
