@@ -1,10 +1,17 @@
 import Vue from 'vue'
 import store from '@/store'
 
+/**
+ * 判断是否允许访问该DOM
+ * @param {*} permission 权限
+ * @param {*} user 当前用户实例
+ * @param {*} permissions 当前管理员所在分组权限集
+ */
 function isAllowed(permission, user, permissions) {
   if (user.admin) {
     return true
   }
+
   if (typeof permission === 'string') {
     return permissions.includes(permission)
   }
@@ -15,9 +22,11 @@ function isAllowed(permission, user, permissions) {
 }
 
 Vue.directive('permission', {
-  bind(el, binding) {
-    let permission
+  beforeMount(el, binding) {
     let type
+    let permission
+    const element = el
+
     if (Object.prototype.toString.call(binding.value) === '[object Object]') {
       // eslint-disable-next-line prefer-destructuring
       permission = binding.value.permission
@@ -27,7 +36,6 @@ Vue.directive('permission', {
       permission = binding.value
     }
     const isAllow = isAllowed(permission, store.state.user || {}, store.state.permissions)
-    const element = el
     if (!isAllow && permission) {
       if (type) {
         element.disabled = true

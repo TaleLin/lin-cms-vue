@@ -1,5 +1,6 @@
-import Vue from 'vue'
 import { createRouter } from 'vue-router'
+import { Message } from 'element-ui'
+
 import routes from './route'
 import store from '../store'
 import appConfig from '@/config/index'
@@ -55,11 +56,7 @@ router.beforeEach((to, from, next) => {
   if (store && store.state && store.getters) {
     const { permissions, user } = store.getters
     if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
-      Vue.prototype.$notify({
-        title: '无权限',
-        dangerouslyUseHTMLString: true,
-        message: '<strong class="my-notify">您无此页面的权限哟</strong>',
-      })
+      Message.error('您无此页面的权限哟')
       next({ path: '/about' })
       return
     }

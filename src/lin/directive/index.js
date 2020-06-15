@@ -1,2 +1,1 @@
-import './ripple'
 import './authorize'
