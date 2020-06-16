@@ -1,2 +1,1 @@
 import './axios'
-import './preview'

@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import store from '@/store'
 
 /**
@@ -21,7 +20,7 @@ function isAllowed(permission, user, permissions) {
   return false
 }
 
-Vue.directive('permission', {
+export default {
   beforeMount(el, binding) {
     let type
     let permission
@@ -46,6 +45,4 @@ Vue.directive('permission', {
       }
     }
   },
-})
-
-export default Vue.directive('permission')
+}

@@ -2,7 +2,7 @@
  * 封装 axios
  */
 import axios from 'axios'
-import { Message } from 'element-ui'
+// import { Message } from 'element-ui'
 
 import store from '@/store'
 import Config from '@/config'
@@ -110,10 +110,12 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   async res => {
-    let { code, message } = res.data // eslint-disable-line
     if (res.status.toString().charAt(0) === '2') {
       return res.data
     }
+
+    let { code, message } = res.data // eslint-disable-line
+
     return new Promise(async (resolve, reject) => {
       const { url } = res.config
 
@@ -154,19 +156,19 @@ _axios.interceptors.response.use(
         }
       }
 
-      Message.error(message)
+      // Message.error(message)
       reject()
     })
   },
   error => {
     if (!error.response) {
-      Message.error('请检查 API 是否异常')
+      // Message.error('请检查 API 是否异常')
       console.log('error', error)
     }
 
     // 判断请求超时
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
-      Message.warning('请求超时')
+      // Message.warning('请求超时')
     }
     return Promise.reject(error)
   },
