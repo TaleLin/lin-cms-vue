@@ -1,13 +1,13 @@
 import * as types from './mutation-type'
 
 export default {
-  [types.SET_LOGINED](state) {
+  [types.SET_LOGGED_IN](state) {
     /* eslint no-param-reassign: 0 */
-    state.logined = true
+    state.loggedIn = true
   },
 
-  [types.REMOVE_LOGINED](state) {
-    state.logined = false
+  [types.REMOVE_LOGGED_IN](state) {
+    state.loggedIn = false
     state.user = null
   },
 
@@ -16,7 +16,7 @@ export default {
   },
 
   [types.ADD_READED_MESSAGE](state, payload) {
-    state.readedMessages.push(payload)
+    state.alreadyReadMessages.push(payload)
   },
 
   [types.ADD_UNREAD_MESSAGE](state, payload) {
@@ -44,7 +44,7 @@ export default {
     state.permissions = _permissions
   },
 
-  [types.SET_REFERSH_OPTION](state, option) {
+  [types.SET_REFRESH_OPTION](state, option) {
     state.refreshOptions = option
   },
 }

@@ -19,11 +19,11 @@ const deepTravel = (obj, fuc) => {
   }
 }
 
-export const logined = state => state.logined
+export const loggedIn = state => state.loggedIn
 
 export const user = state => state.user
 
-export const readedMessages = state => state.readedMessages
+export const alreadyReadMessages = state => state.alreadyReadMessages
 
 export const unreadMessages = state => state.unreadMessages
 
@@ -80,8 +80,8 @@ export const permissionStageConfig = state => {
 
 // 获取侧边栏配置
 export const sideBarList = (state, getter) => {
-  const { sideBarLevel } = state // eslint-disable-line
-  const { permissionStageConfig } = getter // eslint-disable-line
+  const { sideBarLevel } = state
+  const { permissionStageConfig } = getter
 
   function deepGetSideBar(target, level = 3) {
     // 集合节点处理
@@ -132,6 +132,7 @@ export const sideBarList = (state, getter) => {
       }
       return sideConfig
     }
+
     // 最后一层, 都当做子节点处理
     if (level <= 0) {
       const sideConfig = {}
@@ -151,19 +152,17 @@ export const sideBarList = (state, getter) => {
   return sideBar
 }
 
-// 获取有权限的所有节点配置对象
-// eslint-disable-next-line
-export const getStageByName = () => {
-  return name => stageMap[name]
-}
+/**
+ * 获取有权限的所有节点配置对象
+ */
+export const getStageByName = () => name => stageMap[name]
 
-// 获取有权限的所有节点配置对象
-// eslint-disable-next-line
-export const getStageByRoute = () => {
-  return path => {
-    const result = Object.getOwnPropertySymbols(stageMap).find(key => stageMap[key].route === path)
-    return stageMap[result]
-  }
+/**
+ * 获取有权限的所有节点配置对象
+ */
+export const getStageByRoute = () => path => {
+  const result = Object.getOwnPropertySymbols(stageMap).find(key => stageMap[key].route === path)
+  return stageMap[result]
 }
 
 export const stageList = () => stageMap

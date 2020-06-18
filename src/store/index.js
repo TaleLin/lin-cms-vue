@@ -1,4 +1,4 @@
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import createLogger from 'vuex/dist/logger'
 import VuexPersistence from 'vuex-persist'
 import mutations from './mutation'
@@ -10,7 +10,7 @@ const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
   reducer: stateData => ({
     // eslint-disable-line
-    logined: stateData.logined,
+    loggedIn: stateData.loggedIn,
     user: stateData.user,
     permissions: stateData.permissions,
   }),
@@ -18,7 +18,7 @@ const vuexLocal = new VuexPersistence({
 
 const debug = process.env.NODE_ENV !== 'production'
 
-export default Vuex.createStore({
+export default createStore({
   state,
   getters,
   mutations,

@@ -17,15 +17,17 @@
             <el-button size="medium">
               {{ searchUser ? searchUser : '全部人员' }} <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
-              <el-dropdown-item
-                icon="el-icon-user-solid"
-                v-for="(user, index) in users.items"
-                :key="index"
-                :command="[user]"
-                >{{ user }}
-              </el-dropdown-item>
+            <el-dropdown-menu>
+              <template v-slot:dropdown>
+                <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
+                <el-dropdown-item
+                  icon="el-icon-user-solid"
+                  v-for="(user, index) in users.items"
+                  :key="index"
+                  :command="[user]"
+                  >{{ user }}
+                </el-dropdown-item>
+              </template>
             </el-dropdown-menu>
           </el-dropdown>
           <lin-date-picker @dateChange="handleDateChange" ref="searchDateDOM" class="date"> </lin-date-picker>
@@ -49,7 +51,7 @@
           <aside>
             <p class="things" v-html="log.message"></p>
             <p class="brief">
-              <span class="text-yellow">{{ log.username }}</span> {{ log.time | dateTimeFormatter }}
+              <span class="text-yellow">{{ log.username }}</span> {{ filters.dateTimeFormatter(log.time) }}
             </p>
           </aside>
         </section>
@@ -73,9 +75,11 @@
 </template>
 
 <script>
+import { computed, ref, reactive, watch, onMounted, toRefs } from '@vue/composition-api'
+
 import logModel from 'lin/model/log'
 import { searchLogKeyword } from 'lin/util/search'
-import { computed, ref, reactive, watch, onMounted, toRefs } from '@vue/composition-api'
+import { filters } from 'lin/filter'
 import LinSearch from '@/component/base/search/lin-search'
 import LinDatePicker from '@/component/base/date-picker/lin-date-picker'
 
@@ -292,6 +296,7 @@ export default {
       logs,
       more,
       loading,
+      filters,
       finished,
       backInit,
       nextPage,

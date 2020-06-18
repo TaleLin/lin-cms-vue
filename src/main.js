@@ -26,8 +26,8 @@ app.component('l-icon', LIcon)
 app.component('sticky-top', StickyTop)
 app.component('source-code', SourceCode)
 
-app.use(router)
 app.use(store)
+app.use(router)
 
 app.directive('permission', permissionDirective)
 

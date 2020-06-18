@@ -45,7 +45,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   // 登录验证
-  if (isLoginRequired(to.name) && !store.state.logined) {
+  if (isLoginRequired(to.name) && !store.state.loggedIn) {
     next({ path: '/login' })
     return
   }

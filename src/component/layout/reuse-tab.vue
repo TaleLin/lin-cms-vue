@@ -6,7 +6,7 @@
           class="reuse-tab-item"
           :class="item.path === $route.path ? 'active' : ''"
           :to="item.path"
-          @contextmenu.prevent.native="onTags(index, $event)"
+          @contextmenu.prevent="onTags(index, $event)"
         >
           <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
           <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
@@ -69,7 +69,7 @@ export default {
       ele.routePath = to.matched[to.matched.length - 1].path
       this.histories = [ele, ...histories]
     },
-    logined(val) {
+    loggedIn(val) {
       if (val) {
         return
       }
@@ -103,8 +103,8 @@ export default {
     }
   },
   computed: {
-    logined() {
-      return this.$store.state.logined
+    loggedIn() {
+      return this.$store.state.loggedIn
     },
     defaultRoute() {
       return this.$store.state.defaultRoute
