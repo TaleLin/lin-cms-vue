@@ -77,16 +77,12 @@
           </el-submenu>
 
           <!-- 一级else -->
-          <el-menu-item
-            class="subMenuContent"
-            :index="idMap[item.name]"
-            @click="goto(item.path)"
-            v-else
-            :key="idMap[item.name]"
-          >
-            <i v-if="!filterIcon(item.icon)" :class="item.icon"></i> <img v-else :src="item.icon" class="imgIcon" />
-            <span slot="title">{{ item.title }}</span>
-          </el-menu-item>
+          <router-link :to="item.path" :key="item.name" v-else>
+            <el-menu-item class="subMenuContent" :index="idMap[item.name]" :key="idMap[item.name]">
+              <i v-if="!filterIcon(item.icon)" :class="item.icon"></i> <img v-else :src="item.icon" class="imgIcon" />
+              <span slot="title">{{ item.title }}</span>
+            </el-menu-item>
+          </router-link>
         </template>
       </el-menu>
     </div>
@@ -118,7 +114,6 @@ export default {
       default: false,
     },
   },
-  created() {},
   mounted() {
     this.eventBus.$on('removeSidebarSearch', () => {
       this.showSidebarSearch = false
@@ -130,11 +125,6 @@ export default {
     })
   },
   methods: {
-    goto(path) {
-      this.$router.push({
-        path,
-      })
-    },
     filterIcon(icon) {
       return icon.indexOf('/') !== -1
     },
@@ -151,10 +141,6 @@ export default {
       }, 200)
     },
     search(val) {
-      // if (!val) {
-      //   this.showSearchList = false
-      //   return
-      // }
       this.groups = []
 
       // 深度遍历配置树, 摘取叶子节点作为路由部分
