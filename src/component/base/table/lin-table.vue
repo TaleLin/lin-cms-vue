@@ -55,6 +55,7 @@
       layout="prev, pager, next"
       :page-size="pagination.pageSize ? pagination.pageSize : 10"
       :total="pagination.pageTotal ? pagination.pageTotal : null"
+      :current-page="pagination.currentPage ? pagination.currentPage : 1"
       @current-change="currentChange"
     ></el-pagination>
   </div>
