@@ -26,7 +26,7 @@
             </el-form-item>
 
             <el-form-item class="submit">
-              <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+              <el-button type="primary" @click="submitForm('form')" :loading="loading">保 存</el-button>
               <el-button @click="resetForm('form')">重 置</el-button>
             </el-form-item>
           </el-form>
@@ -48,17 +48,21 @@ export default {
         summary: '',
         image: '',
       },
+      loading: false,
     }
   },
   methods: {
     async submitForm(formName) {
       try {
+        this.loading = true
         const res = await book.createBook(this.form)
+        this.loading = false
         if (res.code < window.MAX_SUCCESS_CODE) {
           this.$message.success(`${res.message}`)
           this.resetForm(formName)
         }
       } catch (error) {
+        this.loading = false
         this.$message.error('图书添加失败，请检测填写信息')
         console.log(error)
       }

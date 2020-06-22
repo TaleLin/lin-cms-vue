@@ -118,6 +118,9 @@ export default {
       if (!value) {
         return callback(new Error('原始密码不能为空'))
       }
+      if (value.length < 6) {
+        callback(new Error('密码长度不能少于6位数'))
+      }
       callback()
     }
     const validatePassword = (rule, value, callback) => {

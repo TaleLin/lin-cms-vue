@@ -6,7 +6,6 @@
       :rules="rules"
       :label-position="labelPosition"
       ref="form"
-      v-loading="loading"
       label-width="100px"
       @submit.native.prevent
     >
@@ -35,15 +34,6 @@
         <el-input size="medium" clearable type="password" v-model="form.confirm_password" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-if="pageType !== 'password'" label="选择分组">
-        <!-- <el-select
-          size="medium"
-          multiple
-          v-model="form.group_ids"
-          :disabled="groups.length === 0"
-          placeholder="请选择分组"
-        >
-          <el-option v-for="item in groups" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-        </el-select> -->
         <el-checkbox-group v-model="form.group_ids" size="small" style="transform: translateY(5px);">
           <el-checkbox v-for="item in groups" :key="item.id" :label="item.id" border style="margin-left: 0">{{
             item.name
@@ -51,7 +41,7 @@
         </el-checkbox-group>
       </el-form-item>
       <el-form-item v-show="submit" class="submit">
-        <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+        <el-button type="primary" :loading="loading" @click="submitForm('form')">保 存</el-button>
         <el-button @click="resetForm('form')">重 置</el-button>
       </el-form-item>
     </el-form>
@@ -232,17 +222,6 @@ export default {
       this.form.group_ids = temp
     },
   },
-  // watch: {
-  //   groups: {
-  //     // 默认选中管理员组
-  //     handler() {
-  //       if (this.groups && this.groups[0] && this.groups[0].id) {
-  //         this.form.group_ids = [this.groups[0].id]
-  //       }
-  //     },
-  //     immediate: true,
-  //   },
-  // },
   created() {
     // 通过是否接收到数据来判断当前页面是添加数据还是编辑数据
     if (this.pageType === 'edit') {
