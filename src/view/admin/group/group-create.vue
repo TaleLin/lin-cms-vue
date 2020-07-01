@@ -11,7 +11,6 @@
             ref="form"
             label-position="right"
             label-width="100px"
-            v-loading="loading"
             @submit.native.prevent
           >
             <el-form-item label="分组名称" prop="name">
@@ -30,7 +29,7 @@
               </group-permissions>
             </el-form-item>
             <el-form-item class="submit">
-              <el-button type="primary" @click="submitForm('form')">保 存</el-button>
+              <el-button type="primary" :loading="loading" @click="submitForm('form')">保 存</el-button>
               <el-button @click="resetForm('form')">重 置</el-button>
             </el-form-item>
           </el-form>
