@@ -17,12 +17,10 @@ module.exports = {
     'import/no-unresolved': 0,
     'no-underscore-dangle': 0, // 无下划线
     'no-restricted-syntax': 0,
-    'no-restricted-syntax': 0,
     'consistent-return': 'off',
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
     semi: ['error', 'never'], // 无分号
-    'max-len': ['error', { code: 200 }],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
     'no-param-reassign': ['error', { props: false }],
