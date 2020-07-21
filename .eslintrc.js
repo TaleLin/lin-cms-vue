@@ -19,9 +19,9 @@ module.exports = {
     'no-underscore-dangle': 0, // 无下划线
     'no-restricted-syntax': 0,
     'consistent-return': 'off',
+    semi: ['error', 'never'],
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
-    semi: ['error', 'never'], // 无分号
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
     'no-param-reassign': ['error', { props: false }],
