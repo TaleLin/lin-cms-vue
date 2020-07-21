@@ -1,0 +1,55 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - demo
+
+jobs:
+  build:
+    name: 编译
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['8','10','12']
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: 安装依赖
+      run: npm i
+    - name: 编译文件
+      run: |
+        npm run lint
+        npm run build
+  deploy:
+    name: 部署
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v2
+      - name: 安装 Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: 安装依赖
+        run: npm i
+      - name: 编译文件
+        run: |
+          npm run lint
+          npm run build
+      - name: 上传文件
+        uses: easingthemes/ssh-deploy@v2.1.4
+        env:
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+  
