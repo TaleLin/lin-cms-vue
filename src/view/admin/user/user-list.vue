@@ -214,7 +214,6 @@ export default {
     },
     // 切换tab栏
     handleClick(tab) {
-      console.log(tab)
       this.activeTab = tab.name
     },
     // 监听子组件更新用户信息是否成功
@@ -260,7 +259,10 @@ export default {
   async created() {
     await this.getAdminUsers()
     this.getAllGroups()
-    this.tableColumn = [{ prop: 'username', label: '名称' }, { prop: 'groupNames', label: '所属分组' }] // 设置表头信息
+    this.tableColumn = [
+      { prop: 'username', label: '名称' },
+      { prop: 'groupNames', label: '所属分组' },
+    ] // 设置表头信息
     this.operate = [
       { name: '编辑', func: 'handleEdit', type: 'primary' },
       { name: '删除', func: 'handleDelete', type: 'danger' },

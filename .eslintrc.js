@@ -9,6 +9,7 @@ module.exports = {
   plugins: ['vue'],
   extends: ['plugin:vue/essential', '@vue/airbnb'],
   rules: {
+    'max-len': 0,
     camelcase: 0, // 变量可以用下划线
     'no-plusplus': 0, // 禁止使用++，--
     'guard-for-in': 0,
