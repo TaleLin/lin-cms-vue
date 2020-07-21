@@ -1,0 +1,8 @@
+// 本文件是自动生成, 请勿修改
+<% plugins.forEach(function(plugin){ %>import <%= plugin.camelCaseName %> from '@/plugin/<%= plugin.name %>/stage-config'
+<% }); %>
+const pluginsConfig = [
+<% plugins.forEach(function(plugin){ %>  <%= plugin.camelCaseName %>,
+<% }); %>]
+
+export default pluginsConfig

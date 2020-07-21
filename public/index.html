@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="./iconfont.css" />
+    <script src="//at.alicdn.com/t/font_1104271_so151lbumpq.js"></script>
+    <title>lin-cms</title>
+    <style>
+      #loader {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background:#fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: display 1s ease .5s;
+      }
+      .loader-logo {
+        width: 60px;
+        height: 91px;
+        position: fixed;
+        left: 20%;
+        top: 43%;
+      }
+      .spinner {
+        position: relative;
+        line-height: 0;
+        box-sizing: border-box;
+        width: 40px;
+        height: 40px;
+        color: #3963bc;
+      }
+
+      .spinner:before {
+        content: '';
+        width: 100%;
+        height: 20%;
+        min-width: 5px;
+        background: #000;
+        opacity: 0.1;
+        position: absolute;
+        bottom: 0%;
+        left: 0;
+        border-radius: 50%;
+        animation: rotate-square-2-shadow .5s linear infinite;
+      }
+      .spinner:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: #3963bc;
+        animation: rotate-square-2-animate .5s linear infinite;
+        position: absolute;
+        bottom:40%;
+        left: 0;
+        border-radius: 3px;
+      }
+    
+
+    @keyframes rotate-square-2-animate {
+      17% {
+        border-bottom-right-radius: 3px;
+      }
+      25% {
+        transform: translateY(20%) rotate(22.5deg);
+      }
+      50% {
+        transform: translateY(40%) scale(1, .9) rotate(45deg);
+        border-bottom-right-radius: 50%;
+      }
+      75% {
+        transform: translateY(20%) rotate(67.5deg);
+      }
+      100% {
+        transform: translateY(0) rotate(90deg);
+      }
+    }
+
+    @keyframes rotate-square-2-shadow {
+      0%, 100% {
+        transform: scale(1, 1);
+      }
+      50% {
+        transform: scale(1.2, 1);
+      }
+    }
+    </style>
+  </head>
+
+  <body>
+
+    <div id="loader">
+        <div class="spinner spinner--rotate-square-2"></div>
+        <img src="./static/img/logo.png" alt="" class="loader-logo">
+    </div>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

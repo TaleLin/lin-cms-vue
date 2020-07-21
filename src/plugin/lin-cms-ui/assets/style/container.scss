@@ -1,0 +1,25 @@
+.lin-wrap-ui /deep/ .el-card__body {
+  padding-top: 30px;
+  padding-bottom: 0px;
+}
+.lin-wrap-ui /deep/ .el-collapse {
+  border-top: none;
+  border-bottom: none;
+  cursor: pointer;
+  .el-collapse-item__header {
+    border-bottom: none;
+    color: #2f4e8c;
+    padding-left: calc(100% - 77px);
+  }
+
+  .el-collapse-item__content {
+    background: #e9f0f8;
+    color: #2f4e8c;
+    border-radius: 4px;
+    padding: 0px 20px 20px 20px;
+    margin-bottom: 20px;
+  }
+}
+.lin-wrap-ui {
+  padding: 30px 40px;
+}

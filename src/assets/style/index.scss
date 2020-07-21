@@ -1,0 +1,23 @@
+@import './realize/reset';
+@import './realize/animation';
+@import './realize/transition';
+@import './realize/global';
+
+.lin-container {
+  .el-divider--horizontal {
+    margin:0px;
+  }
+  .lin-title {
+    height: 59px;
+    line-height: 59px;
+    color: $parent-title-color;
+    font-size: 16px;
+    font-weight: 500;
+    text-indent: 40px;
+    border-bottom: 1px solid #dae1ed;
+  }
+
+  .lin-wrap {
+    padding: 20px;
+  }
+}

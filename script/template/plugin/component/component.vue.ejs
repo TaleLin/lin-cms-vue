@@ -1,0 +1,41 @@
+<template>
+  <div>
+    <div>组件: <%= camelCaseName %>test</div>
+    <div><img :src="logo" alt="logo" /></div>
+  </div>
+</template>
+
+<script>
+import logo from '../assets/image/logo.png'
+
+export default {
+  name: '<%= camelCaseName %>Test',
+  components: {},
+  data() {
+    return {
+      logo,
+    }
+  },
+  props: {
+    // 组件属性定义, 参考 https://cn.vuejs.org/v2/guide/components-props.html#Prop-验证
+    // propName: {
+    //  type: Array,
+    //   default: () => [],
+    // },
+  },
+  // 如果需要支持 v-model 需要进行如下设置, 参考 https://cn.vuejs.org/v2/guide/components-custom-events.html#自定义组件的-v-model
+  // model: {
+  //   prop: 'tags',
+  //   event: 'change',
+  // },
+  // 计算属性设置
+  computed: {},
+  // 数据变更监听
+  watch: {},
+  mounted() {},
+  methods: {},
+}
+</script>
+
+<style scoped lang="scss">
+</style>
