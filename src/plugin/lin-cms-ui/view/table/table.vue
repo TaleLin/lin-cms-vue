@@ -6,12 +6,12 @@
         <div slot="header"><span>基础表格</span></div>
         <el-row>
           <el-table :data="tableData" style="width: 100%" stripe>
-            <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
-            <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-            <el-table-column prop="province" label="省份" width="120"></el-table-column>
-            <el-table-column prop="city" label="市区" width="120"></el-table-column>
-            <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
-            <el-table-column prop="address" label="地址"></el-table-column>
+            <el-table-column align="center" fixed prop="date" label="日期" width="150"></el-table-column>
+            <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
+            <el-table-column align="center" prop="province" label="省份" width="120"></el-table-column>
+            <el-table-column align="center" prop="city" label="市区" width="120"></el-table-column>
+            <el-table-column align="center" prop="zip" label="邮编" width="120"></el-table-column>
+            <el-table-column align="center" prop="address" label="地址"></el-table-column>
           </el-table>
         </el-row>
         <el-collapse>

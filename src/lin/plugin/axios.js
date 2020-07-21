@@ -18,6 +18,19 @@ const config = {
   },
 }
 
+/**
+ * 错误码是否是refresh相关
+ * @param {number} code 错误码
+ */
+function refreshTokenException(code) {
+  let flag = false
+  const codes = [10000, 10042, 10050, 10052]
+  if (codes.includes(code)) {
+    flag = true
+  }
+  return flag
+}
+
 // const retryTime = 2 // 请求失败重试次数
 // const retryDelay = 1500 // 请求失败重试间隔
 
@@ -117,7 +130,7 @@ _axios.interceptors.response.use(
       const { url } = res.config
 
       // refreshToken相关，直接登出
-      if (code === 10000 || code === 10042 || code === 10052) {
+      if (refreshTokenException(code)) {
         setTimeout(() => {
           store.dispatch('loginOut')
           const { origin } = window.location

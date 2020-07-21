@@ -9,6 +9,7 @@ module.exports = {
   plugins: ['vue'],
   extends: ['plugin:vue/essential', '@vue/airbnb'],
   rules: {
+    'max-len': 0,
     camelcase: 0, // 变量可以用下划线
     'no-plusplus': 0, // 禁止使用++，--
     'guard-for-in': 0,
@@ -17,12 +18,10 @@ module.exports = {
     'import/no-unresolved': 0,
     'no-underscore-dangle': 0, // 无下划线
     'no-restricted-syntax': 0,
-    'no-restricted-syntax': 0,
     'consistent-return': 'off',
+    semi: ['error', 'never'],
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
-    semi: ['error', 'never'], // 无分号
-    'max-len': ['error', { code: 200 }],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
     'no-param-reassign': ['error', { props: false }],
