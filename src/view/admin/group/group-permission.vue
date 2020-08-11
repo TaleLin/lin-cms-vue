@@ -38,14 +38,13 @@ export default {
   props: ['id', 'title'],
   data() {
     return {
-      allPermissions: {}, // 所有分组权限
-      allAuthIds: [],
-      // permissions: [], // 拥有的分组权限
-      permission_module_name: [], // 权限组 module name
-      permission_module_ids: [], // 权限组 集合 id
-      halfPermissions: [], // 该分类下的权限没有全选中
-      cacheFlag: true,
       loading: false,
+      cacheFlag: true,
+      allAuthIds: [],
+      allPermissions: {}, // 所有分组权限
+      halfPermissions: [], // 该分类下的权限没有全选中
+      permission_module_ids: [], // 权限组 集合 id
+      permission_module_name: [], // 权限组 module name
     }
   },
   async created() {
@@ -61,6 +60,11 @@ export default {
   methods: {
     // 获取分组权限
     async getGroupPermissions() {
+      this.allPermissions = []
+      this.halfPermissions = []
+      this.permission_module_ids = []
+      this.permission_module_name = []
+
       this.allPermissions = await Admin.getAllPermissions()
       // 通过判断有没有传入id，来判断当前页面是添加分组还是编辑分组
       if (this.id) {
