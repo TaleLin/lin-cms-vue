@@ -71,6 +71,7 @@ export default {
           delRes = await Admin.removePermissions(this.$route.query.id, deletePermissions)
         }
         if (addRes.code < window.MAX_SUCCESS_CODE || delRes.code < window.MAX_SUCCESS_CODE) {
+          this.$refs.groupPermissions.getGroupPermissions()
           this.$message.success('权限修改成功')
         }
       }
