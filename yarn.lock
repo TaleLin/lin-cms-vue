@@ -12466,10 +12466,10 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://r.cnpmjs.org/timsort/download/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
 
-tinymce@^5.0.1:
-  version "5.1.3"
-  resolved "https://registry.npm.taobao.org/tinymce/download/tinymce-5.1.3.tgz#3b18be5689ec1c38dc9188c7a7dd948acdcf2895"
-  integrity sha1-Oxi+VonsHDjckYjHp92Uis3PKJU=
+tinymce@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/tinymce/-/tinymce-5.4.0.tgz#ae9c784fd36651d4d457be844a18fc138ca4f1f3"
+  integrity sha512-b3j+cUogfOtRt07Zc6iOrOAVosm4hekLtE85lmvjH7tPH7ncAIBv/cpdre9GdfeXSz7TVIJWASVvi4hkOTTh3A==
 
 tmp@^0.0.33:
   version "0.0.33"
