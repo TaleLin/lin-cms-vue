@@ -22,12 +22,21 @@ module.exports = {
     semi: ['error', 'never'],
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
+    'template-curly-spacing': 'off',
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
     'no-param-reassign': ['error', { props: false }],
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['script/**/*.js'] }],
+    indent: [
+      'warn',
+      2,
+      {
+        ignoredNodes: ['TemplateLiteral'],
+        SwitchCase: 1,
+      },
+    ],
     'object-curly-newline': [
       'error',
       {
