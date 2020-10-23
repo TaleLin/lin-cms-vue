@@ -1,6 +1,6 @@
 
 <p align="center">
-  <a href="http://doc.cms.7yue.pro/">
+  <a href="http://doc.cms.talelin.com/">
     <img width="200" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/left-logo.png">
   </a>
 </p>
@@ -41,11 +41,11 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 
 ### 线上 Demo
 
-[http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
+[http://face.cms.talelin.com/](http://face.cms.talelin.com/)
 
 ### 案例
 
-[http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
+[http://sleeve.talelin.com/](http://sleeve.talelin.com/)
 
 
 ### Lin CMS 的特点
@@ -91,7 +91,7 @@ npm run serve or yarn (run) serve
 ## 讨论交流
 微信公众号搜索：林间有风
 <br>
-<img class="QR-img" src="http://i1.sleeve.7yue.pro/wechat-account.jpeg" width="150" height="150">
+<img class="QR-img" src="http://i1.sleeve.talelin.com/wechat-account.jpeg" width="150" height="150">
 
 QQ群搜索：Lin CMS 官方交流群 或 814597236
 
