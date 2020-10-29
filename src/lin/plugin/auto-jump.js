@@ -2,15 +2,13 @@
 import Vue from 'vue'
 import Config from '@/config'
 import store from '@/store'
+import router from '@/router'
 
 const Plugin = {
   install(vue) {
-    // eslint-disable-next-line
     vue.prototype.$_lin_jump = () => {
-      // eslint-disable-line
-      if (!Config.openAutoJumpOut) {
-        return
-      }
+      if (router.currentRoute.path === '/' || router.currentRoute.path === '/login' || !Config.openAutoJumpOut) return
+
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         store.dispatch('loginOut')
