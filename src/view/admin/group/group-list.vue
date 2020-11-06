@@ -39,10 +39,12 @@
           </el-form-item>
         </el-form>
       </div>
-      <div slot="footer" class="dialog-footer" style="padding-left:5px;">
-        <el-button type="primary" @click="confirmEdit">确 定</el-button>
-        <el-button @click="resetForm('form')">重 置</el-button>
-      </div>
+      <template v-slot:footer>
+        <div class="dialog-footer" style="padding-left:5px;">
+          <el-button type="primary" @click="confirmEdit">确 定</el-button>
+          <el-button @click="resetForm('form')">重 置</el-button>
+        </div>
+      </template>
     </el-dialog>
   </div>
 </template>

@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import { ref, reactive } from '@vue/composition-api'
-import { Message } from 'element-ui'
+import { ref, reactive } from 'vue'
+import { Message } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import GroupPermissions from './group-permission'
 

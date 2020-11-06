@@ -6,7 +6,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { onMounted } from '@vue/composition-api'
+import { onMounted } from 'vue'
 
 export default {
   setup(props, ctx) {

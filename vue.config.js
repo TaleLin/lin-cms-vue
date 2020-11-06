@@ -12,7 +12,7 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src'))
       .set('lin', resolve('src/lin'))
-      .set('assets', resolve('src/asset'))
+      .set('assets', resolve('src/assets'))
     config.module
       .rule('md')
       .test(/\.md$/)
@@ -30,7 +30,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "@/assets/style/share.scss";',
+        prependData: `@import "@/assets/style/shared.scss";`,
       },
     },
   },

@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { reactive, ref } from '@vue/composition-api'
-import { Message } from 'element-ui'
+import { reactive, ref } from 'vue'
+import { Message } from 'element-plus'
 import bookModel from '@/model/book'
 
 export default {
@@ -52,10 +52,9 @@ export default {
       image: '',
     })
 
-    const listAssign = (a, b) =>
-      Object.keys(a).forEach(key => {
-        a[key] = b[key] || a[key]
-      })
+    const listAssign = (a, b) => Object.keys(a).forEach(key => {
+      a[key] = b[key] || a[key]
+    })
 
     loading.value = true
     bookModel

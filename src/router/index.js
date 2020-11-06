@@ -1,5 +1,5 @@
-import { createRouter } from 'vue-router'
-import { Message } from 'element-ui'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import { Message } from 'element-plus'
 
 import routes from './route'
 import store from '../store'
@@ -40,6 +40,7 @@ const router = createRouter({
     y: 0,
   }),
   base: process.env.BASE_URL,
+  history: createWebHashHistory(),
   routes,
 })
 

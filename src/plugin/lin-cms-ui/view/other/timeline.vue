@@ -3,7 +3,9 @@
     <div class="lin-title">Timeline 时间线</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>基础用法</span></div>
+        <template v-slot:header>
+          <div><span>基础用法</span></div>
+        </template>
         <el-row>
           <span class="demonstration"
             >Timeline 可拆分成多个按照时间戳正序或倒序排列的 activity，时间戳是其区分于其他控件的重要特征，使⽤时注意与
@@ -31,7 +33,9 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>⾃定义节点样式</span></div>
+        <template v-slot:header>
+          <div><span>⾃定义时间戳</span></div>
+        </template>
         <el-row>
           <div class="block">
             <el-timeline>
@@ -56,7 +60,9 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>⾃定义时间戳</span></div>
+        <template v-slot:header>
+          <div><span>⾃定义时间戳</span></div>
+        </template>
         <el-row>
           <div class="block">
             <el-timeline>

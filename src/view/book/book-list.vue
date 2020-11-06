@@ -20,8 +20,8 @@
 </template>
 
 <script>
-import { reactive, onMounted, ref, toRefs } from '@vue/composition-api'
-import { MessageBox, Message } from 'element-ui'
+import { reactive, onMounted, ref, toRefs } from 'vue'
+import { MessageBox, Message } from 'element-plus'
 import bookModel from '@/model/book'
 import LinTable from '@/component/base/table/lin-table'
 import BookModify from './book-modify'

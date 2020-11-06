@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted } from '@vue/composition-api'
-import { Message } from 'element-ui'
+import { ref, reactive, onMounted } from 'vue'
+import { Message } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import UserModel from '@/lin/model/user'
 
@@ -134,7 +134,8 @@ export default {
               console.error(e)
             }
           } else {
-            // 2. 更新用户信息
+            // 2. 更新用户信息 TODO
+            // eslint-disable-next-line vue/no-mutating-props
             if (userInfo.groupIDs.sort().toString() === props.info.groupIDs.sort().toString()) {
               ctx.emit('handleInfoResult', false)
               return

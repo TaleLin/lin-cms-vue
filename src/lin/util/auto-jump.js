@@ -5,11 +5,12 @@ import store from '@/store'
 import Config from '@/config'
 
 export default () => {
-  if (!Config.openAutoJumpOut) {
-    return
-  }
-  clearTimeout(this.timer)
-  this.timer = setTimeout(() => {
+  let timer
+
+  if (!Config.openAutoJumpOut) return
+  if (timer) clearTimeout(timer)
+
+  timer = setTimeout(() => {
     store.dispatch('loginOut')
     const { origin } = window.location
     window.location.href = origin

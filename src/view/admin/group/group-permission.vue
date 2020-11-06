@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from '@vue/composition-api'
+import { onMounted, ref } from 'vue'
 import AdminModel from '@/lin/model/admin'
 
 export default {

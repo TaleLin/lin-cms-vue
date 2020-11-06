@@ -1,4 +1,4 @@
-import { Message } from 'element-ui'
+import { Message } from 'element-plus'
 
 // import EventSourcePolyfill from 'event-source-polyfill'
 import 'event-source-polyfill/src/eventsource'

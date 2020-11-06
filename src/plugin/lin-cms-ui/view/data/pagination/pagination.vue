@@ -63,7 +63,7 @@
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page.sync="currentPage1"
+              v-model:current-page="currentPage1"
               :page-size="100"
               layout="total, prev, pager, next"
               :total="1000"
@@ -75,7 +75,7 @@
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page.sync="currentPage2"
+              v-model:current-page="currentPage2"
               :page-sizes="[100, 200, 300, 400]"
               :page-size="100"
               layout="sizes, prev, pager, next"
@@ -88,7 +88,7 @@
             <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page.sync="currentPage3"
+              v-model:current-page="currentPage3"
               :page-size="100"
               layout="prev, pager, next, jumper"
               :total="1000"

@@ -1,4 +1,4 @@
-import { provide, ref, inject } from '@vue/composition-api'
+import { provide, ref, inject } from 'vue'
 
 // eslint-disable-next-line symbol-description
 const adminSymbol = Symbol()

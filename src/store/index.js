@@ -1,5 +1,4 @@
-import { createStore } from 'vuex'
-import createLogger from 'vuex/dist/logger'
+import { createStore, createLogger } from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import mutations from './mutation'
 import state from './state'

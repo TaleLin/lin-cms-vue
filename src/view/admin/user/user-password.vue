@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { Message } from 'element-ui'
-import { reactive, ref } from '@vue/composition-api'
+import { Message } from 'element-plus'
+import { reactive, ref } from 'vue'
 import AdminModel from '@/lin/model/admin'
 
 export default {

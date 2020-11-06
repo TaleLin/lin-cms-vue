@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
 
 import '@/config/global'
 import '@/lin/plugin'
-// import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import permissionDirective from '@/lin/directive/authorize'
 
 import App from '@/app.vue'
@@ -13,21 +13,20 @@ import LIcon from '@/component/base/icon/lin-icon'
 import StickyTop from '@/component/base/sticky-top/sticky-top'
 import SourceCode from '@/component/base/source-code/source-code'
 
-import '@/assets/style/index.scss' // eslint-disable-line
+import '@/assets/style/index.scss'
 import '@/assets/style/realize/element-variable.scss'
-import 'element-ui/lib/theme-chalk/display.css'
+import 'element-plus/lib/theme-chalk/index.css'
 
 const app = createApp(App)
 
-// app.component(CollapseTransition.name, CollapseTransition)
+app.use(store)
+app.use(router)
+app.use(ElementPlus)
 
 // base 组件注册
 app.component('l-icon', LIcon)
 app.component('sticky-top', StickyTop)
 app.component('source-code', SourceCode)
-
-app.use(store)
-app.use(router)
 
 app.directive('permission', permissionDirective)
 

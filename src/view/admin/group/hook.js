@@ -1,5 +1,5 @@
-import { ref, onMounted, reactive } from '@vue/composition-api'
-import { MessageBox, Message } from 'element-ui'
+import { ref, onMounted, reactive } from 'vue'
+import { MessageBox, Message } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 
 export const useGroupList = () => {

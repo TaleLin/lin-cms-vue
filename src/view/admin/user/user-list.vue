@@ -67,8 +67,8 @@
 </template>
 
 <script>
-import { ref, reactive } from '@vue/composition-api'
-import { MessageBox, Message } from 'element-ui'
+import { ref, reactive } from 'vue'
+import { MessageBox, Message } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import LinTable from '@/component/base/table/lin-table'
 import UserInfo from './user-info'

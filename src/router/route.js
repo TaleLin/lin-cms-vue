@@ -15,7 +15,7 @@ const routes = [
   },
   {
     redirect: '/404',
-    path: '*',
+    path: '/:pathMatch(.*)',
   },
 ]
 

@@ -166,7 +166,7 @@ export default {
     },
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.eventBus.$off('noReuse')
     this.eventBus.$off('hasReuse')
   },

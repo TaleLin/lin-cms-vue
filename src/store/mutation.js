@@ -34,8 +34,8 @@ export default {
   [types.SET_USER_PERMISSIONS](state, permissions) {
     const _permissions = []
     for (let i = 0; i < permissions.length; i++) {
+      // eslint-disable-next-line no-unused-vars
       for (const key in permissions[i]) {
-        // console.log(i, state.user.permissions[i][key])
         for (let j = 0; j < permissions[i][key].length; j++) {
           _permissions.push(permissions[i][key][j].permission)
         }

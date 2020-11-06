@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from '@vue/composition-api'
+import { ref, onMounted } from 'vue'
 import Admin from '@/lin/model/admin'
 import UserInfo from './user-info'
 

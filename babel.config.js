@@ -1,18 +1,11 @@
 /* eslint-disable comma-dangle */
 module.exports = {
-  presets: [
-    [
-      '@vue/app',
-      {
-        useBuiltIns: 'entry'
-      }
-    ]
-  ],
+  presets: [['@vue/cli-plugin-babel/preset']],
   plugins: [
     [
       'component',
       {
-        libraryName: 'element-ui',
+        libraryName: 'element-plus',
         styleLibraryName: 'theme-chalk',
       },
     ],

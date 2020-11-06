@@ -41,7 +41,7 @@
 <script>
 // photoswipe接口文档 http://photoswipe.com/documentation/api.html
 
-import { Loading } from 'element-ui'
+import { Loading } from 'element-plus'
 import 'photoswipe/dist/photoswipe.css'
 import 'photoswipe/dist/default-skin/default-skin.css'
 import PhotoSwipe from 'photoswipe/dist/photoswipe'

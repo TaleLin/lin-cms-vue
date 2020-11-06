@@ -3,7 +3,9 @@
     <div class="lin-title">Table</div>
     <div class="lin-wrap-ui">
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header"><span>基础表格</span></div>
+        <template v-slot:header>
+          <div><span>基础表格</span></div>
+        </template>
         <el-row>
           <el-table :data="tableData" style="width: 100%" stripe>
             <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
@@ -22,7 +24,9 @@
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header"><span>带边框表格</span></div>
+        <template v-slot:header>
+          <div><span>带边框表格</span></div>
+        </template>
         <el-row>
           <el-table :data="tableData" style="width: 100%" border stripe>
             <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
@@ -41,7 +45,9 @@
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;" height="200">
-        <div slot="header"><span>固定表头</span></div>
+        <template v-slot:header>
+          <div><span>固定表头</span></div>
+        </template>
         <el-row>
           <el-table :data="tableData" height="200" stripe>
             <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
@@ -60,7 +66,9 @@
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;" height="200">
-        <div slot="header"><span>固定列</span></div>
+        <template v-slot:header>
+          <div><span>固定列</span></div>
+        </template>
         <el-row>
           <el-table :data="tableData" style="width:800px;margin-left:auto;margin-right:auto;">
             <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
@@ -79,7 +87,9 @@
       </el-card>
 
       <el-card class="box-card" style="margin-bottom:50px;">
-        <div slot="header"><span>带操作区表格</span></div>
+        <template v-slot:header>
+          <div><span>带操作区表格</span></div>
+        </template>
         <el-row>
           <el-table :data="tableData" style="width: 100%">
             <el-table-column fixed prop="date" label="日期" width="150"></el-table-column>
@@ -89,7 +99,7 @@
             <el-table-column prop="address" label="地址" width="300"></el-table-column>
             <el-table-column prop="zip" label="邮编" width="120"></el-table-column>
             <el-table-column label="操作" width="140" fixed="right">
-              <template slot-scope="scope">
+              <template v-slot="scope">
                 <el-button @click="handleClick(scope.row)" type="primary" plain size="mini">编辑</el-button>
                 <el-button type="danger" size="mini" plain>删除</el-button>
               </template>

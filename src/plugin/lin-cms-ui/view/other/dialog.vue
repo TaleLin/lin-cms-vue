@@ -3,15 +3,19 @@
     <div class="lin-title">Dialog 对话框</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>基础用法</span></div>
+        <template #header>
+          <div><span>基础用法</span></div>
+        </template>
         <el-row>
           <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
           <el-dialog title="提示" v-model:visible="dialogVisible" width="30%" :before-close="handleClose">
             <span>这是一段信息</span>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-            </span>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+            </template>
           </el-dialog>
         </el-row>
         <el-collapse>
@@ -21,7 +25,9 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>自定义内容</span></div>
+        <template #header>
+          <div><span>自定义内容</span></div>
+        </template>
         <el-row>
           <el-button type="text" @click="dialogTableVisible = true">打开嵌套表格的 Dialog</el-button>
 
@@ -48,10 +54,12 @@
                 </el-select>
               </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-            </div>
+            <template #footer>
+              <div class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+              </div>
+            </template>
           </el-dialog>
         </el-row>
         <el-collapse class="test" style="color:red;">
@@ -61,7 +69,9 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>嵌套的 Dialog</span></div>
+        <template #header>
+          <div><span>嵌套的 Dialog</span></div>
+        </template>
         <el-row>
           <span class="demonstration">如果需要在一个 Dialog 内部嵌套另一个 Dialog，需要使用 append-to-body 属性</span>
           <template>
@@ -69,10 +79,12 @@
 
             <el-dialog title="外层 Dialog" v-model:visible="outerVisible">
               <el-dialog width="30%" title="内层 Dialog" v-model:visible="innerVisible" append-to-body> </el-dialog>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="outerVisible = false">取 消</el-button>
-                <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
-              </div>
+              <template #footer>
+                <div class="dialog-footer">
+                  <el-button @click="outerVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="innerVisible = true">打开内层 Dialog</el-button>
+                </div>
+              </template>
             </el-dialog>
           </template>
         </el-row>
@@ -83,17 +95,21 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>居中布局</span></div>
+        <template v-slot:header>
+          <div><span>居中布局</span></div>
+        </template>
         <el-row>
           <span class="demonstration">标题和底部可水平居中</span>
           <el-button type="text" @click="centerDialogVisible = true">点击打开 Dialog</el-button>
 
           <el-dialog title="提示" v-model:visible="centerDialogVisible" width="30%" center>
             <span>需要注意的是内容是默认不居中的</span>
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="centerDialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-            </span>
+            <template v-slot:footer>
+              <span class="dialog-footer">
+                <el-button @click="centerDialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+              </span>
+            </template>
           </el-dialog>
         </el-row>
         <el-collapse class="test" style="color:red;">

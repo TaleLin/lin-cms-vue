@@ -3,7 +3,9 @@
     <div class="lin-title">Notification 通知</div>
     <div class="lin-wrap-ui">
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>基础用法</span></div>
+        <template #header>
+          <div><span>基础用法</span></div>
+        </template>
         <el-row>
           <div>
             <template>
@@ -19,7 +21,9 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>带有倾向性</span></div>
+        <template #header>
+          <div><span>带有倾向性</span></div>
+        </template>
         <el-row>
           <div>
             <template>
@@ -37,7 +41,9 @@
         </el-collapse>
       </el-card>
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>自定义弹出位置</span></div>
+        <template #header>
+          <div><span>自定义弹出位置</span></div>
+        </template>
         <el-row>
           <div>
             <template>
@@ -56,7 +62,9 @@
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>带有偏移</span></div>
+        <template #header>
+          <div><span>带有偏移</span></div>
+        </template>
         <el-row>
           <div>
             <template>
@@ -72,7 +80,9 @@
       </el-card>
 
       <el-card style="margin-bottom:50px;">
-        <div slot="header"><span>使用 HTML 片段</span></div>
+        <template #header>
+          <div><span>使用 HTML 片段</span></div>
+        </template>
         <el-row>
           <div>
             <template>

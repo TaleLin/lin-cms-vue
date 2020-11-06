@@ -1,4 +1,4 @@
-import { ref, onMounted } from '@vue/composition-api'
+import { ref, onMounted } from 'vue'
 import AdminModel from '@/lin/model/admin'
 
 export const useUserList = () => {

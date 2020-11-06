@@ -29,6 +29,7 @@ export default class Notify {
    * @param {number} group_id
    * @param {Array} events
    */
+  // eslint-disable-next-line camelcase
   async createEvents(group_id, events) {
     const res = await post('cms/notify/events', { group_id, events })
     return res
@@ -39,6 +40,7 @@ export default class Notify {
    * @param {number} group_id
    * @param {Array} events
    */
+  // eslint-disable-next-line camelcase
   async updateEvents(group_id, events) {
     const res = await put('cms/notify/events', { group_id, events })
     return res

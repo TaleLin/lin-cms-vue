@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import { ref } from '@vue/composition-api'
-import { Message } from 'element-ui'
+import { ref } from 'vue'
+import { Message } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import GroupPermissions from './group-permission'
 

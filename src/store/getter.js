@@ -33,6 +33,7 @@ export const unreadMessages = state => state.unreadMessages
  */
 function IterationDelateMenuChildren(arr) {
   if (arr.length) {
+    // eslint-disable-next-line no-unused-vars
     for (const i in arr) {
       if (arr[i].children && !arr[i].children.length) {
         delete arr[i]

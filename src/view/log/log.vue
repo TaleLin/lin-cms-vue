@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { computed, ref, reactive, watch, onMounted, toRefs } from '@vue/composition-api'
+import { computed, ref, reactive, watch, onMounted, toRefs } from 'vue'
 
 import logModel from 'lin/model/log'
 import { searchLogKeyword } from 'lin/util/search'

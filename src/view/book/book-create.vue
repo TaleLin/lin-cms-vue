@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import { reactive, toRefs } from '@vue/composition-api'
-import { Message } from 'element-ui'
+import { reactive, toRefs } from 'vue'
+import { Message } from 'element-plus'
 import bookModel from '@/model/book'
 
 export default {

@@ -9,11 +9,12 @@ module.exports = {
   plugins: ['vue'],
   extends: ['plugin:vue/vue3-essential', '@vue/airbnb'],
   rules: {
+    'vue/custom-event-name-casing': 'off',
+    'vue/no-deprecated-slot-attribute': 'off',
+    'vue/experimental-script-setup-vars': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'max-len': 0,
     'no-shadow': 0,
-    camelcase: 0, // 变量可以用下划线
     'no-plusplus': 0, // 禁止使用++，--
     'guard-for-in': 0,
     'no-extra-semi': 0, // 和prettier冲突

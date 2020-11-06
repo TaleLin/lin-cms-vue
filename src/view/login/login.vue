@@ -21,9 +21,10 @@
   </div>
 </template>
 
-<script>
-import { reactive, ref, onMounted } from '@vue/composition-api'
-import { Message } from 'element-ui'
+<script setup>
+import { reactive, ref, onMounted } from 'vue'
+import { Message } from 'element-plus'
+import { useStore } from 'vuex'
 import UserModel from '@/lin/model/user'
 import Utils from '@/lin/util/util'
 
@@ -31,7 +32,7 @@ export default {
   setup(props, ctx) {
     const wait = 2000 // 2000ms之内不能重复发起请求
     const loading = ref(false)
-    const { $store } = ctx.root
+    const store = useStore()
     const throttleLogin = ref(null)
 
     const account = reactive({
@@ -65,8 +66,8 @@ export default {
       try {
         // 尝试获取当前用户信息
         const user = await UserModel.getPermissions()
-        $store.dispatch('setUserAndState', user)
-        $store.commit('SET_USER_PERMISSIONS', user.permissions)
+        store.dispatch('setUserAndState', user)
+        store.commit('SET_USER_PERMISSIONS', user.permissions)
       } catch (e) {
         console.error(e)
       }

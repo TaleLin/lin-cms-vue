@@ -4,28 +4,15 @@
 
 <script>
 import { mapActions } from 'vuex'
-import Vue from 'vue'
-import { useProvide } from './lin/context/index'
 
 export default {
-  setup() {
-    useProvide()
-    return {}
-  },
   data() {
     return {
       timer: null,
-      eventBus: new Vue(),
     }
   },
   mounted() {
     document.getElementById('loader').style.display = 'none'
-  },
-  provide() {
-    // eventBus挂载的事件： addGroup addUser
-    return {
-      eventBus: this.eventBus,
-    }
   },
   methods: {
     ...mapActions(['loginOut']),

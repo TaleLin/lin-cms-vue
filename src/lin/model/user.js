@@ -59,6 +59,7 @@ export default class User {
    * @param {string} confirmPassword 确认新密码
    * @param {string} oldPassword 旧密码
    */
+  // eslint-disable-next-line camelcase
   static updatePassword({ old_password, new_password, confirm_password }) {
     return put('cms/user/change_password', {
       new_password,

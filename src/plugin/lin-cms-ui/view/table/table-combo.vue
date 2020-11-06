@@ -144,7 +144,7 @@
               plain
               size="mini"
               :key="index"
-              @click.native.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
+              @click.prevent.stop="buttonMethods(item.func, scope.$index, scope.row)"
               >{{ item.name }}</el-button
             >
           </template>
