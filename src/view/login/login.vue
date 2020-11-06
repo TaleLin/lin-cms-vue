@@ -21,18 +21,20 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { reactive, ref, onMounted } from 'vue'
 import { Message } from 'element-plus'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import UserModel from '@/lin/model/user'
 import Utils from '@/lin/util/util'
 
 export default {
-  setup(props, ctx) {
+  setup() {
     const wait = 2000 // 2000ms之内不能重复发起请求
     const loading = ref(false)
     const store = useStore()
+    const router = useRouter()
     const throttleLogin = ref(null)
 
     const account = reactive({
@@ -50,7 +52,6 @@ export default {
         await UserModel.getToken(username, password)
         await getInformation()
         loading.value = false
-        const { router } = ctx.root.$options
         router.push('/about')
         Message.success('登录成功')
       } catch (e) {
