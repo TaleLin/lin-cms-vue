@@ -43,7 +43,9 @@
       </el-card>
     </div>
     <source-code
-      :link="`http://doc.cms.7yue.pro/lin/client/component/icon.html#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95`"
+      :link="
+        `https://github.com/TaleLin/lin-cms-vue/blob/8b4ef5bdc81d3f567ccc7785d61b962ad21c69cf/src/plugin/lin-cms-ui/view/basic/icon/icon.vue`
+      "
     ></source-code>
   </div>
 </template>

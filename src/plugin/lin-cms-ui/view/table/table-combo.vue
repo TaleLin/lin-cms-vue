@@ -165,7 +165,7 @@
       </div>
     </div>
     <source-code
-      link="https://github.com/TaleLin/lin-cms-vue/blob/master/src/plugins/lin-cms-ui/views/table/TableCombo.vue"
+      link="https://github.com/TaleLin/lin-cms-vue/blob/master/src/plugin/lin-cms-ui/view/table/table-combo.vue"
     ></source-code>
   </div>
 </template>
