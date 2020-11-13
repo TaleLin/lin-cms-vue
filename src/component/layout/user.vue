@@ -48,7 +48,7 @@
     >
       <div style="text-align: center;">
         <div class="avatar-croppa-container">
-          <croppa
+          <!-- <croppa
             ref="croppa"
             :width="cropRule.width"
             :height="cropRule.height"
@@ -63,7 +63,7 @@
             :quality="quality"
             :initial-image="cropImg"
           >
-          </croppa>
+          </croppa> -->
         </div>
         <div style="margin-top: 1em;">通过鼠标滚轮调节头像大小</div>
       </div>
@@ -111,14 +111,14 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Vue from 'vue'
-import Croppa from 'vue-croppa'
+// import Vue from 'vue'
+// import Croppa from 'vue-croppa'
 import axios, { post } from '@/lin/plugin/axios'
 import User from '@/lin/model/user'
 import 'vue-croppa/dist/vue-croppa.css'
 import defaultAvatar from '@/assets/image/user/user.png'
 
-Vue.use(Croppa)
+// Vue.use(Croppa)
 
 const width = 150
 const height = 150

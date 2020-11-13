@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted } from 'vue'
-import { Message } from 'element-plus'
+import { reactive, ref, onMounted, getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import UserModel from '@/lin/model/user'
 import Utils from '@/lin/util/util'
+import Config from '@/config'
 
 export default {
   setup() {
@@ -36,6 +36,7 @@ export default {
     const store = useStore()
     const router = useRouter()
     const throttleLogin = ref(null)
+    const { ctx } = getCurrentInstance()
 
     const account = reactive({
       username: 'root',
@@ -52,11 +53,13 @@ export default {
         await UserModel.getToken(username, password)
         await getInformation()
         loading.value = false
-        router.push('/about')
-        Message.success('登录成功')
+        router.push(Config.defaultRoute)
+        ctx.$message({
+          message: '登录成功',
+          type: 'success',
+        })
       } catch (e) {
         loading.value = false
-        console.log(e)
       }
     }
 

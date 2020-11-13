@@ -1,7 +1,9 @@
-import Vue from 'vue'
+// TODO: Vue3 Plugin
+import { createApp } from 'vue'
 import Preview from '@/component/base/preview/preview'
 
 const previewImage = {}
+const app = createApp()
 previewImage.install = vue => {
   // eslint-disable-line
   const PreviewConstructor = vue.extend(Preview)
@@ -22,7 +24,7 @@ previewImage.install = vue => {
     return instance
   }
 
-  vue.prototype.$imagePreview = (opts = {}) => {
+  app.config.globalProperties.$imagePreview = (opts = {}) => {
     // eslint-disable-line
     const elem = document.createElement('div')
     if (!instance) {
@@ -44,6 +46,6 @@ previewImage.install = vue => {
   }
 }
 
-Vue.use(previewImage)
+// Vue.use(previewImage)
 
 export default previewImage

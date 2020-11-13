@@ -173,6 +173,8 @@ import { ref, onMounted } from 'vue'
 
 export default {
   setup() {
+    console.log(1111)
+
     const showTeam = ref(false)
     const activeName = ref('first')
     const { clientWidth } = document.body
