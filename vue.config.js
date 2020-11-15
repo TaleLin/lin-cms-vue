@@ -23,6 +23,7 @@ module.exports = {
       .loader('vue-markdown-loader/lib/markdown-compiler')
   },
   configureWebpack: {
+    devtool: 'source-map',
     resolve: {
       extensions: ['.js', '.json', '.vue', '.scss', '.html'],
     },

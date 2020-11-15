@@ -1,7 +1,0 @@
-diff a/src/component/base/table/lin-table.vue b/src/component/base/table/lin-table.vue	(rejected hunks)
-@@ -217 +217,4 @@ export default {
--        this.toggleSelection(this.currentData.filter(item => item.key === row.key), false)
-+        this.toggleSelection(
-+          this.currentData.filter(item => item.key === row.key),
-+          false,
-+        )

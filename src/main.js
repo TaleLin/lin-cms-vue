@@ -32,5 +32,7 @@ app.directive('permission', permissionDirective)
 
 app.mount('#app')
 
+app.config.devtools = true
+
 // 设置 App 实例
 window.App = app
