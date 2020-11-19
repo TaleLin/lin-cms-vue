@@ -23,6 +23,7 @@ module.exports = {
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
     'template-curly-spacing': 'off',
+    'linebreak-style': [0, 'error', 'windows'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
     'no-param-reassign': ['error', { props: false }],
