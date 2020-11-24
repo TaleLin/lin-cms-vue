@@ -19,6 +19,6 @@ export default {
     treePath: [],
   },
 
-  sideBarLevel: appConfig.sideBarLevel || 3,
+  sidebarLevel: appConfig.sidebarLevel || 3,
   defaultRoute: appConfig.defaultRoute || '/about',
 }

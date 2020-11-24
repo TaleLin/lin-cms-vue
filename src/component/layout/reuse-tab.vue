@@ -27,6 +27,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import emitter from 'lin/util/emitter'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 import 'swiper/dist/css/swiper.css' // eslint-disable-line
@@ -88,13 +89,12 @@ export default {
     },
     histories(arr) {
       if (arr.length < 2) {
-        this.eventBus.$emit('noReuse')
+        emitter.emit('noReuse')
       } else {
-        this.eventBus.$emit('hasReuse')
+        emitter.emit('hasReuse')
       }
     },
   },
-  inject: ['eventBus'],
   created() {
     // 关闭窗口时执行
     window.onbeforeunload = () => {
@@ -113,7 +113,7 @@ export default {
   },
   mounted() {
     this.init()
-    this.eventBus.$on('clearTap', () => {
+    emitter.on('clearTap', () => {
       this.histories = []
     })
   },

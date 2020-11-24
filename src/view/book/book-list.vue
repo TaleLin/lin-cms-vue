@@ -21,7 +21,7 @@
 
 <script>
 import { reactive, onMounted, ref, toRefs } from 'vue'
-import { MessageBox, Message } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import bookModel from '@/model/book'
 import LinTable from '@/component/base/table/lin-table'
 import BookModify from './book-modify'
@@ -77,7 +77,7 @@ export default {
     }
 
     const handleDelete = val => {
-      MessageBox.confirm('此操作将永久删除该图书, 是否继续?', '提示', {
+      ElMessageBox.confirm('此操作将永久删除该图书, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -85,7 +85,7 @@ export default {
         const res = await bookModel.delectBook(val.row.id)
         if (res.code < window.MAX_SUCCESS_CODE) {
           getBooks()
-          Message.success(`${res.message}`)
+          ElMessage.success(`${res.message}`)
         }
       })
     }

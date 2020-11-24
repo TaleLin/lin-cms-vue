@@ -1,4 +1,4 @@
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 // import EventSourcePolyfill from 'event-source-polyfill'
 import 'event-source-polyfill/src/eventsource'
@@ -46,7 +46,7 @@ export default class Sse {
       // console.log('receive one message: ', event.data)
       // console.log('receive one message: ', event.lastEventId)
       store.commit('ADD_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
-      Message.warning(JSON.parse(event.data).message)
+      ElMessage.warning(JSON.parse(event.data).message)
     })
   }
 }

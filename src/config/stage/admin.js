@@ -10,7 +10,7 @@ const adminRouter = {
   permission: ['超级管理员独有权限'],
   children: [
     {
-      route: '/admin/user/list',
+      route: '/admin/user',
       name: null,
       title: '用户管理',
       type: 'folder', // 取 route 为默认加载页
@@ -41,11 +41,11 @@ const adminRouter = {
       ],
     },
     {
-      route: '/admin/group/list',
+      route: '/admin/group',
       name: null,
       title: '分组管理',
       type: 'tab', // 取 route 为默认加载页
-      icon: null,
+      icon: 'iconfont icon-yunyingguanli_fuwufenzuguanli',
       filePath: 'view/admin/group',
       inNav: true,
       children: [

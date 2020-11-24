@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 import routes from './route'
 import store from '../store'
@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
   if (store && store.state && store.getters) {
     const { permissions, user } = store.getters
     if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
-      Message.error('您无此页面的权限哟')
+      ElMessage.error('您无此页面的权限哟')
       next({ path: '/about' })
       return
     }

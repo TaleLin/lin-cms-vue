@@ -76,8 +76,9 @@ homeRouter = homeRouter.concat(plugins)
 
 // 处理顺序
 homeRouter = Utils.sortByOrder(homeRouter)
-
-// 使用 Symbol 处理 name 字段, 保证唯一性
+/**
+ * 使用 Symbol 处理 name 字段, 保证唯一性
+ */
 const deepReduceName = target => {
   if (Array.isArray(target)) {
     target.forEach(item => {
@@ -90,9 +91,7 @@ const deepReduceName = target => {
   }
   if (typeof target === 'object') {
     if (typeof target.name !== 'symbol') {
-      // eslint-disable-next-line no-param-reassign
       target.name = target.name || Utils.getRandomStr()
-      // eslint-disable-next-line no-param-reassign
       target.name = Symbol(target.name)
     }
 

@@ -42,7 +42,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import GroupPermissions from './group-permission'
 
@@ -99,15 +99,15 @@ export default {
           }
           if (res.code < window.MAX_SUCCESS_CODE) {
             loading.value = false
-            Message.success(`${res.message}`)
+            ElMessage.success(`${res.message}`)
             router.push('/admin/group/list')
             resetForm('form')
           } else {
             loading.value = false
-            Message.error(`${res.message}`)
+            ElMessage.error(`${res.message}`)
           }
         } else {
-          Message.error('请将信息填写完整')
+          ElMessage.error('请将信息填写完整')
         }
       })
     }

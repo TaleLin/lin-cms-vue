@@ -46,7 +46,7 @@ function IterationDelateMenuChildren(arr) {
 }
 
 /**
- * Shaking 掉无限制路由
+ * Shaking 掉无权限路由
  * @param {array} stageConfig 路由配置项数据
  * @param {array} permissions 当前登录管理员所拥有的权限集合
  * @param {object} currentUser 当前登录管理员
@@ -64,7 +64,10 @@ function permissionShaking(stageConfig, permissions, currentUser) {
   return IterationDelateMenuChildren(shookConfig)
 }
 
-// 获取有权限的舞台配置
+/**
+ * 获取有权限的舞台配置
+ * @param {*} state
+ */
 export const permissionStageConfig = state => {
   const { stageConfig, permissions, user } = state
   const tempStageConfig = Util.deepClone(stageConfig)
@@ -79,15 +82,19 @@ export const permissionStageConfig = state => {
   return shookConfig
 }
 
-// 获取侧边栏配置
-export const sideBarList = (state, getter) => {
-  const { sideBarLevel } = state
-  const { permissionStageConfig } = getter
+/**
+ * 获取有权限的左侧菜单数据
+ * @param {*} state
+ * @param {*} getters 其他 getter
+ */
+export const sidebarList = (state, getters) => {
+  const { sidebarLevel } = state
+  const { permissionStageConfig } = getters
 
-  function deepGetSideBar(target, level = 3) {
+  function deepGetSidebar(target, level = 3) {
     // 集合节点处理
     if (Array.isArray(target)) {
-      const acc = target.map(item => deepGetSideBar(item, level - 1))
+      const acc = target.map(item => deepGetSidebar(item, level - 1))
       return acc.filter(item => item !== null)
     }
 
@@ -103,7 +110,7 @@ export const sideBarList = (state, getter) => {
       sideConfig.title = target.title
       sideConfig.icon = target.icon
       sideConfig.path = target.route || Util.getRandomStr(6)
-      sideConfig.children = target.children.map(item => deepGetSideBar(item, level - 1))
+      sideConfig.children = target.children.map(item => deepGetSidebar(item, level - 1))
       sideConfig.children = sideConfig.children.filter(item => item !== null)
       return sideConfig
     }
@@ -149,7 +156,7 @@ export const sideBarList = (state, getter) => {
     return null
   }
 
-  const sideBar = deepGetSideBar(permissionStageConfig, sideBarLevel)
+  const sideBar = deepGetSidebar(permissionStageConfig, sidebarLevel)
   return sideBar
 }
 

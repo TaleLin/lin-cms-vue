@@ -57,7 +57,7 @@
 
 <script>
 import { ref, reactive, onMounted } from 'vue'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import UserModel from '@/lin/model/user'
 
@@ -124,13 +124,13 @@ export default {
               res = await UserModel.register(userInfo)
               if (res.code < window.MAX_SUCCESS_CODE) {
                 loading.value = false
-                Message.success(`${res.message}`)
+                ElMessage.success(`${res.message}`)
                 ctx.emit('handleAddUser', true)
                 resetForm(formName)
               }
             } catch (e) {
               loading.value = false
-              Message.error('新增用户失败')
+              ElMessage.error('新增用户失败')
               console.error(e)
             }
           } else {
@@ -149,16 +149,16 @@ export default {
             }
             if (res.code < window.MAX_SUCCESS_CODE) {
               loading.value = false
-              Message.success(`${res.message}`)
+              ElMessage.success(`${res.message}`)
               ctx.emit('handleInfoResult', true)
             } else {
               loading.value = false
-              Message.error(`${res.message}`)
+              ElMessage.error(`${res.message}`)
             }
           }
         } else {
           console.log('error submit!!')
-          Message.error('请填写正确的信息')
+          ElMessage.error('请填写正确的信息')
         }
       })
     }

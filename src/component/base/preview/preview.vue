@@ -41,7 +41,7 @@
 <script>
 // photoswipe接口文档 http://photoswipe.com/documentation/api.html
 
-import { Loading } from 'element-plus'
+import { ElLoading } from 'element-plus'
 import 'photoswipe/dist/photoswipe.css'
 import 'photoswipe/dist/default-skin/default-skin.css'
 import PhotoSwipe from 'photoswipe/dist/photoswipe'
@@ -114,7 +114,7 @@ export default {
       options = Object.assign(defaultOptions, options, {
         index: imageIndex,
       })
-      const loadingInstance = Loading.service()
+      const loadingInstance = ElLoading.service()
       const galleryElement = this.$refs.myGallery
       this.radom = createId()
       let pswpElement = this.$refs.pswpWrap

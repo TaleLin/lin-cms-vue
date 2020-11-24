@@ -34,7 +34,7 @@
 
 <script>
 import { reactive, ref } from 'vue'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import bookModel from '@/model/book'
 
 export default {
@@ -76,7 +76,7 @@ export default {
     const submitForm = async () => {
       const res = await bookModel.editBook(props.editBookID, book)
       if (res.code < window.MAX_SUCCESS_CODE) {
-        Message.success(`${res.message}`)
+        ElMessage.success(`${res.message}`)
         context.emit('editClose')
       }
     }

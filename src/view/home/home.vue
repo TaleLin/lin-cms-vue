@@ -1,8 +1,8 @@
 <template>
   <div style="height:100%;">
     <el-container>
-      <el-aside :width="sideBarWidth" class="aside" :style="asideStyle">
-        <side-bar :isCollapse="isCollapse" :is-phone="isPhone"></side-bar>
+      <el-aside :width="sidebarWidth" class="aside" :style="asideStyle">
+        <sidebar :isCollapse="isCollapse" :is-phone="isPhone"></sidebar>
       </el-aside>
       <el-container>
         <el-header class="header">
@@ -26,18 +26,19 @@
 </template>
 
 <script>
-import { NavBar, SideBar, AppMain, ReuseTab, MenuTab, BackTop } from '@/component/layout'
+import emitter from 'lin/util/emitter'
+import { NavBar, Sidebar, AppMain, ReuseTab, MenuTab, BackTop } from '@/component/layout'
 
 const navBarHeight = 66 // header高度
 const reuseTabHeight = 70 // 历史记录栏高度
 const marginHeight = 20 // 历史记录栏与舞台的间距
-const sideBarWidth = '210px'
+const sidebarWidth = '210px'
 const totalHeight = navBarHeight + reuseTabHeight + marginHeight
 
 export default {
   components: {
     NavBar,
-    SideBar,
+    Sidebar,
     AppMain,
     ReuseTab,
     MenuTab,
@@ -46,7 +47,7 @@ export default {
   data() {
     return {
       isCollapse: false, // 左侧菜单栏是否折叠
-      sideBarWidth, // 左侧菜单栏展开的宽度
+      sidebarWidth, // 左侧菜单栏展开的宽度
       clientWidth: 0, // 页面宽度
       clientHeight: 0, // 页面高度
       foldState: false, // 控制左侧菜单栏按键
@@ -55,18 +56,17 @@ export default {
   },
   mounted() {
     this.setResize()
-    // console.log(this.clientWidth)
     if (this.clientWidth < 500) {
       this.isPhone = true
     } else {
       this.isPhone = false
       // 检测屏幕宽度, 确定默认是否展开
       if (this.clientWidth <= 768) {
-        this.eventBus.$emit('removeSidebarSearch')
+        emitter.emit('removeSidebarSearch')
         this.isCollapse = true
       } else {
         this.isCollapse = false
-        this.eventBus.$emit('showSidebarSearch')
+        emitter.emit('showSidebarSearch')
       }
     }
     // 监测屏幕宽度 折叠左侧菜单栏
@@ -90,14 +90,13 @@ export default {
       // }
     }
 
-    this.eventBus.$on('noReuse', () => {
+    emitter.on('noReuse', () => {
       this.$refs.operate.style.height = '86px'
     })
-    this.eventBus.$on('hasReuse', () => {
+    emitter.on('hasReuse', () => {
       this.$refs.operate.style.height = '45px'
     })
   },
-  inject: ['eventBus'],
   computed: {
     elMenuCollapse() {
       if (this.isPhone) {
@@ -113,7 +112,7 @@ export default {
         style.height = `${this.clientHeight}px`
         style.zIndex = 12
         if (this.isCollapse === false) {
-          style.transform = `translateX(-${sideBarWidth})`
+          style.transform = `translateX(-${sidebarWidth})`
         } else {
           style.transform = 'translateX(0)'
         }
@@ -126,9 +125,9 @@ export default {
     changeSlidebarState() {
       this.isCollapse = !this.isCollapse
       if (this.isCollapse) {
-        this.eventBus.$emit('removeSidebarSearch')
+        emitter.emit('removeSidebarSearch')
       } else {
-        this.eventBus.$emit('showSidebarSearch')
+        emitter.emit('showSidebarSearch')
       }
       this.foldState = !this.foldState
     },
@@ -143,15 +142,15 @@ export default {
     isCollapse() {
       if (this.isPhone) {
         // 手机模式
-        this.sideBarWidth = sideBarWidth
+        this.sidebarWidth = sidebarWidth
         if (this.isCollapse === false) {
           this.transX = 0
         } else {
-          this.transX = -1 * sideBarWidth
+          this.transX = -1 * sidebarWidth
         }
       } else {
         this.transX = 0
-        this.sideBarWidth = this.isCollapse === false ? sideBarWidth : '64px'
+        this.sidebarWidth = this.isCollapse === false ? sidebarWidth : '64px'
       }
     },
     $route() {
@@ -167,8 +166,8 @@ export default {
   },
 
   beforeUnmount() {
-    this.eventBus.$off('noReuse')
-    this.eventBus.$off('hasReuse')
+    emitter.off('noReuse')
+    emitter.off('hasReuse')
   },
 }
 </script>

@@ -68,7 +68,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { MessageBox, Message } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import LinTable from '@/component/base/table/lin-table'
 import UserInfo from './user-info'
@@ -127,7 +127,7 @@ export default {
      */
     const handleDelete = val => {
       let res
-      MessageBox.confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+      ElMessageBox.confirm('此操作将永久删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -146,10 +146,10 @@ export default {
             currentPage.value--
           }
           await getAdminUsers()
-          Message.success(`${res.message}`)
+          ElMessage.success(`${res.message}`)
         } else {
           loading.value = false
-          Message.error(`${res.message}`)
+          ElMessage.error(`${res.message}`)
         }
       })
     }

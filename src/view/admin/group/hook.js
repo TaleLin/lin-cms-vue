@@ -1,5 +1,5 @@
 import { ref, onMounted, reactive } from 'vue'
-import { MessageBox, Message } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 
 export const useGroupList = () => {
@@ -26,7 +26,7 @@ export const useGroupList = () => {
    */
   const handleDelete = val => {
     let res
-    MessageBox.confirm('此操作将永久删除该分组, 是否继续?', '提示', {
+    ElMessageBox.confirm('此操作将永久删除该分组, 是否继续?', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',
@@ -40,13 +40,13 @@ export const useGroupList = () => {
       }
       if (res.code < window.MAX_SUCCESS_CODE) {
         await getAllGroups()
-        Message.message({
+        ElMessage.message({
           type: 'success',
           message: `${res.message}`,
         })
       } else {
         loading.value = false
-        Message.message({
+        ElMessage.message({
           type: 'error',
           message: `${res.message}`,
         })
@@ -94,13 +94,13 @@ export const useEditGroup = (ctx, getAllGroups) => {
    */
   const confirmEdit = async () => {
     if (group.name === '') {
-      Message.warning('请将信息填写完整')
+      ElMessage.warning('请将信息填写完整')
       return
     }
     if (cacheGroup.name !== group.name || cacheGroup.info !== group.info) {
       const res = await AdminModel.updateOneGroup(group.name, group.info, id.value)
       if (res.code < window.MAX_SUCCESS_CODE) {
-        Message.success(`${res.message}`)
+        ElMessage.success(`${res.message}`)
         getAllGroups()
       }
     }
