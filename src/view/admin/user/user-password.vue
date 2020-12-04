@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { reactive, ref } from 'vue'
 import AdminModel from '@/lin/model/admin'
 
@@ -62,16 +62,16 @@ export default {
           }
           if (res.code < window.MAX_SUCCESS_CODE) {
             loading.value = false
-            Message.success(`${res.message}`)
+            ElMessage.success(`${res.message}`)
             resetForm(formName)
             ctx.emit('handlePasswordResult', true)
           } else {
             loading.value = false
-            Message.error(`${res.message}`)
+            ElMessage.error(`${res.message}`)
           }
         } else {
           console.error('error submit!!')
-          Message.error('请填写正确的信息')
+          ElMessage.error('请填写正确的信息')
           ctx.emit('handlePasswordResult', false)
         }
       })

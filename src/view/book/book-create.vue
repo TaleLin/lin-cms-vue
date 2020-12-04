@@ -38,7 +38,7 @@
 
 <script>
 import { reactive, toRefs } from 'vue'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import bookModel from '@/model/book'
 
 export default {
@@ -68,16 +68,16 @@ export default {
           try {
             const res = await bookModel.createBook(data.book)
             if (res.code < window.MAX_SUCCESS_CODE) {
-              Message.success(`${res.message}`)
+              ElMessage.success(`${res.message}`)
               resetForm(formName)
             }
           } catch (error) {
-            Message.error('图书添加失败，请检测填写信息')
+            ElMessage.error('图书添加失败，请检测填写信息')
             console.error(error)
           }
         } else {
           console.error('error submit!!')
-          Message.error('请将信息填写完整')
+          ElMessage.error('请将信息填写完整')
         }
       })
     }

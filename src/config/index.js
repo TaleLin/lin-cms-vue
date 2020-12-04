@@ -1,5 +1,5 @@
 const Config = {
-  sideBarLevel: 3, // 侧边栏层级限制, 3 表示三级, 可设置 2 和 3
+  sidebarLevel: 3, // 侧边栏层级限制, 3 表示三级, 可设置 2 和 3
   openAutoJumpOut: true, // 是否开启无操作跳出
   defaultRoute: '/about', // 默认打开的路由
   showSidebarSearch: true, // 默认打开侧边栏搜索

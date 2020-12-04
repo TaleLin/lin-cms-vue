@@ -27,7 +27,7 @@
 
 <script>
 import { ref } from 'vue'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import GroupPermissions from './group-permission'
 
@@ -84,7 +84,7 @@ export default {
           delRes = await AdminModel.removePermissions(ctx.root.$route.query.id, deletePermissions)
         }
         if (addRes.code < window.MAX_SUCCESS_CODE || delRes.code < window.MAX_SUCCESS_CODE) {
-          Message.success('权限修改成功')
+          ElMessage.success('权限修改成功')
         }
       }
     }
