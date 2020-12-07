@@ -1,27 +1,25 @@
 <template>
-  <el-submenu
-    v-if="item.children && item.children.length > 0"
-    class="sub-menu-content"
-    :index="item.path"
-    popper-class="abc"
-  >
+  <el-submenu v-if="item.children && item.children.length > 0" :index="item.path" popper-append-to-body>
     <template #title>
-      <menu-content :icon="item.icon" :title="item.title" />
+      <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+      <img v-else :src="item.icon" class="img-icon" />
+      <span>{{ item.title }}</span>
     </template>
     <menu-tree v-for="child in item.children" :key="child.path" :item="child" />
   </el-submenu>
 
-  <el-menu-item v-else class="sub-menu-content" :index="item.path" @click="navigateTo(item.path)">
-    <menu-content :icon="item.icon" :title="item.title" />
+  <el-menu-item v-else :index="item.path" @click="navigateTo(item.path)">
+    <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+    <img v-else :src="item.icon" class="img-icon" />
+    <template #title
+      ><span class="title">{{ item.title }}</span></template
+    >
   </el-menu-item>
 </template>
 
 <script>
-import MenuContent from './menu-content'
-
 export default {
   name: 'MenuTree',
-  components: { MenuContent },
   props: {
     item: {
       type: Object,
@@ -33,12 +31,31 @@ export default {
     navigateTo(path) {
       this.$router.push({ path })
     },
+    filterIcon(icon) {
+      return icon.indexOf('/') !== -1
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.sub-menu-content {
+.img-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  margin-left: 5px;
+  display: inline-block;
+  transform: translateY(21px);
+}
+.iconfont {
+  margin-right: 10px;
+  margin-left: 5px;
+  color: $submenu-title;
+  height: $menuItem-height;
+}
+.title {
+  display: inline-block;
+  width: 110px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
