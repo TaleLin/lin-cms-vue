@@ -410,45 +410,6 @@ thead tr {
         top: 23px;
       }
     }
-
-    &.third {
-
-      // 3级
-      .el-menu-item {
-        position: relative;
-
-        &:before {
-          content: "";
-          width: 4px;
-          height: 4px;
-          border-radius: 50%;
-          border: 1px solid $submenu-title;
-          position: absolute;
-          left: 65px;
-          top: 23px;
-        }
-      }
-
-      .el-menu-item-group__title {
-        padding: 0;
-      }
-
-      .el-menu-item.is-active {
-        position: relative;
-
-        &:before {
-          content: "";
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          border: none;
-          background: $theme;
-          position: absolute;
-          left: 65px;
-          top: 23px;
-        }
-      }
-    }
   }
 }
 
@@ -457,8 +418,9 @@ thead tr {
   border-right: 1px solid #1d2a60;
 }
 
-.el-menu--vertical .abc {
-  left: 70px !important;
+.el-menu--vertical > .el-menu--popup {
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
 .el-menu--vertical >>> .icon-erjizhibiao {
