@@ -1,4 +1,5 @@
 const fs = require('fs-extra')
+// eslint-disable-next-line import/no-extraneous-dependencies
 const path = require('path')
 const inquirer = require('inquirer')
 const ejs = require('ejs')
@@ -7,6 +8,9 @@ const yaml = require('js-yaml')
 const dirTree = require('directory-tree')
 const validatePName = require('validate-npm-package-name')
 const semver = require('semver')
+// const came = require('./lib/util')
+
+const came = str => `${str}`.replace(/-\D/g, match => match.charAt(1).toUpperCase())
 
 const questions = []
 
@@ -29,7 +33,7 @@ questions.push({
         return
       }
 
-      const filePath = path.resolve(__dirname, `../src/plugins/${value}`)
+      const filePath = path.resolve(__dirname, `../src/plugin/${value}`)
       if (fs.existsSync(filePath)) {
         done('项目中已存在该插件, 请更换其他插件名')
         return
@@ -84,89 +88,94 @@ questions.push({
 const cachePath = path.resolve(__dirname, './.cache')
 const cachePluginPath = path.resolve(__dirname, './.cache/plugin')
 const pluginTmpPath = path.resolve(__dirname, './template/plugin')
-const pluginViewsPath = path.resolve(__dirname, './template/plugin/views')
+const pluginViewsPath = path.resolve(__dirname, './template/plugin/view')
 const pluginStrPos = __dirname.length + '/template/'.length
-const pluginsPath = path.resolve(__dirname, '../src/plugins')
+const pluginsPath = path.resolve(__dirname, '../src/plugin')
 
 // 检测是否有插件文件夹
 if (!fs.existsSync(pluginsPath)) {
   fs.mkdirSync(pluginsPath)
 }
 
-inquirer.prompt(questions).then((answers) => {
-  const result = answers
-  result.camelCaseName = result.name
-    .split('-')
-    .map(str => (str.charAt(0).toUpperCase() + str.slice(1)))
-    .join('')
-  return result
-}).then((answers) => {
-  const config = { ...answers }
-
-  // 创建缓存文件夹 .cache
-  if (!fs.existsSync(cachePath)) {
-    fs.mkdirSync(cachePath)
-  }
-  // 清空 plugin 文件夹
-  if (fs.existsSync(cachePluginPath)) {
-    fs.removeSync(cachePluginPath)
-  }
-  fs.mkdirSync(cachePluginPath)
-
-  dirTree(pluginTmpPath, {}, (item) => {
-    // 忽略隐藏文件
-    if (item.extension === '' || item.name[0] === '.') {
-      return
-    }
-    // 处理模板文件
-    if (item.extension === '.ejs') {
-      const template = fs.readFileSync(item.path, 'utf8')
-      const fileConfig = { ...config }
-      // 舞台 view 文件配置处理
-      if (item.path.slice(pluginStrPos).split(path.sep)[1] === 'views' && item.name.slice(-8) === '.vue.ejs') {
-        const viewConfig = {}
-        viewConfig.icon = 'iconfont icon-demo'
-        viewConfig.name = fileConfig.camelCaseName + item.name.slice(0, -8)
-        viewConfig.route = path.join(config.name, path.relative(pluginViewsPath, item.path)).split(path.sep).join('/')
-        viewConfig.route = `/${viewConfig.route.slice(0, -8)}`
-        viewConfig.order = null
-        viewConfig.inNav = true
-        viewConfig.title = '舞台页'
-        viewConfig.type = 'view'
-        viewConfig.auths = {
-          role: null,
-          right: null,
-        }
-        viewConfig.needLogin = true
-        fileConfig.configYml = yaml.safeDump(viewConfig)
-      }
-      const result = ejs.render(template, fileConfig)
-      const targetPath1 = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path)
-        .slice(0, -4))
-      fs.outputFileSync(targetPath1, result)
-      return
-    }
-    // 拷贝其他文件
-    const targetPath1 = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path))
-    fs.copySync(item.path, targetPath1)
+inquirer
+  .prompt(questions)
+  .then(answers => {
+    const result = answers
+    result.camelCaseName = came(result.name)
+    return result
   })
+  .then(answers => {
+    const config = { ...answers }
 
-  return config
-}).then((answers) => {
-  // 复制 .cache 到 plugin
-  const sourcePath = path.resolve(__dirname, './.cache/plugin')
-  const targetPath = path.resolve(__dirname, `../src/plugins/${answers.camelCaseName}`)
-  fs.copySync(sourcePath, targetPath)
+    // 创建缓存文件夹 .cache
+    if (!fs.existsSync(cachePath)) {
+      fs.mkdirSync(cachePath)
+    }
+    // 清空 plugin 文件夹
+    if (fs.existsSync(cachePluginPath)) {
+      fs.removeSync(cachePluginPath)
+    }
+    fs.mkdirSync(cachePluginPath)
 
-  console.log(chalk.green(`创建插件 ${answers.name}: ${targetPath}`))
-  // eslint-disable-next-line
-}).then(() => {
-  // eslint-disable-next-line
-  require('./plugin-get-config.js');
-  // eslint-disable-next-line
-}).catch((err) => {
-  // eslint-disable-next-line
-  console.log(chalk.red('创建插件失败'))
-  console.error(err)
-  process.exit(1)
-})
+    dirTree(pluginTmpPath, {}, item => {
+      // 忽略隐藏文件
+      if (item.extension === '' || item.name[0] === '.') {
+        return
+      }
+      // 处理模板文件
+      if (item.extension === '.ejs') {
+        const template = fs.readFileSync(item.path, 'utf8')
+        const fileConfig = { ...config }
+        // 舞台 view 文件配置处理
+        if (item.path.slice(pluginStrPos).split(path.sep)[1] === 'view' && item.name.slice(-8) === '.vue.ejs') {
+          const viewConfig = {}
+          viewConfig.icon = 'iconfont icon-demo'
+          viewConfig.name = fileConfig.camelCaseName + item.name.slice(0, -8)
+          viewConfig.route = path
+            .join(config.name, path.relative(pluginViewsPath, item.path))
+            .split(path.sep)
+            .join('/')
+          viewConfig.route = `/${viewConfig.route.slice(0, -8)}`
+          viewConfig.order = null
+          viewConfig.inNav = true
+          viewConfig.title = '舞台页'
+          viewConfig.type = 'view'
+          viewConfig.auths = {
+            role: null,
+            permission: null,
+          }
+          viewConfig.needLogin = true
+          fileConfig.configYml = yaml.safeDump(viewConfig)
+        }
+        const result = ejs.render(template, fileConfig)
+        const targetPath1 = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path).slice(0, -4))
+        fs.outputFileSync(targetPath1, result)
+        return
+      }
+      // 拷贝其他文件
+      const targetPath1 = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path))
+      fs.copySync(item.path, targetPath1)
+    })
+
+    return config
+  })
+  .then(answers => {
+    // 复制 .cache 到 plugin
+    const sourcePath = path.resolve(__dirname, './.cache/plugin')
+    const targetPath = path.resolve(__dirname, `../src/plugin/${answers.name}`)
+    fs.copySync(sourcePath, targetPath)
+
+    console.log(chalk.green(`创建插件 ${answers.name}: ${targetPath}`))
+    // eslint-disable-next-line
+  })
+  .then(() => {
+    // eslint-disable-next-line
+    require('./plugin-get-config.js')
+    // eslint-disable-next-line
+  })
+  .catch(err => {
+    // eslint-disable-next-line
+    console.log(chalk.red('创建插件失败'))
+    console.error(err)
+    process.exit(1)
+  })

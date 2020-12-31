@@ -1,6 +1,6 @@
 
 <p align="center">
-  <a href="http://doc.cms.7yue.pro/">
+  <a href="http://doc.cms.talelin.com/">
     <img width="200" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/left-logo.png">
   </a>
 </p>
@@ -9,7 +9,7 @@
   <a href="#简介">简介</a>&nbsp;|&nbsp;<a href="#快速上手">快速上手</a>&nbsp;|&nbsp;<a href="#版本日志">版本日志</a>
 </p>
 
-![](https://img.shields.io/badge/版本-0.2.1-3963bc.svg)
+![](https://img.shields.io/badge/版本-0.3.5-3963bc.svg)
 ![](https://img.shields.io/badge/node-8.11.0+-3963bc.svg)
 ![](https://img.shields.io/badge/脚手架-vuecli3-3963bc.svg)
 ![](https://img.shields.io/badge/license-MIT-3963bc.svg)
@@ -25,9 +25,11 @@ Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
 
 Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 
+[lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
+
 [lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
 
-[lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
+[lin-cms-spring-boot](https://github.com/TaleLin/lin-cms-spring-boot)
 
 ### 注意
 
@@ -35,15 +37,15 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 
 ### 文档地址
 
-[http://doc.cms.7yue.pro/](http://doc.cms.7yue.pro/)
+[http://doc.cms.talelin.com/](http://doc.cms.talelin.com/)
 
 ### 线上 Demo
 
-[http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
+[http://face.cms.talelin.com/](http://face.cms.talelin.com/)
 
 ### 案例
 
-[http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
+[http://sleeve.talelin.com/](http://sleeve.talelin.com/)
 
 
 ### Lin CMS 的特点
@@ -89,15 +91,51 @@ npm run serve or yarn (run) serve
 ## 讨论交流
 微信公众号搜索：林间有风
 <br>
-<img class="QR-img" src="http://i1.sleeve.7yue.pro/wechat-account.jpeg" width="150" height="150">
+<img class="QR-img" src="http://i1.sleeve.talelin.com/wechat-account.jpeg" width="150" height="150">
 
-QQ群搜索：林间有风 或 643205479
+QQ群搜索：Lin CMS 官方交流群 或 814597236
 
-<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/qrcode_1558012902375.jpg" width="150" height="205" >
+<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/lin-cms.png" width="150" height="205" >
 
 ## 版本日志
 
-最新版本 `0.2.2`
+最新版本 `0.3.6`
+
+### 0.3.6
+
+1. `F` 修复一级菜单双击报错
+2. `U` 统一不同编辑器换行符
+3. `U` 内容提交使用“加载中”按钮
+4. `F` 修复Table组件不能居中问题
+5. `F` 编辑用户时，至少选择一个分组
+
+### 0.3.5
+
+1. `F` 统一前端规范，文件夹、文件名统一用单数和小写字母中划线形式
+2. `A` 新增右键关闭历史记录
+3. `F` 调整默认 dialog 样式
+
+### 0.3.4
+
+1. `U` 优化变量命名，升级 `element-ui` 版本，
+2. `F` `Home` 组件改为异步加载
+
+### 0.3.3
+
+1. `A` 新增消息中心组件
+
+### 0.3.2
+
+1. `A` 新增图表插件
+
+### 0.3.1
+
+1. `F` 增加历史栏高度
+
+### 0.3.0
+
+1. `A` 新增一个用户可以属于多个分组
+2. `F` 权限相关 auth right 统一替换为 permission
 
 ### 0.2.2
 

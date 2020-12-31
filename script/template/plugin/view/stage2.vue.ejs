@@ -1,0 +1,37 @@
+<template>
+  <div class="lin-container">
+    <div class="lin-title">插件<%= camelCaseName %>舞台页面</div>
+    <el-divider></el-divider>
+    <div class="lin-wrap">
+      <test />
+    </div>
+  </div>
+</template>
+
+<script>
+import Test from '../component/component'
+
+export default {
+  name: '<%= camelCaseName %>Stage2',
+  components: {
+    Test,
+  },
+  data() {
+    return {}
+  },
+  computed: {},
+  watch: {},
+  mounted() {},
+  // 当页面使用路由参数时, 参数部分变化触发的动作在本函数中操作
+  // https://router.vuejs.org/zh/guide/advanced/navigation-guards.htmll#组件内的守卫
+  // beforeRouteUpdate(to, from, next) {
+  //   // this.name = to.params.name
+  //   // this.init()
+  //   // next()
+  // },
+  methods: {},
+}
+</script>
+
+<style scoped lang="scss">
+</style>

@@ -6,7 +6,7 @@ function deepTravel(config, fuc) {
     config.forEach(subConfig => {
       deepTravel(subConfig, fuc)
     })
-  } else if (config.children) {
+  } else if (config.children && config.children.length) {
     config.children.forEach(subConfig => {
       deepTravel(subConfig, fuc)
     })
@@ -26,7 +26,7 @@ deepTravel(stageConfig, viewConfig => {
   viewRouter.meta = {
     title: viewConfig.title,
     icon: viewConfig.icon,
-    right: viewConfig.right,
+    permission: viewConfig.permission,
     type: viewConfig.type,
     blueBaseColor: viewConfig.blueBaseColor ? 'viewConfig.blueBaseColor' : '',
   }
