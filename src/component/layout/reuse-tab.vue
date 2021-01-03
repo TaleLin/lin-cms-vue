@@ -1,6 +1,15 @@
 <template>
   <div v-if="histories.length > 1" ref="resueTab" class="reuse-tab">
-    <swiper :options="swiperOption" class="reuse-tab-wrap">
+    <swiper
+      class="reuse-tab-wrap"
+      slides-per-view="auto"
+      :space-between="1"
+      :initial-slide="0"
+      effect="slide"
+      :prevent-clicks="false"
+      :free-mode="true"
+      :mousewheel="{ sensitivity: 1.5 }"
+    >
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
@@ -28,12 +37,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import emitter from 'lin/util/emitter'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide } from 'swiper/vue'
 
-import 'swiper/dist/css/swiper.css' // eslint-disable-line
+import 'swiper/swiper.scss'
 
 export default {
-  components: { swiper, swiperSlide },
+  components: { Swiper, SwiperSlide },
   data() {
     return {
       histories: [],
@@ -219,7 +228,7 @@ export default {
 
 <style lang="scss" scoped>
 .swiper-slide {
-  width: auto;
+  width: auto !important;
   min-width: 126px;
   display: flex;
   height: $reusetab-height;
@@ -227,6 +236,7 @@ export default {
   justify-content: center;
   background-color: $reuse-tab-item-background;
   color: $right-side-font-color;
+  margin-right: 1px;
 }
 
 .reuse-tab-wrap {
