@@ -52,17 +52,6 @@ export default {
       top: 0,
       left: 0,
       index: 0,
-      swiperOption: {
-        slidesPerView: 'auto',
-        initialSlide: 0,
-        effect: 'slide',
-        spaceBetween: 1,
-        preventClicks: false,
-        freeMode: true,
-        mousewheel: {
-          sensitivity: 1.5,
-        },
-      },
     }
   },
   watch: {
@@ -73,6 +62,7 @@ export default {
       if (flag) {
         return
       }
+
       const ele = {}
       ele.stageId = to.name
       ele.path = to.path
@@ -149,10 +139,8 @@ export default {
         if (!findResult) {
           return
         }
-        histories.push({
-          ...item,
-          stageId: findResult.name,
-        })
+
+        histories.push({ ...item, stageId: findResult.name })
         this.histories = histories
       })
     },
