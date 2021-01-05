@@ -16,7 +16,7 @@
     "@antv/g2plot": "^0.11.35",
     "@babel/polyfill": "^7.4.4",
     "@tinymce/tinymce-vue": "^2.0.0",
-    "axios": "~0.18.0",
+    "axios": "~0.21.1",
     "element-ui": "^2.13.0",
     "event-source-polyfill": "^1.0.7",
     "fastscan": "^1.0.4",
