@@ -8,7 +8,8 @@
       effect="slide"
       :prevent-clicks="false"
       :free-mode="true"
-      :mousewheel="{ sensitivity: 1.5 }"
+      :mousewheel="true"
+      direction="horizontal"
     >
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
@@ -38,8 +39,11 @@
 import { mapGetters } from 'vuex'
 import emitter from 'lin/util/emitter'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import SwiperCore, { Mousewheel } from 'swiper'
 
 import 'swiper/swiper.scss'
+
+SwiperCore.use([Mousewheel])
 
 export default {
   components: { Swiper, SwiperSlide },
