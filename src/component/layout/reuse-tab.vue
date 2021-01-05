@@ -1,6 +1,16 @@
 <template>
   <div v-if="histories.length > 1" ref="resueTab" class="reuse-tab">
-    <swiper :options="swiperOption" class="reuse-tab-wrap">
+    <swiper
+      class="reuse-tab-wrap"
+      slides-per-view="auto"
+      :space-between="1"
+      :initial-slide="0"
+      effect="slide"
+      :prevent-clicks="false"
+      :free-mode="true"
+      :mousewheel="true"
+      direction="horizontal"
+    >
       <swiper-slide v-for="(item, index) in histories" :key="item.path">
         <router-link
           class="reuse-tab-item"
@@ -28,12 +38,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import emitter from 'lin/util/emitter'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import SwiperCore, { Mousewheel } from 'swiper'
 
-import 'swiper/dist/css/swiper.css' // eslint-disable-line
+import 'swiper/swiper.scss'
+
+SwiperCore.use([Mousewheel])
 
 export default {
-  components: { swiper, swiperSlide },
+  components: { Swiper, SwiperSlide },
   data() {
     return {
       histories: [],
@@ -43,17 +56,6 @@ export default {
       top: 0,
       left: 0,
       index: 0,
-      swiperOption: {
-        slidesPerView: 'auto',
-        initialSlide: 0,
-        effect: 'slide',
-        spaceBetween: 1,
-        preventClicks: false,
-        freeMode: true,
-        mousewheel: {
-          sensitivity: 1.5,
-        },
-      },
     }
   },
   watch: {
@@ -64,6 +66,7 @@ export default {
       if (flag) {
         return
       }
+
       const ele = {}
       ele.stageId = to.name
       ele.path = to.path
@@ -140,10 +143,8 @@ export default {
         if (!findResult) {
           return
         }
-        histories.push({
-          ...item,
-          stageId: findResult.name,
-        })
+
+        histories.push({ ...item, stageId: findResult.name })
         this.histories = histories
       })
     },
@@ -219,7 +220,7 @@ export default {
 
 <style lang="scss" scoped>
 .swiper-slide {
-  width: auto;
+  width: auto !important;
   min-width: 126px;
   display: flex;
   height: $reusetab-height;
@@ -227,6 +228,7 @@ export default {
   justify-content: center;
   background-color: $reuse-tab-item-background;
   color: $right-side-font-color;
+  margin-right: 1px;
 }
 
 .reuse-tab-wrap {
