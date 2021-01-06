@@ -333,9 +333,9 @@ export default {
     },
     init() {
       const { user } = this.$store.state
-      this.username = user ? user.username : '未登录'
-      this.groupName = user.groupName ? user.groupName : '超级管理员'
-      this.nickname = user && user.nickname ? user.nickname : '佚名'
+      this.username = user?.username ? user.username : '未登录'
+      this.groupName = user?.groupName ? user.groupName : '超级管理员'
+      this.nickname = user?.nickname ? user.nickname : '佚名'
     },
     goToCenter() {
       this.$router.push('/center')

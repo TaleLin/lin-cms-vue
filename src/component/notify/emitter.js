@@ -17,7 +17,7 @@ class Emitter {
     const listeners = this.listeners.get(label)
     let index
 
-    if (listeners && listeners.length) {
+    if (listeners?.length) {
       index = listeners.reduce((i, listener, index) => {
         if (typeof listener.callback === 'function' && listener.callback === callback && listener.vm === vm) {
           i = index
@@ -37,7 +37,7 @@ class Emitter {
   emit(label, ...args) {
     const listeners = this.listeners.get(label)
 
-    if (listeners && listeners.length) {
+    if (listeners?.length) {
       listeners.forEach(listener => {
         listener.callback.call(listener.vm, ...args)
       })

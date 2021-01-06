@@ -313,7 +313,7 @@ export default {
     },
     init() {
       const { user } = this.$store.state
-      this.nickname = user && user.nickname ? user.nickname : '佚名'
+      this.nickname = user?.nickname ? user.nickname : '佚名'
     },
     goToCenter() {
       this.$router.push('/center')

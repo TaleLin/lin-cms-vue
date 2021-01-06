@@ -220,7 +220,7 @@ export default {
         )
       }
       // 选中-单选
-      if (this.currentOldRow && this.currentOldRow.key === row.key) {
+      if (this.currentOldRow?.key === row.key) {
         // 取消单选选中
         this.$refs.linTable.setCurrentRow()
         this.currentOldRow = null
@@ -365,7 +365,7 @@ export default {
     tableData: {
       handler() {
         // 传了分页配置
-        if (this.pagination && this.pagination.pageSize) {
+        if (this.pagination?.pageSize) {
           this.currentData = this.tableData.filter((item, index) => index < this.pagination.pageSize)
         } else {
           this.currentData = this.tableData

@@ -1,5 +1,5 @@
 <template>
-  <el-submenu v-if="item.children && item.children.length > 0" :index="item.path" popper-append-to-body>
+  <el-submenu v-if="item.children?.length > 0" :index="item.path" popper-append-to-body>
     <template #title>
       <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
       <img v-else :src="item.icon" class="img-icon" />
