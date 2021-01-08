@@ -86,7 +86,7 @@ export default {
           file,
         })
           .then(res => {
-            if (res[0] && res[0].url) {
+            if (res.length && res[0]?.url) {
               success(res[0].url)
             }
           })

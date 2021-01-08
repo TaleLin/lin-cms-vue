@@ -23,7 +23,7 @@ export default {
     }
 
     Vue.prototype.$disconnect = () => {
-      if (observer && observer.reconnection) {
+      if (observer?.reconnection) {
         observer.reconnection = false
       }
       if (Vue.prototype.$socket) {

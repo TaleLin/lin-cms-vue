@@ -38,7 +38,6 @@ class Log {
     if (sCount) {
       this.sCount = sCount
     }
-    // lCount && this.lCount = lCount
   }
 
   async increaseUpage() {

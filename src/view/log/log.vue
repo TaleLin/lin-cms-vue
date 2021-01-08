@@ -57,7 +57,7 @@
         </section>
       </article>
 
-      <div v-if="logs && logs.length">
+      <div v-if="logs?.length">
         <el-divider></el-divider>
         <div class="more" :class="{ nothing: finished }">
           <i v-if="more" class="iconfont icon-loading"></i>
@@ -221,7 +221,7 @@ export default {
     watch(
       () => search.searchDate,
       newDate => {
-        if (newDate && newDate.length) {
+        if (newDate?.length) {
           search.keyword = `${newDate[0]}至${newDate[1]}`
           if (search.searchUser) {
             search.keyword = `${search.searchUser} ${newDate[0]}至${newDate[1]}`

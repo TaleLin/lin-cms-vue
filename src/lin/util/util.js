@@ -198,7 +198,7 @@ Utils.came = str => {
  */
 Utils.hasPermission = (permissions, route, user) => {
   // eslint-disable-line
-  if (user && user.admin) {
+  if (user?.admin) {
     return true
   }
   if (route.permission) {
