@@ -6,7 +6,7 @@ export function checkAddZone(num) {
   return num < 10 ? `0${num.toString()}` : num
 }
 
-const globalFilter = {
+export const filters = {
   filterAddress(value) {
     // 过滤地址
     if (!value) return value
@@ -98,8 +98,3 @@ const globalFilter = {
     return Utils.cutString(value, len)
   },
 }
-
-export const filters = Object.keys(globalFilter).reduce((pre, cur) => {
-  pre[cur] = cur
-  return pre
-}, {})

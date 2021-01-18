@@ -51,7 +51,7 @@
           <aside>
             <p class="things" v-html="log.message"></p>
             <p class="brief">
-              <span class="text-yellow">{{ log.username }}</span> {{ filters.dateTimeFormatter(log.time) }}
+              <span class="text-yellow">{{ log.username }}</span> {{ $filters.dateTimeFormatter(log.time) }}
             </p>
           </aside>
         </section>
@@ -80,7 +80,6 @@ import { computed, ref, reactive, watch, onMounted, toRefs } from 'vue'
 
 import logModel from 'lin/model/log'
 import { searchLogKeyword } from 'lin/util/search'
-import { filters } from 'lin/filter'
 import LinSearch from '@/component/base/search/lin-search'
 import LinDatePicker from '@/component/base/date-picker/lin-date-picker'
 
@@ -297,7 +296,6 @@ export default {
       logs,
       more,
       loading,
-      filters,
       finished,
       backInit,
       nextPage,
