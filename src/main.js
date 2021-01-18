@@ -2,7 +2,8 @@ import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 
 import '@/config/global'
-import '@/lin/plugin'
+import 'lin/plugin'
+import { filters } from 'lin/filter'
 import permissionDirective from '@/lin/directive/authorize'
 
 import App from '@/app.vue'
@@ -27,6 +28,8 @@ app.use(ElementPlus)
 app.component('l-icon', LIcon)
 app.component('sticky-top', StickyTop)
 app.component('source-code', SourceCode)
+
+app.config.globalProperties.$filters = filters
 
 app.directive('permission', permissionDirective)
 
