@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div class="title">新建图书</div>
+    <div class="title" v-if="!editBookId">新建图书{{ editBookId }}</div>
+    <div class="title" v-else>
+      <span>修改图书</span> <span class="back" @click="back"> <i class="iconfont icon-fanhui"></i> 返回 </span>
+    </div>
+
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
@@ -26,8 +30,8 @@
             </el-form-item>
 
             <el-form-item class="submit">
-              <el-button type="primary" @click="submitForm('form')">保 存</el-button>
-              <el-button @click="resetForm('form')">重 置</el-button>
+              <el-button type="primary" @click="submitForm">保 存</el-button>
+              <el-button @click="resetForm">重 置</el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -37,19 +41,24 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import bookModel from '@/model/book'
 
 export default {
-  setup(props, ctx) {
-    const data = reactive({
-      book: {
-        title: '',
-        author: '',
-        summary: '',
-        image: '',
-      },
+  props: {
+    editBookId: {
+      type: Number,
+      default: null,
+    },
+  },
+  setup(props, context) {
+    const form = ref(null)
+    const loading = ref(false)
+    const book = reactive({ title: '', author: '', summary: '', image: '' })
+
+    const listAssign = (a, b) => Object.keys(a).forEach(key => {
+      a[key] = b[key] || a[key]
     })
 
     /**
@@ -57,23 +66,35 @@ export default {
      */
     const { rules } = getRules()
 
+    onMounted(() => {
+      getBook()
+    })
+
+    const getBook = async () => {
+      loading.value = true
+      const res = await bookModel.getBook(props.editBookId)
+      listAssign(book, res)
+      loading.value = false
+    }
+
     // 重置表单
-    const resetForm = formName => {
-      ctx.refs[formName].resetFields()
+    const resetForm = () => {
+      form.value.resetFields()
     }
 
     const submitForm = async formName => {
-      ctx.refs[formName].validate(async valid => {
+      form.value.validate(async valid => {
         if (valid) {
-          try {
-            const res = await bookModel.createBook(data.book)
-            if (res.code < window.MAX_SUCCESS_CODE) {
-              ElMessage.success(`${res.message}`)
-              resetForm(formName)
-            }
-          } catch (error) {
-            ElMessage.error('图书添加失败，请检测填写信息')
-            console.error(error)
+          let res = {}
+          if (props.editBookId) {
+            res = await bookModel.editBook(props.editBookId, book)
+            context.emit('editClose')
+          } else {
+            res = await bookModel.createBook(book)
+            resetForm(formName)
+          }
+          if (res.code < window.MAX_SUCCESS_CODE) {
+            ElMessage.success(`${res.message}`)
           }
         } else {
           console.error('error submit!!')
@@ -82,11 +103,17 @@ export default {
       })
     }
 
+    const back = () => {
+      context.emit('editClose')
+    }
+
     return {
+      back,
+      book,
+      form,
       rules,
       resetForm,
       submitForm,
-      ...toRefs(data),
     }
   },
 }
@@ -124,6 +151,12 @@ function getRules() {
     font-weight: 500;
     text-indent: 40px;
     border-bottom: 1px solid #dae1ec;
+
+    .back {
+      float: right;
+      margin-right: 40px;
+      cursor: pointer;
+    }
   }
 
   .wrap {
