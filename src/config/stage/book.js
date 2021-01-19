@@ -22,7 +22,7 @@ const bookRouter = {
       type: 'view',
       name: 'BookCreate',
       route: '/book/add',
-      filePath: 'view/book/book-create.vue',
+      filePath: 'view/book/book.vue',
       inNav: true,
       icon: 'iconfont icon-add',
     },
