@@ -67,7 +67,9 @@ export default {
     const { rules } = getRules()
 
     onMounted(() => {
-      getBook()
+      if (props.editBookId) {
+        getBook()
+      }
     })
 
     const getBook = async () => {

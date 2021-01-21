@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="title">新建用户</div>
-    <div class="wrap"><user-info :groups="groups" /></div>
+    <div class="wrap"><user-info :allGroups="allGroups" /></div>
   </div>
 </template>
 
@@ -15,13 +15,13 @@ export default {
     UserInfo,
   },
   setup() {
-    const groups = ref([])
+    const allGroups = ref([])
     const loading = ref(false)
 
     onMounted(async () => {
       try {
         loading.value = true
-        groups.value = await Admin.getAllGroups()
+        allGroups.value = await Admin.getAllGroups()
         loading.value = false
       } catch (e) {
         loading.value = false
@@ -30,8 +30,8 @@ export default {
     })
 
     return {
-      groups,
       loading,
+      allGroups,
     }
   },
 }

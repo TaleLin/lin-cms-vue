@@ -2,17 +2,17 @@
   <!-- 列表页面 -->
   <div class="container">
     <div class="title">分组列表信息</div>
-    <lin-table
-      :tableColumn="tableColumn"
-      :tableData="tableData"
-      :operate="operate"
-      @handleEdit="handleEdit"
-      @goToGroupEditPage="goToGroupEditPage"
-      @handleDelete="handleDelete"
-      @row-click="rowClick"
-      v-loading="loading"
-    >
-    </lin-table>
+    <el-table :data="tableData" v-loading="loading">
+      <el-table-column prop="name" label="名称"></el-table-column>
+      <el-table-column prop="info" label="分组描述"></el-table-column>
+      <el-table-column label="操作" fixed="right" width="275">
+        <template #default="scope">
+          <el-button plain size="mini" type="primary" @click="handleEdit(scope.row.id)">信息</el-button>
+          <el-button plain size="mini" type="info" @click="goToGroupEditPage(scope.row.id)">权限</el-button>
+          <el-button plain size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <el-dialog
       title="分组信息"
       :append-to-body="true"
@@ -39,7 +39,7 @@
           </el-form-item>
         </el-form>
       </div>
-      <template v-slot:footer>
+      <template #footer>
         <div class="dialog-footer" style="padding-left:5px;">
           <el-button type="primary" @click="confirmEdit">确 定</el-button>
           <el-button @click="resetForm('form')">重 置</el-button>
@@ -50,25 +50,10 @@
 </template>
 
 <script>
-import LinTable from '@/component/base/table/lin-table'
 import { useGroupList, useEditGroup } from './hook'
 
 export default {
-  components: {
-    LinTable,
-  },
   setup(props, ctx) {
-    // originally data properties
-    const tableColumn = [
-      { prop: 'name', label: '名称' },
-      { prop: 'info', label: '分组描述' },
-    ]
-    const operate = [
-      { name: '信息', func: 'handleEdit', type: 'primary' },
-      { name: '权限', func: 'goToGroupEditPage', type: 'info' },
-      { name: '删除', func: 'handleDelete', type: 'danger' },
-    ]
-
     /**
      * 分组列表所需数据
      */
@@ -102,13 +87,11 @@ export default {
       id,
       rules,
       group,
-      operate,
       loading,
       rowClick,
       tableData,
       resetForm,
       handleEdit,
-      tableColumn,
       confirmEdit,
       handleClose,
       handleDelete,

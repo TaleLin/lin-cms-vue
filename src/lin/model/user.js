@@ -15,6 +15,7 @@ export default class User {
         email: user.email,
         username: user.username,
         password: user.password,
+        group_ids: user.groupIds,
         confirm_password: user.confirmPassword,
       },
       handleError: true,
