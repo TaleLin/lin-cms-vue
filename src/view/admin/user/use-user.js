@@ -2,10 +2,10 @@ import { ref, onMounted } from 'vue'
 import AdminModel from '@/lin/model/admin'
 
 export const useUserList = () => {
-  const groups = ref([])
+  const allGroups = ref([])
   const pageCount = ref(10) // 每页10条数据
   const tableData = ref([])
-  const groupID = ref(null)
+  const groupId = ref(null)
   const loading = ref(false)
   const totalNum = ref(0) // 分组内的用户总数
   const currentPage = ref(1) // 默认获取第一页的数据
@@ -14,11 +14,11 @@ export const useUserList = () => {
    * 获取管理员列表数据
    */
   const getAdminUsers = async () => {
-    let res
+    let res = {}
     try {
       loading.value = true
       res = await AdminModel.getAdminUsers({
-        groupID: groupID.value,
+        groupId: groupId.value,
         count: pageCount.value,
         page: currentPage.value - 1,
       })
@@ -37,7 +37,7 @@ export const useUserList = () => {
   const getAllGroups = async () => {
     try {
       loading.value = true
-      groups.value = await AdminModel.getAllGroups()
+      allGroups.value = await AdminModel.getAllGroups()
       loading.value = false
     } catch (e) {
       loading.value = false
@@ -46,16 +46,12 @@ export const useUserList = () => {
   }
 
   /**
-   * 多分组用 ',' 分割展示
+   * 多分组用 '，' 分割展示
    */
   const shuffleList = users => {
     const list = []
     users.forEach(element => {
-      const userGroups = []
-      element.groups.forEach(item => {
-        userGroups.push(item.name)
-      })
-      element.groupNames = userGroups.join(',')
+      element.groupNames = element.groups.map(item => item.name).join('，')
       list.push(element)
     })
     return list
@@ -67,10 +63,10 @@ export const useUserList = () => {
   })
 
   return {
-    groups,
-    groupID,
+    groupId,
     loading,
     totalNum,
+    allGroups,
     pageCount,
     tableData,
     currentPage,
@@ -78,7 +74,7 @@ export const useUserList = () => {
   }
 }
 
-export const useFormData = (ctx, dialogFormVisible, getAdminUsers, currentPage, loading) => {
+export const useFormData = (ctx, dialogFormVisible, getAdminUsers, currentPage, loading, info, password) => {
   const id = ref(null)
   const activeTab = ref('修改信息')
 
@@ -114,13 +110,6 @@ export const useFormData = (ctx, dialogFormVisible, getAdminUsers, currentPage, 
   }
 
   /**
-   * 切换弹窗Tab栏
-   */
-  const handleClick = tab => {
-    activeTab.value = tab.name
-  }
-
-  /**
    * 翻页
    */
   const handleCurrentChange = async val => {
@@ -133,9 +122,9 @@ export const useFormData = (ctx, dialogFormVisible, getAdminUsers, currentPage, 
    */
   const confirmEdit = async () => {
     if (activeTab.value === '修改信息') {
-      await ctx.refs.userInfo.submitForm('form')
+      await info.value.submitForm()
     } else {
-      await ctx.refs.password.submitForm('form')
+      await password.value.submitForm()
     }
   }
 
@@ -147,14 +136,18 @@ export const useFormData = (ctx, dialogFormVisible, getAdminUsers, currentPage, 
     done()
   }
 
+  const handleClick = tab => {
+    activeTab.value = tab.props.name
+  }
+
   /**
    * 重置表单
    */
   const resetForm = () => {
     if (activeTab.value === '修改信息') {
-      ctx.refs.userInfo.resetForm('form')
+      info.value.resetForm()
     } else {
-      ctx.refs.password.resetForm('form')
+      password.value.resetForm()
     }
   }
 

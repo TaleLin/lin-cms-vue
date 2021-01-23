@@ -1,55 +1,52 @@
-<!--
-  TODO: nextTick refreash pagination
--->
 <template>
   <div class="container">
     <div class="header">
       <div class="title">用户列表</div>
       <!-- 分组选择下拉框 -->
-      <el-select size="medium" filterable v-model="groupID" placeholder="请选择分组" @change="handleChange" clearable>
-        <el-option v-for="(group, index) in groups" :key="index" :label="group.name" :value="group.id"> </el-option>
+      <el-select size="medium" filterable v-model="groupId" placeholder="请选择分组" @change="handleChange" clearable>
+        <el-option v-for="(group, index) in allGroups" :key="index" :label="group.name" :value="group.id"> </el-option>
       </el-select>
     </div>
     <!-- 表格 -->
-    <lin-table
-      :tableColumn="tableColumn"
-      :tableData="tableData"
-      :operate="operate"
-      @handleEdit="handleEdit"
-      @handleDelete="handleDelete"
-      @row-click="rowClick"
-      v-loading="loading"
-    ></lin-table>
+    <el-table :data="tableData" v-loading="loading" @row-dblclick="rowDoubleClick">
+      <el-table-column prop="username" label="名称"></el-table-column>
+      <el-table-column prop="groupNames" label="所属分组"></el-table-column>
+      <el-table-column label="操作" fixed="right" width="275">
+        <template #default="scope">
+          <el-button plain size="mini" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button plain size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <!-- 分页 -->
     <div class="pagination">
       <el-pagination
-        @current-change="handleCurrentChange"
+        :total="totalNum"
         :background="true"
         :page-size="pageCount"
-        :current-page="currentPage"
         v-if="refreshPagination"
+        :current-page="currentPage"
         layout="prev, pager, next, jumper"
-        :total="totalNum"
+        @current-change="handleCurrentChange"
       >
       </el-pagination>
     </div>
     <!-- 弹窗 -->
-    <el-dialog title="用户信息" :append-to-body="true" :before-close="handleClose" v-model:visible="dialogFormVisible">
+    <el-dialog title="用户信息" :append-to-body="true" :before-close="handleClose" v-model="dialogFormVisible">
       <div style="margin-top:-25px;">
         <el-tabs v-model="activeTab" @tab-click="handleClick">
           <el-tab-pane label="修改信息" name="修改信息">
             <user-info
-              ref="userInfo"
-              v-if="dialogFormVisible"
-              @handleInfoResult="handleInfoResult"
-              @handleAddUser="handleAddUser"
-              labelPosition="right"
-              pageType="edit"
               :id="id"
-              :groups="groups"
+              ref="info"
+              class="info"
+              pageType="edit"
               :info="userInfo"
               :submit="false"
-              class="info"
+              :allGroups="allGroups"
+              labelPosition="right"
+              v-if="dialogFormVisible"
+              @handleInfoResult="handleInfoResult"
             />
           </el-tab-pane>
           <el-tab-pane label="修改密码" name="修改密码">
@@ -58,10 +55,12 @@
         </el-tabs>
       </div>
       <!-- 按键操作 -->
-      <div v-solt:footer class="dialog-footer">
-        <el-button type="primary" @click="confirmEdit">确 定</el-button>
-        <el-button @click="resetForm">重 置</el-button>
-      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="confirmEdit">确 定</el-button>
+          <el-button @click="resetForm">重 置</el-button>
+        </div>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -69,27 +68,20 @@
 <script>
 import { ref, reactive } from 'vue'
 import { ElMessageBox, ElMessage } from 'element-plus'
-import AdminModel from '@/lin/model/admin'
-import LinTable from '@/component/base/table/lin-table'
 import UserInfo from './user-info'
+import AdminModel from '@/lin/model/admin'
 import UserPassword from './user-password'
-import { useUserList, useFormData } from './hook'
+import { useUserList, useFormData } from './use-user'
 
 export default {
-  components: { LinTable, UserInfo, UserPassword },
+  components: { UserInfo, UserPassword },
   setup(props, ctx) {
-    const tableColumn = [
-      { prop: 'username', label: '名称' },
-      { prop: 'groupNames', label: '所属分组' },
-    ] // 设置表头信息
-    const operate = [
-      { name: '编辑', func: 'handleEdit', type: 'primary' },
-      { name: '删除', func: 'handleDelete', type: 'danger' },
-    ]
+    const info = ref(false)
+    const password = ref(false)
     const dialogFormVisible = ref(false) // 弹窗遮罩层
     const refreshPagination = ref(true) // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
 
-    const { groups, loading, groupID, totalNum, tableData, pageCount, currentPage, getAdminUsers } = useUserList()
+    const { allGroups, loading, groupId, totalNum, tableData, pageCount, currentPage, getAdminUsers } = useUserList()
     const {
       id,
       activeTab,
@@ -101,31 +93,31 @@ export default {
       handleInfoResult,
       handleCurrentChange,
       handlePasswordResult,
-    } = useFormData(ctx, dialogFormVisible, getAdminUsers, currentPage, loading)
+    } = useFormData(ctx, dialogFormVisible, getAdminUsers, currentPage, loading, info, password)
 
     const userInfo = reactive({
       email: '',
       username: '',
       password: '',
-      groupIDs: [],
+      groups: [],
       confirm_password: '',
     })
 
     /**
      * 修改管理员信息
      */
-    const handleEdit = val => {
-      id.value = val.row.id
-      userInfo.username = val.row.username
-      userInfo.email = val.row.email
-      userInfo.groupIDs = val.row.groups
+    const handleEdit = row => {
+      id.value = row.id
+      userInfo.email = row.email
+      userInfo.groups = row.groups
+      userInfo.username = row.username
       dialogFormVisible.value = true
     }
 
     /**
      * 删除管理员数据
      */
-    const handleDelete = val => {
+    const handleDelete = id => {
       let res
       ElMessageBox.confirm('此操作将永久删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -134,7 +126,7 @@ export default {
       }).then(async () => {
         try {
           loading.value = true
-          res = await AdminModel.deleteOneUser(val.row.id)
+          res = await AdminModel.deleteOneUser(id)
         } catch (e) {
           loading.value = false
           console.error(e)
@@ -154,48 +146,31 @@ export default {
       })
     }
 
-    /**
-     * 监听添加用户是否成功
-     */
-    const handleAddUser = async flag => {
-      if (flag === true) {
-        if (totalNum.value % pageCount.value === 0) {
-          // 判断当前页的数据是不是满了，需要增加新的页码
-          currentPage.value++
-        }
-        await getAdminUsers()
-        // refreshPagination.value = false // 刷新pagination组件
-        // this.$nextTick(() => {
-        //   this.refreshPagination = true
-        // })
-      }
-    }
-    const rowClick = row => {
+    const rowDoubleClick = row => {
       handleEdit(row)
     }
 
     return {
       id,
-      groups,
-      groupID,
-      operate,
+      info,
+      groupId,
       loading,
-      rowClick,
+      password,
       userInfo,
       totalNum,
+      allGroups,
       tableData,
       activeTab,
       resetForm,
       pageCount,
       handleEdit,
       confirmEdit,
-      tableColumn,
       handleClose,
       currentPage,
       handleClick,
       handleChange,
       handleDelete,
-      handleAddUser,
+      rowDoubleClick,
       handleInfoResult,
       refreshPagination,
       dialogFormVisible,

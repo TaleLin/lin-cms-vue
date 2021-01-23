@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <el-form
-      :model="userInfo"
+      ref="form"
       status-icon
       :rules="rules"
-      :label-position="labelPosition"
-      ref="form"
-      v-loading="loading"
+      :model="userInfo"
       label-width="100px"
+      v-loading="loading"
+      :label-position="labelPosition"
       @submit.prevent
     >
       <el-form-item label="用户名" prop="username">
@@ -15,17 +15,17 @@
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input
-          size="medium"
           clearable
-          v-model="userInfo.email"
+          size="medium"
           :disabled="isEdited"
+          v-model="userInfo.email"
           auto-complete="new-password"
         ></el-input>
       </el-form-item>
       <el-form-item v-if="pageType === 'add'" label="密码" prop="password">
         <el-input
-          size="medium"
           clearable
+          size="medium"
           type="password"
           v-model="userInfo.password"
           auto-complete="new-password"
@@ -33,23 +33,23 @@
       </el-form-item>
       <el-form-item v-if="pageType === 'add'" label="确认密码" prop="confirmPassword" label-position="top">
         <el-input
-          size="medium"
           clearable
+          size="medium"
           type="password"
-          v-model="userInfo.confirmPassword"
           autocomplete="off"
+          v-model="userInfo.confirmPassword"
         ></el-input>
       </el-form-item>
       <el-form-item v-if="pageType !== 'password'" label="选择分组">
-        <el-checkbox-group v-model="userInfo.groupIDs" size="small" style="transform: translateY(5px);">
-          <el-checkbox v-for="item in groups" :key="item.id" :label="item.id" border style="margin-left: 0">{{
+        <el-checkbox-group v-model="userInfo.groupIds" size="small" style="transform: translateY(5px);">
+          <el-checkbox v-for="item in allGroups" :key="item.id" :label="item.id" border style="margin-left: 0">{{
             item.name
           }}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item v-show="submit" class="submit">
-        <el-button type="primary" @click="submitForm('form')">保 存</el-button>
-        <el-button @click="resetForm('form')">重 置</el-button>
+        <el-button type="primary" @click="submitForm">保 存</el-button>
+        <el-button @click="resetForm">重 置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -73,7 +73,7 @@ export default {
       type: Number,
       default: undefined,
     },
-    groups: {
+    allGroups: {
       // 所有分组
       type: Array,
       default: () => {},
@@ -94,6 +94,7 @@ export default {
     },
   },
   setup(props, ctx) {
+    const form = ref(null)
     const loading = ref(false)
     const isEdited = ref(false) // 能否编辑
 
@@ -101,7 +102,7 @@ export default {
       email: '',
       username: '',
       password: '',
-      groupIDs: [],
+      groupIds: [],
       confirmPassword: '',
     })
 
@@ -113,10 +114,10 @@ export default {
     /**
      * 新增或更新管理员信息
      */
-    const submitForm = formName => {
-      ctx.refs[formName].validate(async valid => {
+    const submitForm = () => {
+      form.value.validate(async valid => {
         if (valid) {
-          let res
+          let res = {}
           // 1. 新增用户
           if (props.pageType === 'add') {
             try {
@@ -125,27 +126,25 @@ export default {
               if (res.code < window.MAX_SUCCESS_CODE) {
                 loading.value = false
                 ElMessage.success(`${res.message}`)
-                ctx.emit('handleAddUser', true)
-                resetForm(formName)
+                resetForm()
               }
             } catch (e) {
               loading.value = false
               ElMessage.error('新增用户失败')
-              console.error(e)
             }
           } else {
-            // 2. 更新用户信息 TODO
-            // eslint-disable-next-line vue/no-mutating-props
-            if (userInfo.groupIDs.sort().toString() === props.info.groupIDs.sort().toString()) {
+            // 2. 更新用户信息
+            const originalGroupIds = props.info.groups.map(item => item.id)
+            if (userInfo.groupIds.sort().toString() === originalGroupIds.toString()) {
               ctx.emit('handleInfoResult', false)
               return
             }
+
             try {
               loading.value = true
-              res = await AdminModel.updateOneUser(userInfo.email, userInfo.groupIDs, props.id)
+              res = await AdminModel.updateOneUser(userInfo.email, userInfo.groupIds, props.id)
             } catch (e) {
               loading.value = false
-              console.error(e)
             }
             if (res.code < window.MAX_SUCCESS_CODE) {
               loading.value = false
@@ -157,7 +156,6 @@ export default {
             }
           }
         } else {
-          console.log('error submit!!')
           ElMessage.error('请填写正确的信息')
         }
       })
@@ -166,26 +164,22 @@ export default {
     /**
      * reset表单内容
      */
-    const resetForm = formName => {
+    const resetForm = () => {
       if (props.pageType === 'edit') {
-        setInfo()
+        setInitialUserInfo()
       } else {
-        userInfo.groupIDs = []
-        ctx.refs[formName].resetFields()
+        userInfo.groupIds = []
+        form.value.resetFields()
       }
     }
 
     /**
      * 编辑页面设置初始值
      */
-    const setInfo = () => {
-      const temp = []
+    const setInitialUserInfo = () => {
       userInfo.email = props.info.email
       userInfo.username = props.info.username
-      props.info.groupIDs.forEach(item => {
-        temp.push(item.id)
-      })
-      userInfo.groupIDs = temp
+      userInfo.groupIds = props.info.groups.map(item => item.id)
     }
 
     /**
@@ -193,11 +187,12 @@ export default {
      */
     onMounted(() => {
       if (props.pageType === 'edit') {
-        setInfo()
+        setInitialUserInfo()
         isEdited.value = true
       }
     })
     return {
+      form,
       rules,
       loading,
       isEdited,
