@@ -5,10 +5,10 @@
       <el-col :lg="16" :md="20" :sm="24" :xs="24">
         <div class="content">
           <el-form
+            ref="form"
             status-icon
             :rules="rules"
             :model="group"
-            ref="form"
             label-position="right"
             label-width="100px"
             v-loading="loading"
@@ -21,12 +21,7 @@
               <el-input size="medium" clearable v-model="group.info"></el-input>
             </el-form-item>
             <el-form-item>
-              <group-permissions
-                @updatePermissions="updatePermissions"
-                @updateAllPermissions="updateAllPermissions"
-                ref="groupPermissions"
-                title="分配权限"
-              >
+              <group-permissions title="分配权限" ref="groupPermissions" @updatePermissions="updatePermissions">
               </group-permissions>
             </el-form-item>
             <el-form-item class="submit">
@@ -41,6 +36,7 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
@@ -50,45 +46,38 @@ export default {
   components: {
     GroupPermissions,
   },
-  inject: ['eventBus'],
-  setup(props, ctx) {
+  setup() {
     /**
      * 表单验证规则
      */
-    const checkName = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('分组名称不能为空'))
-      }
-      callback()
-    }
-    const rules = {
-      name: [{ validator: checkName, trigger: ['blur', 'change'], required: true }],
-      info: [],
-    }
+    const { rules } = getRules()
 
     // originally data properties
+    const form = ref(null)
+    const groupPermissions = ref(null)
+
     const loading = ref(false)
+    const router = useRouter()
     const permissions = ref([])
     const allPermissions = ref([])
-    const { router } = ctx.root.$options
     const group = reactive({ name: '', info: '' })
 
     /**
      * 重置表单
      */
-    const resetForm = formName => {
-      ctx.refs[formName].resetFields()
-      ctx.refs.groupPermissions.getGroupPermissions()
+    const resetForm = () => {
+      form.value.resetFields()
+      groupPermissions.value.getGroupPermissions()
     }
 
     /**
      * 提交表单
      * 添加新的分组
      */
-    const submitForm = async formName => {
-      ctx.refs[formName].validate(async valid => {
+    const submitForm = async () => {
+      form.value.validate(async valid => {
         if (valid) {
-          let res
+          let res = {}
           const finalPermissions = permissions.value.filter(x => Object.keys(allPermissions.value).indexOf(x) < 0)
           try {
             loading.value = true
@@ -101,7 +90,7 @@ export default {
             loading.value = false
             ElMessage.success(`${res.message}`)
             router.push('/admin/group/list')
-            resetForm('form')
+            resetForm()
           } else {
             loading.value = false
             ElMessage.error(`${res.message}`)
@@ -119,22 +108,27 @@ export default {
       permissions.value = picked
     }
 
-    /**
-     * 全部权限
-     */
-    const updateAllPermissions = all => {
-      allPermissions.value = all
-    }
-
     return {
+      form,
       rules,
       group,
       resetForm,
       submitForm,
+      groupPermissions,
       updatePermissions,
-      updateAllPermissions,
     }
   },
+}
+
+function getRules() {
+  const checkName = (rule, value, callback) => {
+    if (!value) {
+      return callback(new Error('分组名称不能为空'))
+    }
+    callback()
+  }
+  const rules = { info: [], name: [{ validator: checkName, trigger: ['blur', 'change'], required: true }] }
+  return { rules }
 }
 </script>
 

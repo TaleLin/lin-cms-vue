@@ -16,15 +16,17 @@
               ></el-checkbox>
             </div>
           </el-checkbox-group>
-          <ul class="permissions-ul">
-            <li class="permissions-li" v-for="(item, key) in permission" :key="key">
-              <el-checkbox
-                :label="item.name"
-                :value="permissionModuleIDs.indexOf(item.id) > -1"
-                @change="singleCheck(item.id, permission, moduleName)"
-              ></el-checkbox>
-            </li>
-          </ul>
+          <el-checkbox-group v-model="checkedPermissionNames">
+            <ul class="permissions-ul">
+              <li class="permissions-li" v-for="(item, key) in permission" :key="key">
+                <el-checkbox
+                  :label="item.name"
+                  :value="permissionModuleIds.indexOf(item.id) > -1"
+                  @change="singleCheck(item.id, permission, moduleName)"
+                ></el-checkbox>
+              </li>
+            </ul>
+          </el-checkbox-group>
         </div>
       </div>
     </div>
@@ -41,8 +43,9 @@ export default {
     const loading = ref(false)
     const allPermissions = ref({})
     const halfPermissions = ref([]) // 该分类下的权限没有全选中
-    const permissionModuleIDs = ref([]) // 权限组 集合 id
+    const permissionModuleIds = ref([]) // 权限组 集合 id
     const permissionModuleNames = ref([]) // 权限组 module name
+    const checkedPermissionNames = ref([])
 
     /**
      * 初始化权限
@@ -50,12 +53,14 @@ export default {
      */
     const getGroupPermissions = async () => {
       allPermissions.value = await AdminModel.getAllPermissions()
+      // 编辑分组权限
       if (props.id) {
         const res = await AdminModel.getOneGroup(props.id)
         let temp = []
         const cache = {}
         res.permissions.forEach(v => {
-          permissionModuleIDs.value.push(v.id)
+          permissionModuleIds.value.push(v.id)
+          checkedPermissionNames.value.push(v.name)
           temp.push(v.module)
           // 每个module拥有权限个数
           if (!cache[v.module]) {
@@ -64,6 +69,7 @@ export default {
             cache[v.module]++
           }
         })
+        // 去重
         temp = Array.from(new Set(temp))
         // 半选
         temp.forEach(item => {
@@ -73,8 +79,8 @@ export default {
         })
         permissionModuleNames.value = Array.from(new Set(temp))
       }
-      ctx.emit('getCacheAuthIds', permissionModuleIDs.value.slice())
-      ctx.emit('updatePermissions', permissionModuleIDs.value)
+      ctx.emit('getCacheAuthIds', permissionModuleIds.value.slice())
+      ctx.emit('updatePermissions', permissionModuleIds.value)
       ctx.emit('updateAllPermissions', allPermissions.value)
     }
 
@@ -94,15 +100,20 @@ export default {
      */
     const moduleCheck = (checked, ids, moduleName) => {
       const _ids = ids.map(item => item.id)
+      const checkedNames = ids.map(item => item.name)
       if (checked) {
-        permissionModuleIDs.value = Array.from(new Set(permissionModuleIDs.value.concat(_ids)))
-        permissionModuleNames.value.push(moduleName)
-        halfPermissions.value = halfPermissions.value.filter(v => v !== moduleName)
+        permissionModuleIds.value = Array.from(new Set(permissionModuleIds.value.concat(_ids)))
+        checkedPermissionNames.value = Array.from(new Set(checkedPermissionNames.value.concat(checkedNames)))
+        if (!permissionModuleNames.value.includes(moduleName)) {
+          permissionModuleNames.value.push(moduleName)
+        }
       } else {
-        permissionModuleIDs.value = permissionModuleIDs.value.filter(v => !_ids.includes(v))
+        permissionModuleIds.value = permissionModuleIds.value.filter(v => !_ids.includes(v))
+        checkedPermissionNames.value = checkedPermissionNames.value.filter(v => !checkedNames.includes(v))
         permissionModuleNames.value = permissionModuleNames.value.filter(v => v !== moduleName)
       }
-      ctx.emit('updatePermissions', permissionModuleIDs.value)
+      halfPermissions.value = halfPermissions.value.filter(v => v !== moduleName)
+      ctx.emit('updatePermissions', permissionModuleIds.value)
     }
 
     /**
@@ -111,14 +122,14 @@ export default {
     const singleCheck = (id, permission, moduleName) => {
       const _ids = permission.map(item => item.id)
       let count = 0
-      const index = permissionModuleIDs.value.indexOf(id)
+      const index = permissionModuleIds.value.indexOf(id)
       if (index === -1) {
-        permissionModuleIDs.value.push(id)
+        permissionModuleIds.value.push(id)
       } else {
-        permissionModuleIDs.value.splice(index, 1)
+        permissionModuleIds.value.splice(index, 1)
       }
       _ids.forEach(item => {
-        if (permissionModuleIDs.value.indexOf(item) > -1) {
+        if (permissionModuleIds.value.indexOf(item) > -1) {
           count++
         }
         // 全选状态
@@ -132,10 +143,12 @@ export default {
         } else {
           // 半选状态
           permissionModuleNames.value = permissionModuleNames.value.filter(v => v !== moduleName)
-          halfPermissions.value.push(moduleName)
+          if (!halfPermissions.value.includes(moduleName)) {
+            halfPermissions.value.push(moduleName)
+          }
         }
       })
-      ctx.emit('updatePermissions', permissionModuleIDs.value)
+      ctx.emit('updatePermissions', permissionModuleIds.value)
     }
 
     return {
@@ -145,8 +158,9 @@ export default {
       allPermissions,
       halfPermissions,
       getGroupPermissions,
-      permissionModuleIDs,
+      permissionModuleIds,
       permissionModuleNames,
+      checkedPermissionNames,
     }
   },
 }

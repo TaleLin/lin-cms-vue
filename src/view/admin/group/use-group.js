@@ -22,10 +22,10 @@ export const useGroupList = () => {
 
   /**
    * 删除某项数据
-   * @param {object} val 选中的一行数据
+   * @param {object} id 选中的一行数据 ID
    */
-  const handleDelete = val => {
-    let res
+  const handleDelete = id => {
+    let res = {}
     ElMessageBox.confirm('此操作将永久删除该分组, 是否继续?', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
@@ -33,23 +33,17 @@ export const useGroupList = () => {
     }).then(async () => {
       try {
         loading.value = true
-        res = await AdminModel.deleteOneGroup(val.row.id)
+        res = await AdminModel.deleteOneGroup(id)
       } catch (e) {
         loading.value = false
         console.log(e)
       }
       if (res.code < window.MAX_SUCCESS_CODE) {
         await getAllGroups()
-        ElMessage.message({
-          type: 'success',
-          message: `${res.message}`,
-        })
+        ElMessage.message({ type: 'success', message: `${res.message}` })
       } else {
         loading.value = false
-        ElMessage.message({
-          type: 'error',
-          message: `${res.message}`,
-        })
+        ElMessage.message({ type: 'error', message: `${res.message}` })
       }
     })
   }
@@ -59,32 +53,33 @@ export const useGroupList = () => {
   })
 
   return {
-    tableData,
     loading,
+    tableData,
     handleDelete,
     getAllGroups,
   }
 }
 
 export const useEditGroup = (ctx, getAllGroups) => {
-  let cacheGroup
+  let cacheGroup = {}
   const id = ref(0) // 分组id
+  const form = ref(null)
   const group = reactive({ name: '', info: '' })
   const dialogFormVisible = ref(false) // 是否弹窗
   const rules = {
     // 表单验证规则
-    name: [{ required: true, message: '请输入分组名称', trigger: 'blur' }],
     info: [],
+    name: [{ required: true, message: '请输入分组名称', trigger: 'blur' }],
   }
 
   /**
    * 获取所拥有的权限并渲染  由子组件提供
    * @param {*} val 选中的某行数据
    */
-  const handleEdit = val => {
-    id.value = val.row.id
-    group.name = val.row.name
-    group.info = val.row.info
+  const handleEdit = row => {
+    id.value = row.id
+    group.name = row.name
+    group.info = row.info
     cacheGroup = { ...group }
     dialogFormVisible.value = true
   }
@@ -110,22 +105,23 @@ export const useEditGroup = (ctx, getAllGroups) => {
   const handleClose = done => {
     done()
   }
-  const rowClick = row => {
+  const rowDoubleClick = row => {
     handleEdit(row)
   }
-  const resetForm = formName => {
-    ctx.refs[formName].resetFields()
+  const resetForm = () => {
+    form.value.resetFields()
   }
 
   return {
     id,
+    form,
     rules,
     group,
-    rowClick,
     resetForm,
     handleEdit,
     confirmEdit,
     handleClose,
+    rowDoubleClick,
     dialogFormVisible,
   }
 }
