@@ -27,6 +27,7 @@
 
 <script>
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import AdminModel from '@/lin/model/admin'
 import GroupPermissions from './group-permission'
@@ -35,10 +36,12 @@ export default {
   components: {
     GroupPermissions,
   },
-  setup(props, ctx) {
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
     // originally data properties
-    const allPermissions = ref([])
     const permissions = ref([])
+    const allPermissions = ref([])
     const cachePermissions = ref([])
 
     /**
@@ -78,10 +81,10 @@ export default {
           .filter(v => !cachePermissions.value.includes(v))
 
         if (addPermissions.length > 0) {
-          addRes = await AdminModel.dispatchPermissions(ctx.root.$route.query.id, addPermissions)
+          addRes = await AdminModel.dispatchPermissions(route.query.id, addPermissions)
         }
         if (deletePermissions.length > 0) {
-          delRes = await AdminModel.removePermissions(ctx.root.$route.query.id, deletePermissions)
+          delRes = await AdminModel.removePermissions(route.query.id, deletePermissions)
         }
         if (addRes.code < window.MAX_SUCCESS_CODE || delRes.code < window.MAX_SUCCESS_CODE) {
           ElMessage.success('权限修改成功')
@@ -93,14 +96,16 @@ export default {
      * 返回
      */
     const back = () => {
-      const { router } = ctx.root.$options
       router.go(-1)
     }
 
     return {
       back,
+      permissions,
       confirmEdit,
+      allPermissions,
       getCacheAuthIds,
+      cachePermissions,
       updatePermissions,
       updateAllPermissions,
     }
