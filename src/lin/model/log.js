@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import _axios, { get } from '@/lin/plugin/axios'
 
 class Log {

@@ -1,7 +1,9 @@
 <template>
   <div class="lin-search">
     <el-input size="medium" :placeholder="placeholder" clearable v-model="keyword" class="input-with-select">
-      <el-button icon="el-icon-search"></el-button>
+      <template #suffix>
+        <i class="el-input__icon el-icon-search" @click="search"></i>
+      </template>
     </el-input>
   </div>
 </template>
@@ -34,30 +36,24 @@ export default {
     clear() {
       this.keyword = ''
     },
+    search() {
+      this.$emit('query', this.keyword)
+    },
   },
 }
 </script>
 <style lang="scss" scoped>
-.lin-search >>> .el-input-group__append {
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  padding: 0 8px;
-  color: #ffffff;
-  border: 1px solid $theme;
-  .el-icon-search {
-    font-size: 18px;
-  }
-}
-.lin-search >>> .el-input__inner {
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-right: none;
+.lin-search /deep/ .el-input__inner {
   width: 150px;
+  border-radius: 20px;
   transition: all 0.2s linear;
 
   &:focus {
     width: 250px;
     transition: all 0.3s linear;
   }
+}
+.lin-search /deep/ .el-input__suffix {
+  cursor: pointer;
 }
 </style>
