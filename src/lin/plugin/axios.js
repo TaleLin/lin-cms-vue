@@ -2,7 +2,7 @@
  * 封装 axios
  */
 import axios from 'axios'
-// import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 import store from '@/store'
 import Config from '@/config'
@@ -156,19 +156,19 @@ _axios.interceptors.response.use(
         }
       }
 
-      // Message.error(message)
+      ElMessage.error(message)
       reject()
     })
   },
   error => {
     if (!error.response) {
-      // Message.error('请检查 API 是否异常')
+      ElMessage.error('请检查 API 是否异常')
       console.log('error', error)
     }
 
     // 判断请求超时
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
-      // Message.warning('请求超时')
+      ElMessage.warning('请求超时')
     }
     return Promise.reject(error)
   },
