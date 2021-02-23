@@ -1,24 +1,21 @@
-<!--
-  TODO: Vue3 mapGetters 简化用法
--->
 <template>
   <div class="log">
     <sticky-top>
       <div class="log-header">
         <div class="header-left"><p class="title">日志信息</p></div>
         <div class="header-right" v-permission="'搜索日志'">
-          <lin-search @query="onQueryChange" ref="searchKeywordDOM" />
+          <lin-search @query="onQueryChange" ref="searchKeywordDom" />
           <el-dropdown
             size="medium"
             style="margin: 0 10px;"
             @command="handleCommand"
             v-permission="'查询日志记录的用户'"
           >
-            <el-button size="medium">
+            <el-button>
               {{ searchUser ? searchUser : '全部人员' }} <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu>
-              <template v-slot:dropdown>
+            <template #dropdown>
+              <el-dropdown-menu>
                 <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
                 <el-dropdown-item
                   icon="el-icon-user-solid"
@@ -27,10 +24,10 @@
                   :command="[user]"
                   >{{ user }}
                 </el-dropdown-item>
-              </template>
-            </el-dropdown-menu>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
-          <lin-date-picker @dateChange="handleDateChange" ref="searchDateDOM" class="date"> </lin-date-picker>
+          <lin-date-picker @dateChange="handleDateChange" ref="searchDateDom" class="date"> </lin-date-picker>
         </div>
       </div>
       <el-divider v-if="!keyword"></el-divider>
@@ -57,19 +54,21 @@
         </section>
       </article>
 
-      <div v-if="logs?.length">
-        <el-divider></el-divider>
-        <div class="more" :class="{ nothing: finished }">
-          <i v-if="more" class="iconfont icon-loading"></i>
-          <div v-show="!more && !finished" @click="nextPage">
-            <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size:14px"></i>
-          </div>
-          <div v-if="finished">
-            <span>{{ totalCount === 0 ? '暂无数据' : '没有更多数据了' }}</span>
+      <div v-if="totalCount > count">
+        <div v-if="logs?.length">
+          <el-divider></el-divider>
+          <div class="more" :class="{ nothing: finished }">
+            <i v-if="more" class="iconfont icon-loading"></i>
+            <div v-show="!more && !finished" @click="nextPage">
+              <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size:14px"></i>
+            </div>
+            <div v-if="finished">
+              <span>{{ totalCount === 0 ? '暂无数据' : '没有更多数据了' }}</span>
+            </div>
           </div>
         </div>
+        <div class="nothing" v-else>暂无日志信息</div>
       </div>
-      <div class="nothing" v-else>暂无日志信息</div>
     </div>
   </div>
 </template>
@@ -88,17 +87,20 @@ export default {
     LinSearch,
     LinDatePicker,
   },
-  setup(props, ctx) {
+  setup() {
     // originally data properties
     const store = useStore()
-    const permissions = computed(() => store.getters.permissions)
     const user = computed(() => store.getters.user)
+    const permissions = computed(() => store.getters.permissions)
 
-    const loading = ref(false)
-    const users = ref([])
+    const count = 10
     const logs = ref([])
+    const users = ref([])
+    const loading = ref(false)
     const isSearch = ref(false)
     const finished = ref(false)
+    const searchDateDom = ref()
+    const searchKeywordDom = ref()
 
     /**
      * Part 1
@@ -110,7 +112,7 @@ export default {
         if (user.value.admin || permissions.value.includes('查询日志记录的用户')) {
           users.value = await logModel.getLoggedUsers({})
         }
-        const res = await logModel.getLogs({ page: 0 })
+        const res = await logModel.getLogs({ page: 0, count })
         logs.value = res.items
         loading.value = false
       } catch (err) {
@@ -145,14 +147,12 @@ export default {
     }
     // 条件检索
     const searchPage = async () => {
-      if (!search.searchUser && !search.searchKeyword && !search.searchDate.length) {
-        return
-      }
-      search.totalCount = 0
       logs.value = []
       loading.value = true
+      search.totalCount = 0
       finished.value = false
       const name = search.searchUser === '全部人员' ? '' : search.searchUser
+
       const res = await logModel.searchLogs({
         page: 0, // 初始化
         keyword: search.searchKeyword,
@@ -194,7 +194,7 @@ export default {
           if (search.searchDate.length) {
             search.keyword = `${search.searchUser} ${search.searchDate[0]}至${search.searchDate[1]}`
           }
-          ctx.refs.searchKeywordDOM.clear()
+          searchKeywordDom.value.clear()
         }
         searchPage()
       },
@@ -237,7 +237,7 @@ export default {
           if (search.searchKeyword) {
             search.keyword = `${search.searchUser} ${search.searchKeyword}`
           }
-          ctx.refs.searchDateDOM.clear()
+          searchDateDom.value.clear()
         }
         searchPage()
       },
@@ -295,6 +295,7 @@ export default {
       users,
       logs,
       more,
+      count,
       loading,
       finished,
       backInit,
@@ -302,7 +303,9 @@ export default {
       isSearch,
       onQueryChange,
       handleCommand,
+      searchDateDom,
       handleDateChange,
+      searchKeywordDom,
       ...toRefs(search),
     }
   },
@@ -310,7 +313,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.log >>> .el-button {
+.log /deep/ .el-button {
   padding-top: 10px;
   padding-bottom: 10px;
 }

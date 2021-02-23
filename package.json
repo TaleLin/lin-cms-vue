@@ -18,6 +18,7 @@
     "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "~0.18.0",
     "core-js": "^3.6.5",
+    "dayjs": "^1.10.4",
     "element-plus": "^1.0.1-beta.19",
     "event-source-polyfill": "^1.0.7",
     "fastscan": "^1.0.4",

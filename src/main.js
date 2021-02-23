@@ -1,5 +1,7 @@
+import 'dayjs/locale/zh-cn'
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
+import locale from 'element-plus/lib/locale/lang/zh-cn'
 
 import '@/config/global'
 import 'lin/plugin'
@@ -22,7 +24,7 @@ const app = createApp(App)
 
 app.use(store)
 app.use(router)
-app.use(ElementPlus)
+app.use(ElementPlus, { locale })
 
 // base 组件注册
 app.component('l-icon', LIcon)
@@ -34,8 +36,6 @@ app.config.globalProperties.$filters = filters
 app.directive('permission', permissionDirective)
 
 app.mount('#app')
-
-app.config.devtools = true
 
 // 设置 App 实例
 window.App = app
