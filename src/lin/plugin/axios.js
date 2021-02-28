@@ -22,6 +22,15 @@ const config = {
   },
 }
 
+/**
+ * 错误码是否是refresh相关
+ * @param { number } code 错误码
+ */
+function refreshTokenException(code) {
+  const codes = [10000, 10042, 10050, 10052]
+  return codes.includes(code)
+}
+
 // 创建请求实例
 const _axios = axios.create(config)
 
@@ -34,7 +43,6 @@ _axios.interceptors.request.use(
 
     // step1: 容错处理
     if (!reqConfig.url) {
-      /* eslint-disable-next-line */
       console.error('request need url')
       throw new Error({
         source: 'axiosInterceptors',
@@ -42,22 +50,15 @@ _axios.interceptors.request.use(
       })
     }
 
-    if (!reqConfig.method) {
-      // 默认使用 get 请求
-      reqConfig.method = 'get'
-    }
-    // 大小写容错
-    reqConfig.method = reqConfig.method.toLowerCase()
+    reqConfig.method = reqConfig.method.toLowerCase() // 大小写容错
 
     // 参数容错
     if (reqConfig.method === 'get') {
       if (!reqConfig.params) {
-        // 防止字段用错
         reqConfig.params = reqConfig.data || {}
       }
     } else if (reqConfig.method === 'post') {
       if (!reqConfig.data) {
-        // 防止字段用错
         reqConfig.data = reqConfig.params || {}
       }
 
@@ -80,31 +81,24 @@ _axios.interceptors.request.use(
         })
         reqConfig.data = formData
       }
-    } else {
-      // TODO: 其他类型请求数据格式处理
-      /* eslint-disable-next-line */
-      console.warn(`其他请求类型: ${reqConfig.method}, 暂无自动处理`)
     }
+
     // step2: permission 处理
     if (reqConfig.url === 'cms/user/refresh') {
       const refreshToken = getToken('refresh_token')
       if (refreshToken) {
-        // eslint-disable-next-line no-param-reassign
         reqConfig.headers.Authorization = refreshToken
       }
     } else {
-      // 有access_token
       const accessToken = getToken('access_token')
       if (accessToken) {
-        // eslint-disable-next-line no-param-reassign
         reqConfig.headers.Authorization = accessToken
       }
     }
+
     return reqConfig
   },
-  error => {
-    Promise.reject(error)
-  },
+  error => Promise.reject(error),
 )
 
 // Add a response interceptor
@@ -120,7 +114,7 @@ _axios.interceptors.response.use(
       const { url } = res.config
 
       // refresh_token 异常，直接登出
-      if (code === 10000 || code === 10100) {
+      if (refreshTokenException(code)) {
         setTimeout(() => {
           store.dispatch('loginOut')
           const { origin } = window.location
@@ -128,8 +122,8 @@ _axios.interceptors.response.use(
         }, 1500)
         return resolve(null)
       }
-      // 令牌相关，刷新令牌
-      if (code === 10040 || code === 10041 || code === 10050 || code === 10051) {
+      // assessToken相关，刷新令牌
+      if (code === 10041 || code === 10051) {
         const cache = {}
         if (cache.url !== url) {
           cache.url = url
@@ -140,11 +134,13 @@ _axios.interceptors.response.use(
           return resolve(result)
         }
       }
-      // 第一种情况：默认直接提示后端返回的异常信息；特殊情况：如果本次请求添加了 handleError: true，用户自己try catch，框架不做处理
+      // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
+      // 特殊情况：如果本次请求添加了 handleError: true，用户自行通过 try catch 处理，框架不做额外处理
       if (res.config.handleError) {
         return reject(res)
       }
-      // 第二种情况：采用前端自己的一套异常提示信息；特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
+      // 弹出信息提示的第二种情况：采用前端自己定义的一套异常提示信息（需自行在配置项开启）；
+      // 特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
       if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
         // 弹出前端自定义错误信息
         const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
