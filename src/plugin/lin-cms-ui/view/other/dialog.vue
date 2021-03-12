@@ -355,7 +355,7 @@ export default {
   margin-bottom: 20px;
 }
 
-.dialogForm >>> .el-select {
+.dialogForm ::v-deep .el-select {
   width: 100%;
 }
 </style>

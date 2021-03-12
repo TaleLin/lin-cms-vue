@@ -189,7 +189,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/style/container.scss';
 
-.input-with-select >>> .el-input-group__prepend {
+.input-with-select ::v-deep .el-input-group__prepend {
   background-color: #fff;
   width: 100px;
   border-top: 1px solid #dcdfe6;

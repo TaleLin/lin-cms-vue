@@ -118,15 +118,15 @@ export default {
     font-weight: 500;
   }
 }
-.groupListInfoDialog /deep/ .el-dialog__footer {
+.groupListInfoDialog ::v-deep .el-dialog__footer {
   text-align: left;
   padding-left: 30px;
 }
-.groupListInfoDialog /deep/ .el-dialog__header {
+.groupListInfoDialog ::v-deep .el-dialog__header {
   padding-left: 30px;
 }
 
-.groupListInfoDialog /deep/ .el-dialog__body {
+.groupListInfoDialog ::v-deep .el-dialog__body {
   padding: 30px;
 }
 </style>

@@ -152,7 +152,6 @@ export default {
               ctx.emit('handleInfoResult', true)
             } else {
               loading.value = false
-              ElMessage.error(`${res.message}`)
             }
           }
         } else {

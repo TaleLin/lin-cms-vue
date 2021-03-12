@@ -108,7 +108,8 @@ _axios.interceptors.response.use(
       return res.data
     }
 
-    let { code, message } = res.data // eslint-disable-line
+    const { code } = res.data
+    let { message } = res.data
 
     return new Promise(async (resolve, reject) => {
       const { url } = res.config
@@ -152,6 +153,9 @@ _axios.interceptors.response.use(
         }
       }
 
+      if (Object.prototype.toString.call(message) === '[object Object]') {
+        ;[message] = Object.values(message)
+      }
       ElMessage.error(message)
       reject()
     })

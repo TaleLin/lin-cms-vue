@@ -93,7 +93,6 @@ export default {
             resetForm()
           } else {
             loading.value = false
-            ElMessage.error(`${res.message}`)
           }
         } else {
           ElMessage.error('请将信息填写完整')
