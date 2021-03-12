@@ -313,7 +313,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.log /deep/ .el-button {
+.log ::v-deep .el-button {
   padding-top: 10px;
   padding-bottom: 10px;
 }

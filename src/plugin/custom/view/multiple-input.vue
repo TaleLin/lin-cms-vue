@@ -78,11 +78,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.lin-wrap-ui >>> .el-card__body {
+.lin-wrap-ui ::v-deep .el-card__body {
   padding-top: 30px;
   padding-bottom: 0px;
 }
-.lin-wrap-ui >>> .el-collapse {
+.lin-wrap-ui ::v-deep .el-collapse {
   border-top: none;
   border-bottom: none;
   cursor: pointer;
