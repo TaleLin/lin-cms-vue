@@ -1,5 +1,4 @@
 import * as types from './mutation-type'
-import { removeToken } from '@/lin/util/token'
 
 export default {
   setUserAndState({ commit }, user) {
@@ -10,8 +9,8 @@ export default {
   },
 
   loginOut({ commit }) {
-    removeToken()
-    commit(types.REMOVE_LOGINED, false)
+    localStorage.clear()
+    commit(types.REMOVE_LOGGED_IN, false)
   },
 
   readMessage({ commit }, message) {
