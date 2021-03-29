@@ -19,16 +19,6 @@ const CustomRouter = {
       permission: null,
     },
     {
-      title: 'gallery 画廊',
-      type: 'view',
-      name: 'GalleryDemo',
-      route: '/custom/gallery',
-      filePath: 'plugin/custom/view/gallery.vue',
-      inNav: true,
-      icon: 'iconfont icon-art-gallery-',
-      permission: null,
-    },
-    {
       title: 'editor 富文本',
       type: 'view',
       name: 'Tinymce',

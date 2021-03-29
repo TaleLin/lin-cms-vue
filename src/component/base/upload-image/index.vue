@@ -11,7 +11,15 @@ todo: 文件判断使用 serveWorker 优化性能
     <template v-for="(item, i) in itemList">
       <template v-if="item.display">
         <div class="thumb-item" :key="item.id" :style="boxStyle" v-loading="item.loading">
-          <el-image class="thumb-item-img" :src="item.display" :fit="fit" style="width: 100%; height: 100%;"></el-image>
+          <el-image
+            :fit="fit"
+            :ref="setImageRef"
+            :src="item.display"
+            class="thumb-item-img"
+            :previewSrcList="srcList"
+            style="width: 100%; height: 100%;"
+          >
+          </el-image>
           <div class="info">
             <i
               v-if="item.file"
@@ -73,6 +81,7 @@ todo: 文件判断使用 serveWorker 优化性能
       :multiple="multiple"
       :accept="accept"
     />
+    <!-- <el-image-viewer v-if="showViewer" @close="closeViewer" :initial-index="imageInitialIndex" :url-list="srcList" /> -->
   </div>
 </template>
 
@@ -221,10 +230,12 @@ export default {
   name: 'UploadImgs',
   data() {
     return {
+      srcList: [],
       itemList: [],
+      imageRefs: [],
       loading: false,
       currentId: '', // 正在操作项的id
-      globalImgPriview: '$imagePreview', // 全局图片预览方法名
+      imageInitialIndex: 0,
     }
   },
   props: {
@@ -714,23 +725,13 @@ export default {
      * @param {Number} index 索引序号
      */
     previewImg(data, index) {
-      // 如果有全局预览方法
-      if (this[this.globalImgPriview]) {
-        const images = []
-        this.itemList.forEach(element => {
-          if (element.display) {
-            images.push(element.display)
-          }
-        })
-        this[this.globalImgPriview]({
-          images,
-          index,
-        })
-      } else {
-        // element 原生粗糙模式
-        this.$confirm(`<img src="${data.display}" style="width: 100%;" />`, '预览', {
-          dangerouslyUseHTMLString: true,
-        })
+      const usable = this.itemList.filter(item => item.status !== 'input')
+      this.srcList = usable.map(item => item.display)
+      this.imageRefs[index].showViewer = true
+    },
+    setImageRef(el) {
+      if (el) {
+        this.imageRefs.push(el)
       }
     },
     /**
@@ -1079,6 +1080,12 @@ export default {
   }
 
   .thumb-item {
+    :v-deep(.el-image-viewer__canvas) {
+      position: absolute;
+      max-width: 800px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
     .info {
       display: flex;
       align-items: center;

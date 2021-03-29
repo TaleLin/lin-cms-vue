@@ -43,7 +43,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.lin-search ::v-deep .el-input__inner {
+.lin-search :v-deep(.el-input__inner) {
   width: 150px;
   border-radius: 20px;
   transition: all 0.2s linear;
@@ -53,7 +53,7 @@ export default {
     transition: all 0.3s linear;
   }
 }
-.lin-search ::v-deep .el-input__suffix {
+.lin-search :v-deep(.el-input__suffix) {
   cursor: pointer;
 }
 </style>
