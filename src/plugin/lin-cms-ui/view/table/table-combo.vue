@@ -518,16 +518,16 @@ export default {
   }
 }
 // dialog
-.tableSample ::v-deep .el-dialog__footer {
+.tableSample :v-deep(.el-dialog__footer) {
   text-align: left;
   padding-left: 30px;
 }
 
-.tableSample ::v-deep .el-dialog__header {
+.tableSample :v-deep(.el-dialog__header) {
   padding-left: 30px;
 }
 
-.tableSample ::v-deep .el-dialog__body {
+.tableSample :v-deep(.el-dialog__body) {
   padding: 30px;
 }
 </style>

@@ -392,12 +392,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-dialog ::v-deep .el-dialog .el-dialog__header {
+.user-dialog :v-deep(.el-dialog .el-dialog__header) {
   border-bottom: 1px solid #dae1ed;
   padding-bottom: 20px;
 }
 
-.user-dialog ::v-deep .el-dialog .el-dialog__body {
+.user-dialog :v-deep(.el-dialog .el-dialog__body) {
   padding-bottom: 00px;
 }
 

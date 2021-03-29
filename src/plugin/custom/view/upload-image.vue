@@ -101,16 +101,16 @@ export default {
     return {
       remoteName: 'remoteFucAsync',
       remoteNameObj: {
-        remoteFucAsync: this.remoteFucAsync,
         remoteFuc: this.remoteFuc,
-        remoteFucSuccessAsync: this.remoteFucSuccessAsync,
+        remoteFucAsync: this.remoteFucAsync,
         remoteFucSuccess: this.remoteFucSuccess,
+        remoteFucSuccessAsync: this.remoteFucSuccessAsync,
       },
       fit: 'cover',
       rules: {
+        maxSize: 5,
         minWidth: 100,
         minHeight: 100,
-        maxSize: 5,
       },
       rules2: {
         minWidth: 100,
@@ -166,11 +166,6 @@ export default {
       ],
     }
   },
-  // 计算属性设置
-  computed: {},
-  // 数据变更监听
-  watch: {},
-  mounted() {},
   // 当页面使用路由参数时, 参数部分变化触发的动作在本函数中操作
   // https://router.vuejs.org/zh/guide/advanced/navigation-guards.htmll#组件内的守卫
   // beforeRouteUpdate(to, from, next) {

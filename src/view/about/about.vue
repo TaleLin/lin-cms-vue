@@ -466,12 +466,12 @@ export default {
       .personal-tabs {
         margin-bottom: 20px;
       }
-      .personal-tabs ::v-deep .is-top {
+      .personal-tabs :v-deep(.is-top) {
         width: 320px;
         display: flex;
         justify-content: space-around;
       }
-      .personal-tabs ::v-deep .el-tabs__content {
+      .personal-tabs :v-deep(.el-tabs__content) {
         text-indent: 20px;
       }
     }

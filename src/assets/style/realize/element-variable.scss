@@ -423,11 +423,11 @@ thead tr {
   overflow-y: auto;
 }
 
-.el-menu--vertical ::v-deep .icon-erjizhibiao {
+.el-menu--vertical :v-deep(.icon-erjizhibiao) {
   display: none;
 }
 
-.el-menu--vertical ::v-deep .two-folder {
+.el-menu--vertical :v-deep(.two-folder) {
   margin-left: 40px;
 }
 

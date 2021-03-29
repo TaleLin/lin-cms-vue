@@ -127,7 +127,7 @@ function getRules(ctx, info, form) {
 </script>
 
 <style lang="scss" scoped>
-.el-form-item ::v-deep .el-form-item__label {
+.el-form-item :v-deep(.el-form-item__label) {
   padding-right: 10px !important;
 }
 </style>
