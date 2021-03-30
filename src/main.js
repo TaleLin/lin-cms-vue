@@ -12,6 +12,7 @@ import App from '@/app.vue'
 import store from '@/store'
 import router from '@/router'
 
+import LinNotify from '@/component/notify'
 import LIcon from '@/component/base/icon/lin-icon'
 import StickyTop from '@/component/base/sticky-top/sticky-top'
 import SourceCode from '@/component/base/source-code/source-code'
@@ -25,6 +26,11 @@ const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(ElementPlus, { locale })
+app.use(LinNotify, {
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+})
 
 // base 组件注册
 app.component('l-icon', LIcon)

@@ -1,4 +1,3 @@
-/* eslint-disable*/
 class Emitter {
   constructor() {
     this.listeners = new Map()
@@ -6,6 +5,7 @@ class Emitter {
 
   addListener(label, callback, vm) {
     if (typeof callback === 'function') {
+      // eslint-disable-next-line no-unused-expressions
       this.listeners.has(label) || this.listeners.set(label, [])
       this.listeners.get(label).push({ callback, vm })
       return true
@@ -20,6 +20,7 @@ class Emitter {
     if (listeners?.length) {
       index = listeners.reduce((i, listener, index) => {
         if (typeof listener.callback === 'function' && listener.callback === callback && listener.vm === vm) {
+          // eslint-disable-next-line no-param-reassign
           i = index
         }
         return i
