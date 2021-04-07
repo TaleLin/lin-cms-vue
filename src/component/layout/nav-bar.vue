@@ -2,18 +2,16 @@
   <div class="app-nav-bar">
     <div class="nav-content">
       <breadcrumb />
-      <!-- 暂时放这里 -->
       <div class="right-info">
         <lin-notify
           height="370"
-          @readMessages="readMessages"
-          :trigger="'click'"
-          :messages="messages"
-          @readAll="readAll"
-          @viewAll="viewAll"
-          class="lin-notify"
           :value="value"
           :hidden="hidden"
+          :trigger="'click'"
+          @readAll="readAll"
+          @viewAll="viewAll"
+          :messages="messages"
+          @readMessages="readMessages"
         >
         </lin-notify>
         <clear-tab></clear-tab>
@@ -24,28 +22,39 @@
 </template>
 
 <script>
+import User from './user'
+import store from '@/store'
+import Config from '@/config'
+import ClearTab from './clear-tab'
 import Breadcrumb from './breadcrumb'
 import Screenfull from './screen-full'
-import User from './user'
-import ClearTab from './clear-tab'
-// import { getToken } from '@/lin/util/token'
-// import store from '@/store'
+import { getToken } from '@/lin/util/token'
 
 export default {
   name: 'NavBar',
+  data() {
+    return {
+      value: 0,
+      hidden: false,
+      messages: [],
+      path: `//api.s.colorful3.com/ws/message?token=${getToken('access_token').split(' ')[1]}`,
+    }
+  },
   created() {
-    // this.$connect(this.path, { format: 'json' })
-    // this.$options.sockets.onmessage = data => {
-    //   console.log(JSON.parse(data.data))
-    //   this.messages.push(JSON.parse(data.data))
-    // }
-    // this.$options.sockets.onerror = err => {
-    //   console.log(err)
-    //   this.$message.error('token已过期,请重新登录')
-    //   store.dispatch('loginOut')
-    //   const { origin } = window.location
-    //   window.location.href = origin
-    // }
+    if (Config.websocketEnable) {
+      this.$connect(this.path, { format: 'json' })
+      this.$options.sockets.onmessage = data => {
+        console.log(JSON.parse(data.data))
+        this.messages.push(JSON.parse(data.data))
+      }
+      this.$options.sockets.onerror = err => {
+        console.error(err)
+        this.$message.error('token已过期,请重新登录')
+        store.dispatch('loginOut')
+        const { origin } = window.location
+        window.location.href = origin
+      }
+    }
   },
   watch: {
     messages: {
@@ -59,14 +68,6 @@ export default {
       },
       immediate: true,
     },
-  },
-  data() {
-    return {
-      value: 0,
-      hidden: true,
-      messages: [],
-      // path: `//api.s.colorful3.com/ws/message?token=${getToken('access_token').split(' ')[1]}`,
-    }
   },
   methods: {
     readAll() {
@@ -89,9 +90,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.lin-notify {
-  margin-right: 20px;
-}
 .app-nav-bar {
   width: 100%;
   height: $navbar-height;
