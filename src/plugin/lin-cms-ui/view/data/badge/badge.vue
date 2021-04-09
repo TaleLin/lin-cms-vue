@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       text: '',
-      base: `     
+      base: `
         <el-badge :value="12" class="item">
           <el-button size="small">评论</el-button>
         </el-badge>
@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/style/container.scss';
+// @import '../../../assets/style/container.scss';
 .item {
   margin-right: 40px;
 }

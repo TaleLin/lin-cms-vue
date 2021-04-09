@@ -86,8 +86,8 @@ todo: 文件判断使用 serveWorker 优化性能
 </template>
 
 <script>
-import { getFileType, checkIsAnimated, isEmptyObj, createId } from './utils'
 import { post } from '@/lin/plugin/axios'
+import { getFileType, checkIsAnimated, isEmptyObj, createId } from './utils'
 
 /**
  * 本地图像通过验证后构造的信息对象

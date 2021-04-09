@@ -29,10 +29,19 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
+    'template-curly-spacing': 'off',
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
     'no-param-reassign': ['error', { props: false }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['script/**/*.js'] }],
+    indent: [
+      'warn',
+      2,
+      {
+        ignoredNodes: ['TemplateLiteral'],
+        SwitchCase: 1,
+      },
+    ],
     'object-curly-newline': [
       'error',
       {

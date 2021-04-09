@@ -3,19 +3,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 export default {
-  data() {
-    return {
-      timer: null,
-    }
-  },
   mounted() {
     document.getElementById('loader').style.display = 'none'
-  },
-  methods: {
-    ...mapActions(['loginOut']),
   },
 }
 </script>

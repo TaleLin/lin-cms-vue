@@ -68,8 +68,9 @@
 <script>
 import { ref, reactive } from 'vue'
 import { ElMessageBox, ElMessage } from 'element-plus'
+import AdminModel from 'lin/model/admin'
+
 import UserInfo from './user-info'
-import AdminModel from '@/lin/model/admin'
 import UserPassword from './user-password'
 import { useUserList, useFormData } from './use-user'
 

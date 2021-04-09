@@ -223,7 +223,7 @@ export default {
   width: auto !important;
   min-width: 126px;
   display: flex;
-  height: $reusetab-height;
+  height: $reuse-tab-height;
   flex-direction: column;
   justify-content: center;
   background-color: $reuse-tab-item-background;
@@ -235,7 +235,7 @@ export default {
   bottom: 0;
   left: 0;
   user-select: none;
-  height: $reusetab-height;
+  height: $reuse-tab-height;
   background: $header-background;
   font-size: 14px;
   color: #8c98ae;
@@ -246,7 +246,7 @@ export default {
   .reuse-tab-item {
     box-sizing: border-box;
     width: auto;
-    height: $reusetab-height;
+    height: $reuse-tab-height;
     min-width: 126px;
     display: flex;
     justify-content: center;

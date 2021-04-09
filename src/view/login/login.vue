@@ -1,6 +1,3 @@
-<!--
-  TODO: mapActions, mapMutations
--->
 <template>
   <div class="login">
     <div class="team-name hidden-sm-and-down"><img src="@/assets/image/login/team-name.png" alt="logo" /></div>
