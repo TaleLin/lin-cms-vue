@@ -7,9 +7,7 @@ import store from '@/store'
  * @param {*} permissions 当前管理员所在分组权限集
  */
 function isAllowed(permission, user, permissions) {
-  if (user.admin) {
-    return true
-  }
+  if (user.admin) return true
 
   if (typeof permission === 'string') {
     return permissions.includes(permission)
@@ -27,10 +25,8 @@ export default {
     const element = el
 
     if (Object.prototype.toString.call(binding.value) === '[object Object]') {
-      // eslint-disable-next-line prefer-destructuring
-      permission = binding.value.permission
-      // eslint-disable-next-line prefer-destructuring
-      type = binding.value.type
+      ;({ permission } = binding.value);
+      ({ type } = binding.value)
     } else {
       permission = binding.value
     }

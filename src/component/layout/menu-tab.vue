@@ -66,7 +66,7 @@ export default {
 
   .router-link-exact-active,
   .router-link-active {
-    background: $appmain-background;
+    background: $app-main-background;
     color: $theme;
   }
 

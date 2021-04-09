@@ -65,7 +65,7 @@ $--font-path: "~element-plus/lib/theme-chalk/fonts";
   color: #fff !important;
   background: #3963bc !important;
   border: 1px solid #3963bc !important;
-  
+
   &:hover,
   &:focus {
     color: #fff !important;
@@ -384,7 +384,7 @@ thead tr {
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        border: 1px solid $submenu-title;
+        border: 1px solid $sub-menu-title;
         position: absolute;
         left: 45px;
         top: 23px;
@@ -460,47 +460,47 @@ thead tr {
 
 .el-submenu.is-active.is-opened {
   .el-submenu__title {
-    color: $submenu-title !important;
-    background: $menuItem-bg !important;
+    color: $sub-menu-title !important;
+    background: $menu-item-bg !important;
     height: 50px;
 
     &:hover {
-      background: $menuItem-hover !important;
+      background: $menu-item-hover !important;
     }
 
     i {
-      color: $submenu-title;
+      color: $sub-menu-title;
     }
   }
 }
 
 .is-opened {
   .el-submenu__title {
-    height: $menuItem-height;
+    height: $menu-item-height;
     transition: border-color 0s, background-color 0s, color 0s;
   }
 
   .el-menu--inline {
-    background: $menuItem-bg !important;
+    background: $menu-item-bg !important;
 
     &:hover {
-      background-color: $menuItem-hover !important;
+      background-color: $menu-item-hover !important;
     }
   }
 
   .el-submenu__title {
-    background: $menuItem-bg !important;
+    background: $menu-item-bg !important;
 
     &:hover {
-      background-color: $menuItem-hover !important;
+      background-color: $menu-item-hover !important;
     }
   }
 
   .el-menu-item {
-    background: $menuItem-bg !important;
+    background: $menu-item-bg !important;
 
     &:hover {
-      background-color: $menuItem-hover !important;
+      background-color: $menu-item-hover !important;
     }
   }
 }
@@ -508,11 +508,11 @@ thead tr {
 .el-menu-item {
   //display: flex;
   //align-items: center;
-  height: $menuItem-height;
+  height: $menu-item-height;
   transition: border-color 0s, background-color 0s, color 0s;
 
   &:hover {
-    background-color: $menuItem-hover;
+    background-color: $menu-item-hover;
   }
 }
 
@@ -533,14 +533,14 @@ thead tr {
 
 .el-submenu__title {
   // display: flex;
-  height: $menuItem-height;
+  height: $menu-item-height;
   align-items: center;
   line-height: 50px;
   // padding-left: 17px !important;
   box-sizing: border-box;
 
   i {
-    color: $submenu-title;
+    color: $sub-menu-title;
   }
 }
 
@@ -549,7 +549,7 @@ thead tr {
   // margin-left: -2px;
   .el-submenu.is-active {
     .el-submenu__title {
-      height: $menuItem-height;
+      height: $menu-item-height;
       background-color: #1d2a60 !important;
 
       i {
@@ -569,7 +569,7 @@ thead tr {
 
 .router-link-active {
   .el-menu-item.is-active {
-    height: $menuItem-height;
+    height: $menu-item-height;
     color: $theme !important;
   }
 }
@@ -586,7 +586,7 @@ thead tr {
 
 // layout
 .el-container.is-vertical {
-  background: $appmain-background;
+  background: $app-main-background;
 }
 
 .el-aside {
@@ -595,7 +595,7 @@ thead tr {
 
 .el-main {
   padding: 0 20px 20px 20px;
-  background: $appmain-background;
+  background: $app-main-background;
 }
 
 .el-container {

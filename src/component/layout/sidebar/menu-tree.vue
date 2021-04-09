@@ -50,14 +50,12 @@ export default {
 .iconfont {
   margin-right: 10px;
   margin-left: 5px;
-  color: $submenu-title;
-  height: $menuItem-height;
+  color: $sub-menu-title;
+  height: $menu-item-height;
 }
 .title {
   display: inline-block;
   width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @include no-wrap();
 }
 </style>

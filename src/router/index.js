@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { ElMessage } from 'element-plus'
 
-import routes from './route'
-import store from '../store'
 import appConfig from '@/config/index'
 import Util from '@/lin/util/util'
 import autoJump from '@/lin/util/auto-jump'
+import store from '../store'
+import routes from './route'
 
 // 判断是否需要登录访问, 配置位于 config 文件夹
 let isLoginRequired = routeName => {
@@ -36,9 +36,7 @@ let isLoginRequired = routeName => {
 }
 
 const router = createRouter({
-  scrollBehavior: () => ({
-    y: 0,
-  }),
+  scrollBehavior: () => ({ y: 0 }),
   base: process.env.BASE_URL,
   history: createWebHashHistory(),
   routes,
