@@ -54,7 +54,7 @@
         </section>
       </article>
 
-      <div v-if="totalCount > count">
+      <div v-if="totalCount > count || totalCount === 0">
         <div v-if="logs?.length">
           <el-divider></el-divider>
           <div class="more" :class="{ nothing: finished }">

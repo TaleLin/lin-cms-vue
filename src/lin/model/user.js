@@ -1,6 +1,6 @@
+import store from '@/store'
 import _axios, { post, get, put } from '@/lin/plugin/axios'
 import { saveTokens } from '../util/token'
-import store from '@/store'
 
 export default class User {
   /**

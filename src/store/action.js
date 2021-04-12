@@ -13,6 +13,6 @@ export default {
 
   readMessage({ commit }, message) {
     commit(types.REMOVE_UNREAD_MESSAGE, message.id)
-    commit(types.ADD_READED_MESSAGE, message)
+    commit(types.MARK_READ_MESSAGE, message)
   },
 }
