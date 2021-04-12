@@ -2,23 +2,6 @@ import Util from '@/lin/util/util'
 
 let stageMap = {}
 
-const deepTravel = (obj, fuc) => {
-  if (Array.isArray(obj)) {
-    obj.forEach(item => {
-      deepTravel(item, fuc)
-    })
-    return
-  }
-  if (obj && obj.children) {
-    fuc(obj)
-    deepTravel(obj.children, fuc)
-    return
-  }
-  if (obj.name) {
-    fuc(obj)
-  }
-}
-
 export const loggedIn = state => state.loggedIn
 
 export const user = state => state.user
@@ -26,43 +9,6 @@ export const user = state => state.user
 export const alreadyReadMessages = state => state.alreadyReadMessages
 
 export const unreadMessages = state => state.unreadMessages
-
-/**
- * 在侧边栏展示时，如果当前路由 children 属性为空，则删除该路由
- * @param {*} arr 路由配置项数据
- */
-function IterationDelateMenuChildren(arr) {
-  if (arr.length) {
-    // eslint-disable-next-line no-unused-vars
-    for (const i in arr) {
-      if (arr[i].children && !arr[i].children.length) {
-        delete arr[i]
-      } else if (arr[i].children && arr[i].children.length) {
-        IterationDelateMenuChildren(arr[i].children)
-      }
-    }
-  }
-  return arr
-}
-
-/**
- * Shaking 掉无权限路由
- * @param {array} stageConfig 路由配置项数据
- * @param {array} permissions 当前登录管理员所拥有的权限集合
- * @param {object} currentUser 当前登录管理员
- */
-function permissionShaking(stageConfig, permissions, currentUser) {
-  const shookConfig = stageConfig.filter(route => {
-    if (Util.hasPermission(permissions, route, currentUser)) {
-      if (route.children && route.children.length) {
-        route.children = permissionShaking(route.children, permissions, currentUser)
-      }
-      return true
-    }
-    return false
-  })
-  return IterationDelateMenuChildren(shookConfig)
-}
 
 /**
  * 获取有权限的舞台配置
@@ -215,4 +161,63 @@ export const getStageInfo = state => {
     }
     return stageInfo
   }
+}
+
+/**
+ * 递归
+ * @param {*} obj
+ * @param {*} fuc
+ */
+function deepTravel(obj, fuc) {
+  if (Array.isArray(obj)) {
+    obj.forEach(item => {
+      deepTravel(item, fuc)
+    })
+    return
+  }
+  if (obj && obj.children) {
+    fuc(obj)
+    deepTravel(obj.children, fuc)
+    return
+  }
+  if (obj.name) {
+    fuc(obj)
+  }
+}
+
+/**
+ * 在侧边栏展示时，如果当前路由 children 属性为空，则删除该路由
+ * @param {*} arr 路由配置项数据
+ */
+function IterationDelateMenuChildren(arr) {
+  if (arr.length) {
+    // eslint-disable-next-line no-unused-vars
+    for (const i in arr) {
+      if (arr[i].children && !arr[i].children.length) {
+        delete arr[i]
+      } else if (arr[i].children && arr[i].children.length) {
+        IterationDelateMenuChildren(arr[i].children)
+      }
+    }
+  }
+  return arr
+}
+
+/**
+ * Shaking 掉无权限路由
+ * @param {array} stageConfig 路由配置项数据
+ * @param {array} permissions 当前登录管理员所拥有的权限集合
+ * @param {object} currentUser 当前登录管理员
+ */
+function permissionShaking(stageConfig, permissions, currentUser) {
+  const shookConfig = stageConfig.filter(route => {
+    if (Util.hasPermission(permissions, route, currentUser)) {
+      if (route.children && route.children.length) {
+        route.children = permissionShaking(route.children, permissions, currentUser)
+      }
+      return true
+    }
+    return false
+  })
+  return IterationDelateMenuChildren(shookConfig)
 }

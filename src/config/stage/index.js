@@ -1,7 +1,7 @@
+import Utils from '@/lin/util/util'
 import adminConfig from './admin'
 import bookConfig from './book' // 引入图书管理路由文件
 import pluginsConfig from './plugin'
-import Utils from '@/lin/util/util'
 
 // eslint-disable-next-line import/no-mutable-exports
 let homeRouter = [
@@ -48,9 +48,20 @@ let homeRouter = [
   adminConfig,
 ]
 
+// 接入插件
 const plugins = [...pluginsConfig]
+filterPlugin(homeRouter)
+homeRouter = homeRouter.concat(plugins)
 
-// 筛除已经被添加的插件
+// 处理顺序
+homeRouter = Utils.sortByOrder(homeRouter)
+deepReduceName(homeRouter)
+
+export default homeRouter
+
+/**
+ * 筛除已经被添加的插件
+ */
 function filterPlugin(data) {
   if (plugins.length === 0) {
     return
@@ -70,16 +81,10 @@ function filterPlugin(data) {
   }
 }
 
-filterPlugin(homeRouter)
-
-homeRouter = homeRouter.concat(plugins)
-
-// 处理顺序
-homeRouter = Utils.sortByOrder(homeRouter)
 /**
  * 使用 Symbol 处理 name 字段, 保证唯一性
  */
-const deepReduceName = target => {
+function deepReduceName(target) {
   if (Array.isArray(target)) {
     target.forEach(item => {
       if (typeof item !== 'object') {
@@ -105,7 +110,3 @@ const deepReduceName = target => {
     }
   }
 }
-
-deepReduceName(homeRouter)
-
-export default homeRouter

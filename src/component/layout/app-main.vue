@@ -1,7 +1,11 @@
 <template>
   <section class="container">
     <div class="wrapper" id="wrapper">
-      <transition name="fade-transform" mode="out-in"> <router-view></router-view> </transition>
+      <router-view v-slot="{ Component }">
+        <transition appear name="fade-transform" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </section>
 </template>
@@ -9,13 +13,6 @@
 <script>
 export default {
   name: 'AppMain',
-  watch: {
-    $route() {
-      if (this.$previewInstance) {
-        this.$previewInstance.destroy()
-      }
-    },
-  },
 }
 </script>
 

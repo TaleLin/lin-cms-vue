@@ -45,7 +45,7 @@ export default class Sse {
     this.source.addEventListener(eventName, event => {
       // console.log('receive one message: ', event.data)
       // console.log('receive one message: ', event.lastEventId)
-      store.commit('ADD_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
+      store.commit('MARK_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
       ElMessage.warning(JSON.parse(event.data).message)
     })
   }

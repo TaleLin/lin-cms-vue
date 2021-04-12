@@ -2,7 +2,6 @@ import * as types from './mutation-type'
 
 export default {
   [types.SET_LOGGED_IN](state) {
-    /* eslint no-param-reassign: 0 */
     state.loggedIn = true
   },
 
@@ -15,11 +14,11 @@ export default {
     state.user = payload
   },
 
-  [types.ADD_READED_MESSAGE](state, payload) {
+  [types.MARK_READ_MESSAGE](state, payload) {
     state.alreadyReadMessages.push(payload)
   },
 
-  [types.ADD_UNREAD_MESSAGE](state, payload) {
+  [types.MARK_UNREAD_MESSAGE](state, payload) {
     // console.log('===:  ', payload)
     state.unreadMessages.push(payload)
   },
@@ -34,7 +33,6 @@ export default {
   [types.SET_USER_PERMISSIONS](state, permissions) {
     const _permissions = []
     for (let i = 0; i < permissions.length; i++) {
-      // eslint-disable-next-line no-unused-vars
       for (const key in permissions[i]) {
         for (let j = 0; j < permissions[i][key].length; j++) {
           _permissions.push(permissions[i][key][j].permission)

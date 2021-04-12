@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import User from './user'
 import store from '@/store'
 import Config from '@/config'
+import { getToken } from '@/lin/util/token'
+import User from './user'
 import ClearTab from './clear-tab'
 import Breadcrumb from './breadcrumb'
 import Screenfull from './screen-full'
-import { getToken } from '@/lin/util/token'
 
 export default {
   name: 'NavBar',

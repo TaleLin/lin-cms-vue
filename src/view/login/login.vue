@@ -36,8 +36,8 @@ export default {
     const { ctx } = getCurrentInstance()
 
     const account = reactive({
-      username: 'root',
-      password: '123456',
+      username: '',
+      password: '',
     })
 
     /**
