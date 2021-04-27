@@ -2,7 +2,12 @@
   <div>
     <!-- 列表页面 -->
     <div class="container" v-if="!showEdit">
-      <div class="header"><div class="title">图书列表</div></div>
+      <div class="header">
+        <div class="title">图书列表</div>
+        <div>
+          <el-button @click="exprotExcel">导出</el-button>
+        </div>
+      </div>
       <!-- 表格 -->
       <lin-table
         :tableColumn="tableColumn"
@@ -24,6 +29,7 @@
 import book from '@/model/book'
 import LinTable from '@/component/base/table/lin-table'
 import BookModify from './book-modify'
+import ParseTime from '@/lin/util/parseTime'
 
 export default {
   components: {
@@ -33,7 +39,24 @@ export default {
   data() {
     return {
       tableColumn: [{ prop: 'title', label: '书名' }, { prop: 'author', label: '作者' }],
-      tableData: [],
+      tableData: [
+        {
+          title: '2016-05-02',
+          label: '王小虎',
+        },
+        {
+          title: '2016-05-04',
+          label: '王小虎',
+        },
+        {
+          title: '2016-05-01',
+          label: '王小虎',
+        },
+        {
+          title: '2016-05-03',
+          label: '王小虎',
+        },
+      ],
       operate: [],
       showEdit: false,
       editBookID: 1,
@@ -89,6 +112,29 @@ export default {
     editClose() {
       this.showEdit = false
       this.getBooks()
+    },
+    // 导出表格
+    exprotExcel() {
+      // 动态导入
+      import('@/lin/util/exportExcel').then(excel => {
+        const tHeader = ['timestamp', 'title', 'label', 'importance', 'status']
+        const filterVal = ['timestamp', 'title', 'label', 'importance', 'status']
+        const data = this.formatJson(filterVal)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'table-list',
+        })
+      })
+    },
+    // 将表单格式化为json数据
+    formatJson(filterVal) {
+      return this.tableData.map(v => filterVal.map(j => {
+        if (j === 'timestamp') {
+          return ParseTime(v[j])
+        }
+        return v[j]
+      }),)
     },
   },
 }
