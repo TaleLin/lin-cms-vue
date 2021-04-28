@@ -5,12 +5,6 @@ span,
 applet,
 object,
 iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 p,
 blockquote,
 pre,
@@ -32,6 +26,7 @@ s,
 samp,
 small,
 strike,
+
 strong,
 sub,
 sup,
@@ -87,6 +82,22 @@ input {
     Microsoft YaHei, SimSun, sans-serif;
   font-weight: normal;
   vertical-align: baseline;
+}
+
+h1 {
+  font-size: #{$font-size-base + 6px};
+}
+
+h2 {
+  font-size: #{$font-size-base + 4px};
+}
+
+h3 {
+  font-size: #{$font-size-base + 2px};
+}
+
+h4, h5, h6, p {
+  font-size: inherit;
 }
 
 article,
