@@ -31,9 +31,6 @@ function refreshTokenException(code) {
   return flag
 }
 
-// const retryTime = 2 // 请求失败重试次数
-// const retryDelay = 1500 // 请求失败重试间隔
-
 // 创建请求实例
 const _axios = axios.create(config)
 
