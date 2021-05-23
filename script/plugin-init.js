@@ -38,7 +38,7 @@ async function handler() {
   const questions = [
     {
       type: 'checkbox',
-      name: 'plugin',
+      name: 'plugins',
       choices: pluginList.map(item => ({ name: item.name, value: item })),
       message: '请选择需要初始化的插件\n',
     },

@@ -79,7 +79,7 @@ export default {
 .login {
   width: 100%;
   height: 100%;
-  background-size: auto;
+  background-size: cover;
   background: #1b2c5f url('../../assets/image/login/login-ba.png') no-repeat center center;
 
   .team-name {
