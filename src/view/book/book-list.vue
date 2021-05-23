@@ -29,7 +29,7 @@
 import book from '@/model/book'
 import LinTable from '@/component/base/table/lin-table'
 import BookModify from './book-modify'
-import ParseTime from '@/lin/util/parseTime'
+import ParseTime from '@/lin/util/parse-time'
 
 export default {
   components: {
@@ -116,7 +116,7 @@ export default {
     // 导出表格
     exprotExcel() {
       // 动态导入
-      import('@/lin/util/exportExcel').then(excel => {
+      import('@/lin/util/export-excel').then(excel => {
         const tHeader = ['timestamp', 'title', 'label', 'importance', 'status']
         const filterVal = ['timestamp', 'title', 'label', 'importance', 'status']
         const data = this.formatJson(filterVal)
