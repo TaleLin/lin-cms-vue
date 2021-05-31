@@ -1,15 +1,25 @@
 <template>
-  <div class="logo" v-if="!elMenuCollapse"><img src="../../../assets/image/logo.png" alt="" /></div>
-  <div class="mobile-logo" v-else><img src="../../../assets/image/mobile-logo.png" alt="" /></div>
+  <div :class="!elMenuCollapse ? 'logo' : 'mobile-logo'">
+    <img :src="!elMenuCollapse ? logo : mobileLogo" alt="logo" />
+  </div>
 </template>
 
 <script>
+import logo from 'assets/image/logo.png'
+import mobileLogo from 'assets/image/mobile-logo.png'
+
 export default {
   props: {
     elMenuCollapse: {
       type: Boolean,
       required: true,
     },
+  },
+  data() {
+    return {
+      logo,
+      mobileLogo
+    }
   },
 }
 </script>
@@ -33,7 +43,6 @@ export default {
 
   img {
     width: 120px;
-    transition: all 0.3s linear;
   }
 }
 
@@ -49,7 +58,6 @@ export default {
   img {
     width: 40px;
     height: 40px;
-    transition: all 0.3s linear;
   }
 }
 </style>
