@@ -35,6 +35,10 @@ Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 
 **Lin-CMS 是工程类开源项目，不能保证无缝升级**
 
+### 林间有风团队官方网站
+
+[https://talelin.com/](https://talelin.com/)
+
 ### 文档地址
 
 [http://doc.cms.talelin.com/](http://doc.cms.talelin.com/)
