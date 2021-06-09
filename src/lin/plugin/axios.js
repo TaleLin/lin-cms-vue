@@ -5,6 +5,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 import store from '@/store'
+import router from '@/router'
 import Config from '@/config'
 import autoJump from '@/lin/util/auto-jump'
 import ErrorCode from '@/config/error-code'
@@ -37,7 +38,7 @@ const _axios = axios.create(config)
 _axios.interceptors.request.use(
   originConfig => {
     // 有 API 请求重新计时
-    autoJump()
+    autoJump(router)
 
     const reqConfig = { ...originConfig }
 
