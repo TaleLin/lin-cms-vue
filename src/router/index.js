@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
   }
 
   // 路由发生变化重新计时
-  autoJump()
+  autoJump(router)
 
   // 路由发生变化修改页面title
   if (to.meta.title) {

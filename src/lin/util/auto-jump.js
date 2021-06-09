@@ -4,11 +4,14 @@
 import store from '@/store'
 import Config from '@/config'
 
-export default () => {
+export default router => {
   let timer
 
-  if (!Config.openAutoJumpOut) return
   if (timer) clearTimeout(timer)
+  if (!Config.openAutoJumpOut) return
+  if (router?.currentRoute.value.path === '/' || router?.currentRoute.value.path === '/login') {
+    return
+  }
 
   timer = setTimeout(() => {
     store.dispatch('loginOut')
