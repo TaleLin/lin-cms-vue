@@ -75,7 +75,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
-        const res = await bookModel.delectBook(id)
+        const res = await bookModel.deleteBook(id)
         if (res.code < window.MAX_SUCCESS_CODE) {
           getBooks()
           ElMessage.success(`${res.message}`)
