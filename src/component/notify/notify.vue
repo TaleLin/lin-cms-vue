@@ -96,6 +96,7 @@ export default {
   data() {
     return {}
   },
+  emits: ['readMessages', 'readAll', 'viewAll'],
   methods: {
     readMessages(msg, index) {
       this.$emit('readMessages', msg, index)

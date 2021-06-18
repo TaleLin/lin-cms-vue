@@ -45,10 +45,6 @@ _axios.interceptors.request.use(
     // step1: 容错处理
     if (!reqConfig.url) {
       console.error('request need url')
-      throw new Error({
-        source: 'axiosInterceptors',
-        message: 'request need url',
-      })
     }
 
     reqConfig.method = reqConfig.method.toLowerCase() // 大小写容错
@@ -109,10 +105,10 @@ _axios.interceptors.response.use(
       return res.data
     }
 
-    const { code } = res.data
-    let { message } = res.data
+    const { code, message } = res.data
 
     return new Promise(async (resolve, reject) => {
+      let tipMessage = ''
       const { url } = res.config
 
       // refresh_token 异常，直接登出
@@ -136,11 +132,13 @@ _axios.interceptors.response.use(
           return resolve(result)
         }
       }
+
       // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
       // 特殊情况：如果本次请求添加了 handleError: true，用户自行通过 try catch 处理，框架不做额外处理
       if (res.config.handleError) {
         return reject(res)
       }
+
       // 弹出信息提示的第二种情况：采用前端自己定义的一套异常提示信息（需自行在配置项开启）；
       // 特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
       if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
@@ -148,17 +146,23 @@ _axios.interceptors.response.use(
         const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
         // 匹配到前端自定义的错误码
         if (errorArr.length > 0 && errorArr[0][1] !== '') {
-          message = errorArr[0][1] // eslint-disable-line
+          ;[[, tipMessage]] = errorArr
         } else {
-          message = ErrorCode['777']
+          tipMessage = ErrorCode['777']
         }
       }
 
-      if (Object.prototype.toString.call(message) === '[object Object]') {
-        ;[message] = Object.values(message)
+      if (typeof message === 'string') {
+        tipMessage = message
       }
-      ElMessage.error(message)
-      reject()
+      if (Object.prototype.toString.call(message) === '[object Object]') {
+        ;[tipMessage] = Object.values(message).flat()
+      }
+      if (Object.prototype.toString.call(message) === '[object Array]') {
+        ;[tipMessage] = message
+      }
+      ElMessage.error(tipMessage)
+      reject(res)
     })
   },
   error => {

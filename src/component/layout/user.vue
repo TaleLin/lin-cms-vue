@@ -38,13 +38,13 @@
     </el-dropdown>
     <!-- 修改头像 -->
     <el-dialog
+      center
       title="裁剪"
-      v-model:visible="cropVisible"
       width="300px"
       :append-to-body="true"
       :close-on-click-modal="false"
+      v-model="cropVisible"
       custom-class="croppa-dialog"
-      center
     >
       <div style="text-align: center;">
         <div class="avatar-croppa-container">
@@ -75,19 +75,13 @@
         </div>
       </template>
     </el-dialog>
-    <el-dialog
-      title="修改密码"
-      :append-to-body="true"
-      :before-close="handleClose"
-      v-model:visible="dialogFormVisible"
-      class="user-dialog"
-    >
+    <el-dialog title="修改密码" :append-to-body="true" v-model="dialogFormVisible" :before-close="handleClose">
       <el-form
         :model="form"
+        ref="form"
         status-icon
         :rules="rules"
         label-position="left"
-        ref="form"
         label-width="90px"
         @submit.prevent
       >
@@ -346,8 +340,8 @@ export default {
       done()
     },
     outLogin() {
-      window.location.reload(true)
       this.loginOut()
+      window.location.reload()
     },
     submitForm(formName) {
       if (this.form.old_password === '' && this.form.new_password === '' && this.form.confirm_password === '') {
@@ -392,15 +386,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user-dialog :v-deep(.el-dialog .el-dialog__header) {
-  border-bottom: 1px solid #dae1ed;
-  padding-bottom: 20px;
-}
-
-.user-dialog :v-deep(.el-dialog .el-dialog__body) {
-  padding-bottom: 00px;
-}
-
 .user {
   height: 40px;
 
