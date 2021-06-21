@@ -133,6 +133,8 @@ export const useFormData = (ctx, dialogFormVisible, getAdminUsers, currentPage, 
    */
   const handleClose = done => {
     dialogFormVisible.value = false
+    password.value.resetForm()
+    activeTab.value = '修改信息'
     done()
   }
 
