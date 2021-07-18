@@ -32,13 +32,13 @@
           <div class="password">
             <div class="title">修改密码</div>
             <el-form
+              ref="form"
               :model="form"
               status-icon
               :rules="rules"
-              label-position="left"
-              ref="form"
-              label-width="90px"
               @submit.prevent
+              label-width="90px"
+              label-position="left"
             >
               <el-form-item label="原始密码" prop="old_password">
                 <el-input type="password" v-model="form.old_password" autocomplete="off"></el-input>
@@ -59,65 +59,22 @@
       </el-row>
     </div>
     <!-- 修改头像 -->
-    <el-dialog
-      title="裁剪"
-      v-model:visible="cropVisible"
-      width="300px"
-      :append-to-body="true"
-      :close-on-click-modal="false"
-      custom-class="croppa-dialog"
-      center
-    >
-      <div style="text-align: center;">
-        <div class="avatar-croppa-container">
-          <!-- <croppa
-            ref="croppa"
-            :width="cropRule.width"
-            :height="cropRule.height"
-            :placeholder="'loading'"
-            :zoom-speed="30"
-            :disable-drag-and-drop="false"
-            :show-remove-button="false"
-            :prevent-white-space="true"
-            :disable-click-to-choose="false"
-            :disable-scroll-to-zoom="false"
-            :show-loading="true"
-            :quality="quality"
-            :initial-image="cropImg"
-          ></croppa> -->
-        </div>
-        <div style="margin-top: 1em;">通过鼠标滚轮调节头像大小</div>
-      </div>
-      <template v-solt:footer>
-        <div class="dialog-footer">
-          <el-button @click="cropVisible = false" size="small">取 消</el-button>
-          <el-button type="primary" @click="handleCrop" size="small">确 定</el-button>
-        </div>
-      </template>
-    </el-dialog>
+    <!-- <avatar :originalImage="cropImg" :cropVisible="cropVisible" @switchCropVisible="switchCropVisible"></avatar> -->
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-// import Vue from 'vue'
-// import Croppa from 'vue-croppa'
 import User from '@/lin/model/user'
-import axios, { post, put } from '@/lin/plugin/axios'
-import 'vue-croppa/dist/vue-croppa.css'
+import axios from '@/lin/plugin/axios'
+import { mapActions, mapGetters } from 'vuex'
 import defaultAvatar from '@/assets/image/user/user.png'
-
-// Vue.use(Croppa)
-
-const width = 150
-const height = 150
+// import Avatar from '../../component/layout/avatar.vue'
 
 export default {
-  name: 'center',
-  components: {},
+  name: 'Center',
+  // components: { Avatar },
   data() {
     const oldPassword = (rule, value, callback) => {
-      // eslint-disable-line
       if (!value) {
         return callback(new Error('原始密码不能为空'))
       }
@@ -145,8 +102,11 @@ export default {
       }
     }
     return {
+      cropImg: '',
       username: null,
       nickname: null,
+      defaultAvatar,
+      cropVisible: false,
       form: {
         old_password: '',
         new_password: '',
@@ -157,20 +117,6 @@ export default {
         new_password: [{ validator: validatePassword, trigger: 'blur', required: true }],
         confirm_password: [{ validator: validatePassword2, trigger: 'blur', required: true }],
       },
-      cropRule: {
-        width,
-        height,
-      },
-      imgRule: {
-        minWidth: width,
-        minHeight: height,
-      },
-      cropVisible: false,
-      cropImg: '',
-      croppa: {},
-      imgInfo: null,
-      quality: 1,
-      defaultAvatar,
     }
   },
   computed: {
@@ -179,22 +125,25 @@ export default {
   watch: {
     cropVisible(val) {
       if (!val) {
-        this.$refs.croppa.remove()
         this.cropImg = ''
-        this.imgInfo = null
       }
     },
   },
   created() {
-    this.init()
+    const { user } = this.$store.state
+    this.nickname = user?.nickname ? user.nickname : '佚名'
   },
   methods: {
     ...mapActions(['loginOut', 'setUserAndState']),
-    fileChange(evt) {
-      if (evt.target.files.length !== 1) {
+    switchCropVisible(flag) {
+      this.cropVisible = flag
+    },
+    fileChange(event) {
+      if (event.target.files.length !== 1) {
         return
       }
-      const imgFile = evt.target.files[0]
+
+      const imgFile = event.target.files[0]
       // 验证文件大小是否符合要求, 不大于 5M
       if (imgFile.size > 1024 * 1024 * 5) {
         this.$message.error('文件过大超过5M')
@@ -235,51 +184,6 @@ export default {
         this.clearFileInput(this.$refs.avatarInput)
       }
     },
-    async handleCrop() {
-      // 获取裁剪数据
-      const blob = await this.$refs.croppa.promisedBlob('image/jpeg', 0.8)
-      // 构造为文件对象
-      const file = new File([blob], 'avatar.jpg', {
-        type: 'image/jpeg',
-      })
-
-      return post('cms/file', {
-        file,
-      }).then(res => {
-        // 清空输入框
-        this.clearFileInput(this.$refs.avatarInput)
-        if (!Array.isArray(res) || res.length !== 1) {
-          this.$message.error('头像上传失败, 请重试')
-          return false
-        }
-        // TODO: 错误码处理
-        // if (res.code === 10110) {
-        //   throw new Error('文件体积过大')
-        // }
-        return put('/cms/user', {
-          avatar: res[0].path,
-        })
-          .then(putRes => {
-            // eslint-disable-line
-            if (putRes.code < window.MAX_SUCCESS_CODE) {
-              this.$message({
-                type: 'success',
-                message: '更新头像成功',
-              })
-              this.cropVisible = false
-              // 触发重新获取用户信息
-              return User.getInformation()
-            }
-            return Promise.reject(new Error('更新头像失败'))
-          })
-          .then(infoRes => {
-            // eslint-disable-line
-            // 尝试获取当前用户信息
-            const user = infoRes
-            this.setUserAndState(user)
-          })
-      })
-    },
     async blur() {
       if (this.nickname) {
         const { user } = this.$store.state
@@ -310,13 +214,6 @@ export default {
         }
       }
       this.nicknameChanged = false
-    },
-    init() {
-      const { user } = this.$store.state
-      this.nickname = user?.nickname ? user.nickname : '佚名'
-    },
-    goToCenter() {
-      this.$router.push('/center')
     },
     submitForm(formName) {
       if (this.form.old_password === '' && this.form.new_password === '' && this.form.confirm_password === '') {
@@ -353,7 +250,6 @@ export default {
       this.$refs[formName].resetFields()
     },
     clearFileInput(ele) {
-      // eslint-disable-next-line
       ele.value = ''
     },
   },

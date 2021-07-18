@@ -14,13 +14,7 @@
       </el-table-column>
     </el-table>
     <!-- 分组信息 -->
-    <el-dialog
-      title="分组信息"
-      :append-to-body="true"
-      v-model="dialogFormVisible"
-      :before-close="handleClose"
-      class="groupListInfoDialog"
-    >
+    <el-dialog title="分组信息" :append-to-body="true" v-model="dialogFormVisible" :before-close="handleClose">
       <div style="margin-top:-25px;">
         <el-form
           ref="form"
@@ -117,16 +111,5 @@ export default {
     font-size: 16px;
     font-weight: 500;
   }
-}
-.groupListInfoDialog :v-deep(.el-dialog__footer) {
-  text-align: left;
-  padding-left: 30px;
-}
-.groupListInfoDialog :v-deep(.el-dialog__header) {
-  padding-left: 30px;
-}
-
-.groupListInfoDialog :v-deep(.el-dialog__body) {
-  padding: 30px;
 }
 </style>

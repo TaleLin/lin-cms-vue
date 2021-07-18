@@ -111,6 +111,7 @@ export default {
       form,
       rules,
       group,
+      loading,
       resetForm,
       submitForm,
       groupPermissions,
