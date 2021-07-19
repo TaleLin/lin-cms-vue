@@ -17,42 +17,41 @@
 ![](https://img.shields.io/badge/developer-@GongJS-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@quanquan-3963bc.svg)
 
-## TODO
 
-<!-- vue/no-deprecated-slot-attribute -->
+## Lin CMS 简介
 
-## 简介
+- Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。
 
-Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。
+- Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
 
-Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
+- Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
 
-Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
+    - [lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
 
-[lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
+    - [lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
 
-[lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
+    - [lin-cms-spring-boot](https://github.com/TaleLin/lin-cms-spring-boot)
 
-[lin-cms-spring-boot](https://github.com/TaleLin/lin-cms-spring-boot)
+## 注意事项
 
-### 注意
+1. Lin-CMS 是工程类开源项目，不能保证无缝升级.
 
-**Lin-CMS 是工程类开源项目，不能保证无缝升级**
+2. 当前分支为 Vue3 版本，如需使用 Vue2.x 请切换至 master 分支。
 
+## 文档资料
 ### 文档地址
 
-[http://doc.cms.talelin.com/](http://doc.cms.talelin.com/)
+- [http://doc.cms.talelin.com/](http://doc.cms.talelin.com/)
 
 ### 线上 Demo
 
-[http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
+- [http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
 
 ### 案例
 
-[http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
+- [http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
 
-
-### Lin CMS 的特点
+## Lin CMS 的特点
 
 Lin CMS 的构筑思想是有其自身特点的。下面我们阐述一些 Lin 的主要特点。
 
@@ -94,8 +93,6 @@ npm run serve or yarn (run) serve
 
 ## 讨论交流
 微信公众号搜索：林间有风
-<br>
-<img class="QR-img" src="http://i1.sleeve.7yue.pro/wechat-account.jpeg" width="150" height="150">
 
 QQ群搜索：Lin CMS 官方交流群 或 814597236
 
@@ -103,8 +100,11 @@ QQ群搜索：Lin CMS 官方交流群 或 814597236
 
 ## 版本日志
 
-最新版本 `0.3.5`
+最新版本 `0.4.0`
 
+### 0.4.0
+
+1. `U` 升级到 Vue3 版本
 ### 0.3.5
 
 1. `F` 统一前端规范，文件夹、文件名统一用单数和小写字母中划线形式
