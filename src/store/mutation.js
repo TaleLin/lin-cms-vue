@@ -31,15 +31,10 @@ export default {
   },
 
   [types.SET_USER_PERMISSIONS](state, permissions) {
-    const _permissions = []
-    for (let i = 0; i < permissions.length; i++) {
-      for (const key in permissions[i]) {
-        for (let j = 0; j < permissions[i][key].length; j++) {
-          _permissions.push(permissions[i][key][j].permission)
-        }
-      }
-    }
-    state.permissions = _permissions
+    state.permissions = permissions
+      .map(permission => Object.values(permission))
+      .flat(2)
+      .map(p => p.permission)
   },
 
   [types.SET_REFRESH_OPTION](state, option) {
