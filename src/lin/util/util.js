@@ -94,7 +94,7 @@ function getTypeOf(obj) {
 
 function insertItem(item, arr) {
   const { order } = item
-  if (typeof arr[order] !== 'number') {
+  if (!arr[order]) {
     arr[order] = item
     return
   }
