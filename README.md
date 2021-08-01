@@ -45,11 +45,11 @@
 
 ### 线上 Demo
 
-- [http://face.cms.7yue.pro/](http://face.cms.7yue.pro/)
+- [http://face.cms.talelin.com/](http://face.cms.talelin.com/)
 
 ### 案例
 
-- [http://sleeve.7yue.pro/](http://sleeve.7yue.pro/)
+- [http://sleeve.talelin.com/](http://sleeve.talelin.com/)
 
 ## Lin CMS 的特点
 
