@@ -59,20 +59,21 @@
       </el-row>
     </div>
     <!-- 修改头像 -->
-    <!-- <avatar :originalImage="cropImg" :cropVisible="cropVisible" @switchCropVisible="switchCropVisible"></avatar> -->
+    <avatar :originalImage="cropImg" :cropVisible="cropVisible" @switchCropVisible="switchCropVisible"></avatar>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 import User from '@/lin/model/user'
 import axios from '@/lin/plugin/axios'
-import { mapActions, mapGetters } from 'vuex'
 import defaultAvatar from '@/assets/image/user/user.png'
-// import Avatar from '../../component/layout/avatar.vue'
+import Avatar from '../../component/layout/avatar.vue'
 
 export default {
   name: 'Center',
-  // components: { Avatar },
+  components: { Avatar },
   data() {
     const oldPassword = (rule, value, callback) => {
       if (!value) {

@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <div class="wrapper" id="wrapper">
-      <router-view v-slot="{ Component }">
+      <router-view v-slot="{ Component }" :key="$route.fullPath">
         <transition appear name="fade-transform" mode="out-in">
           <component :is="Component" />
         </transition>
