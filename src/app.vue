@@ -1,9 +1,24 @@
 <template>
-  <div id="app"><router-view /></div>
+  <el-config-provider :locale="locale">
+    <div id="app">
+      <router-view />
+    </div>
+  </el-config-provider>
 </template>
 
 <script>
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
 export default {
+  components: {
+    [ElConfigProvider.name]: ElConfigProvider,
+  },
+  data() {
+    return {
+      locale: zhCn,
+    }
+  },
   mounted() {
     document.getElementById('loader').style.display = 'none'
   },
