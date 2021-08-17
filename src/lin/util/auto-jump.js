@@ -4,9 +4,10 @@
 import store from '@/store'
 import Config from '@/config'
 
-export default router => {
-  let timer
 
+let timer
+
+export default router => {
   if (timer) clearTimeout(timer)
   if (!Config.openAutoJumpOut) return
   if (router?.currentRoute.value.path === '/' || router?.currentRoute.value.path === '/login') {
