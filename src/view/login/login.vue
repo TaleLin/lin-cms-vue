@@ -12,6 +12,10 @@
           <span class="icon secret-icon"></span>
           <input type="password" v-model="account.password" autocomplete="off" placeholder="请填写用户登录密码" />
         </div>
+        <div class="form-item password" v-if="captchaImage">
+          <img class="captcha" :src="captchaImage" />
+          <input type="password" v-model="account.captcha" autocomplete="off" placeholder="请填写验证码" />
+        </div>
         <button class="submit-btn" type="submit">登录</button>
       </form>
     </div>
@@ -22,14 +26,17 @@
 import { reactive, ref, onMounted, getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import axios from 'lin/plugin/axios'
 import UserModel from '@/lin/model/user'
 import Utils from '@/lin/util/util'
 import Config from '@/config'
 
 export default {
   setup() {
+    let tag = ''
     const wait = 2000 // 2000ms之内不能重复发起请求
     const loading = ref(false)
+    const captchaImage = ref('')
     const store = useStore()
     const router = useRouter()
     const throttleLogin = ref(null)
@@ -38,16 +45,17 @@ export default {
     const account = reactive({
       username: '',
       password: '',
+      captcha: '',
     })
 
     /**
      * 根据账号密码登录，拿到 token 并储存
      */
     const login = async () => {
-      const { username, password } = account
+      const { username, password, captcha } = account
       try {
         loading.value = true
-        await UserModel.getToken(username, password)
+        await UserModel.getToken(username, password, captcha, tag)
         await getInformation()
         loading.value = false
         router.push(Config.defaultRoute)
@@ -58,6 +66,16 @@ export default {
       } catch (e) {
         loading.value = false
       }
+    }
+
+    const getCaptcha = async () => {
+      axios({
+        method: 'POST',
+        url: 'cms/user/captcha',
+      }).then(result => {
+        ;({ tag } = result)
+        captchaImage.value = result.image
+      })
     }
 
     /**
@@ -78,12 +96,14 @@ export default {
      * 节流登录
      */
     onMounted(() => {
+      getCaptcha()
       throttleLogin.value = Utils.throttle(login, wait)
     })
 
     return {
       account,
       loading,
+      captchaImage,
       throttleLogin,
     }
   },
@@ -130,6 +150,7 @@ export default {
       width: 100%;
 
       .form-item {
+        position: relative;
         width: 100%;
         height: 40px;
         box-sizing: border-box;
@@ -144,6 +165,13 @@ export default {
           font-size: 14px;
           padding-left: 74px;
           box-sizing: border-box;
+        }
+
+        .captcha {
+          position: absolute;
+          width: 80px;
+          right: 30px;
+          top: -22px;
         }
       }
 
