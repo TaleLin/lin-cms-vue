@@ -71,6 +71,7 @@ export default {
     const confirmEdit = async () => {
       let addRes = 0
       let delRes = 0
+      const groupId = parseInt(route.query.id, 10)
       // 判断是否更改了分组权限
       if (permissions.value.sort().toString() !== cachePermissions.value.sort().toString()) {
         const deletePermissions = cachePermissions.value
@@ -81,10 +82,10 @@ export default {
           .filter(v => !cachePermissions.value.includes(v))
 
         if (addPermissions.length > 0) {
-          addRes = await AdminModel.dispatchPermissions(route.query.id, addPermissions)
+          addRes = await AdminModel.dispatchPermissions(groupId, addPermissions)
         }
         if (deletePermissions.length > 0) {
-          delRes = await AdminModel.removePermissions(route.query.id, deletePermissions)
+          delRes = await AdminModel.removePermissions(groupId, deletePermissions)
         }
         if (addRes.code < window.MAX_SUCCESS_CODE || delRes.code < window.MAX_SUCCESS_CODE) {
           ElMessage.success('权限修改成功')
