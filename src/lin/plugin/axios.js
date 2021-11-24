@@ -28,7 +28,7 @@ const config = {
  * @param { number } code 错误码
  */
 function refreshTokenException(code) {
-  const codes = [10000, 10042, 10050, 10052]
+  const codes = [10000, 10042, 10050, 10052, 10012]
   return codes.includes(code)
 }
 
