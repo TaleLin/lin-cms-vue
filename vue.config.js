@@ -5,7 +5,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-  lintOnSave: true,
+  lintOnSave: false,
   productionSourceMap: false,
   // assetsDir: 'static',
   chainWebpack: config => {
@@ -26,6 +26,15 @@ module.exports = {
     devtool: 'source-map',
     resolve: {
       extensions: ['.js', '.json', '.vue', '.scss', '.html'],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
+      ],
     },
   },
   css: {

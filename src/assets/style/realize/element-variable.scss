@@ -19,11 +19,12 @@ $--background-color-base: #F6F7FA !default;
 $--link-default-active-color: $--color-primary !default;
 $--link-default-font-color: $--color-text-regular !default;
 $--link-disabled-font-color: $--color-text-placeholder !default;
-
 /* 改变 icon 字体路径变量，必需 */
-$--font-path: "~element-plus/lib/theme-chalk/fonts";
-
-@import "~element-plus/packages/theme-chalk/src/index";
+//$--font-path: "~element-plus/lib/theme-chalk/fonts";
+//兼容字体 新版本element-plus 已经移除font-icon
+@import "../elementFont.css";
+@import "~element-plus/theme-chalk/src/index";
+@import "~element-plus/theme-chalk/src/mixins/mixins";
 
 // button
 .el-button {
