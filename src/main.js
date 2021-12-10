@@ -18,7 +18,7 @@ import StickyTop from '@/component/base/sticky-top/sticky-top'
 import SourceCode from '@/component/base/source-code/source-code'
 
 import '@/assets/style/index.scss'
-import 'element-plus/lib/theme-chalk/index.css'
+import 'element-plus/dist/index.css'
 import '@/assets/style/realize/element-variable.scss'
 
 const app = createApp(App)
