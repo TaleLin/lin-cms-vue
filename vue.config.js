@@ -27,6 +27,15 @@ module.exports = {
     resolve: {
       extensions: ['.js', '.json', '.vue', '.scss', '.html'],
     },
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
+      ],
+    },
   },
   css: {
     loaderOptions: {
