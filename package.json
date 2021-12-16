@@ -16,7 +16,7 @@
     "@antv/g2plot": "^0.11.35",
     "@babel/polyfill": "^7.4.4",
     "@tinymce/tinymce-vue": "^4.0.0",
-    "axios": "^0.21.2",
+    "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.4",
     "element-plus": "^1.2.0-beta.5",
