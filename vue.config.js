@@ -5,7 +5,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-  lintOnSave: true,
+  lintOnSave: false,
   productionSourceMap: false,
   // assetsDir: 'static',
   chainWebpack: config => {
