@@ -9,18 +9,13 @@ module.exports = {
   productionSourceMap: false,
   // assetsDir: 'static',
   chainWebpack: config => {
-    config.resolve.alias
-      .set('@', resolve('src'))
-      .set('lin', resolve('src/lin'))
-      .set('assets', resolve('src/assets'))
+    config.resolve.alias.set('@', resolve('src')).set('lin', resolve('src/lin')).set('assets', resolve('src/assets'))
     config.module
-      .rule('md')
-      .test(/\.md$/)
-      .use('html-loader')
-      .loader('html-loader')
+      .rule('ignore')
+      .test(/\.d\.ts$|\.md/)
+      .use('ignore-loader')
+      .loader('ignore-loader')
       .end()
-      .use('vue-markdown-loader')
-      .loader('vue-markdown-loader/lib/markdown-compiler')
   },
   configureWebpack: {
     devtool: 'source-map',
