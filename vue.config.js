@@ -10,12 +10,7 @@ module.exports = {
   // assetsDir: 'static',
   chainWebpack: config => {
     config.resolve.alias.set('@', resolve('src')).set('lin', resolve('src/lin')).set('assets', resolve('src/assets'))
-    config.module
-      .rule('ignore')
-      .test(/\.d\.ts$|\.md/)
-      .use('ignore-loader')
-      .loader('ignore-loader')
-      .end()
+    config.module.rule('ignore').test(/\.md$/).use('ignore-loader').loader('ignore-loader').end()
   },
   configureWebpack: {
     devtool: 'source-map',
