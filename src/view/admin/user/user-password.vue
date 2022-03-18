@@ -10,10 +10,10 @@
       label-position="right"
     >
       <el-form-item label="密码" prop="newPassword">
-        <el-input size="medium" clearable type="password" v-model="info.newPassword" autocomplete="off"></el-input>
+        <el-input clearable type="password" v-model="info.newPassword" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirmPassword" label-position="top">
-        <el-input size="medium" clearable type="password" v-model="info.confirmPassword" autocomplete="off"></el-input>
+        <el-input clearable type="password" v-model="info.confirmPassword" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item v-show="false">
         <el-button type="primary" @click="submitForm">保存</el-button>

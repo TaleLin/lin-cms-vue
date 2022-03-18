@@ -2,12 +2,11 @@
   <div class="lin-container">
     <div class="lin-title">多重输入</div>
     <div class="lin-wrap-ui">
-      <el-card class="box-card" style="margin-bottom:50px;padding-bottom:20px;">
-        <!--        <div class="label-title">示例</div>-->
+      <el-card class="box-card" style="margin-bottom: 50px; padding-bottom: 20px">
         <div class="block-box">
           <i class="iconfont icon-jia plus" v-if="!list.length" @click="addContent"></i>
           <el-row class="input-row" v-for="(item, index) in list" :key="index">
-            <el-input v-model="item.text" placeholder="请输入内容" size="medium" class="input-detail"></el-input>
+            <el-input v-model="item.text" placeholder="请输入内容" class="input-detail"></el-input>
             <div class="function">
               <i class="iconfont icon-jian1 minus" @click="removeContent(index)"></i>
               <i class="iconfont icon-jia plus" v-if="index === list.length - 1" @click="addContent"></i>
@@ -16,7 +15,7 @@
         </div>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ base }}</div>
+            <div style="white-space: pre-wrap">{{ base }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -36,7 +35,6 @@ export default {
             <el-input
               v-model="item.text"
               placeholder="请输入内容"
-              size="medium"
               class="input-detail"
               ></el-input>
             <div class="function">
@@ -123,6 +121,7 @@ export default {
     justify-content: space-between;
     width: 400px;
     margin-bottom: 20px;
+    align-items: center;
 
     .input-detail {
       width: 300px;

@@ -1,6 +1,6 @@
 <template>
   <div class="lin-search">
-    <el-input size="medium" :placeholder="placeholder" clearable v-model="keyword" class="input-with-select">
+    <el-input :placeholder="placeholder" clearable v-model="keyword" class="input-with-select">
       <template #suffix>
         <i class="el-input__icon el-icon-search" @click="search"></i>
       </template>

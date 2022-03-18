@@ -15,10 +15,10 @@
             @submit.prevent
           >
             <el-form-item label="分组名称" prop="name">
-              <el-input size="medium" clearable v-model="group.name"></el-input>
+              <el-input clearable v-model="group.name"></el-input>
             </el-form-item>
             <el-form-item label="分组描述" prop="info">
-              <el-input size="medium" clearable v-model="group.info"></el-input>
+              <el-input clearable v-model="group.info"></el-input>
             </el-form-item>
             <el-form-item>
               <group-permissions title="分配权限" ref="groupPermissions" @updatePermissions="updatePermissions">

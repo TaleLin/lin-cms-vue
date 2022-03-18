@@ -3,7 +3,7 @@
     <div class="header">
       <div class="title">用户列表</div>
       <!-- 分组选择下拉框 -->
-      <el-select size="medium" filterable v-model="groupId" placeholder="请选择分组" @change="handleChange" clearable>
+      <el-select filterable v-model="groupId" placeholder="请选择分组" @change="handleChange" clearable>
         <el-option v-for="(group, index) in allGroups" :key="index" :label="group.name" :value="group.id"> </el-option>
       </el-select>
     </div>
@@ -33,7 +33,7 @@
     </div>
     <!-- 弹窗 -->
     <el-dialog title="用户信息" :append-to-body="true" :before-close="handleClose" v-model="dialogFormVisible">
-      <div style="margin-top:-25px;">
+      <div style="margin-top: -25px">
         <el-tabs v-model="activeTab" @tab-click="handleClick">
           <el-tab-pane label="修改信息" name="修改信息">
             <user-info

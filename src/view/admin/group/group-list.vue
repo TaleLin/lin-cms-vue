@@ -7,15 +7,15 @@
       <el-table-column prop="info" label="分组描述"></el-table-column>
       <el-table-column label="操作" fixed="right" width="275">
         <template #default="scope">
-          <el-button plain size="mini" type="primary" @click="handleEdit(scope.row)">信息</el-button>
-          <el-button plain size="mini" type="info" @click="goToGroupEditPage(scope.row.id)">权限</el-button>
-          <el-button plain size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+          <el-button plain size="small" type="primary" @click="handleEdit(scope.row)">信息</el-button>
+          <el-button plain size="small" type="info" @click="goToGroupEditPage(scope.row.id)">权限</el-button>
+          <el-button plain size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分组信息 -->
     <el-dialog title="分组信息" :append-to-body="true" v-model="dialogFormVisible" :before-close="handleClose">
-      <div style="margin-top:-25px;">
+      <div style="margin-top: -25px">
         <el-form
           ref="form"
           status-icon
@@ -24,18 +24,18 @@
           label-width="120px"
           v-if="dialogFormVisible"
           label-position="labelPosition"
-          style="margin-left:-35px;margin-bottom:-35px;margin-top:15px;"
+          style="margin-left: -35px; margin-bottom: -35px; margin-top: 15px"
         >
           <el-form-item label="分组名称" prop="name">
-            <el-input size="medium" clearable v-model="group.name"></el-input>
+            <el-input clearable v-model="group.name"></el-input>
           </el-form-item>
           <el-form-item label="分组描述" prop="info">
-            <el-input size="medium" clearable v-model="group.info"></el-input>
+            <el-input clearable v-model="group.info"></el-input>
           </el-form-item>
         </el-form>
       </div>
       <template #footer>
-        <div class="dialog-footer" style="padding-left:5px;">
+        <div class="dialog-footer" style="padding-left: 5px">
           <el-button type="primary" @click="confirmEdit">确 定</el-button>
           <el-button @click="resetForm">重 置</el-button>
         </div>

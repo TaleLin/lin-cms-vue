@@ -4,7 +4,6 @@
     <el-select
       clearable
       filterable
-      size="medium"
       class="search"
       v-model="sidebar"
       ref="searchInput"
