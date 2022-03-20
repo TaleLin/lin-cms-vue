@@ -100,7 +100,14 @@ QQ群搜索：Lin CMS 官方交流群 或 814597236
 
 ## 版本日志
 
-最新版本 `0.4.2`
+最新版本 `0.4.3`
+
+### 0.4.3
+
+1. `U` 升级 `element-plus` 到 Release 版本 `2.1.4`
+2. `U` 升级 vue 相关依赖库版本至最新版本 `5.0.3`
+3. `U` 升级 `eslint` 和 `@babel/eslint-parser` 版本
+4. `A` 添加 `Accessibility` 相关 eslint 检查机制
 
 ### 0.4.2
 

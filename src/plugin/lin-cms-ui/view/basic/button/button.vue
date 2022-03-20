@@ -2,7 +2,7 @@
   <div class="lin-container">
     <div class="lin-title">Button 按钮</div>
     <div class="lin-wrap-ui">
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>基础按钮</span></div>
         <el-row>
           <el-button>默认按钮</el-button>
@@ -14,12 +14,12 @@
 
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ primary }}</div>
+            <div style="white-space: pre-wrap">{{ primary }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>朴素按钮</span></div>
         <el-row>
           <el-button plain>朴素按钮</el-button>
@@ -28,14 +28,14 @@
           <el-button type="warning" plain>警告按钮</el-button>
           <el-button type="danger" plain>危险按钮</el-button>
         </el-row>
-        <el-collapse class="test" style="color:red;">
+        <el-collapse class="test" style="color: red">
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ plain }}</div>
+            <div style="white-space: pre-wrap">{{ plain }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>圆形按钮</span></div>
         <el-row>
           <el-button icon="el-icon-search" circle></el-button>
@@ -51,14 +51,14 @@
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ circle }}</div>
+            <div style="white-space: pre-wrap">{{ circle }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>禁用状态</span></div>
-        <el-row style="margin-bottom:10px;">
+        <el-row style="margin-bottom: 10px">
           <el-button disabled>默认按钮</el-button>
           <el-button type="primary" disabled>主要按钮</el-button>
           <el-button type="success" disabled>成功按钮</el-button>
@@ -75,12 +75,12 @@
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ disabled }}</div>
+            <div style="white-space: pre-wrap">{{ disabled }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>图标按钮</span></div>
         <el-button type="primary" icon="el-icon-edit"></el-button>
         <el-button type="primary" icon="el-icon-share"></el-button>
@@ -89,24 +89,24 @@
         <el-button type="primary"> 上传 <i class="el-icon-upload el-icon--right"></i> </el-button>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ icon }}</div>
+            <div style="white-space: pre-wrap">{{ icon }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>加载中</span></div>
         <el-button type="primary" :loading="true">加载中</el-button>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ loade }}</div>
+            <div style="white-space: pre-wrap">{{ loade }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>按钮组</span></div>
-        <el-button-group style="margin-right:10px;">
+        <el-button-group style="margin-right: 10px">
           <el-button type="primary" icon="el-icon-arrow-left">上一页</el-button>
           <el-button type="primary"> 下一页 <i class="el-icon-arrow-right el-icon--right"></i> </el-button>
         </el-button-group>
@@ -117,12 +117,12 @@
         </el-button-group>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ group }}</div>
+            <div style="white-space: pre-wrap">{{ group }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
 
-      <el-card style="margin-bottom:50px;">
+      <el-card style="margin-bottom: 50px">
         <div slot="header"><span>不同尺寸</span></div>
         <el-row>
           <el-button>默认按钮</el-button>
@@ -130,7 +130,7 @@
           <el-button size="small">小型按钮</el-button>
           <el-button size="mini">超小按钮</el-button>
         </el-row>
-        <el-row style="margin-top:10px;">
+        <el-row style="margin-top: 10px">
           <el-button round>默认按钮</el-button>
           <el-button size="medium" round>中等按钮</el-button>
           <el-button size="small" round>小型按钮</el-button>
@@ -138,7 +138,7 @@
         </el-row>
         <el-collapse>
           <el-collapse-item title="查看代码" name="2">
-            <div style="white-space: pre-wrap;">{{ size }}</div>
+            <div style="white-space: pre-wrap">{{ size }}</div>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -153,7 +153,7 @@ export default {
   data() {
     return {
       text: '',
-      primary: `     
+      primary: `
           <el-button>默认按钮</el-button>
           <el-button type="primary">主要按钮</el-button>
           <el-button type="success">成功按钮</el-button>
@@ -171,7 +171,7 @@ export default {
           <el-button type="success" icon="el-icon-check" circle></el-button>
           <el-button type="warning" icon="el-icon-star-off" circle></el-button>
           <el-button type="danger" icon="el-icon-delete" circle></el-button>
-          
+
           <el-button icon="el-icon-search" plain circle></el-button>
           <el-button type="primary" icon="el-icon-edit" plain circle></el-button>
           <el-button type="success" icon="el-icon-check" plain circle></el-button>

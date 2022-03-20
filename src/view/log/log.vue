@@ -5,12 +5,7 @@
         <div class="header-left"><p class="title">日志信息</p></div>
         <div class="header-right" v-permission="'搜索日志'">
           <lin-search @query="onQueryChange" ref="searchKeywordDom" />
-          <el-dropdown
-            size="medium"
-            style="margin: 0 10px;"
-            @command="handleCommand"
-            v-permission="'查询日志记录的用户'"
-          >
+          <el-dropdown style="margin: 0 10px" @command="handleCommand" v-permission="'查询日志记录的用户'">
             <el-button>
               {{ searchUser ? searchUser : '全部人员' }} <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -60,7 +55,7 @@
           <div class="more" :class="{ nothing: finished }">
             <i v-if="more" class="iconfont icon-loading"></i>
             <div v-show="!more && !finished" @click="nextPage">
-              <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size:14px"></i>
+              <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size: 14px"></i>
             </div>
             <div v-if="finished">
               <span>{{ totalCount === 0 ? '暂无数据' : '没有更多数据了' }}</span>
