@@ -8,16 +8,16 @@ todo: 文件判断使用 serveWorker 优化性能
 
 <template>
   <div class="upload-imgs-container" v-loading="loading">
-    <template v-for="(item, i) in itemList">
-      <template v-if="item.display">
-        <div class="thumb-item" :key="item.id" :style="boxStyle" v-loading="item.loading">
+    <div v-for="(item, i) in itemList" :key="item.id">
+      <div v-if="item.display">
+        <div class="thumb-item" :style="boxStyle" v-loading="item.loading">
           <el-image
             :fit="fit"
             :ref="setImageRef"
             :src="item.display"
             class="thumb-item-img"
             :previewSrcList="srcList"
-            style="width: 100%; height: 100%;"
+            style="width: 100%; height: 100%"
           >
           </el-image>
           <div class="info">
@@ -45,7 +45,7 @@ todo: 文件判断使用 serveWorker 优化性能
                 v-if="preview"
                 class="control-bottom-btn el-icon-view"
                 title="预览"
-                style="cursor: pointer;"
+                style="cursor: pointer"
                 @click.stop="previewImg(item, i)"
               ></i>
               <i
@@ -58,30 +58,29 @@ todo: 文件判断使用 serveWorker 优化性能
             </div>
           </div>
         </div>
-      </template>
-      <template v-else>
+      </div>
+      <div v-else>
         <div
           class="upload-item"
           :class="{ disabled: disabled }"
-          :key="item.id"
           :style="boxStyle"
           @click="handleClick(item.id)"
           @keydown="handleKeydown($event, item.id)"
         >
-          <i class="el-icon-plus" style="font-size: 3em;"></i>
-          <div v-html="rulesTip.join('<br>')" style="margin-top: 1em;"></div>
+          <i class="el-icon-plus" style="font-size: 3em"></i>
+          <div v-html="rulesTip.join('<br>')" style="margin-top: 1em"></div>
         </div>
-      </template>
-    </template>
+      </div>
+    </div>
     <input
-      class="upload-imgs__input"
-      type="file"
       ref="input"
-      @change="handleChange"
-      :multiple="multiple"
+      type="file"
       :accept="accept"
+      :multiple="multiple"
+      @change="handleChange"
+      class="upload-imgs__input"
+      aria-labelledby="Upload images"
     />
-    <!-- <el-image-viewer v-if="showViewer" @close="closeViewer" :initial-index="imageInitialIndex" :url-list="srcList" /> -->
   </div>
 </template>
 
@@ -180,7 +179,7 @@ function createItem(data = null, oldData = {}) {
     item.src = ''
     item.imgId = ''
     item.display = data.localSrc || item.display
-    item = Object.assign({}, data, item)
+    item = { ...data, ...item }
     return item
   }
 
@@ -190,7 +189,7 @@ function createItem(data = null, oldData = {}) {
   item.src = data.src || item.src
   item.display = data.display || item.display
   item.status = data.status || 'init'
-  item = Object.assign({}, data, item)
+  item = { ...data, ...item }
   return item
 }
 
@@ -442,7 +441,7 @@ export default {
       if (basicRule.allowAnimated && basicRule.allowAnimated > 0) {
         if (basicRule.allowAnimated === 1) {
           tips.push('不允许上传动图')
-        } else if (basicRule.allowAnimated === 1) {
+        } else if (basicRule.allowAnimated === 2) {
           tips.push('只允许上传动图')
         }
       }
@@ -525,7 +524,7 @@ export default {
       // 清除上次一的定时器
       if (time && catchData.length < uploadLimit) {
         clearTimeout(time)
-        // 此时修改上一个 promise 状态为reslove
+        // 此时修改上一个 promise 状态为resolve
       }
 
       // 等待100ms
@@ -561,7 +560,7 @@ export default {
       if (item.status === 'input' || !item.file) {
         return
       }
-      // eslint-disable-next-line
+
       item.loading = true
       if (this.beforeUpload && typeof this.beforeUpload === 'function') {
         if (typeof this.beforeUpload === 'function') {
@@ -856,18 +855,14 @@ export default {
        * @param {File} file 图片文件
        */
       const handleImg = async file => {
-        try {
-          // 获取图像信息
-          const info = await this.getImgInfo(file)
-          cache.push(info)
-          // 验证图像信息
-          await this.validateImg(info)
-          return info
-        } catch (err) {
-          // 往外抛异常
-          throw err
-        }
+        // 获取图像信息
+        const info = await this.getImgInfo(file)
+        cache.push(info)
+        // 验证图像信息
+        await this.validateImg(info)
+        return info
       }
+
       const asyncList = []
       for (let i = 0; i < files.length; i += 1) {
         asyncList.push(handleImg(files[i]))
@@ -875,7 +870,7 @@ export default {
       try {
         imgInfoList = await Promise.all(asyncList)
         // 设置图片信息
-        this.setImgInfo(imgInfoList, currentId)
+        this.setImgInfo(currentId, imgInfoList)
         // 开启自动上传
         if (autoUpload) {
           this.itemList.forEach(ele => {
@@ -899,7 +894,7 @@ export default {
      * @param {Array<LocalFileInfo>} imgInfoList 需要设置的图像数组
      * @param {Number|String} id 操作项的 id
      */
-    setImgInfo(imgInfoList = [], currentId) {
+    setImgInfo(currentId, imgInfoList = []) {
       const { max, itemList } = this
       // 找到特定图像位置
       const index = this.itemList.findIndex(item => item.id === currentId)
