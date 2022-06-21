@@ -29,8 +29,9 @@ export default {
     toolbar: {
       type: String,
       default: ` undo redo
-      | formatselect
-      | bold italic strikethrough forecolor backcolor formatpainter
+      | formatselect fontselect fontsizeselect lineheight
+      | bold italic underline strikethrough forecolor backcolor formatpainter
+      | insertdatetime superscript subscript hr
       | link image | alignleft aligncenter alignright alignjustify
       | numlist bullist outdent indent
       | removeformat
