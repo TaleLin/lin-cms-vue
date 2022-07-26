@@ -13,8 +13,8 @@
           <input type="password" v-model="account.password" autocomplete="off" placeholder="请填写用户登录密码" />
         </div>
         <div class="form-item password" v-if="captchaImage">
-          <img class="captcha" :src="captchaImage" />
-          <input type="password" v-model="account.captcha" autocomplete="off" placeholder="请填写验证码" />
+          <img class="captcha" :src="captchaImage" @click.stop="getCaptcha()" />
+          <input type="text" v-model="account.captcha" autocomplete="off" placeholder="请填写验证码" />
         </div>
         <button class="submit-btn" type="submit">登录</button>
       </form>
@@ -23,9 +23,10 @@
 </template>
 
 <script>
-import { reactive, ref, onMounted, getCurrentInstance } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import axios from 'lin/plugin/axios'
 import UserModel from '@/lin/model/user'
 import Utils from '@/lin/util/util'
@@ -40,7 +41,6 @@ export default {
     const store = useStore()
     const router = useRouter()
     const throttleLogin = ref(null)
-    const { ctx } = getCurrentInstance()
 
     const account = reactive({
       username: '',
@@ -59,11 +59,12 @@ export default {
         await getInformation()
         loading.value = false
         router.push(Config.defaultRoute)
-        ctx.$message({
+        ElMessage({
           message: '登录成功',
           type: 'success',
         })
       } catch (e) {
+        getCaptcha()
         loading.value = false
       }
     }
@@ -103,6 +104,7 @@ export default {
     return {
       account,
       loading,
+      getCaptcha,
       captchaImage,
       throttleLogin,
     }
@@ -114,8 +116,8 @@ export default {
 .login {
   width: 100%;
   height: 100%;
-  background-size: auto;
   background: #1b2c5f url('../../assets/image/login/login-ba.png') no-repeat center center;
+  background-size: cover;
 
   .team-name {
     position: fixed;
@@ -172,6 +174,7 @@ export default {
           width: 80px;
           right: 30px;
           top: -22px;
+          cursor: pointer;
         }
       }
 
