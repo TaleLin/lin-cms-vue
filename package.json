@@ -17,7 +17,7 @@
     "@babel/polyfill": "^7.4.4",
     "@tinymce/tinymce-vue": "^4.0.0",
     "axios": "^0.24.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.23.5",
     "dayjs": "^1.10.4",
     "element-plus": "^2.1.4",
     "event-source-polyfill": "^1.0.7",
