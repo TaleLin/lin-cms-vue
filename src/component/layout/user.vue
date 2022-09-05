@@ -78,7 +78,6 @@ export default {
     const { user } = this.$store.state
     this.nickname = user?.nickname ? user.nickname : '佚名'
     this.username = user?.username ? user.username : '未登录'
-    this.groupName = user?.groupName ? user.groupName : '超级管理员'
   },
   methods: {
     ...mapActions(['loginOut', 'setUserAndState']),
