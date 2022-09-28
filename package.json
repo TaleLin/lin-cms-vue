@@ -54,7 +54,7 @@
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^2.1.0",
     "directory-tree": "^2.2.3",
-    "ejs": "^2.6.2",
+    "ejs": "^3.1.7",
     "eslint": "^8.11.0",
     "eslint-plugin-vue": "^8.5.0",
     "eslint-plugin-vuejs-accessibility": "^1.1.1",
