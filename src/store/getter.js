@@ -55,6 +55,7 @@ export const sidebarList = (state, getters) => {
       sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
+      sideConfig.isElementIcon = target.isElementIcon
       sideConfig.path = target.route || Util.getRandomStr(6)
       sideConfig.children = target.children.map(item => deepGetSidebar(item, level - 1))
       sideConfig.children = sideConfig.children.filter(item => item !== null)
@@ -67,6 +68,7 @@ export const sidebarList = (state, getters) => {
       sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
+      sideConfig.isElementIcon = target.isElementIcon
       sideConfig.path = target.route
       return sideConfig
     }
@@ -77,6 +79,7 @@ export const sidebarList = (state, getters) => {
       sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
+      sideConfig.isElementIcon = target.isElementIcon
       sideConfig.path = target.route
       // 如果 Tab 没有设置默认打开的路由, 则设置为第一个子节点路由
       if (!sideConfig.path) {
@@ -93,6 +96,7 @@ export const sidebarList = (state, getters) => {
       sideConfig.name = target.name
       sideConfig.title = target.title
       sideConfig.icon = target.icon
+      sideConfig.isElementIcon = target.isElementIcon
       sideConfig.path = Util.getRandomStr(6)
       if (target.children && target.children.length > 0 && target.children[0].route) {
         sideConfig.path = target.children[0].route

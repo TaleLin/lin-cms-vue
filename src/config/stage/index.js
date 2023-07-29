@@ -13,6 +13,7 @@ let homeRouter = [
     filePath: 'view/about/about.vue',
     inNav: true,
     icon: 'iconfont icon-iconset0103',
+    isElementIcon: false,
     order: 1,
   },
   {
@@ -23,6 +24,7 @@ let homeRouter = [
     filePath: 'view/log/log.vue',
     inNav: true,
     icon: 'iconfont icon-rizhiguanli',
+    isElementIcon: false,
     order: 2,
     permission: ['查询所有日志'],
   },
@@ -34,6 +36,7 @@ let homeRouter = [
     filePath: 'view/center/center.vue',
     inNav: false,
     icon: 'iconfont icon-rizhiguanli',
+    isElementIcon: false,
   },
   {
     title: '404',
@@ -43,6 +46,7 @@ let homeRouter = [
     filePath: 'view/error-page/404.vue',
     inNav: false,
     icon: 'iconfont icon-rizhiguanli',
+    isElementIcon: false,
   },
   bookConfig,
   adminConfig,

@@ -1,7 +1,8 @@
 import 'dayjs/locale/zh-cn'
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
-import locale from 'element-plus/lib/locale/lang/zh-cn'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 import '@/config/global'
 import 'lin/plugin'
@@ -23,9 +24,16 @@ import '@/assets/style/realize/element-variable.scss'
 
 const app = createApp(App)
 
+// 注册element plus icons
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
 app.use(store)
 app.use(router)
-app.use(ElementPlus, { locale })
+app.use(ElementPlus, {
+  locale: zhCn,
+})
 app.use(LinNotify, {
   reconnection: true,
   reconnectionAttempts: 5,

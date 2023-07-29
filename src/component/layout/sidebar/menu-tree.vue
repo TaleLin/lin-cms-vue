@@ -2,16 +2,26 @@
   <!--el-submenu改名为el-sub-menu-->
   <el-sub-menu v-if="item.children?.length > 0" :index="item.path" popper-append-to-body>
     <template #title>
-      <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
-      <img v-else :src="item.icon" class="img-icon" />
+      <el-icon v-if="item.isElementIcon" size="16">
+        <component :is="item.icon"></component>
+      </el-icon>
+      <div v-else>
+        <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+        <img v-else :src="item.icon" alt="icon" class="img-icon" />
+      </div>
       <span>{{ item.title }}</span>
     </template>
     <menu-tree v-for="child in item.children" :key="child.path" :item="child" />
   </el-sub-menu>
 
   <el-menu-item v-else :index="item.path" @click="navigateTo(item.path)">
-    <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
-    <img v-else :src="item.icon" class="img-icon" />
+    <el-icon v-if="item.isElementIcon" size="16">
+      <component :is="item.icon"></component>
+    </el-icon>
+    <div v-else>
+      <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
+      <img v-else :src="item.icon" alt="icon" class="img-icon" />
+    </div>
     <template #title
       ><span class="title">{{ item.title }}</span></template
     >
