@@ -14,11 +14,12 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "@element-plus/icons-vue": "^2.1.0",
     "@tinymce/tinymce-vue": "^4.0.0",
     "axios": "^0.24.0",
     "core-js": "^3.23.5",
     "dayjs": "^1.10.4",
-    "element-plus": "^2.1.4",
+    "element-plus": "^2.3.8",
     "event-source-polyfill": "^1.0.7",
     "fastscan": "^1.0.4",
     "good-storage": "^1.1.0",
@@ -33,7 +34,8 @@
     "vue-picture-cropper": "^0.1.9",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.2",
-    "vuex-persist": "^2.0.1"
+    "vuex-persist": "^2.0.1",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
