@@ -1,7 +1,7 @@
 
 <p align="center">
-  <a href="http://doc.cms.7yue.pro/">
-    <img width="200" src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/left-logo.png">
+  <a href="https://talelin.com/">
+    <img width="200" src="https://cdn.talelin.com/lin-cms/cms-log.png">
   </a>
 </p>
 
