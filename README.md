@@ -96,8 +96,6 @@ npm run serve or yarn (run) serve
 
 QQ群搜索：Lin CMS 官方交流群 或 814597236
 
-<img src="https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/lin-cms.png" width="150" height="205" >
-
 ## 版本日志
 
 最新版本 `0.4.3`
