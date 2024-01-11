@@ -28,9 +28,7 @@ class Movie {
         recommend: 0,
         remark: '这是一部不错的电影',
         editFlag: false,
-        thumb: element.thumb
-          ? element.thumb
-          : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
+        thumb: element.thumb ? element.thumb : '',
       })
     })
 
@@ -65,9 +63,7 @@ class Movie {
           recommend: 0,
           remark: '这是一部不错的电影',
           editFlag: false,
-          thumb: element.thumb
-            ? element.thumb
-            : 'https://consumerminiaclprd01.blob.core.chinacloudapi.cn/miniappbackground/sfgmember/lin/270-400.png',
+          thumb: element.thumb ? element.thumb : '',
         })
       }
     }
