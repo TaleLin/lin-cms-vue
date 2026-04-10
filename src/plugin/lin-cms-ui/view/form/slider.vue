@@ -334,7 +334,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/style/container.scss';
+@use 'container';
 
 .base-box-card :v-deep(.el-card__body) {
   padding-top: 0px;

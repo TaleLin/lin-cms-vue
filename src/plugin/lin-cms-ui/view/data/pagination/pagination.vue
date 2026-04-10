@@ -293,7 +293,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/style/container.scss';
+@use 'container';
 .el-pagination {
   margin-top: 10px;
 }

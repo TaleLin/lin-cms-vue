@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '../../../assets/style/container.scss';
+// @use 'container';
 .item {
   margin-right: 40px;
 }

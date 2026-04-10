@@ -3,10 +3,10 @@
   "version": "0.4.3",
   "license": "MIT",
   "scripts": {
-    "serve": "node script/plugin-get-config.js && vue-cli-service serve",
-    "build": "node script/plugin-get-config.js && vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
+    "serve": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .js,.vue",
     "commit": "git add . && git-cz",
     "plugin:init": "node script/plugin-init.js",
     "plugin:new": "node script/plugin-new.js",
@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@element-plus/icons-vue": "^2.1.0",
+    "@element-plus/icons-vue": "^2.3.2",
     "@tinymce/tinymce-vue": "^4.0.0",
-    "axios": "^0.24.0",
+    "axios": "^1.15.0",
     "core-js": "^3.23.5",
     "dayjs": "^1.10.4",
-    "element-plus": "^2.3.8",
+    "element-plus": "^2.13.6",
     "event-source-polyfill": "^1.0.7",
     "fastscan": "^1.0.4",
     "good-storage": "^1.1.0",
@@ -30,11 +30,11 @@
     "photoswipe": "^4.1.2",
     "screenfull": "^4.2.0",
     "swiper": "^6.4.5",
-    "vue": "^3.2.24",
+    "vue": "^3.5.32",
     "vue-picture-cropper": "^0.1.9",
-    "vue-router": "^4.0.10",
-    "vuex": "^4.0.2",
-    "vuex-persist": "^2.0.1",
+    "vue-router": "5.0.4",
+    "pinia": "^2.1.0",
+    "pinia-plugin-persistedstate": "^3.2.0",
     "yarn": "^1.22.19"
   },
   "devDependencies": {
@@ -42,14 +42,9 @@
     "@babel/eslint-parser": "^7.17.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
-    "@vue/cli-plugin-babel": "^5.0.3",
-    "@vue/cli-plugin-eslint": "^5.0.3",
-    "@vue/cli-plugin-unit-jest": "^5.0.3",
-    "@vue/cli-service": "^5.0.3",
-    "@vue/compiler-sfc": "^3.2.0",
-    "@vue/eslint-config-airbnb": "^6.0.0",
-    "@vue/test-utils": "^2.0.0-beta.8",
-    "babel-jest": "^26.3.0",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "@vue/compiler-sfc": "^3.5.32",
+    "autoprefixer": "^10.4.27",
     "babel-plugin-component": "^1.1.1",
     "chalk": "^2.4.2",
     "child_process": "^1.0.2",
@@ -70,6 +65,7 @@
     "semver": "^6.2.0",
     "shelljs": "^0.8.5",
     "validate-npm-package-name": "^3.0.0",
+    "vite": "^8.0.8",
     "yaml-front-matter": "^4.0.0"
   },
   "browserslist": [
@@ -88,7 +84,7 @@
   "lint-staged": {
     "*.{js,vue}": [
       "prettier --write",
-      "vue-cli-service lint",
+      "eslint",
       "git add"
     ]
   }

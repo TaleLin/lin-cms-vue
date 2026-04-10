@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 
 import Logo from './logo'
 import Search from './search'
@@ -51,7 +52,7 @@ export default {
       const route = this.$route
       return route.path
     },
-    ...mapGetters(['sidebarList']),
+    ...mapGetters(useUserStore, ['sidebarList']),
   },
 }
 </script>

@@ -36,7 +36,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import emitter from 'lin/util/emitter'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import SwiperCore, { Mousewheel } from 'swiper'
@@ -107,12 +108,12 @@ export default {
   },
   computed: {
     loggedIn() {
-      return this.$store.state.loggedIn
+      return useUserStore().loggedIn
     },
     defaultRoute() {
-      return this.$store.state.defaultRoute
+      return useUserStore().defaultRoute
     },
-    ...mapGetters(['getStageByRoute', 'getStageByName', 'stageList']),
+    ...mapGetters(useUserStore, ['getStageByRoute', 'getStageByName', 'stageList']),
   },
   mounted() {
     this.init()

@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
+import { useUserStore } from '@/store/modules/user'
 import { computed, ref, reactive, watch, onMounted, toRefs } from 'vue'
 
 import logModel from 'lin/model/log'
@@ -84,9 +84,9 @@ export default {
   },
   setup() {
     // originally data properties
-    const store = useStore()
-    const user = computed(() => store.getters.user)
-    const permissions = computed(() => store.getters.permissions)
+    const userStore = useUserStore()
+    const user = computed(() => userStore.user)
+    const permissions = computed(() => userStore.permissions)
 
     const count = 10
     const logs = ref([])

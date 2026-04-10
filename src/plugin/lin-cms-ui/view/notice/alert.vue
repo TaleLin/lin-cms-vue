@@ -342,7 +342,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/style/container.scss';
+@use 'container';
 .el-alert + .el-alert {
   margin-top: 20px;
 }

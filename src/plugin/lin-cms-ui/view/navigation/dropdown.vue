@@ -434,7 +434,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/style/container';
+@use 'container';
 .el-icon-arrow-down {
   font-size: 12px;
 }

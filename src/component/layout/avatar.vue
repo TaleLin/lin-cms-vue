@@ -38,7 +38,8 @@
 
 <script>
 import User from 'lin/model/user'
-import { mapActions } from 'vuex'
+import { mapActions } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import { post, put } from 'lin/plugin/axios'
 import VuePictureCropper, { cropper } from 'vue-picture-cropper'
 
@@ -55,7 +56,7 @@ export default {
   },
   emits: ['switchCropVisible'],
   methods: {
-    ...mapActions(['setUserAndState']),
+    ...mapActions(useUserStore, ['setUserAndState']),
     handleCrop() {
       // 获取裁剪数据
       const blob = cropper.getBlob()

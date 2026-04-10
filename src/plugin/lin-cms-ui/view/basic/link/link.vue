@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/style/container';
+@use 'container';
 .el-link + .el-link {
   margin-left: 30px;
 }

@@ -24,7 +24,7 @@
 
 <script>
 import { reactive, ref, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { useUserStore } from '@/store/modules/user'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import axios from 'lin/plugin/axios'
@@ -38,7 +38,7 @@ export default {
     const wait = 2000 // 2000ms之内不能重复发起请求
     const loading = ref(false)
     const captchaImage = ref('')
-    const store = useStore()
+    const userStore = useUserStore()
     const router = useRouter()
     const throttleLogin = ref(null)
 
@@ -86,8 +86,8 @@ export default {
       try {
         // 尝试获取当前用户信息
         const user = await UserModel.getPermissions()
-        store.dispatch('setUserAndState', user)
-        store.commit('SET_USER_PERMISSIONS', user.permissions)
+        userStore.setUserAndState(user)
+        userStore.setUserPermissions(user.permissions)
       } catch (e) {
         console.error(e)
       }

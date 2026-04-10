@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import emitter from 'lin/util/emitter'
 
 import Config from '@/config/index'
@@ -33,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['sidebarList']),
+    ...mapGetters(useUserStore, ['sidebarList']),
   },
   mounted() {
     emitter.on('removeSidebarSearch', () => {

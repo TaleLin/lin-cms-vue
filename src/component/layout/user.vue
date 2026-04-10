@@ -45,7 +45,8 @@
 <script>
 import User from 'lin/model/user'
 import axios from 'lin/plugin/axios'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 import defaultAvatar from '@/assets/image/user/user.png'
 import Avatar from './avatar.vue'
 
@@ -65,7 +66,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(useUserStore, ['user']),
   },
   watch: {
     cropVisible(val) {
@@ -75,12 +76,12 @@ export default {
     },
   },
   created() {
-    const { user } = this.$store.state
-    this.nickname = user?.nickname ? user.nickname : '佚名'
-    this.username = user?.username ? user.username : '未登录'
+    const userStore = useUserStore()
+    this.nickname = userStore.user?.nickname ? userStore.user.nickname : '佚名'
+    this.username = userStore.user?.username ? userStore.user.username : '未登录'
   },
   methods: {
-    ...mapActions(['loginOut', 'setUserAndState']),
+    ...mapActions(useUserStore, ['loginOut', 'setUserAndState']),
     fileChange(event) {
       if (event.target.files.length !== 1) {
         return
@@ -135,8 +136,8 @@ export default {
     },
     async blur() {
       if (this.nickname) {
-        const { user } = this.$store.state
-        if (this.nickname !== user.nickname && this.nickname !== '佚名') {
+        const userStore = useUserStore()
+        if (this.nickname !== userStore.user.nickname && this.nickname !== '佚名') {
           axios({
             method: 'put',
             url: '/cms/user',

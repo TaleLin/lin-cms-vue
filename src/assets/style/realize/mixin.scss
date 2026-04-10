@@ -1,4 +1,6 @@
 
+@use 'sass:color';
+
 // 根据不同的屏幕加载背景图片
 @mixin bi($url, $type: 'png') {
   background-image: url($url + "@2x." + $type);
@@ -38,21 +40,21 @@
 @mixin bi-saturate-hover($background-color, $value: 20){ // 背景颜色增加饱和度
   transition: .6s all;
   &:hover{
-    background-color: saturate($background-color, $value);
+    background-color: color.adjust($background-color, $saturation: $value * 1%);
   }
 }
 
 @mixin color-saturate-hover($color, $value: 30){ // 颜色增加饱和度
   transition: .6s all;
   &:hover{
-    color: saturate($color, $value);
+    color: color.adjust($color, $saturation: $value * 1%);
   }
 }
 
 @mixin bi-lighten-hover($background-color, $value: 10){ // 背景颜色变浅。
   transition: .6s all;
   &:hover{
-    background-color: lighten($background-color, $value);
+    background-color: color.adjust($background-color, $lightness: $value * 1%);
   }
 }
 

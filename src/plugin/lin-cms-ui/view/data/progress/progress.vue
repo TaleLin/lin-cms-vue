@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/style/container';
+@use 'container';
 .el-progress {
   margin-top: 20px;
   margin-left: 20px;

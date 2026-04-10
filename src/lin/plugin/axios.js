@@ -4,7 +4,7 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
-import store from '@/store'
+import { useUserStore } from '@/store/modules/user'
 import router from '@/router'
 import Config from '@/config'
 import autoJump from '@/lin/util/auto-jump'
@@ -14,7 +14,7 @@ import { getToken, saveAccessToken } from '@/lin/util/token'
 const config = {
   baseURL: Config.baseURL || '',
   timeout: 5 * 1000, // 请求超时时间设置
-  crossDomain: true,
+  crossOrigin: true,
   // withCredentials: true, // Check cross-site Access-Control
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
@@ -114,7 +114,7 @@ _axios.interceptors.response.use(
       // refresh_token 异常，直接登出
       if (refreshTokenException(code)) {
         setTimeout(() => {
-          store.dispatch('loginOut')
+          useUserStore().loginOut()
           const { origin } = window.location
           window.location.href = origin
         }, 1500)

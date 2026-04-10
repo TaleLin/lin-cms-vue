@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { useUserStore } from '@/store/modules/user'
+
 export default {
   data() {
     return {
@@ -21,7 +23,7 @@ export default {
   },
   computed: {
     stageInfo() {
-      return this.$store.getters.getStageInfo(this.$route.name)
+      return useUserStore().getStageInfo(this.$route.name)
     },
     menuTabs() {
       if (this.stageInfo.length < 2) {

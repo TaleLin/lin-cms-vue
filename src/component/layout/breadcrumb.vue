@@ -9,13 +9,15 @@
 </template>
 
 <script>
+import { useUserStore } from '@/store/modules/user'
+
 export default {
   data() {
     return {}
   },
   computed: {
     stageInfo() {
-      return this.$store.getters.getStageInfo(this.$route.name)
+      return useUserStore().getStageInfo(this.$route.name)
     },
     titleArr() {
       return this.stageInfo.map(item => item.title).filter(item => !!item)

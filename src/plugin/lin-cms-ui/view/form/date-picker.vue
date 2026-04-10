@@ -500,7 +500,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/style/container';
+@use 'container';
 .el-date-editor + .el-date-editor {
   margin-left: 10px;
 }

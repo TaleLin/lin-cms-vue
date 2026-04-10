@@ -4,7 +4,7 @@ import { ElMessage } from 'element-plus'
 import appConfig from '@/config/index'
 import Util from '@/lin/util/util'
 import autoJump from '@/lin/util/auto-jump'
-import store from '../store'
+import { useUserStore } from '@/store/modules/user'
 import routes from './route'
 
 // 判断是否需要登录访问, 配置位于 config 文件夹
@@ -37,28 +37,26 @@ let isLoginRequired = routeName => {
 
 const router = createRouter({
   scrollBehavior: () => ({ y: 0 }),
-  base: process.env.BASE_URL,
+  base: '/',
   history: createWebHashHistory(),
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
+  const userStore = useUserStore()
+
   // 登录验证
-  if (isLoginRequired(to.name) && !store.state.loggedIn) {
-    next({ path: '/login' })
-    return
+  if (isLoginRequired(to.name) && !userStore.loggedIn) {
+    return { path: '/login' }
   }
 
   // TODO: tab 模式重复点击验证
 
   // 权限验证
-  if (store?.state && store?.getters) {
-    const { permissions, user } = store.getters
-    if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
-      ElMessage.error('您无此页面的权限哟')
-      next({ path: '/about' })
-      return
-    }
+  const { permissions, user } = userStore
+  if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
+    ElMessage.error('您无此页面的权限哟')
+    return { path: '/about' }
   }
 
   // 路由发生变化重新计时
@@ -68,8 +66,6 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
   }
-
-  next()
 })
 
 export default router

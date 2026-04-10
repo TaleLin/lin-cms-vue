@@ -1,4 +1,4 @@
-import store from '@/store'
+import { useUserStore } from '@/store/modules/user'
 
 /**
  * 判断是否允许访问该DOM
@@ -30,7 +30,8 @@ export default {
     } else {
       permission = binding.value
     }
-    const isAllow = isAllowed(permission, store.state.user || {}, store.state.permissions)
+    const userStore = useUserStore()
+    const isAllow = isAllowed(permission, userStore.user || {}, userStore.permissions)
     if (!isAllow && permission) {
       if (type) {
         element.disabled = true

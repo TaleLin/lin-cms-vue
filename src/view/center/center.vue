@@ -64,7 +64,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'pinia'
+import { useUserStore } from '@/store/modules/user'
 
 import User from '@/lin/model/user'
 import axios from '@/lin/plugin/axios'
@@ -121,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(useUserStore, ['user']),
   },
   watch: {
     cropVisible(val) {
@@ -131,11 +132,11 @@ export default {
     },
   },
   created() {
-    const { user } = this.$store.state
-    this.nickname = user?.nickname ? user.nickname : '佚名'
+    const userStore = useUserStore()
+    this.nickname = userStore.user?.nickname ? userStore.user.nickname : '佚名'
   },
   methods: {
-    ...mapActions(['loginOut', 'setUserAndState']),
+    ...mapActions(useUserStore, ['loginOut', 'setUserAndState']),
     switchCropVisible(flag) {
       this.cropVisible = flag
     },
@@ -187,8 +188,8 @@ export default {
     },
     async blur() {
       if (this.nickname) {
-        const { user } = this.$store.state
-        if (this.nickname !== user.nickname && this.nickname !== '佚名') {
+        const userStore = useUserStore()
+        if (this.nickname !== userStore.user.nickname && this.nickname !== '佚名') {
           axios({
             method: 'put',
             url: '/cms/user',

@@ -187,7 +187,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/style/container.scss';
+@use 'container';
 
 .input-with-select :v-deep(.el-input-group__prepend) {
   background-color: #fff;

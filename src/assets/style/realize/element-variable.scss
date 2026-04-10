@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 /* color */
 $--color-white: #FFFFFF !default;
 /* font color */
@@ -22,9 +24,10 @@ $--link-disabled-font-color: $--color-text-placeholder !default;
 /* 改变 icon 字体路径变量，必需 */
 //$--font-path: "~element-plus/lib/theme-chalk/fonts";
 //兼容字体 新版本element-plus 已经移除font-icon
+// element-plus uses @import internally and cannot be migrated yet
 @import "../elementFont.css";
-@import "~element-plus/theme-chalk/src/index";
-@import "~element-plus/theme-chalk/src/mixins/mixins";
+@import "element-plus/theme-chalk/src/index";
+@import "element-plus/theme-chalk/src/mixins/mixins";
 
 // button
 .el-button {
@@ -642,13 +645,13 @@ $typeMap: (primary:#3963BC,
     &.el-link--#{$type} {
       color: $primaryColor;
       &:hover {
-        color: mix($primaryColor, $--color-white, 80%)
+        color: color.mix($primaryColor, $--color-white, 80%)
       }
       &:after {
         border-color: $primaryColor
       }
       @include when(disabled) {
-        color: mix($primaryColor, $--color-white, 50%)
+        color: color.mix($primaryColor, $--color-white, 50%)
       }
       @include when(underline) {
         &:hover:after {

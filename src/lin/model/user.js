@@ -1,4 +1,4 @@
-import store from '@/store'
+import { useUserStore } from '@/store/modules/user'
 import _axios, { get, put } from '@/lin/plugin/axios'
 import { saveTokens } from '../util/token'
 
@@ -51,7 +51,8 @@ export default class User {
    */
   static async getInformation() {
     const info = await get('cms/user/information')
-    const storeUser = store.getters.user === null ? {} : store.getters.user
+    const userStore = useUserStore()
+    const storeUser = userStore.user === null ? {} : userStore.user
     return Object.assign({ ...storeUser }, info)
   }
 
@@ -60,7 +61,8 @@ export default class User {
    */
   static async getPermissions() {
     const info = await get('cms/user/permissions')
-    const storeUser = store.getters.user === null ? {} : store.getters.user
+    const userStore = useUserStore()
+    const storeUser = userStore.user === null ? {} : userStore.user
     return Object.assign({ ...storeUser }, info)
   }
 

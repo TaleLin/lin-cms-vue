@@ -10,7 +10,7 @@ import { filters } from 'lin/filter'
 import permissionDirective from 'lin/directive/authorize'
 
 import App from '@/app.vue'
-import store from '@/store'
+import pinia from '@/store'
 import router from '@/router'
 
 import LinNotify from '@/component/notify'
@@ -29,7 +29,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
-app.use(store)
+app.use(pinia)
 app.use(router)
 app.use(ElementPlus, {
   locale: zhCn,

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import store from '@/store'
+import { useUserStore } from '@/store/modules/user'
 import Config from '@/config'
 import { getToken } from '@/lin/util/token'
 import User from './user'
@@ -50,7 +50,7 @@ export default {
       this.$options.sockets.onerror = err => {
         console.error(err)
         this.$message.error('token已过期,请重新登录')
-        store.dispatch('loginOut')
+        useUserStore().loginOut()
         const { origin } = window.location
         window.location.href = origin
       }

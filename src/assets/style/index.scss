@@ -1,6 +1,6 @@
-@import './realize/reset';
-@import './realize/animation';
-@import './realize/transition';
+@use './realize/reset';
+@use './realize/animation';
+@use './realize/transition';
 
 .lin-container {
   .el-divider--horizontal {
