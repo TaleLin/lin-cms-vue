@@ -1,16 +1,12 @@
 const fs = require('fs-extra')
-// eslint-disable-next-line import/no-extraneous-dependencies
 const path = require('path')
 const inquirer = require('inquirer')
 const ejs = require('ejs')
 const chalk = require('chalk')
-const yaml = require('js-yaml')
 const dirTree = require('directory-tree')
 const validatePName = require('validate-npm-package-name')
 const semver = require('semver')
-// const came = require('./lib/util')
-
-const came = str => `${str}`.replace(/-\D/g, match => match.charAt(1).toUpperCase())
+const { came } = require('./lib/util')
 
 const questions = []
 
@@ -26,7 +22,7 @@ questions.push({
         return
       }
 
-      const regex = /^[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*/
+      const regex = /^[a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)*$/
 
       if (!regex.test(value)) {
         done('检测到格式错误, 多个单词以 "-" 连接, 如: user-permission')
@@ -88,8 +84,6 @@ questions.push({
 const cachePath = path.resolve(__dirname, './.cache')
 const cachePluginPath = path.resolve(__dirname, './.cache/plugin')
 const pluginTmpPath = path.resolve(__dirname, './template/plugin')
-const pluginViewsPath = path.resolve(__dirname, './template/plugin/view')
-const pluginStrPos = __dirname.length + '/template/'.length
 const pluginsPath = path.resolve(__dirname, '../src/plugin')
 
 // 检测是否有插件文件夹
@@ -123,38 +117,16 @@ inquirer
         return
       }
       // 处理模板文件
-      if (item.extension === '.ejs') {
+      if (item.path.endsWith('.ejs')) {
         const template = fs.readFileSync(item.path, 'utf8')
-        const fileConfig = { ...config }
-        // 舞台 view 文件配置处理
-        if (item.path.slice(pluginStrPos).split(path.sep)[1] === 'view' && item.name.slice(-8) === '.vue.ejs') {
-          const viewConfig = {}
-          viewConfig.icon = 'iconfont icon-demo'
-          viewConfig.name = fileConfig.camelCaseName + item.name.slice(0, -8)
-          viewConfig.route = path
-            .join(config.name, path.relative(pluginViewsPath, item.path))
-            .split(path.sep)
-            .join('/')
-          viewConfig.route = `/${viewConfig.route.slice(0, -8)}`
-          viewConfig.order = null
-          viewConfig.inNav = true
-          viewConfig.title = '舞台页'
-          viewConfig.type = 'view'
-          viewConfig.auths = {
-            role: null,
-            permission: null,
-          }
-          viewConfig.needLogin = true
-          fileConfig.configYml = yaml.safeDump(viewConfig)
-        }
-        const result = ejs.render(template, fileConfig)
-        const targetPath1 = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path).slice(0, -4))
-        fs.outputFileSync(targetPath1, result)
+        const result = ejs.render(template, config)
+        const targetPath = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path).replace(/\.ejs$/, ''))
+        fs.outputFileSync(targetPath, result)
         return
       }
       // 拷贝其他文件
-      const targetPath1 = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path))
-      fs.copySync(item.path, targetPath1)
+      const targetPath = path.resolve(cachePluginPath, path.relative(pluginTmpPath, item.path))
+      fs.copySync(item.path, targetPath)
     })
 
     return config
@@ -166,15 +138,11 @@ inquirer
     fs.copySync(sourcePath, targetPath)
 
     console.log(chalk.green(`创建插件 ${answers.name}: ${targetPath}`))
-    // eslint-disable-next-line
   })
   .then(() => {
-    // eslint-disable-next-line
     require('./plugin-get-config.js')
-    // eslint-disable-next-line
   })
   .catch(err => {
-    // eslint-disable-next-line
     console.log(chalk.red('创建插件失败'))
     console.error(err)
     process.exit(1)

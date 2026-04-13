@@ -1,26 +1,23 @@
-$theme: #3963bc;
+$theme: var(--theme-primary);
 
 /* 布局 */
 $sidebar-width: 210px;
-$sidebar-background: #192a5e;
-
+$sidebar-background: var(--theme-sidebar-bg);
 $navbar-height: 30px;
 $navbar-padding: 20px;
 $header-height: 86px;
 $reuse-tab-height: 40px;
-
-$navbar-background: #BECCD8;
-$app-main-background: #F9FAFB;
-$header-background: #EEF4F9;
-$right-side-font-color: #666666;
-$reuse-tab-item-background: #FFFFFF;
-
-$title-color: #45526b;
-$parent-title-color: #3963bc;
-$table-border-color: #dee2e6;
+$navbar-background: var(--theme-navbar-bg);
+$app-main-background: var(--theme-main-bg);
+$header-background: var(--theme-header-bg);
+$right-side-font-color: var(--theme-text-muted);
+$reuse-tab-item-background: var(--theme-tab-bg);
+$title-color: var(--theme-title-color);
+$parent-title-color: var(--theme-primary);
+$table-border-color: var(--theme-border);
 
 /* 菜单 */
-$menu-item-hover: #0a1949;
-$menu-item-bg: #122150;
-$sub-menu-title: #c4c9d2;
+$menu-item-hover: var(--theme-sidebar-hover);
+$menu-item-bg: var(--theme-sidebar-panel);
+$sub-menu-title: var(--theme-sidebar-text);
 $menu-item-height: 50px;

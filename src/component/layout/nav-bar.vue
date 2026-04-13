@@ -1,92 +1,148 @@
 <template>
   <div class="app-nav-bar">
     <div class="nav-content">
-      <breadcrumb />
+      <Breadcrumb :stage-info="stageInfo" />
       <div class="right-info">
-        <lin-notify
-          height="370"
-          :value="value"
+        <LinNotify
           :hidden="hidden"
-          :trigger="'click'"
-          @readAll="readAll"
-          @viewAll="viewAll"
           :messages="messages"
-          @readMessages="readMessages"
-        >
-        </lin-notify>
-        <clear-tab></clear-tab>
-        <screenfull /> <user></user>
+          trigger="click"
+          :value="unreadCount"
+          height="370"
+          @readAll="handleReadAll"
+          @readMessage="handleReadMessage"
+          @viewAll="handleViewAll"
+        />
+        <ThemeSwitcher />
+        <ClearTab @clear="handleClearReuseTab" />
+        <Screenfull />
+        <User :logout-action="logout" :navigate-to-center="navigateToCenter" :user-store="userStore" />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { useUserStore } from '@/store/modules/user'
+<script setup>
+import { computed, inject, onBeforeUnmount, ref, watch } from 'vue'
+
 import Config from '@/config'
-import { getToken } from '@/lin/util/token'
+import { useTokenRef } from '@/lin/util/token'
+import { notifyConnectKey, notifyDisconnectKey } from '@/component/layout/use-notify-provider'
+import LinNotify from '@/component/notify/notify.vue'
+
 import User from './user'
+import ThemeSwitcher from './theme-switcher.vue'
 import ClearTab from './clear-tab'
 import Breadcrumb from './breadcrumb'
 import Screenfull from './screen-full'
+import { buildNotifySocketPath } from './notify-helpers'
 
-export default {
+defineOptions({
   name: 'NavBar',
-  data() {
-    return {
-      value: 0,
-      hidden: false,
-      messages: [],
-      path: `//api.s.colorful3.com/ws/message?token=${getToken('access_token').split(' ')[1]}`,
-    }
+})
+
+const { stageInfo, messages, unreadCount, hidden, notifyEvents, navigateToCenter, logout, userStore } = defineProps({
+  stageInfo: {
+    type: Array,
+    default: () => [],
   },
-  created() {
-    if (Config.websocketEnable) {
-      this.$connect(this.path, { format: 'json' })
-      this.$options.sockets.onmessage = data => {
-        console.log(JSON.parse(data.data))
-        this.messages.push(JSON.parse(data.data))
-      }
-      this.$options.sockets.onerror = err => {
-        console.error(err)
-        this.$message.error('token已过期,请重新登录')
-        useUserStore().loginOut()
-        const { origin } = window.location
-        window.location.href = origin
-      }
-    }
+  messages: {
+    type: Array,
+    default: () => [],
   },
-  watch: {
-    messages: {
-      handler() {
-        this.value = this.messages.filter(msg => msg.is_read === false).length
-        if (this.value === 0) {
-          this.hidden = true
-        } else {
-          this.hidden = false
-        }
-      },
-      immediate: true,
-    },
+  unreadCount: {
+    type: [Number, String],
+    default: 0,
   },
-  methods: {
-    readAll() {
-      console.log('点击了readAll')
-    },
-    viewAll() {
-      console.log('点击了viewAll')
-    },
-    readMessages(msg, index) {
-      this.messages[index].is_read = true
-    },
+  hidden: {
+    type: Boolean,
+    default: true,
   },
-  components: {
-    Breadcrumb,
-    User,
-    Screenfull,
-    ClearTab,
+  notifyEvents: {
+    type: Object,
+    default: () => ({}),
   },
+  navigateToCenter: {
+    type: Function,
+    required: true,
+  },
+  logout: {
+    type: Function,
+    required: true,
+  },
+  userStore: {
+    type: Object,
+    required: true,
+  },
+})
+
+const emit = defineEmits(['clearReuseTab', 'readAll', 'readMessage', 'viewAll'])
+
+const connect = inject(notifyConnectKey, null)
+const disconnect = inject(notifyDisconnectKey, null)
+const accessToken = useTokenRef('access_token')
+const connectedSocketPath = ref('')
+const path = computed(() => buildNotifySocketPath(accessToken.value))
+
+function handleClearReuseTab() {
+  emit('clearReuseTab')
 }
+
+function handleReadAll() {
+  emit('readAll')
+}
+
+function handleReadMessage(message) {
+  emit('readMessage', message)
+}
+
+function handleViewAll() {
+  emit('viewAll')
+}
+
+function disconnectNotifySocket() {
+  if (!connectedSocketPath.value) {
+    return
+  }
+
+  disconnect?.()
+  connectedSocketPath.value = ''
+}
+
+function connectNotifySocket(nextPath) {
+  if (!nextPath || connectedSocketPath.value === nextPath) {
+    return
+  }
+
+  if (!Config.websocketEnable || !connect) {
+    return
+  }
+
+  connect(nextPath, {
+    format: 'json',
+    events: notifyEvents,
+  })
+  connectedSocketPath.value = nextPath
+}
+
+watch(
+  path,
+  nextPath => {
+    if (!Config.websocketEnable || !connect || !nextPath) {
+      disconnectNotifySocket()
+      return
+    }
+
+    connectNotifySocket(nextPath)
+  },
+  {
+    immediate: true,
+  },
+)
+
+onBeforeUnmount(() => {
+  disconnectNotifySocket()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -95,11 +151,13 @@ export default {
   height: $navbar-height;
   display: flex;
   align-items: center;
+
   .logo.js-min-logo {
     width: 64px;
     font-size: 16px;
     color: #fff;
   }
+
   .nav-content {
     flex: 1;
     height: 100%;
@@ -108,9 +166,15 @@ export default {
     justify-content: space-between;
     padding-left: 10px;
     padding-right: $navbar-padding;
+
     .right-info {
       display: flex;
       align-items: center;
+      gap: 10px;
+
+      > * {
+        flex-shrink: 0;
+      }
     }
   }
 }

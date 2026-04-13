@@ -2,70 +2,59 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import { ElMessage } from 'element-plus'
 
 import appConfig from '@/config/index'
-import Util from '@/lin/util/util'
-import autoJump from '@/lin/util/auto-jump'
+import { scheduleAutoJump } from '@/lin/util/auto-jump'
+import { hasPermission } from '@/lin/util/permission'
 import { useUserStore } from '@/store/modules/user'
+import { hasLoggedInSession } from '@/lin/util/session'
 import routes from './route'
+import { createPublicRouteNameSet, createRouteGuard } from './router-helpers'
 
-// 判断是否需要登录访问, 配置位于 config 文件夹
-let isLoginRequired = routeName => {
-  // 首次执行时缓存配置
-  let { notLoginRoute } = appConfig
-  const notLoginMark = {}
+const publicRouteNames = createPublicRouteNameSet(appConfig.notLoginRoute)
+const defaultScrollBehavior = () => ({ top: 0 })
 
-  // 构建标记对象
-  if (Array.isArray(notLoginRoute)) {
-    for (let i = 0; i < notLoginRoute.length; i += 1) {
-      notLoginMark[notLoginRoute[i].toString()] = true
-    }
-  }
-
-  notLoginRoute = null // 释放内存
-
-  // 重写初始化函数
-  isLoginRequired = name => {
-    if (!name) {
-      return true
-    }
-    // 处理 Symbol 类型
-    const target = typeof name === 'symbol' ? name.description : name
-    return !notLoginMark[target]
-  }
-
-  return isLoginRequired(routeName)
+export function createAppRouter({
+  createRouterFn = createRouter,
+  createHistoryFn = createWebHashHistory,
+  baseUrl = import.meta.env.BASE_URL,
+  appRoutes = routes,
+  scrollBehavior = defaultScrollBehavior,
+} = {}) {
+  return createRouterFn({
+    scrollBehavior,
+    history: createHistoryFn(baseUrl),
+    routes: appRoutes,
+  })
 }
 
-const router = createRouter({
-  scrollBehavior: () => ({ y: 0 }),
-  base: '/',
-  history: createWebHashHistory(),
-  routes,
-})
+export function registerAppRouteGuard(
+  routerInstance,
+  {
+    createGuard = createRouteGuard,
+    routeNames = publicRouteNames,
+    getUserStore = () => useUserStore(),
+    hasLoggedInSessionFn = hasLoggedInSession,
+    hasPermissionFn = hasPermission,
+    showNoPermissionMessage = () => ElMessage.error('您无此页面的权限哟'),
+    scheduleAutoJumpFn = scheduleAutoJump,
+    noPermissionRedirectPath = appConfig.defaultRoute,
+  } = {},
+) {
+  const guard = createGuard({
+    publicRouteNames: routeNames,
+    getUserStore,
+    hasLoggedInSession: hasLoggedInSessionFn,
+    hasPermission: hasPermissionFn,
+    showNoPermissionMessage,
+    scheduleAutoJump: () => scheduleAutoJumpFn(routerInstance),
+    noPermissionRedirectPath,
+  })
 
-router.beforeEach((to, from) => {
-  const userStore = useUserStore()
+  routerInstance.beforeEach(guard)
+  return guard
+}
 
-  // 登录验证
-  if (isLoginRequired(to.name) && !userStore.loggedIn) {
-    return { path: '/login' }
-  }
+const router = createAppRouter()
 
-  // TODO: tab 模式重复点击验证
-
-  // 权限验证
-  const { permissions, user } = userStore
-  if (to.path !== '/about' && !Util.hasPermission(permissions, to.meta, user)) {
-    ElMessage.error('您无此页面的权限哟')
-    return { path: '/about' }
-  }
-
-  // 路由发生变化重新计时
-  autoJump(router)
-
-  // 路由发生变化修改页面title
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
-})
+registerAppRouteGuard(router)
 
 export default router

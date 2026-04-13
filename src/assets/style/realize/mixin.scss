@@ -1,11 +1,11 @@
-
 @use 'sass:color';
 
 // 根据不同的屏幕加载背景图片
 @mixin bi($url, $type: 'png') {
-  background-image: url($url + "@2x." + $type);
-  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
-    background-image: url($url + "@3x." + $type);
+  background-image: url($url + '@2x.' + $type);
+
+  @media (resolution >= 3dppx), (resolution >= 288dpi) {
+    background-image: url($url + '@3x.' + $type);
     background-size: cover;
   }
 }
@@ -20,47 +20,54 @@
 // 扩展小图标按钮的点击区域
 @mixin extend-click() {
   position: relative;
+
   &:before {
     content: '';
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    inset: -10px;
   }
 }
 
-@mixin btn-scale-hover(){
-  transition: .4s all;
-  &:hover{
+@mixin btn-scale-hover() {
+  transition: 0.4s all;
+
+  &:hover {
     transform: scale(1.1);
   }
 }
 
-@mixin bi-saturate-hover($background-color, $value: 20){ // 背景颜色增加饱和度
-  transition: .6s all;
-  &:hover{
+@mixin bi-saturate-hover($background-color, $value: 20) {
+  // 背景颜色增加饱和度
+  transition: 0.6s all;
+
+  &:hover {
     background-color: color.adjust($background-color, $saturation: $value * 1%);
   }
 }
 
-@mixin color-saturate-hover($color, $value: 30){ // 颜色增加饱和度
-  transition: .6s all;
-  &:hover{
+@mixin color-saturate-hover($color, $value: 30) {
+  // 颜色增加饱和度
+  transition: 0.6s all;
+
+  &:hover {
     color: color.adjust($color, $saturation: $value * 1%);
   }
 }
 
-@mixin bi-lighten-hover($background-color, $value: 10){ // 背景颜色变浅。
-  transition: .6s all;
-  &:hover{
+@mixin bi-lighten-hover($background-color, $value: 10) {
+  // 背景颜色变浅。
+  transition: 0.6s all;
+
+  &:hover {
     background-color: color.adjust($background-color, $lightness: $value * 1%);
   }
 }
 
-@mixin bi-opacity-hover($opacity: .8){ // 透明度
-  transition: .4s all;
-  &:hover{
+@mixin bi-opacity-hover($opacity: 0.8) {
+  // 透明度
+  transition: 0.4s all;
+
+  &:hover {
     opacity: $opacity;
   }
 }

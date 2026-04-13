@@ -1,34 +1,34 @@
-const <%= camelCaseName %>Router = {
+const <%= camelCaseName %>StageConfig = {
   route: null,
-  name: null,
+  name: '<%= name %>',
   title: '<%= title %>',
   type: 'folder',
   icon: 'iconfont icon-demo',
-  filePath: 'views/<%= name %>/',
+  filePath: 'plugin/<%= name %>/',
   order: null,
   inNav: true,
   children: [
     {
       title: '舞台页面',
       type: 'view',
-      name: '<%= name %>Stage1',
+      name: '<%= camelCaseName %>Stage1',
       route: '/<%= name %>/stage1',
       filePath: 'plugin/<%= name %>/view/stage1.vue',
       inNav: true,
       icon: 'iconfont icon-demo',
-      right: null,
+      permission: null,
     },
     {
       title: '舞台页面',
       type: 'view',
-      name: '<%= name %>Stage2',
+      name: '<%= camelCaseName %>Stage2',
       route: '/<%= name %>/stage2',
       filePath: 'plugin/<%= name %>/view/stage2.vue',
       inNav: true,
       icon: 'iconfont icon-demo',
-      right: null,
+      permission: null,
     },
   ],
 }
 
-export default <%= camelCaseName %>Router
+export default <%= camelCaseName %>StageConfig

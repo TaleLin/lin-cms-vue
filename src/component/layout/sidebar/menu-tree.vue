@@ -1,51 +1,55 @@
 <template>
-  <!--el-submenu改名为el-sub-menu-->
-  <el-sub-menu v-if="item.children?.length > 0" :index="item.path" popper-append-to-body>
+  <el-sub-menu v-if="menuHasChildren" :index="item.path" popper-append-to-body>
     <template #title>
-      <el-icon v-if="item.isElementIcon" size="16">
-        <component :is="item.icon"></component>
-      </el-icon>
-      <div v-else>
-        <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
-        <img v-else :src="item.icon" alt="icon" class="img-icon" />
-      </div>
+      <component :is="resolveElementPlusIcon(iconSource)" v-if="!showImageIcon" class="menu-tree__icon" />
+      <img v-else :src="iconSource" alt="icon" class="img-icon" />
       <span>{{ item.title }}</span>
     </template>
-    <menu-tree v-for="child in item.children" :key="child.path" :item="child" />
+    <MenuTree v-for="child in item.children" :key="child.path" :item="child" :navigate="navigate" />
   </el-sub-menu>
 
-  <el-menu-item v-else :index="item.path" @click="navigateTo(item.path)">
-    <el-icon v-if="item.isElementIcon" size="16">
-      <component :is="item.icon"></component>
-    </el-icon>
-    <div v-else>
-      <i v-if="!filterIcon(item.icon)" :class="item.icon"></i>
-      <img v-else :src="item.icon" alt="icon" class="img-icon" />
-    </div>
-    <template #title
-      ><span class="title">{{ item.title }}</span></template
-    >
+  <el-menu-item v-else :index="item.path" @click="navigateTo">
+    <component :is="resolveElementPlusIcon(iconSource)" v-if="!showImageIcon" class="menu-tree__icon" />
+    <img v-else :src="iconSource" alt="icon" class="img-icon" />
+    <template #title>
+      <span class="title">{{ item.title }}</span>
+    </template>
   </el-menu-item>
 </template>
 
-<script>
-export default {
-  name: 'MenuTree',
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-  },
+<script setup>
+import { computed } from 'vue'
 
-  methods: {
-    navigateTo(path) {
-      this.$router.push({ path })
-    },
-    filterIcon(icon) {
-      return icon.indexOf('/') !== -1
-    },
+import { resolveElementPlusIcon } from '@/component/base/icon/icon-registry'
+import {
+  createMenuNavigationTarget,
+  getMenuTreeIconSource,
+  hasMenuChildren,
+  isMenuTreeImageIcon,
+} from './menu-tree-helpers'
+
+defineOptions({
+  name: 'MenuTree',
+})
+
+const { item, navigate } = defineProps({
+  item: {
+    type: Object,
+    required: true,
   },
+  navigate: {
+    type: Function,
+    required: true,
+  },
+})
+
+const menuHasChildren = computed(() => hasMenuChildren(item))
+const iconSource = computed(() => getMenuTreeIconSource(item.icon))
+const showImageIcon = computed(() => isMenuTreeImageIcon(iconSource.value))
+const navigationTarget = computed(() => createMenuNavigationTarget(item.path))
+
+function navigateTo() {
+  navigate(navigationTarget.value)
 }
 </script>
 
@@ -59,16 +63,18 @@ export default {
   transform: translateY(21px);
 }
 
-.iconfont {
+.menu-tree__icon {
   margin-right: 10px;
   margin-left: 5px;
   color: $sub-menu-title;
-  height: $menu-item-height;
+  width: 16px;
+  height: 16px;
 }
 
 .title {
   display: inline-block;
   width: 110px;
-  @include no-wrap();
+
+  @include no-wrap;
 }
 </style>

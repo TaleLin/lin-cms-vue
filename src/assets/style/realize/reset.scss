@@ -83,8 +83,7 @@ input {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
-    Microsoft YaHei, sans-serif;
+  font-family: var(--theme-font-body);
   font-weight: normal;
   vertical-align: baseline;
 }
@@ -124,8 +123,9 @@ table {
 input,
 button {
   padding: 0;
+
   &:focus {
-    outline: -webkit-focus-ring-color auto 0px;
+    outline: -webkit-focus-ring-color auto 0;
   }
 }
 
@@ -133,7 +133,7 @@ button {
 
 a {
   color: #7e8c8d;
-  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   text-decoration: none;
   cursor: pointer;
 }
@@ -152,14 +152,8 @@ body {
   line-height: 1;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
 }
-
-//*,
-//*:before,
-//*:after {
-//  box-sizing: inherit;
-//}
 
 a:focus,
 a:active {
@@ -184,11 +178,3 @@ a:hover {
     height: 0;
   }
 }
-
-// 饿了么主题
-
-/* 改变主题色变量 */
-$--color-primary: #4c76af;
-/* 改变 icon 字体路径变量，必需 */
-$--font-path: '~element-plus/lib/theme-chalk/fonts';
-// @import '../../../../node_modules/element-plus/packages/theme-chalk/src/index';

@@ -1,222 +1,153 @@
 <template>
-  <div v-if="histories.length > 1" ref="resueTab" class="reuse-tab">
-    <swiper
-      class="reuse-tab-wrap"
-      slides-per-view="auto"
-      :space-between="1"
-      :initial-slide="0"
-      effect="slide"
-      :prevent-clicks="false"
+  <div v-if="showReuseTabBar" ref="reuseTabRef" class="reuse-tab">
+    <Swiper
       :free-mode="true"
+      :initial-slide="0"
+      :modules="swiperModules"
       :mousewheel="true"
+      :prevent-clicks="false"
+      :space-between="1"
+      class="reuse-tab-wrap"
       direction="horizontal"
+      effect="slide"
+      slides-per-view="auto"
     >
-      <swiper-slide v-for="(item, index) in histories" :key="item.path">
-        <router-link
-          class="reuse-tab-item"
-          :class="item.path === $route.path ? 'active' : ''"
+      <SwiperSlide v-for="(item, index) in resolvedHistories" :key="item.path">
+        <RouterLink
+          :class="getItemClass(item.path)"
           :to="item.path"
-          @contextmenu.prevent="onTags(index, $event)"
+          class="reuse-tab-item"
+          @contextmenu.prevent="openContextMenu(index, $event)"
         >
-          <i v-if="!filterIcon(stageList[item.stageId].icon)" :class="stageList[item.stageId].icon"></i>
-          <img v-else :src="stageList[item.stageId].icon" style="width:16px;" />
-          <span style="padding: 0 5px;">{{ stageList[item.stageId].title }}</span>
-          <span class="el-icon-close" @click.prevent.stop="close(index)" />
-        </router-link>
-      </swiper-slide>
-    </swiper>
+          <component
+            :is="resolveElementPlusIcon(getHistoryIconSource(item.stage.icon))"
+            v-if="!showHistoryImageIcon(item.stage.icon)"
+            class="reuse-tab-item__icon"
+          />
+          <img v-else :src="getHistoryIconSource(item.stage.icon)" class="reuse-tab-item__image-icon" />
+          <span class="reuse-tab-item__title">{{ item.stage.title }}</span>
+          <el-icon class="reuse-tab-close" @click.prevent.stop="close(index)">
+            <Close />
+          </el-icon>
+        </RouterLink>
+      </SwiperSlide>
+    </Swiper>
 
-    <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
+    <ul v-show="visible" :style="contextMenuStyle" class="contextmenu">
       <li @click="closeAll">关闭所有</li>
       <li @click="closeOthers">关闭其他</li>
-      <li @click="closeLeft" v-if="hasLeft">关闭左侧</li>
-      <li @click="closeRight" v-if="hasRight">关闭右侧</li>
+      <li v-if="hasLeft" @click="closeLeft">关闭左侧</li>
+      <li v-if="hasRight" @click="closeRight">关闭右侧</li>
     </ul>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'pinia'
-import { useUserStore } from '@/store/modules/user'
-import emitter from 'lin/util/emitter'
+<script setup>
+import { Close } from '@element-plus/icons-vue'
+import { computed, useTemplateRef } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import SwiperCore, { Mousewheel } from 'swiper'
+import { FreeMode, Mousewheel } from 'swiper/modules'
+import { useLocalStorage } from '@vueuse/core'
 
-import 'swiper/swiper.scss'
+import 'swiper/css'
 
-SwiperCore.use([Mousewheel])
+import { resolveElementPlusIcon } from '@/component/base/icon/icon-registry'
 
-export default {
-  components: { Swiper, SwiperSlide },
-  data() {
-    return {
-      histories: [],
-      visible: false,
-      hasLeft: true,
-      hasRight: true,
-      top: 0,
-      left: 0,
-      index: 0,
-    }
-  },
-  watch: {
-    $route(to) {
-      // 对路由变化作出响应...
-      const { histories } = this
-      const flag = histories.find(item => item.path === to.path)
-      if (flag) {
-        return
-      }
+import { getLayoutIconSource, shouldUseImageIcon } from '@/component/layout/layout-helpers'
+import { getReuseTabItemClass, shouldShowReuseTabBar } from '@/component/layout/reuse-tab-helpers'
+import { useReuseTab } from '@/component/layout/use-reuse-tab'
 
-      const ele = {}
-      ele.stageId = to.name
-      ele.path = to.path
-      ele.routePath = to.matched[to.matched.length - 1].path
-      this.histories = [ele, ...histories]
-    },
-    loggedIn(val) {
-      if (val) {
-        return
-      }
-      this.closeAll()
-    },
-    visible(value) {
-      if (value) {
-        document.body.addEventListener('click', this.closeMenu)
-      } else {
-        document.body.removeEventListener('click', this.closeMenu)
-      }
-    },
-    // 舞台改变时触发
-    stageList() {
-      this.init()
-    },
-    histories(arr) {
-      if (arr.length < 2) {
-        emitter.emit('noReuse')
-      } else {
-        emitter.emit('hasReuse')
-      }
-    },
-  },
-  created() {
-    // 关闭窗口时执行
-    window.onbeforeunload = () => {
-      // 缓存历史记录
-      window.localStorage.setItem('history', JSON.stringify(this.histories))
-    }
-  },
-  computed: {
-    loggedIn() {
-      return useUserStore().loggedIn
-    },
-    defaultRoute() {
-      return useUserStore().defaultRoute
-    },
-    ...mapGetters(useUserStore, ['getStageByRoute', 'getStageByName', 'stageList']),
-  },
-  mounted() {
-    this.init()
-    emitter.on('clearTap', () => {
-      this.histories = []
-    })
-  },
-  methods: {
-    init() {
-      const histories = []
+defineOptions({
+  name: 'ReuseTabBar',
+})
 
-      // 获取当前的历史记录, 可能从本地存储, 可能直接获取当前的
-      let localHistory
-      if (this.histories.length > 0) {
-        localHistory = [...this.histories]
-      } else {
-        localHistory = window.localStorage.getItem('history') || '[]'
-        localHistory = JSON.parse(localHistory)
-      }
+const { currentRoute, navigate, getStageByName, getStageByRoute, defaultRoute, loggedIn, permissionStageConfig } =
+  defineProps({
+    currentRoute: {
+      type: Object,
+      required: true,
+    },
+    navigate: {
+      type: Function,
+      required: true,
+    },
+    getStageByName: {
+      type: Function,
+      required: true,
+    },
+    getStageByRoute: {
+      type: Function,
+      required: true,
+    },
+    defaultRoute: {
+      type: String,
+      required: true,
+    },
+    loggedIn: {
+      type: Boolean,
+      required: true,
+    },
+    permissionStageConfig: {
+      type: Array,
+      default: () => [],
+    },
+  })
 
-      localHistory.forEach(item => {
-        let findResult
-        if (item.name) {
-          findResult = this.getStageByName(item.name)
-        } else {
-          findResult = this.getStageByRoute(item.routePath)
-        }
-        if (!findResult) {
-          return
-        }
+const emit = defineEmits(['historyCountChange'])
+const reuseTabRef = useTemplateRef('reuseTabRef')
+const swiperModules = [FreeMode, Mousewheel]
+const storedHistories = useLocalStorage('history', [])
 
-        histories.push({ ...item, stageId: findResult.name })
-        this.histories = histories
-      })
-    },
-    filterIcon(icon) {
-      if (!icon) {
-        return false
-      }
-      return icon.indexOf('/') !== -1
-    },
-    closeAll() {
-      this.histories = []
-      this.$router.push(this.defaultRoute)
-    },
-    closeOthers() {
-      this.$router.push(this.histories[this.index].path)
-      this.histories = []
-    },
-    closeLeft() {
-      this.histories.splice(0, this.index)
-    },
-    closeRight() {
-      this.histories.splice(this.index + 1, this.histories.length - this.index - 1)
-    },
-    onTags(index, event) {
-      this.closeMenu()
-      const menuMinWidth = 126
-      const offsetLeft = this.$el.getBoundingClientRect().left
-      const { offsetWidth } = this.$el
-      const maxLeft = offsetWidth - menuMinWidth
-      const left = event.clientX - offsetLeft + 15
-
-      if (left > maxLeft) {
-        this.left = maxLeft
-      } else {
-        this.left = left
-      }
-
-      if (index === 0) {
-        this.hasLeft = false
-      }
-
-      if (index + 1 === this.histories.length) {
-        this.hasRight = false
-      }
-
-      this.top = 18
-      this.index = index
-      this.visible = true
-    },
-    closeMenu() {
-      this.visible = false
-      this.hasLeft = true
-      this.hasRight = true
-    },
-    close(index) {
-      // 检测是否是当前页, 如果是当前页则自动切换路由
-      if (this.$route.path === this.histories[index].path) {
-        if (index > 0) {
-          this.$router.push(this.histories[index - 1].path)
-        } else if (this.histories.length > 1) {
-          this.$router.push(this.histories[1].path)
-        } else {
-          this.$router.push(this.defaultRoute)
-        }
-      }
-      // 删除该历史记录
-      this.histories.splice(index, 1)
-      this.histories = [...this.histories]
-    },
-  },
+function handleHistoryCountChange(count) {
+  emit('historyCountChange', count)
 }
+
+const {
+  clearTabs,
+  close,
+  closeAll,
+  closeLeft,
+  closeOthers,
+  closeRight,
+  contextMenuStyle,
+  hasLeft,
+  hasRight,
+  openContextMenu,
+  resolvedHistories,
+  visible,
+} = useReuseTab({
+  currentRoute,
+  navigate,
+  getStageByName,
+  getStageByRoute,
+  defaultRoute: () => defaultRoute,
+  loggedIn: () => loggedIn,
+  permissionStageConfig: () => permissionStageConfig,
+  storedHistories,
+  reuseTabRef,
+  emitHistoryCountChange: handleHistoryCountChange,
+})
+
+const showReuseTabBar = computed(() => shouldShowReuseTabBar(resolvedHistories.value))
+
+function getItemClass(path) {
+  return getReuseTabItemClass({
+    currentPath: currentRoute.path,
+    historyPath: path,
+  })
+}
+
+function getHistoryIconSource(icon) {
+  return getLayoutIconSource(icon)
+}
+
+function showHistoryImageIcon(icon) {
+  return shouldUseImageIcon(icon)
+}
+
+defineExpose({
+  clearTabs,
+})
 </script>
 
 <style lang="scss" scoped>
@@ -257,11 +188,21 @@ export default {
     position: relative;
     white-space: nowrap;
 
-    > i {
+    &__icon {
       color: $theme;
+      width: 16px;
+      height: 16px;
     }
 
-    .el-icon-close {
+    &__image-icon {
+      width: 16px;
+    }
+
+    &__title {
+      padding: 0 5px;
+    }
+
+    .reuse-tab-close {
       opacity: 0;
       position: absolute;
     }
@@ -271,11 +212,11 @@ export default {
       border: none;
       color: #fff;
 
-      > i {
+      .reuse-tab-item__icon {
         color: #fff;
       }
 
-      .el-icon-close {
+      .reuse-tab-close {
         position: absolute;
         display: inline-block;
         width: 14px;
@@ -285,13 +226,6 @@ export default {
         opacity: 1;
         border-radius: 0 0 0 14px;
         background: rgba(255, 255, 255, 0.3);
-
-        &::before {
-          font-size: 12px;
-          position: absolute;
-          right: -1px;
-          transform: scale(0.7);
-        }
       }
     }
   }
@@ -299,16 +233,16 @@ export default {
   .active {
     box-sizing: border-box;
     height: 40px;
-    color: #ffffff;
+    color: #fff;
     background: $theme;
     border: none;
     position: relative;
 
-    > i {
+    .reuse-tab-item__icon {
       color: #fff;
     }
 
-    .el-icon-close {
+    .reuse-tab-close {
       position: absolute;
       display: inline-block;
       width: 14px;
@@ -318,13 +252,6 @@ export default {
       opacity: 1;
       border-radius: 0 0 0 14px;
       background: rgba(255, 255, 255, 0.3);
-
-      &::before {
-        font-size: 12px;
-        position: absolute;
-        right: -1px;
-        transform: scale(0.7);
-      }
     }
   }
 
@@ -332,11 +259,14 @@ export default {
     height: 100%;
   }
 }
+
 .reuse-tab {
   position: relative;
+
   .contextmenu {
     margin: 0;
-    background: #ffffff;
+    background: var(--theme-surface-raised);
+    border: 1px solid var(--theme-border);
     z-index: 3000;
     position: absolute;
     list-style-type: none;
@@ -344,15 +274,17 @@ export default {
     border-radius: 4px;
     font-size: 14px;
     font-weight: 400;
-    color: #596c8e;
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+    color: var(--theme-text-muted);
+    box-shadow: var(--theme-panel-shadow);
+
     li {
       margin: 0;
       padding: 10px 20px;
       cursor: pointer;
+
       &:hover {
-        background: #ebeff8;
-        color: #6182c9;
+        background: var(--theme-primary-soft);
+        color: var(--theme-primary);
       }
     }
   }

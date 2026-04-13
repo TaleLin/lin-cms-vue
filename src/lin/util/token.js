@@ -1,11 +1,58 @@
+import { ref } from 'vue'
+import { defaultWindow } from '@vueuse/core'
+
+const tokenRefs = new Map()
+
+function readStoredToken(tokenKey) {
+  return defaultWindow?.localStorage?.getItem(tokenKey) ?? null
+}
+
+function getTokenRef(tokenKey) {
+  if (!tokenRefs.has(tokenKey)) {
+    tokenRefs.set(tokenKey, ref(readStoredToken(tokenKey)))
+  }
+
+  return tokenRefs.get(tokenKey)
+}
+
+function syncTokenRef(tokenKey, value) {
+  getTokenRef(tokenKey).value = value
+}
+
+function writeStoredToken(tokenKey, value) {
+  if (!value) {
+    defaultWindow?.localStorage?.removeItem(tokenKey)
+    defaultWindow?.sessionStorage?.removeItem(tokenKey)
+    syncTokenRef(tokenKey, null)
+    return
+  }
+
+  defaultWindow?.localStorage?.setItem(tokenKey, value)
+  syncTokenRef(tokenKey, value)
+}
+
+export function normalizeStoredToken(token) {
+  if (typeof token !== 'string') {
+    return ''
+  }
+
+  const trimmedToken = token.trim()
+
+  if (!trimmedToken) {
+    return ''
+  }
+
+  return trimmedToken.startsWith('Bearer ') ? trimmedToken : `Bearer ${trimmedToken}`
+}
+
 /**
  * 存储tokens
  * @param {string} accessToken
  * @param {string} refreshToken
  */
 export function saveTokens(accessToken, refreshToken) {
-  localStorage.setItem('access_token', `Bearer ${accessToken}`)
-  localStorage.setItem('refresh_token', `Bearer ${refreshToken}`)
+  writeStoredToken('access_token', normalizeStoredToken(accessToken))
+  writeStoredToken('refresh_token', normalizeStoredToken(refreshToken))
 }
 
 /**
@@ -13,7 +60,7 @@ export function saveTokens(accessToken, refreshToken) {
  * @param {string} accessToken
  */
 export function saveAccessToken(accessToken) {
-  localStorage.setItem('access_token', `Bearer ${accessToken}`)
+  writeStoredToken('access_token', normalizeStoredToken(accessToken))
 }
 
 /**
@@ -21,13 +68,33 @@ export function saveAccessToken(accessToken) {
  * @param {string} tokenKey
  */
 export function getToken(tokenKey) {
-  return localStorage.getItem(tokenKey)
+  const token = readStoredToken(tokenKey)
+  syncTokenRef(tokenKey, token)
+  return token
+}
+
+export function useTokenRef(tokenKey) {
+  const tokenRef = getTokenRef(tokenKey)
+  const storedToken = readStoredToken(tokenKey)
+
+  if (tokenRef.value !== storedToken) {
+    tokenRef.value = storedToken
+  }
+
+  return tokenRef
+}
+
+export function clearAuthStorage(extraKeys = []) {
+  const keys = ['access_token', 'refresh_token', ...extraKeys]
+
+  keys.forEach(key => {
+    writeStoredToken(key, null)
+  })
 }
 
 /**
  * 移除token
  */
 export function removeToken() {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
+  clearAuthStorage()
 }

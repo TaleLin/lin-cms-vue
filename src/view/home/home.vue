@@ -1,273 +1,239 @@
 <template>
-  <div style="height:100%;">
+  <div class="home-shell" :class="homeShellClasses" :style="homeStyleVars">
     <el-container>
-      <el-aside :width="sidebarWidth" class="aside" :style="asideStyle">
-        <sidebar :isCollapse="isCollapse" :is-phone="isPhone"></sidebar>
+      <el-aside :width="sidebarWidth" class="home-shell__aside">
+        <Sidebar
+          :is-collapse="isDesktopSidebarCollapsed"
+          :is-phone="isPhone"
+          :active-path="route.path"
+          :navigate="navigate"
+          :show-search="showSidebarSearch"
+          :sidebar-list="userStore.sidebarList"
+        />
       </el-aside>
       <el-container>
-        <el-header class="header">
-          <div class="left">
-            <div class="operate" ref="operate">
-              <i class="iconfont icon-fold" :class="{ rotate: foldState }" @click="changeSlidebarState" />
-              <nav-bar></nav-bar>
+        <el-header class="home-shell__header">
+          <div class="home-shell__header-left">
+            <div class="home-shell__header-actions" :class="headerActionsClasses">
+              <el-icon class="home-shell__toggle-icon" :class="toggleIconClasses" @click="toggleSidebar">
+                <Fold />
+              </el-icon>
+              <NavBar
+                :stage-info="currentStageInfo"
+                :messages="messages"
+                :unread-count="unreadCount"
+                :hidden="hidden"
+                :logout="logout"
+                :navigate-to-center="navigateToCenter"
+                :notify-events="notifyEvents"
+                :user-store="userStore"
+                @clearReuseTab="clearReuseTab"
+                @readAll="readAll"
+                @readMessage="readMessage"
+              />
             </div>
-            <el-collapse-transition> <reuse-tab ref="reuse"></reuse-tab> </el-collapse-transition>
+            <el-collapse-transition>
+              <ReuseTab
+                ref="reuseTab"
+                :get-stage-by-name="userStore.getStageByName"
+                :get-stage-by-route="userStore.getStageByRoute"
+                :default-route="userStore.defaultRoute"
+                :logged-in="userStore.loggedIn"
+                :current-route="route"
+                :navigate="navigate"
+                :permission-stage-config="userStore.permissionStageConfig"
+                @historyCountChange="handleHistoryCountChange"
+              />
+            </el-collapse-transition>
           </div>
         </el-header>
-        <el-main ref="main">
-          <menu-tab></menu-tab>
-          <app-main ref="appMain"></app-main>
+        <el-main class="home-shell__main">
+          <MenuTab :stage-info="currentStageInfo" />
+          <AppMain :route-key="route.fullPath" class="home-shell__app-main" />
         </el-main>
-        <back-top :right="50" :bottom="50" :fontSize="34"></back-top>
+        <BackTop :right="backTopProps.right" :bottom="backTopProps.bottom" :font-size="backTopProps.fontSize" />
       </el-container>
-      <div class="sidenav-mask" :class="{ show: isPhone && isCollapse }" @click="changeSlidebarState"></div>
+      <div class="home-shell__sidenav-mask" :class="sidenavMaskClasses" @click="closePhoneSidebar"></div>
     </el-container>
   </div>
 </template>
 
-<script>
-import emitter from 'lin/util/emitter'
+<script setup>
+import { Fold } from '@element-plus/icons-vue'
+import { useWindowSize } from '@vueuse/core'
+import { computed, useTemplateRef } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+import Config from '@/config'
+import { logoutAndRedirectToLogin } from '@/lin/util/session'
+import { useUserStore } from '@/store/modules/user'
 import { NavBar, Sidebar, AppMain, ReuseTab, MenuTab, BackTop } from '@/component/layout'
+import { useNotifyProvider } from '@/component/layout/use-notify-provider'
+import { useLayoutNotify } from '@/component/layout/use-layout-notify'
+import { useHomeLayout } from './use-home-layout'
 
-const navBarHeight = 66 // header高度
-const reuseTabHeight = 70 // 历史记录栏高度
-const marginHeight = 20 // 历史记录栏与舞台的间距
-const sidebarWidth = '210px'
-const totalHeight = navBarHeight + reuseTabHeight + marginHeight
+defineOptions({
+  name: 'HomeLayout',
+})
 
-export default {
-  components: {
-    NavBar,
-    Sidebar,
-    AppMain,
-    ReuseTab,
-    MenuTab,
-    BackTop,
-  },
-  data() {
-    return {
-      isCollapse: false, // 左侧菜单栏是否折叠
-      sidebarWidth, // 左侧菜单栏展开的宽度
-      clientWidth: 0, // 页面宽度
-      clientHeight: 0, // 页面高度
-      foldState: false, // 控制左侧菜单栏按键
-      isPhone: false,
-    }
-  },
-  mounted() {
-    this.setResize()
-    if (this.clientWidth < 500) {
-      this.isPhone = true
-    } else {
-      this.isPhone = false
-      // 检测屏幕宽度, 确定默认是否展开
-      if (this.clientWidth <= 768) {
-        emitter.emit('removeSidebarSearch')
-        this.isCollapse = true
-      } else {
-        this.isCollapse = false
-        emitter.emit('showSidebarSearch')
-      }
-    }
-    // 监测屏幕宽度 折叠左侧菜单栏
-    window.onresize = () => {
-      this.setResize()
-      if (this.clientWidth <= 500) {
-        this.isPhone = true
-      } else if (this.clientWidth <= 800) {
-        this.isPhone = false
-      }
+const userStore = useUserStore()
+const route = useRoute()
+const router = useRouter()
+const windowSize = useWindowSize()
+const reuseTab = useTemplateRef('reuseTab')
+const currentStageInfo = computed(() => userStore.getStageInfo(route.name) || [])
 
-      // if (_this.clientWidth <= 768) {
-      //   // 页面宽度 768
-      //   if (_this.isCollapse === false) {
-      //     _this.eventBus.$emit('removeSidebarSearch')
-      //     _this.isCollapse = true
-      //   }
-      // } else if (_this.isCollapse === true) {
-      //   _this.eventBus.$emit('showSidebarSearch')
-      //   _this.isCollapse = false
-      // }
-    }
-
-    emitter.on('noReuse', () => {
-      this.$refs.operate.style.height = '86px'
-    })
-    emitter.on('hasReuse', () => {
-      this.$refs.operate.style.height = '45px'
-    })
-  },
-  computed: {
-    elMenuCollapse() {
-      if (this.isPhone) {
-        return false
-      }
-
-      return this.isCollapse
-    },
-    asideStyle() {
-      const style = {}
-      if (this.isPhone) {
-        style.position = 'absolute'
-        style.height = `${this.clientHeight}px`
-        style.zIndex = 12
-        if (this.isCollapse === false) {
-          style.transform = `translateX(-${sidebarWidth})`
-        } else {
-          style.transform = 'translateX(0)'
-        }
-      }
-      return style
-    },
-  },
-  methods: {
-    // 控制菜单折叠
-    changeSlidebarState() {
-      this.isCollapse = !this.isCollapse
-      if (this.isCollapse) {
-        emitter.emit('removeSidebarSearch')
-      } else {
-        emitter.emit('showSidebarSearch')
-      }
-      this.foldState = !this.foldState
-    },
-    // 响应页面的宽度高度变化
-    setResize() {
-      this.clientHeight = document.body.clientHeight
-      this.clientWidth = document.body.clientWidth
-      this.$refs.appMain.$el.style.minHeight = `${this.clientHeight - totalHeight + 20}px`
-    },
-  },
-  watch: {
-    isCollapse() {
-      if (this.isPhone) {
-        // 手机模式
-        this.sidebarWidth = sidebarWidth
-        if (this.isCollapse === false) {
-          this.transX = 0
-        } else {
-          this.transX = -1 * sidebarWidth
-        }
-      } else {
-        this.transX = 0
-        this.sidebarWidth = this.isCollapse === false ? sidebarWidth : '64px'
-      }
-    },
-    $route() {
-      this.showBackTop = false
-      if (this.scrollY <= 70) {
-        // MenuTab组件高度
-        this.backTop()
-      }
-      if (this.isPhone && this.isCollapse) {
-        this.changeSlidebarState()
-      }
-    },
-  },
-
-  beforeUnmount() {
-    emitter.off('noReuse')
-    emitter.off('hasReuse')
-  },
+function navigate(path) {
+  router.push(path)
 }
+
+function navigateToCenter() {
+  navigate('/center')
+}
+
+function logout() {
+  void logoutAndRedirectToLogin(userStore, router)
+}
+
+const {
+  isDesktopSidebarCollapsed,
+  isPhone,
+  showSidebarSearch,
+  homeShellClasses,
+  headerActionsClasses,
+  toggleIconClasses,
+  sidenavMaskClasses,
+  homeStyleVars,
+  backTopProps,
+  sidebarWidth,
+  toggleSidebar,
+  closePhoneSidebar,
+  clearReuseTab,
+  handleHistoryCountChange,
+} = useHomeLayout({
+  reuseTabRef: reuseTab,
+  route,
+  windowSize,
+})
+
+const { messages, unreadCount, hidden, readAll, readMessage, createLayoutNotifyEvents } = useLayoutNotify({ userStore })
+const notifyEvents = createLayoutNotifyEvents()
+
+// 局部注册通知连接能力，替代原来的全局 LinNotify 插件
+useNotifyProvider(Config.wsBaseUrl, {
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 3000,
+})
 </script>
 
 <style lang="scss" scoped>
-.aside {
-  background: rgb(25, 42, 94);
-  overflow-x: hidden;
+.home-shell {
+  height: 100%;
 
-  &::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
+  --home-app-main-min-height: 0px;
+  --home-expanded-sidebar-width: 210px;
+  --home-viewport-height: 100vh;
+  --home-header-actions-height: 86px;
+  --home-header-actions-compact-height: 45px;
+
+  &--phone {
+    .home-shell__aside {
+      position: absolute;
+      height: var(--home-viewport-height);
+      z-index: 12;
+      transform: translateX(calc(-1 * var(--home-expanded-sidebar-width)));
+    }
+  }
+
+  &--sidebar-open {
+    .home-shell__aside {
+      transform: translateX(0);
+    }
   }
 }
 
-.header {
+.home-shell__aside {
+  background: var(--theme-sidebar-bg);
+  overflow-x: hidden;
+  transition: transform 0.2s ease;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+}
+
+.home-shell__header {
   padding: 0;
-  background: $header-background;
+  background: var(--theme-header-gradient);
   height: $header-height !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0px 2px 6px 0px rgba(190, 204, 216, 0.4);
-  border-bottom: 1px solid rgba(190, 204, 216, 0.4);
+  box-shadow: var(--theme-shadow);
+  border-bottom: 1px solid var(--theme-border);
+}
 
-  .left {
-    height: 100%;
-    width: 100%;
+.home-shell__header-left {
+  height: 100%;
+  width: 100%;
+}
 
-    .operate {
-      display: flex;
-      align-items: center;
-      background: $header-background;
-      padding-left: 20px;
-      height: 86px;
+.home-shell__header-actions {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  padding-left: 20px;
+  height: var(--home-header-actions-height);
 
-      .iconfont {
-        font-size: 16px;
-        font-weight: 500;
-        color: $right-side-font-color;
-        cursor: pointer;
-        transform: rotate(0deg);
-        transition: all 0.3s linear;
-        margin-right: 10px;
-
-        &:hover {
-          color: #3963bc;
-        }
-      }
-
-      .rotate {
-        transform: rotate(180deg);
-        transition: all 0.3s linear;
-      }
-    }
-  }
-
-  .right-info {
-    display: flex;
-    align-items: center;
+  &--compact {
+    height: var(--home-header-actions-compact-height);
   }
 }
 
-.el-main {
+.home-shell__toggle-icon {
+  font-size: 16px;
+  font-weight: 500;
+  color: $right-side-font-color;
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: all 0.3s linear;
+  margin-right: 10px;
+
+  &:hover {
+    color: var(--theme-primary);
+  }
+
+  &--collapsed {
+    transform: rotate(180deg);
+    transition: all 0.3s linear;
+  }
+}
+
+.home-shell__main {
   overflow-y: auto;
   position: relative;
   padding: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 160px), transparent;
 }
 
-.backTop {
-  position: fixed;
-  display: inline-block;
-  text-align: center;
-  cursor: pointer;
-  right: 50px;
-  bottom: 50px;
-  width: 22px;
-  height: 22px;
-  line-height: 22px;
-  border-radius: 50%;
-  z-index: 99;
-  background: #fff;
-
-  .iconfont {
-    font-size: 36px;
-  }
+.home-shell__app-main {
+  min-height: var(--home-app-main-min-height);
 }
 
-.sidenav-mask {
+.home-shell__sidenav-mask {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--theme-menu-mask);
   z-index: 10;
   display: none;
   cursor: pointer;
 
-  &.show {
+  &--visible {
     display: block;
   }
 }

@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 /dist
+/coverage
+/.vite
 /script/.cache
 
 # local env files
@@ -22,3 +24,8 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+/.playwright
+/.codex
+/test-results
+/playwright-report
+/.trae

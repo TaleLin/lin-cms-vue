@@ -1,22 +1,32 @@
+import appConfig from '@/config/index'
 import homeRouter from './home-router'
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    redirect: '/about',
-    component: () => import('@/view/home/home'),
-    children: [...homeRouter],
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/view/login/login'),
-  },
-  {
-    redirect: '/404',
-    path: '/:pathMatch(.*)',
-  },
-]
+export function createAppRoutes({
+  homeRoutes = homeRouter,
+  defaultRoute = appConfig.defaultRoute,
+  rootComponent = () => import('@/view/home/home'),
+  loginComponent = () => import('@/view/login/login'),
+} = {}) {
+  return [
+    {
+      path: '/',
+      name: 'Home',
+      redirect: defaultRoute,
+      component: rootComponent,
+      children: [...homeRoutes],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: loginComponent,
+    },
+    {
+      redirect: '/404',
+      path: '/:pathMatch(.*)',
+    },
+  ]
+}
+
+const routes = createAppRoutes()
 
 export default routes

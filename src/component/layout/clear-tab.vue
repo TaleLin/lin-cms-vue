@@ -1,28 +1,30 @@
 <template>
-  <div title="关闭全部历史记录" class="tab" @click="closeReuseTab"><i class="iconfont icon-moshubang"></i></div>
+  <div class="tab" title="关闭全部历史记录" @click="closeReuseTab"><Delete class="tab__icon" /></div>
 </template>
 
-<script>
-import emitter from 'lin/util/emitter'
+<script setup>
+import { Delete } from '@element-plus/icons-vue'
 
-export default {
-  name: 'CloseTab',
-  methods: {
-    closeReuseTab() {
-      emitter.emit('clearTap')
-    },
-  },
+const emit = defineEmits(['clear'])
+
+function closeReuseTab() {
+  emit('clear')
 }
 </script>
 
 <style lang="scss" scoped>
 .tab {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  margin-right: 10px;
-  i {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
+
+  .tab__icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
   }
 }
 </style>

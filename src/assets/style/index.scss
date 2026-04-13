@@ -1,19 +1,20 @@
 @use './realize/reset';
 @use './realize/animation';
-@use './realize/transition';
 
 .lin-container {
   .el-divider--horizontal {
-    margin:0px;
+    margin: 0;
   }
+
   .lin-title {
     height: 59px;
     line-height: 59px;
     color: $parent-title-color;
     font-size: 16px;
     font-weight: 500;
+    font-family: var(--theme-font-display);
     text-indent: 40px;
-    border-bottom: 1px solid #dae1ed;
+    border-bottom: 1px solid $table-border-color;
   }
 
   .lin-wrap {

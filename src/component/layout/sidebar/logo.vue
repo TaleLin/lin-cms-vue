@@ -1,27 +1,36 @@
 <template>
-  <div :class="!elMenuCollapse ? 'logo' : 'mobile-logo'">
-    <img :src="!elMenuCollapse ? logo : mobileLogo" alt="logo" />
+  <div :class="logoDisplay.className">
+    <img :src="logoDisplay.src" alt="logo" />
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from 'vue'
 import logo from 'assets/image/logo.png'
 import mobileLogo from 'assets/image/mobile-logo.png'
 
-export default {
-  props: {
-    elMenuCollapse: {
-      type: Boolean,
-      required: true,
-    },
+defineOptions({
+  name: 'SidebarLogo',
+})
+
+const { elMenuCollapse } = defineProps({
+  elMenuCollapse: {
+    type: Boolean,
+    required: true,
   },
-  data() {
-    return {
-      logo,
-      mobileLogo
-    }
-  },
-}
+})
+
+const logoDisplay = computed(() =>
+  elMenuCollapse
+    ? {
+        className: 'mobile-logo',
+        src: mobileLogo,
+      }
+    : {
+        className: 'logo',
+        src: logo,
+      },
+)
 </script>
 
 <style lang="scss" scoped>
@@ -33,8 +42,7 @@ export default {
   align-items: center;
   font-size: 30px;
   color: #fff;
-  transition: all 0.5s ease-in-out;
-  background-color: #122150;
+  background-color: var(--theme-sidebar-panel);
   transition: all 0.3s linear;
   position: sticky;
   top: 0;
@@ -52,7 +60,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #122150;
+  background-color: var(--theme-sidebar-panel);
   transition: all 0.3s linear;
 
   img {

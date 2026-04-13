@@ -1,52 +1,90 @@
 import { ElMessage } from 'element-plus'
 
-// import EventSourcePolyfill from 'event-source-polyfill'
+import { EventSourcePolyfill } from 'event-source-polyfill'
 import 'event-source-polyfill/src/eventsource'
-import { getToken } from './cookie'
-import store from '../../store'
 
-export default class Sse {
-  source = null
+import pinia from '@/store'
+import { useUserStore } from '@/store/modules/user'
+import { getToken } from './token'
 
-  /**
-   * 需在vuex中确认有user对象后才能初始化，否则不连接服务器
-   * 注意： sse单独走自己的请求路线，不与axios重合，所以axios里面的配置在此处失效
-   * @param {string} url sse全路径
-   * @param {Array} events 当前用户可监听的路径
-   */
-  constructor(url, events) {
-    /* eslint-disable no-undef */
-    console.log(url, events)
-    this.source = new EventSourcePolyfill(url, {
+export function parseEventPayload(event) {
+  if (!event?.data) {
+    return null
+  }
+
+  try {
+    return JSON.parse(event.data)
+  } catch (_error) {
+    return null
+  }
+}
+
+export function createSseConnection(
+  url,
+  events = [],
+  {
+    accessToken = getToken('access_token'),
+    eventSourceFactory = (sourceUrl, sourceOptions) => new EventSourcePolyfill(sourceUrl, sourceOptions),
+    message = ElMessage,
+    onError = null,
+    onOpen = null,
+    userStore = useUserStore(pinia),
+  } = {},
+) {
+  const state = {
+    message,
+    onError,
+    onOpen,
+    source: eventSourceFactory(url, {
       headers: {
-        Authorization: getToken('access_token'),
+        Authorization: accessToken,
       },
-    })
-    this.open()
-
-    events.forEach(event => {
-      this.addEventListener(event)
-    })
+    }),
+    userStore,
   }
 
-  open() {
-    this.source.onopen = event => {
-      console.log('sse opened', event)
+  function open() {
+    state.source.onopen = event => {
+      state.onOpen?.(event)
     }
   }
 
-  error() {
-    this.source.onerror = event => {
-      console.log('error', event)
+  function error() {
+    state.source.onerror = event => {
+      state.onError?.(event)
     }
   }
 
-  addEventListener(eventName) {
-    this.source.addEventListener(eventName, event => {
-      // console.log('receive one message: ', event.data)
-      // console.log('receive one message: ', event.lastEventId)
-      store.commit('MARK_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
-      ElMessage.warning(JSON.parse(event.data).message)
+  function addEventListener(eventName) {
+    state.source.addEventListener(eventName, event => {
+      const payload = parseEventPayload(event)
+
+      if (!payload) {
+        return
+      }
+
+      state.userStore?.markUnreadMessage?.({
+        ...payload,
+        id: event.lastEventId,
+        is_read: false,
+      })
+
+      if (typeof payload.message === 'string' && payload.message) {
+        state.message?.warning?.(payload.message)
+      }
     })
+  }
+
+  open()
+  error()
+  events.forEach(addEventListener)
+
+  return {
+    addEventListener,
+    error,
+    open,
+    get source() {
+      return state.source
+    },
   }
 }

@@ -7,7 +7,7 @@ const validateSemver = (range1, range2) => {
   }
   // 都是指定版本
   if (semver.valid(range1) && semver.valid(range2)) {
-    return (semver.coerce(range1) === semver.coerce(range2))
+    return semver.coerce(range1) === semver.coerce(range2)
   }
 
   // 都是范围

@@ -1,74 +1,89 @@
 <template>
   <div class="app-sidebar">
-    <logo :elMenuCollapse="elMenuCollapse" />
-    <div style="margin-bottom:50px">
-      <search></search>
+    <Logo :elMenuCollapse />
+    <div class="sidebar-content">
+      <Search v-if="showSidebarContent" :navigate="navigate" :sidebar-list="sidebarList" :visible="showSearch" />
       <el-menu
-        ref="meun"
-        class="el-menu-vertical-demo"
-        :default-active="defaultActive"
+        v-if="showSidebarContent"
         :collapse="elMenuCollapse"
-        background-color="#192A5E"
-        text-color="rgba(196,201,210,1)"
-        active-text-color="#1890ff"
+        :default-active="defaultActive"
+        active-text-color="var(--theme-sidebar-active-text)"
+        background-color="var(--theme-sidebar-bg)"
+        class="el-menu-vertical-demo"
+        text-color="var(--theme-sidebar-text)"
       >
-        <menu-tree v-for="item in sidebarList" :key="item.path" :item="item"></menu-tree>
+        <MenuTree v-for="item in sidebarList" :key="item.path" :item="item" :navigate="navigate" />
       </el-menu>
     </div>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'pinia'
-import { useUserStore } from '@/store/modules/user'
+<script setup>
+import { computed } from 'vue'
 
 import Logo from './logo'
 import Search from './search'
 import MenuTree from './menu-tree'
+import { hasSidebarItems, resolveSidebarMenuCollapse } from './sidebar-helpers'
 
-export default {
-  components: { MenuTree, Logo, Search },
-  props: {
-    isPhone: {
-      type: Boolean,
-      default: false,
-    },
-    isCollapse: {
-      type: Boolean,
-      default: false,
-    },
+defineOptions({
+  name: 'AppSidebar',
+})
+
+const { isPhone, isCollapse, showSearch, sidebarList, activePath, navigate } = defineProps({
+  isPhone: {
+    type: Boolean,
+    default: false,
   },
-  computed: {
-    elMenuCollapse() {
-      if (this.isPhone) {
-        return false
-      }
-      return this.isCollapse
-    },
-    /**
-     * 根据当前路由设置激活侧边栏
-     */
-    defaultActive() {
-      const route = this.$route
-      return route.path
-    },
-    ...mapGetters(useUserStore, ['sidebarList']),
+  isCollapse: {
+    type: Boolean,
+    default: false,
   },
-}
+  showSearch: {
+    type: Boolean,
+    default: true,
+  },
+  sidebarList: {
+    type: Array,
+    default: () => [],
+  },
+  activePath: {
+    type: String,
+    default: '',
+  },
+  navigate: {
+    type: Function,
+    required: true,
+  },
+})
+
+const elMenuCollapse = computed(() =>
+  resolveSidebarMenuCollapse({
+    isPhone,
+    isCollapse,
+  }),
+)
+
+const showSidebarContent = computed(() => hasSidebarItems(sidebarList))
+const defaultActive = computed(() => activePath)
 </script>
 
 <style lang="scss" scoped>
 ::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
+  width: 0;
+  height: 0;
 }
 
 .app-sidebar {
-  background: #192a5e;
+  background: var(--theme-sidebar-bg);
 
   &::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
   }
+}
+
+.sidebar-content {
+  margin-bottom: 50px;
 }
 </style>

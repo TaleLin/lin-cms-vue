@@ -1,32 +1,66 @@
 <template>
   <div class="log">
-    <sticky-top>
+    <StickyTop>
       <div class="log-header">
-        <div class="header-left"><p class="title">日志信息</p></div>
+        <div class="header-left">
+          <p class="title">日志信息</p>
+        </div>
         <div class="header-right" v-permission="'搜索日志'">
-          <lin-search @query="onQueryChange" ref="searchKeywordDom" />
-          <el-dropdown style="margin: 0 10px" @command="handleCommand" v-permission="'查询日志记录的用户'">
-            <el-button>
-              {{ searchUser ? searchUser : '全部人员' }} <i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
-                <el-dropdown-item
-                  icon="el-icon-user-solid"
-                  v-for="(user, index) in users.items"
-                  :key="index"
-                  :command="[user]"
-                  >{{ user }}
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <lin-date-picker @dateChange="handleDateChange" ref="searchDateDom" class="date"> </lin-date-picker>
+          <div class="filter-toolbar">
+            <div class="keyword-field">
+              <el-input
+                v-model="searchKeywordInput"
+                class="keyword-search"
+                clearable
+                placeholder="搜索关键词"
+                @clear="clearKeywordSearch"
+                @keyup.enter="submitKeywordSearch"
+              >
+                <template #suffix>
+                  <el-icon class="el-input__icon" @click="submitKeywordSearch">
+                    <Search />
+                  </el-icon>
+                </template>
+              </el-input>
+            </div>
+            <div class="user-field" v-permission="'查询日志记录的用户'">
+              <el-dropdown class="user-filter" @command="handleCommand">
+                <el-button class="filter-button">
+                  {{ searchUser ? searchUser : '全部人员' }}
+                  <el-icon class="el-icon--right">
+                    <ArrowDown />
+                  </el-icon>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
+                    <el-dropdown-item v-for="user in users.items" :key="user" :command="[user]">
+                      <el-icon><UserFilled /></el-icon>
+                      {{ user }}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+            <div class="date-field">
+              <el-date-picker
+                v-model="selectedDateRange"
+                class="date"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="right"
+                popper-class="date-box"
+                :default-time="datePickerDefaultTime"
+                :shortcuts="datePickerShortcuts"
+              />
+            </div>
+          </div>
         </div>
       </div>
-      <el-divider v-if="!keyword"></el-divider>
-    </sticky-top>
+      <el-divider v-if="!keyword" class="header-divider"></el-divider>
+    </StickyTop>
     <transition name="fade">
       <div class="search" v-if="keyword">
         <p class="search-tip">
@@ -41,9 +75,16 @@
         <section v-for="log in logs" :key="log.id">
           <span class="point-time"></span>
           <aside>
-            <p class="things" v-html="log.message"></p>
+            <p class="things">
+              <template
+                v-for="(segment, index) in log.messageSegments || [{ text: log.message, highlighted: false }]"
+                :key="`${log.id}-${index}`"
+              >
+                <span :class="{ strong: segment.highlighted }">{{ segment.text }}</span>
+              </template>
+            </p>
             <p class="brief">
-              <span class="text-yellow">{{ log.username }}</span> {{ $filters.dateTimeFormatter(log.time) }}
+              <span class="text-yellow">{{ log.username }}</span> {{ filters.dateTimeFormatter(log.time) }}
             </p>
           </aside>
         </section>
@@ -53,9 +94,11 @@
         <div v-if="logs?.length">
           <el-divider></el-divider>
           <div class="more" :class="{ nothing: finished }">
-            <i v-if="more" class="iconfont icon-loading"></i>
+            <el-icon v-if="more" class="more-loading is-loading">
+              <Loading />
+            </el-icon>
             <div v-show="!more && !finished" @click="nextPage">
-              <span>查看更多</span> <i class="iconfont icon-gengduo" style="font-size: 14px"></i>
+              <span>查看更多</span> <el-icon class="more-icon"><MoreFilled /></el-icon>
             </div>
             <div v-if="finished">
               <span>{{ totalCount === 0 ? '暂无数据' : '没有更多数据了' }}</span>
@@ -68,276 +111,125 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ArrowDown, Loading, MoreFilled, Search, UserFilled } from '@element-plus/icons-vue'
+
+import StickyTop from '@/component/base/sticky-top/sticky-top'
+import { filters } from '@/lin/filter'
 import { useUserStore } from '@/store/modules/user'
-import { computed, ref, reactive, watch, onMounted, toRefs } from 'vue'
 
-import logModel from 'lin/model/log'
-import { searchLogKeyword } from 'lin/util/search'
-import LinSearch from '@/component/base/search/lin-search'
-import LinDatePicker from '@/component/base/date-picker/lin-date-picker'
+import { useLog } from './use-log'
 
-export default {
-  components: {
-    LinSearch,
-    LinDatePicker,
-  },
-  setup() {
-    // originally data properties
-    const userStore = useUserStore()
-    const user = computed(() => userStore.user)
-    const permissions = computed(() => userStore.permissions)
+defineOptions({
+  name: 'LogView',
+})
 
-    const count = 10
-    const logs = ref([])
-    const users = ref([])
-    const loading = ref(false)
-    const isSearch = ref(false)
-    const finished = ref(false)
-    const searchDateDom = ref()
-    const searchKeywordDom = ref()
-
-    /**
-     * Part 1
-     * 日志页面初始化
-     */
-    const initPage = async () => {
-      try {
-        loading.value = true
-        if (user.value.admin || permissions.value.includes('查询日志记录的用户')) {
-          users.value = await logModel.getLoggedUsers({})
-        }
-        const res = await logModel.getLogs({ page: 0, count })
-        logs.value = res.items
-        loading.value = false
-      } catch (err) {
-        loading.value = false
-        console.error(err.data)
-      }
-    }
-    onMounted(async () => {
-      await initPage()
-    })
-
-    /**
-     * Part 2
-     * 根据调解筛选查询日志
-     */
-    const search = reactive({
-      keyword: '',
-      searchUser: '',
-      searchKeyword: '',
-      searchDate: [],
-      totalCount: 0,
-    })
-
-    const onQueryChange = query => {
-      search.searchKeyword = query.trim()
-    }
-    const handleDateChange = date => {
-      search.searchDate = date
-    }
-    const handleCommand = currentUser => {
-      search.searchUser = currentUser[0] // eslint-disable-line
-    }
-    // 条件检索
-    const searchPage = async () => {
-      logs.value = []
-      loading.value = true
-      search.totalCount = 0
-      finished.value = false
-      const name = search.searchUser === '全部人员' ? '' : search.searchUser
-
-      const res = await logModel.searchLogs({
-        page: 0, // 初始化
-        keyword: search.searchKeyword,
-        name,
-        start: search.searchDate[0],
-        end: search.searchDate[1],
-      })
-      if (res) {
-        let searchLogs = res.items
-        search.totalCount = res.total
-        if (search.searchKeyword) {
-          searchLogs = searchLogKeyword(search.searchKeyword, searchLogs)
-        }
-        logs.value = searchLogs
-      } else {
-        finished.value = true
-      }
-      isSearch.value = true
-      loading.value = false
-    }
-
-    watch(
-      () => search.searchKeyword,
-      newKeyword => {
-        // 关键字搜索
-        if (newKeyword) {
-          search.keyword = newKeyword
-          if (search.searchUser) {
-            search.keyword = `${search.searchUser} ${newKeyword}`
-          }
-          if (search.searchDate.length) {
-            search.keyword = `${search.searchUser} ${newKeyword} ${search.searchDate[0]}至${search.searchDate[1]}`
-          }
-        } else {
-          search.keyword = ''
-          if (search.searchUser) {
-            search.keyword = `${search.searchUser}`
-          }
-          if (search.searchDate.length) {
-            search.keyword = `${search.searchUser} ${search.searchDate[0]}至${search.searchDate[1]}`
-          }
-          searchKeywordDom.value.clear()
-        }
-        searchPage()
-      },
-      { lazy: true },
-    )
-
-    watch(
-      () => search.searchUser,
-      newUser => {
-        // 用户搜索
-        search.keyword = newUser
-        if (search.searchKeyword) {
-          search.keyword = `${newUser} ${search.searchKeyword}`
-        }
-        if (search.searchDate.length) {
-          search.keyword = `${newUser} ${search.searchKeyword} ${search.searchDate[0]}至${search.searchDate[1]}`
-        }
-        searchPage()
-      },
-      { lazy: true },
-    )
-
-    watch(
-      () => search.searchDate,
-      newDate => {
-        if (newDate?.length) {
-          search.keyword = `${newDate[0]}至${newDate[1]}`
-          if (search.searchUser) {
-            search.keyword = `${search.searchUser} ${newDate[0]}至${newDate[1]}`
-          }
-          if (search.searchKeyword) {
-            search.keyword = `${search.searchUser} ${search.searchKeyword} ${newDate[0]}至${newDate[1]}`
-          }
-        } else {
-          search.keyword = ''
-          isSearch.value = false
-          if (search.searchUser) {
-            search.keyword = `${search.searchUser}`
-          }
-          if (search.searchKeyword) {
-            search.keyword = `${search.searchUser} ${search.searchKeyword}`
-          }
-          searchDateDom.value.clear()
-        }
-        searchPage()
-      },
-      { lazy: true },
-    )
-
-    const backInit = async () => {
-      search.searchUser = ''
-      search.searchKeyword = ''
-      search.searchDate = []
-      search.keyword = ''
-      search.totalCount = 0
-      logs.value = []
-      isSearch.value = false
-      await initPage()
-    }
-
-    /**
-     * Part 3
-     * 翻页处理
-     */
-    const more = ref(false)
-    const nextPage = async () => {
-      more.value = true
-      let res
-      try {
-        if (isSearch.value) {
-          res = await logModel.moreSearchPage()
-        } else {
-          res = await logModel.moreLogPage()
-        }
-
-        let moreLogs = res.items
-        if (!moreLogs.length) {
-          finished.value = true
-        } else {
-          if (isSearch.value && search.searchKeyword) {
-            moreLogs = await searchLogKeyword(search.searchKeyword, moreLogs)
-          }
-          logs.value = logs.value.concat(moreLogs)
-        }
-
-        more.value = false
-      } catch (error) {
-        console.error('error', error)
-
-        if (error.data.code === 10020) {
-          finished.value = true
-        }
-        more.value = false
-      }
-    }
-
-    return {
-      users,
-      logs,
-      more,
-      count,
-      loading,
-      finished,
-      backInit,
-      nextPage,
-      isSearch,
-      onQueryChange,
-      handleCommand,
-      searchDateDom,
-      handleDateChange,
-      searchKeywordDom,
-      ...toRefs(search),
-    }
-  },
-}
+const userStore = useUserStore()
+const {
+  backInit,
+  count,
+  clearKeywordSearch,
+  datePickerDefaultTime,
+  datePickerShortcuts,
+  finished,
+  handleCommand,
+  keyword,
+  loading,
+  logs,
+  more,
+  nextPage,
+  searchKeywordInput,
+  searchUser,
+  selectedDateRange,
+  submitKeywordSearch,
+  totalCount,
+  users,
+} = useLog({
+  userStore,
+})
 </script>
 
 <style lang="scss" scoped>
-.log :v-deep(.el-button) {
+.log ::v-deep(.el-button) {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.log ::v-deep(.keyword-search .el-input__suffix) {
+  cursor: pointer;
+}
+
+.log ::v-deep(.keyword-search .el-input__wrapper),
+.log ::v-deep(.filter-button),
+.log ::v-deep(.date .el-input__wrapper) {
+  min-height: 42px;
+  border-radius: 14px;
+}
+
+.log ::v-deep(.date .el-range-separator) {
+  color: #8c98ae;
+}
+
 .log {
   .log-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 16px 24px;
     padding: 0 20px;
-    margin-bottom: -24px;
+    align-items: center;
+    min-height: 59px;
 
     .header-left {
-      float: left;
-
       .title {
-        height: 59px;
-        line-height: 59px;
-        color: #4c76af;
+        margin: 0;
+        color: $parent-title-color;
         font-size: 16px;
         font-weight: 500;
+        line-height: 1.5;
       }
     }
 
     .header-right {
-      float: right;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      min-width: 0;
+      justify-self: end;
     }
+  }
+
+  .filter-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .keyword-search,
+  .user-filter,
+  .date {
+    width: 100%;
+  }
+
+  .keyword-field {
+    width: min(320px, 100%);
+  }
+
+  .user-field {
+    width: 160px;
+    flex: 0 0 160px;
+  }
+
+  .date-field {
+    width: min(320px, 100%);
+  }
+
+  .filter-button {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .header-divider {
+    margin: 0;
   }
 
   .search {
@@ -438,17 +330,20 @@ export default {
         }
 
         .text-yellow {
+          display: inline-flex;
+          align-items: center;
           color: #8c98ae;
           font-size: 14px;
           line-height: 20px;
-          padding-right: 30px;
-          float: left;
         }
 
         .brief {
+          display: flex;
+          align-items: center;
+          gap: 30px;
+          flex-wrap: wrap;
           font-size: 14px;
           color: #c4c9d2;
-          height: 20px;
           line-height: 20px;
         }
       }
@@ -462,23 +357,24 @@ export default {
     font-size: 14px;
     margin-left: 28px;
     cursor: pointer;
+
     &.nothing {
       cursor: text;
     }
 
-    .icon-gengduo {
-      display: inline;
+    .more-icon {
+      display: inline-flex;
       margin-left: 6px;
+      font-size: 14px;
     }
 
-    .icon-loading {
-      &:before {
-        display: inline-block;
-        animation: spin 1s linear infinite;
-      }
+    .more-loading {
+      display: inline-flex;
+      font-size: 16px;
     }
   }
 }
+
 .nothing {
   color: #45526b;
   font-size: 14px;
@@ -494,9 +390,52 @@ export default {
   }
 }
 
-@media screen and (max-width: 1000px) {
-  .date {
-    display: none;
+@media screen and (width <= 1000px) {
+  .log {
+    .log-header {
+      grid-template-columns: 1fr;
+      padding: 12px 20px 0;
+      align-items: start;
+    }
+
+    .filter-toolbar {
+      justify-content: stretch;
+    }
+  }
+}
+
+@media screen and (width <= 680px) {
+  .log {
+    .log-header {
+      padding: 12px 16px 0;
+    }
+
+    .filter-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search {
+      height: auto;
+      padding: 12px 16px;
+      align-items: flex-start;
+      gap: 12px;
+      flex-direction: column;
+
+      .search-tip {
+        margin-left: 0;
+        height: auto;
+        line-height: 1.6;
+      }
+
+      .search-back {
+        margin: 0;
+      }
+    }
+
+    .content {
+      padding: 28px 20px;
+    }
   }
 }
 </style>

@@ -1,211 +1,151 @@
 <template>
-  <div class="user">
+  <div class="user-menu">
     <el-dropdown>
       <span class="el-dropdown-link">
-        <div class="nav-avatar"><img :src="user.avatar || defaultAvatar" alt="头像" /></div>
+        <div class="nav-avatar"><img :src="avatarSrc" alt="头像" /></div>
       </span>
-      <template v-slot:dropdown>
+
+      <template #dropdown>
         <el-dropdown-menu class="user-box">
           <div class="user-info">
             <div class="avatar" title="点击修改头像">
-              <img :src="user.avatar || defaultAvatar" alt="头像" />
+              <img :src="avatarSrc" alt="头像" />
               <label class="mask">
-                <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
-                <input ref="avatarInput" type="file" accept="image/*" @change="fileChange" />
+                <Camera class="mask-icon" />
+                <input
+                  ref="avatarInput"
+                  accept="image/*"
+                  aria-label="上传头像"
+                  type="file"
+                  @change="handleAvatarFileChange"
+                />
               </label>
             </div>
+
             <div class="text">
-              <div class="username" @click="changeNickname" v-if="!nicknameChanged">{{ nickname }}</div>
+              <button v-if="showNicknameDisplay" class="username" type="button" @click="startNicknameEdit">
+                {{ displayNickname }}
+              </button>
               <el-input
+                v-else
+                ref="nicknameInput"
+                v-model="editingNickname"
                 placeholder="请输入内容"
                 size="small"
-                v-else
-                v-model="nickname"
-                ref="input"
-                @blur="blur"
-              ></el-input>
-              <div class="desc" v-if="!nicknameChanged">{{ groupName }}</div>
+                @blur="submitNicknameEdit"
+              />
+              <div v-if="showNicknameDisplay" class="desc">{{ groupName }}</div>
             </div>
-            <img src="../../assets/image/user/corner.png" class="corner" />
+
+            <img class="corner" src="../../assets/image/user/corner.png" alt="" />
           </div>
+
           <ul class="dropdown-box">
-            <li class="password" @click="goToCenter">
-              <i class="iconfont icon-weibaoxitongshangchuanlogo-"></i> <span>个人中心</span>
+            <li class="dropdown-box__item">
+              <button class="dropdown-box__action" type="button" @click="goToCenter">
+                <User class="dropdown-box__icon" /> <span>个人中心</span>
+              </button>
             </li>
-            <li class="account" @click="outLogin"><i class="iconfont icon-tuichu"></i> <span>退出账户</span></li>
+            <li class="dropdown-box__item">
+              <button class="dropdown-box__action" type="button" @click="logout">
+                <SwitchButton class="dropdown-box__icon" /> <span>退出账户</span>
+              </button>
+            </li>
           </ul>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
-    <!-- 修改头像 -->
-    <avatar :originalImage="cropImg" :cropVisible="cropVisible" @switchCropVisible="switchCropVisible"></avatar>
+
+    <Avatar v-model:visible="cropVisible" :original-image="cropImg" :user-store="userStore" />
   </div>
 </template>
 
-<script>
-import User from 'lin/model/user'
-import axios from 'lin/plugin/axios'
-import { mapActions, mapGetters } from 'pinia'
-import { useUserStore } from '@/store/modules/user'
-import defaultAvatar from '@/assets/image/user/user.png'
+<script setup>
+import { Camera, SwitchButton, User } from '@element-plus/icons-vue'
+import { computed, useTemplateRef } from 'vue'
+
 import Avatar from './avatar.vue'
+import defaultAvatar from '@/assets/image/user/user.png'
+import { useUserMenu } from './use-user-menu'
 
-export default {
-  name: 'User',
-  components: { Avatar },
-  data() {
-    return {
-      cropImg: '',
-      defaultAvatar,
-      username: null,
-      nickname: null,
-      groupName: null,
-      cropVisible: false,
-      nicknameChanged: false,
-      dialogFormVisible: false,
-    }
-  },
-  computed: {
-    ...mapGetters(useUserStore, ['user']),
-  },
-  watch: {
-    cropVisible(val) {
-      if (!val) {
-        this.cropImg = ''
-      }
-    },
-  },
-  created() {
-    const userStore = useUserStore()
-    this.nickname = userStore.user?.nickname ? userStore.user.nickname : '佚名'
-    this.username = userStore.user?.username ? userStore.user.username : '未登录'
-  },
-  methods: {
-    ...mapActions(useUserStore, ['loginOut', 'setUserAndState']),
-    fileChange(event) {
-      if (event.target.files.length !== 1) {
-        return
-      }
+defineOptions({
+  name: 'UserMenu',
+})
 
-      const imgFile = event.target.files[0]
-      // 验证文件大小是否符合要求, 不大于 5M
-      if (imgFile.size > 1024 * 1024 * 5) {
-        this.$message.error('文件过大超过5M')
-        // 清空输入框
-        this.clearFileInput(this.$refs.avatarInput)
-        return
-      }
-
-      // 验证图像是否符合要求
-      const imgSrc = window.URL.createObjectURL(imgFile)
-      const image = new Image()
-      image.src = imgSrc
-      image.onload = () => {
-        const w = image.width
-        const h = image.height
-        if (w < 50) {
-          this.$message.error('图像宽度过小, 请选择大于50px的图像')
-          // 清空输入框
-          this.clearFileInput(this.$refs.avatarInput)
-          return
-        }
-        if (h < 50) {
-          this.$message.error('图像高度过小, 请选择大于50px的图像')
-          // 清空输入框
-          this.clearFileInput(this.$refs.avatarInput)
-          return
-        }
-        // 验证通过, 打开裁剪框
-        this.cropImg = imgSrc
-        this.cropVisible = true
-      }
-      image.onerror = () => {
-        this.$message.error('获取本地图片出现错误, 请重试')
-        // 清空输入框
-        this.clearFileInput(this.$refs.avatarInput)
-      }
-    },
-    switchCropVisible(flag) {
-      this.cropVisible = flag
-    },
-    changeNickname() {
-      this.nicknameChanged = true
-      setTimeout(() => {
-        this.$refs.input.focus()
-      }, 200)
-    },
-    async blur() {
-      if (this.nickname) {
-        const userStore = useUserStore()
-        if (this.nickname !== userStore.user.nickname && this.nickname !== '佚名') {
-          axios({
-            method: 'put',
-            url: '/cms/user',
-            data: {
-              nickname: this.nickname,
-            },
-            showBackend: true,
-          })
-            .then(res => {
-              if (res.code < window.MAX_SUCCESS_CODE) {
-                this.$message({
-                  type: 'success',
-                  message: '更新昵称成功',
-                })
-                // 触发重新获取用户信息
-                return User.getInformation()
-              }
-            })
-            .then(res => {
-              this.setUserAndState(res)
-              this.nickname = res.nickname
-            })
-        }
-      }
-      this.nicknameChanged = false
-    },
-    goToCenter() {
-      this.$router.push('/center')
-    },
-    outLogin() {
-      this.loginOut()
-      window.location.reload()
-    },
-    clearFileInput(ele) {
-      ele.value = ''
-    },
+const { logoutAction, navigateToCenter, userStore } = defineProps({
+  logoutAction: {
+    type: Function,
+    required: true,
   },
-}
+  navigateToCenter: {
+    type: Function,
+    required: true,
+  },
+  userStore: {
+    type: Object,
+    required: true,
+  },
+})
+const avatarInput = useTemplateRef('avatarInput')
+const nicknameInput = useTemplateRef('nicknameInput')
+const {
+  avatarSrc,
+  displayNickname,
+  editingNickname,
+  isEditingNickname,
+  groupName,
+  cropImg,
+  cropVisible,
+  handleAvatarFileChange,
+  startNicknameEdit,
+  submitNicknameEdit,
+  goToCenter,
+  logout,
+} = useUserMenu({
+  avatarInput,
+  defaultAvatar,
+  logoutAction,
+  navigateToCenterAction: navigateToCenter,
+  nicknameInput,
+  userStore,
+})
+
+const showNicknameDisplay = computed(() => !isEditingNickname.value)
 </script>
 
 <style lang="scss" scoped>
-.user {
-  height: 40px;
+.user-menu {
+  height: 36px;
+  display: flex;
+  align-items: center;
 
   .el-dropdown-link {
+    display: flex;
+    align-items: center;
     cursor: pointer;
 
     .nav-avatar {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border-radius: 50%;
       overflow: hidden;
-      margin-right: 10px;
     }
   }
 }
 
 .user-box {
   width: 326px;
-  background-color: none;
   background: transparent;
   margin-bottom: 0;
   padding-bottom: 0;
   border: none;
 
   .user-info {
-    background-image: url('../../assets/image/user/user-bg.png');
-    background-size: 100% 100%;
+    background: linear-gradient(135deg, var(--theme-sidebar-panel), var(--theme-sidebar-bg));
+    box-shadow: var(--theme-panel-shadow);
     transform: translateY(-10px);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -216,11 +156,7 @@ export default {
     position: relative;
 
     .corner {
-      position: absolute;
-      right: 18px;
-      top: -9px;
-      width: 27px;
-      height: 10px;
+      display: none;
     }
 
     .avatar {
@@ -246,6 +182,10 @@ export default {
         cursor: pointer;
         color: white;
 
+        .mask-icon {
+          font-size: 20px;
+        }
+
         input {
           display: none;
         }
@@ -266,31 +206,22 @@ export default {
       justify-content: center;
 
       .username {
+        border: none;
+        background: transparent;
+        font: inherit;
+        padding: 0;
         margin-bottom: 10px;
         font-size: 16px;
         height: 32px;
         line-height: 32px;
         cursor: pointer;
+        color: #fff;
+        text-align: left;
       }
 
       .desc {
         font-size: 14px;
         color: rgba(222, 226, 230, 1);
-      }
-    }
-
-    .info {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      display: flex;
-      color: #fff;
-      font-size: 14px;
-      height: 20px;
-      line-height: 20px;
-
-      .mid {
-        padding: 0 5px;
       }
     }
   }
@@ -301,13 +232,17 @@ export default {
     justify-content: space-around;
     padding-left: 35px;
     height: 122px;
-    color: #596c8e;
+    color: var(--theme-text-muted);
     font-size: 14px;
-    background: white;
+    background: var(--theme-surface-raised);
+    border: 1px solid var(--theme-border);
+    border-top: none;
     margin-top: -10px;
+    list-style: none;
 
-    li {
-      cursor: pointer;
+    &__item {
+      margin: 0;
+      padding: 0;
 
       &:nth-child(1) {
         margin-top: 20px;
@@ -316,15 +251,32 @@ export default {
       &:nth-child(2) {
         margin-bottom: 20px;
       }
+    }
 
-      i {
+    &__action {
+      width: 100%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: inherit;
+      font-size: inherit;
+      display: flex;
+      align-items: center;
+      text-align: left;
+      padding: 0;
+
+      .dropdown-box__icon {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+        flex-shrink: 0;
         margin-right: 10px;
       }
 
       &:hover {
         color: $theme !important;
 
-        i {
+        .dropdown-box__icon {
           color: $theme !important;
         }
       }
@@ -332,15 +284,9 @@ export default {
   }
 }
 
-.popper__arrow {
-  display: none !important;
-}
-
 .avatar-croppa-container {
   display: inline-block;
   border-color: #3862bc;
   border-style: dashed;
-  font-size: 0;
-  border-width: 2px;
 }
 </style>

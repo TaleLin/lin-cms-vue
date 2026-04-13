@@ -1,24 +1,21 @@
 <template>
-  <!-- eslint-disable max-len  -->
-  <el-dropdown :trigger="trigger" :placement="placement" :hide-on-click="hideOnClick" style="margin-right: 20px;">
+  <el-dropdown class="notify-dropdown" :trigger :placement :hide-on-click="hideOnClick">
     <div class="notify">
-      <el-badge :value="value" class="item" :hidden="hidden" :max="max" :is-dot="isDot">
-        <i :class="icon"></i>
+      <el-badge :value :hidden :max :is-dot="isDot" class="item">
+        <el-icon>
+          <component :is="icon" />
+        </el-icon>
       </el-badge>
     </div>
     <template #dropdown>
       <el-dropdown-menu>
         <div class="notify-title">
           <p>消息提醒</p>
-          <p class="button" @click="readAll">全部已读</p>
+          <p class="notify-title__action" @click="emit('readAll')">全部已读</p>
         </div>
-        <div class="content" :style="{ 'min-height': height + 'px', 'max-height': height + 'px' }">
-          <div
-            class="css-nomessage"
-            v-if="messages.length === 0"
-            :style="{ 'min-height': height + 'px', 'max-height': height + 'px' }"
-          >
-            <div class="css-sumlaa">
+        <div class="notify-panel" :style="panelStyle">
+          <div v-if="messages.length === 0" class="notify-empty" :style="panelStyle">
+            <div class="notify-empty__state">
               <svg width="150" height="120" viewBox="0 0 150 120" fill="currentColor">
                 <path
                   fill="#EBEEF5"
@@ -28,145 +25,203 @@
               <div>还没有消息</div>
             </div>
           </div>
-          <el-dropdown-item v-for="(msg, index) in messages" :key="index" @click="readMessages(msg, index)">
+          <el-dropdown-item
+            v-for="(msg, index) in messages"
+            :key="resolveMessageKey(msg, index)"
+            @click="emit('readMessage', msg, index)"
+          >
             <slot :row="msg">
-              <p :class="msg[props.is_read] ? 'read-messages' : 'unread-messages'">{{ msg[props.content] }}</p>
-              <div class="sketchynformation">
-                <p class="user">{{ msg[props.user] }}</p>
-                <p class="date-time">{{ msg[props.time] }}</p>
+              <p
+                :class="[
+                  'notify-message',
+                  msg[resolvedFieldMap.is_read] ? 'notify-message--read' : 'notify-message--unread',
+                ]"
+              >
+                {{ msg[resolvedFieldMap.content] }}
+              </p>
+              <div class="notify-message-meta">
+                <p class="user">{{ msg[resolvedFieldMap.user] }}</p>
+                <p class="date-time">{{ msg[resolvedFieldMap.time] }}</p>
               </div>
             </slot>
           </el-dropdown-item>
         </div>
         <div class="notify-footer">
-          <p class="viewAll" @click="viewAll">查看全部 &gt;</p>
+          <p class="notify-footer__action" @click="emit('viewAll')">查看全部 &gt;</p>
         </div>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 
-<script>
-export default {
-  props: {
-    height: {
-      type: [String, Number],
-      default: 200,
-    },
-    trigger: {
-      type: String,
-    },
-    placement: {
-      type: String,
-    },
-    hideOnClick: {
-      type: Boolean,
-    },
-    max: {
-      type: Number,
-    },
-    isDot: Boolean,
-    hidden: {
-      type: Boolean,
-    },
-    value: {
-      type: [String, Number],
-    },
-    icon: {
-      type: String,
-      default: 'el-icon-bell',
-    },
-    props: {
-      default() {
-        return {
-          user: 'user',
-          is_read: 'is_read',
-          content: 'content',
-          time: 'time',
-        }
-      },
-    },
-    messages: {
-      type: Array,
-      default() {
-        return []
-      },
-    },
+<script setup>
+import { computed } from 'vue'
+import { Bell } from '@element-plus/icons-vue'
+
+defineOptions({
+  name: 'LinNotify',
+})
+
+const { height, trigger, placement, hideOnClick, max, isDot, hidden, value, icon, fieldMap, messages } = defineProps({
+  height: {
+    type: [String, Number],
+    default: 200,
   },
-  data() {
-    return {}
+  trigger: {
+    type: String,
   },
-  emits: ['readMessages', 'readAll', 'viewAll'],
-  methods: {
-    readMessages(msg, index) {
-      this.$emit('readMessages', msg, index)
-    },
-    readAll() {
-      this.$emit('readAll')
-    },
-    viewAll() {
-      this.$emit('viewAll')
-    },
+  placement: {
+    type: String,
   },
+  hideOnClick: {
+    type: Boolean,
+  },
+  max: {
+    type: Number,
+  },
+  isDot: Boolean,
+  hidden: {
+    type: Boolean,
+  },
+  value: {
+    type: [String, Number],
+  },
+  icon: {
+    type: [Object, Function],
+    default: () => Bell,
+  },
+  fieldMap: {
+    type: Object,
+    default: null,
+  },
+  messages: {
+    type: Array,
+    default: () => [],
+  },
+})
+
+const DEFAULT_FIELD_MAP = Object.freeze({
+  user: 'user',
+  is_read: 'is_read',
+  content: 'content',
+  time: 'time',
+})
+
+const resolvedFieldMap = computed(() => ({
+  ...DEFAULT_FIELD_MAP,
+  ...(fieldMap || {}),
+}))
+
+const emit = defineEmits(['readMessage', 'readAll', 'viewAll'])
+const panelStyle = computed(() => {
+  const resolvedHeight = normalizePanelHeight(height)
+
+  return {
+    minHeight: resolvedHeight,
+    maxHeight: resolvedHeight,
+  }
+})
+
+function normalizePanelHeight(heightValue) {
+  if (typeof heightValue === 'number') {
+    return `${heightValue}px`
+  }
+
+  if (typeof heightValue === 'string' && /^\d+$/.test(heightValue)) {
+    return `${heightValue}px`
+  }
+
+  return heightValue
+}
+
+function resolveMessageKey(message, fallbackIndex) {
+  return (
+    message?.id ??
+    message?.messageId ??
+    message?.[resolvedFieldMap.value.time] ??
+    `${message?.[resolvedFieldMap.value.content] || 'notify-message'}-${fallbackIndex}`
+  )
 }
 </script>
 
 <style lang="scss" scoped>
+.notify-dropdown {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
 .notify {
-  font-size: 19px;
-  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  border-radius: 50%;
   cursor: pointer;
+
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :deep(.el-badge) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  :deep(.el-icon) {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :deep(.el-badge__content.is-fixed) {
+    transform: translateY(-50%) translateX(100%);
+  }
 }
-.content {
+
+.notify-panel {
   overflow-y: auto;
 }
-.css-nomessage {
-  box-sizing: border-box;
-  min-width: 0px;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
+
+.notify-empty {
   display: flex;
-  margin: 0px;
-  flex: 1 1 0%;
-}
-.css-sumlaa {
   box-sizing: border-box;
-  min-width: 0px;
-  text-align: center;
-  color: rgb(133, 144, 166);
-  margin: 0px;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  flex: 1 1 0;
 }
-.nomessages {
-  padding: 20px 0px;
+
+.notify-empty__state {
+  box-sizing: border-box;
+  min-width: 0;
   text-align: center;
+  color: rgba(133, 144, 166);
+  margin: 0;
 }
-.sketchynformation {
+
+.notify-message-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
 }
-.unread-messages {
-  position: relative;
-  &:before {
-    content: '';
-    position: absolute;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    top: 50%;
-    left: -15px;
-    transform: translateY(-50%);
-    background: #f4516c;
-  }
-}
-.read-messages {
+
+.notify-message {
   position: relative;
 
   &:before {
@@ -178,6 +233,17 @@ export default {
     top: 50%;
     left: -15px;
     transform: translateY(-50%);
+  }
+}
+
+.notify-message--unread {
+  &:before {
+    background: #f4516c;
+  }
+}
+
+.notify-message--read {
+  &:before {
     background: #ebedf2;
   }
 }
@@ -196,7 +262,7 @@ export default {
   min-width: 386px;
   border-bottom: 1px solid #dee2e6;
 
-  .button {
+  &__action {
     font-size: 12px;
     border: 1px solid #596c8e;
     border-radius: 2px;
@@ -207,17 +273,20 @@ export default {
     padding-right: 5px;
   }
 }
+
 .notify-footer {
-  padding: 19px 0px;
+  padding: 19px 0;
   border-top: solid 1px #dee2e6;
-  .viewAll {
+
+  &__action {
     cursor: pointer;
     font-size: 14px;
     text-align: center;
-    font-size: #45526b;
+    color: #45526b;
   }
 }
-.el-dropdown-menu__item {
+
+:deep(.el-dropdown-menu__item) {
   padding: 0 35px;
 }
 </style>

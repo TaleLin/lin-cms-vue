@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href="https://talelin.com/">
     <img width="200" src="https://cdn.talelin.com/lin-cms/cms-log.png">
@@ -17,7 +16,6 @@
 ![](https://img.shields.io/badge/developer-@GongJS-3963bc.svg)
 ![](https://img.shields.io/badge/developer-@quanquan-3963bc.svg)
 
-
 ## Lin CMS 简介
 
 - Lin-CMS 是林间有风团队经过大量项目实践所提炼出的一套**内容管理系统框架**。
@@ -25,12 +23,11 @@
 - Lin-CMS 可以有效的帮助开发者提高 CMS 的开发效率。
 
 - Lin-CMS 是一套前后端完整的解决方案，后端部署请移步：
+  - [lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
 
-    - [lin-cms-koa](https://github.com/TaleLin/lin-cms-koa)
+  - [lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
 
-    - [lin-cms-flask](https://github.com/TaleLin/lin-cms-flask)
-
-    - [lin-cms-spring-boot](https://github.com/TaleLin/lin-cms-spring-boot)
+  - [lin-cms-spring-boot](https://github.com/TaleLin/lin-cms-spring-boot)
 
 ## 注意事项
 
@@ -39,6 +36,7 @@
 2. 当前分支为 Vue3 版本，如需使用 Vue2.x 请切换至 master 分支。
 
 ## 文档资料
+
 ### 文档地址
 
 - [http://doc.cms.talelin.com/](http://doc.cms.talelin.com/)
@@ -92,6 +90,7 @@ npm run serve or yarn (run) serve
 ```
 
 ## 讨论交流
+
 微信公众号搜索：林间有风
 
 QQ群搜索：Lin CMS 官方交流群 或 814597236
@@ -116,6 +115,7 @@ QQ群搜索：Lin CMS 官方交流群 或 814597236
 ### 0.4.1
 
 1. `A` 新增验证码功能，默认关闭验证码
+
 ### 0.4.0
 
 1. `U` 升级到 Vue3 版本
@@ -173,14 +173,14 @@ QQ群搜索：Lin CMS 官方交流群 或 814597236
 1. `U` 首页更新为 card 设计
 2. `A` 新增头像上传
 3. `A` 新增单元测试
-2. `A` 新增switch、rate、tabs、link、tag组件
+4. `A` 新增switch、rate、tabs、link、tag组件
 
 ### 0.1.0-beta.2
 
 1. `F` 修复无感知刷新令牌异常
 2. `A` 新增入场动画
 3. `A` 新增全屏功能
-2. `A` 新增Icon、Form组件
+4. `A` 新增Icon、Form组件
 
 ### 0.1.0-beta.1
 
@@ -192,14 +192,13 @@ QQ群搜索：Lin CMS 官方交流群 或 814597236
 
 1.  `A` 添加插件机制
 2.  `U` 重构路由设计
-2.  `A` 可配置三级路由导航
+3.  `A` 可配置三级路由导航
 
 ### 0.0.1-alpha.2
 
-1.  `U` 升级到 `vue-cli3.4` 
+1.  `U` 升级到 `vue-cli3.4`
 2.  `A` 慕课网专题插件
 
 ### 0.0.1-alpha.1
 
 1.  `A` 初始化内测版
-

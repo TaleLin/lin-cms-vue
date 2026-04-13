@@ -1,29 +1,29 @@
 <template>
-  <div class="nav-title">
-    <a class="item" v-for="(item, index) in titleArr" style="cursor: default;" :key="index">
-      <!-- <i v-if="index===0"
-         :class="item.meta.icon"></i> -->
-      <p>{{ item }}</p>
-    </a>
-  </div>
+  <nav v-if="hasBreadcrumbItems" class="nav-title" aria-label="breadcrumb">
+    <span v-for="item in breadcrumbItems" :key="item.key" class="item">
+      <p>{{ item.title }}</p>
+    </span>
+  </nav>
 </template>
 
-<script>
-import { useUserStore } from '@/store/modules/user'
+<script setup>
+import { computed } from 'vue'
 
-export default {
-  data() {
-    return {}
+import { getBreadcrumbItems } from '@/component/layout/layout-helpers'
+
+defineOptions({
+  name: 'AppBreadcrumb',
+})
+
+const { stageInfo } = defineProps({
+  stageInfo: {
+    type: Array,
+    default: () => [],
   },
-  computed: {
-    stageInfo() {
-      return useUserStore().getStageInfo(this.$route.name)
-    },
-    titleArr() {
-      return this.stageInfo.map(item => item.title).filter(item => !!item)
-    },
-  },
-}
+})
+
+const breadcrumbItems = computed(() => getBreadcrumbItems(stageInfo))
+const hasBreadcrumbItems = computed(() => breadcrumbItems.value.length > 0)
 </script>
 
 <style lang="scss">
@@ -33,15 +33,16 @@ export default {
   font-size: 14px;
 
   .item {
-    i {
-      margin-right: 4px;
-    }
-
     display: flex;
     align-items: center;
     padding-right: 18px;
     position: relative;
     color: $right-side-font-color;
+    cursor: default;
+
+    i {
+      margin-right: 4px;
+    }
 
     &:after {
       content: '/';

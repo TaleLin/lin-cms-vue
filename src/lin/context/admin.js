@@ -1,6 +1,5 @@
 import { provide, ref, inject } from 'vue'
 
-// eslint-disable-next-line symbol-description
 const adminSymbol = Symbol()
 
 export const useAdminProvide = () => {

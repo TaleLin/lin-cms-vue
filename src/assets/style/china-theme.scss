@@ -1,0 +1,396 @@
+// Base system font
+:root {
+  color-scheme: light;
+
+  --theme-font-body:
+    system-ui, -apple-system, blinkmacsystemfont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI',
+    'Microsoft YaHei', sans-serif;
+  --theme-font-display: var(--theme-font-body);
+}
+
+// Shared Element Plus color palette — identical across all light themes
+:root {
+  --el-color-success: #67c23a;
+  --el-color-success-dark-2: #5a9e32;
+  --el-color-success-light-3: #85ce61;
+  --el-color-success-light-5: #a3e07a;
+  --el-color-success-light-7: #c2eb9a;
+  --el-color-success-light-8: #d4f0b5;
+  --el-color-success-light-9: #e6f5d0;
+  --el-color-warning: #e6a23c;
+  --el-color-warning-dark-2: #c88a32;
+  --el-color-warning-light-3: #ebb860;
+  --el-color-warning-light-5: #f1c878;
+  --el-color-warning-light-7: #f7dda3;
+  --el-color-warning-light-8: #f9e8bb;
+  --el-color-warning-light-9: #fcf2d6;
+  --el-color-danger: #f56c6c;
+  --el-color-danger-dark-2: #d45a5a;
+  --el-color-danger-light-3: #f78989;
+  --el-color-danger-light-5: #f9a5a5;
+  --el-color-danger-light-7: #fbc3c3;
+  --el-color-danger-light-8: #fcd8d8;
+  --el-color-danger-light-9: #fdeaea;
+  --el-color-info: #909399;
+  --el-color-info-dark-2: #787878;
+  --el-color-info-light-3: #a6a9ad;
+  --el-color-info-light-5: #b8babd;
+  --el-color-info-light-7: #cbcdd0;
+  --el-color-info-light-8: #d9dbdd;
+  --el-color-info-light-9: #e8e9ea;
+}
+
+// Default theme (lin-classic)
+:root,
+:root[data-china-theme='lin-classic'] {
+  --theme-name: '海月靛青';
+
+  // Custom theme tokens
+  --theme-primary: #355c85;
+  --theme-primary-strong: #24446a;
+  --theme-primary-soft: #e0e8f0;
+  --theme-primary-soft-border: #b8c7d7;
+  --theme-secondary: #90a2b3;
+  --theme-bg: #f3eee6;
+  --theme-surface: #f8f2ea;
+  --theme-surface-raised: #fffaf4;
+  --theme-header-bg: #f5efe6;
+  --theme-main-bg: #ece4d8;
+  --theme-tab-bg: #fcf7f0;
+  --theme-text: #243446;
+  --theme-text-muted: #5a6a7c;
+  --theme-text-soft: #8795a4;
+  --theme-title-color: #32475e;
+  --theme-border: #d3c8ba;
+  --theme-border-strong: #baad9e;
+  --theme-shadow: 0 16px 40px rgba(36, 68, 106, 0.09);
+  --theme-panel-shadow: 0 14px 30px rgba(36, 68, 106, 0.1);
+  --theme-overlay: rgba(17, 29, 45, 0.28);
+  --theme-table-striped: #f5efe8;
+  --theme-table-hover: #e7edf3;
+  --theme-sidebar-bg: #1f3550;
+  --theme-sidebar-panel: #192c44;
+  --theme-sidebar-hover: #28405b;
+  --theme-sidebar-active-bg: #315173;
+  --theme-sidebar-border: #324a68;
+  --theme-sidebar-text: #d6d0c4;
+  --theme-sidebar-active-text: #fffaf3;
+  --theme-sidebar-title: #b6c1ce;
+  --theme-navbar-bg: #ddd3c7;
+  --theme-badge-info-bg: #e5ebf2;
+  --theme-badge-info-border: #8ea7c0;
+  --theme-badge-info-text: #355c85;
+  --theme-menu-mask: rgba(0, 0, 0, 0.3);
+  --theme-page-gradient:
+    radial-gradient(circle at top right, rgba(53, 92, 133, 0.14), transparent 30%),
+    radial-gradient(circle at left 18%, rgba(201, 181, 154, 0.18), transparent 34%),
+    linear-gradient(180deg, #f7f1e9 0%, #ece4d8 100%);
+  --theme-atmosphere:
+    linear-gradient(135deg, rgba(255, 250, 244, 0.58), transparent 42%),
+    radial-gradient(circle at 78% 12%, rgba(53, 92, 133, 0.08), transparent 22%);
+  --theme-header-gradient: linear-gradient(180deg, rgba(255, 250, 244, 0.96), rgba(245, 239, 230, 0.9));
+  --theme-panel-gradient: linear-gradient(180deg, rgba(255, 250, 244, 0.98), rgba(248, 242, 234, 0.94));
+  --theme-panel-highlight: rgba(255, 255, 255, 0.52);
+}
+
+// Theme: book-ink
+:root[data-china-theme='book-ink'] {
+  --theme-name: '茶烟栗褐';
+  --theme-primary: #7a5230;
+  --theme-primary-strong: #5e3d22;
+  --theme-primary-soft: #eadbcf;
+  --theme-primary-soft-border: #d4b9a4;
+  --theme-secondary: #b49b82;
+  --theme-bg: #f4ede4;
+  --theme-surface: #f9f3eb;
+  --theme-surface-raised: #fef9f3;
+  --theme-header-bg: #f6efe6;
+  --theme-main-bg: #ece1d4;
+  --theme-tab-bg: #fcf7f0;
+  --theme-text: #3c2e24;
+  --theme-text-muted: #6b5a4e;
+  --theme-text-soft: #948474;
+  --theme-title-color: #523f31;
+  --theme-border: #d7c7b4;
+  --theme-border-strong: #beab95;
+  --theme-shadow: 0 16px 40px rgba(77, 51, 31, 0.08);
+  --theme-panel-shadow: 0 14px 32px rgba(77, 51, 31, 0.09);
+  --theme-overlay: rgba(32, 22, 16, 0.3);
+  --theme-table-striped: #f4ede5;
+  --theme-table-hover: #efe4d8;
+  --theme-sidebar-bg: #4b3122;
+  --theme-sidebar-panel: #3e281c;
+  --theme-sidebar-hover: #5b3a28;
+  --theme-sidebar-active-bg: #67432d;
+  --theme-sidebar-border: #704932;
+  --theme-sidebar-text: #e1d2c2;
+  --theme-sidebar-active-text: #fffaf4;
+  --theme-sidebar-title: #c5b29d;
+  --theme-navbar-bg: #e3d4c3;
+  --theme-badge-info-bg: #f2e7db;
+  --theme-badge-info-border: #c59b76;
+  --theme-badge-info-text: #7a5230;
+  --theme-menu-mask: rgba(29, 20, 15, 0.34);
+  --theme-page-gradient:
+    radial-gradient(circle at top right, rgba(122, 82, 48, 0.14), transparent 30%),
+    radial-gradient(circle at left 22%, rgba(184, 155, 130, 0.16), transparent 32%),
+    linear-gradient(180deg, #f8f1e8 0%, #ece1d4 100%);
+  --theme-atmosphere:
+    linear-gradient(135deg, rgba(254, 249, 243, 0.55), transparent 44%),
+    radial-gradient(circle at 80% 14%, rgba(122, 82, 48, 0.08), transparent 22%);
+  --theme-header-gradient: linear-gradient(180deg, rgba(254, 249, 243, 0.96), rgba(246, 239, 230, 0.9));
+  --theme-panel-gradient: linear-gradient(180deg, rgba(254, 249, 243, 0.98), rgba(249, 243, 235, 0.94));
+  --theme-panel-highlight: rgba(255, 250, 245, 0.5);
+}
+
+// Theme: palace-vermilion
+:root[data-china-theme='palace-vermilion'] {
+  --theme-name: '绛纱胭脂';
+  --theme-primary: #a64b55;
+  --theme-primary-strong: #883842;
+  --theme-primary-soft: #f1dadf;
+  --theme-primary-soft-border: #d9b2ba;
+  --theme-secondary: #c78f78;
+  --theme-bg: #f4ebe7;
+  --theme-surface: #faf4f1;
+  --theme-surface-raised: #fffaf8;
+  --theme-header-bg: #f7efec;
+  --theme-main-bg: #ede1dc;
+  --theme-tab-bg: #fdf7f5;
+  --theme-text: #3f2a2e;
+  --theme-text-muted: #70575b;
+  --theme-text-soft: #9a8084;
+  --theme-title-color: #563c40;
+  --theme-border: #e0cbc6;
+  --theme-border-strong: #c6a8a1;
+  --theme-shadow: 0 16px 40px rgba(95, 42, 50, 0.09);
+  --theme-panel-shadow: 0 14px 32px rgba(95, 42, 50, 0.1);
+  --theme-overlay: rgba(36, 21, 25, 0.32);
+  --theme-table-striped: #f7efed;
+  --theme-table-hover: #f1e4e0;
+  --theme-sidebar-bg: #5b2f36;
+  --theme-sidebar-panel: #4b262c;
+  --theme-sidebar-hover: #6d3941;
+  --theme-sidebar-active-bg: #7b454d;
+  --theme-sidebar-border: #7f4a53;
+  --theme-sidebar-text: #ecd9d6;
+  --theme-sidebar-active-text: #fff8f6;
+  --theme-sidebar-title: #d4b6b2;
+  --theme-navbar-bg: #e8d7d2;
+  --theme-badge-info-bg: #f5e7e8;
+  --theme-badge-info-border: #cb949c;
+  --theme-badge-info-text: #a64b55;
+  --theme-menu-mask: rgba(32, 18, 22, 0.34);
+  --theme-page-gradient:
+    radial-gradient(circle at top right, rgba(166, 75, 85, 0.14), transparent 30%),
+    radial-gradient(circle at left 20%, rgba(199, 143, 120, 0.14), transparent 34%),
+    linear-gradient(180deg, #f8efeb 0%, #ede1dc 100%);
+  --theme-atmosphere:
+    linear-gradient(135deg, rgba(255, 250, 248, 0.56), transparent 42%),
+    radial-gradient(circle at 78% 14%, rgba(166, 75, 85, 0.08), transparent 22%);
+  --theme-header-gradient: linear-gradient(180deg, rgba(255, 250, 248, 0.96), rgba(247, 239, 236, 0.9));
+  --theme-panel-gradient: linear-gradient(180deg, rgba(255, 250, 248, 0.98), rgba(250, 244, 241, 0.94));
+  --theme-panel-highlight: rgba(255, 252, 251, 0.5);
+}
+
+// Theme: ru-yao-celadon
+:root[data-china-theme='ru-yao-celadon'] {
+  --theme-name: '松岚黛绿';
+  --theme-primary: #48655a;
+  --theme-primary-strong: #344b42;
+  --theme-primary-soft: #d6e3dd;
+  --theme-primary-soft-border: #adc4b9;
+  --theme-secondary: #8ea89b;
+  --theme-bg: #eef0ea;
+  --theme-surface: #f6f8f3;
+  --theme-surface-raised: #fbfdf9;
+  --theme-header-bg: #f1f4ef;
+  --theme-main-bg: #e4e9e2;
+  --theme-tab-bg: #f8fbf7;
+  --theme-text: #263b35;
+  --theme-text-muted: #587169;
+  --theme-text-soft: #7f958e;
+  --theme-title-color: #345048;
+  --theme-border: #cbd7d1;
+  --theme-border-strong: #a7bab2;
+  --theme-shadow: 0 16px 40px rgba(30, 53, 47, 0.08);
+  --theme-panel-shadow: 0 14px 32px rgba(30, 53, 47, 0.09);
+  --theme-overlay: rgba(18, 31, 27, 0.3);
+  --theme-table-striped: #eff4f0;
+  --theme-table-hover: #e2ebe6;
+  --theme-sidebar-bg: #244239;
+  --theme-sidebar-panel: #1d3730;
+  --theme-sidebar-hover: #2e5147;
+  --theme-sidebar-active-bg: #385d53;
+  --theme-sidebar-border: #3f6258;
+  --theme-sidebar-text: #dbe6df;
+  --theme-sidebar-active-text: #f8fcf9;
+  --theme-sidebar-title: #b3c6bc;
+  --theme-navbar-bg: #d6ddd7;
+  --theme-badge-info-bg: #e0ece6;
+  --theme-badge-info-border: #8caca0;
+  --theme-badge-info-text: #48655a;
+  --theme-menu-mask: rgba(16, 28, 24, 0.32);
+  --theme-page-gradient:
+    radial-gradient(circle at top right, rgba(72, 101, 90, 0.14), transparent 28%),
+    radial-gradient(circle at left 18%, rgba(142, 168, 155, 0.14), transparent 34%),
+    linear-gradient(180deg, #f3f6f0 0%, #e4e9e2 100%);
+  --theme-atmosphere:
+    linear-gradient(135deg, rgba(251, 253, 249, 0.56), transparent 42%),
+    radial-gradient(circle at 80% 14%, rgba(72, 101, 90, 0.07), transparent 22%);
+  --theme-header-gradient: linear-gradient(180deg, rgba(251, 253, 249, 0.96), rgba(241, 244, 239, 0.9));
+  --theme-panel-gradient: linear-gradient(180deg, rgba(251, 253, 249, 0.98), rgba(246, 248, 243, 0.94));
+  --theme-panel-highlight: rgba(255, 255, 255, 0.46);
+}
+
+// Dark theme (applies on top of any china-theme)
+:root.dark {
+  --theme-name: '暗色';
+  --theme-primary: #5a8fc7;
+  --theme-primary-strong: #6da0d4;
+  --theme-primary-soft: #1e2a3a;
+  --theme-primary-soft-border: #2d3f56;
+  --theme-secondary: #6b7d8f;
+  --theme-bg: #1a1f28;
+  --theme-surface: #232a35;
+  --theme-surface-raised: #2a323f;
+  --theme-header-bg: #1e242d;
+  --theme-main-bg: #161a22;
+  --theme-tab-bg: #1f252f;
+  --theme-text: #c8cdd6;
+  --theme-text-muted: #8a929e;
+  --theme-text-soft: #5c6370;
+  --theme-title-color: #d4dae3;
+  --theme-border: #333d4d;
+  --theme-border-strong: #454f5e;
+  --theme-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  --theme-panel-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+  --theme-overlay: rgba(0, 0, 0, 0.5);
+  --theme-table-striped: #1f252f;
+  --theme-table-hover: #2a323f;
+  --theme-sidebar-bg: #13171e;
+  --theme-sidebar-panel: #0f1218;
+  --theme-sidebar-hover: #1e252f;
+  --theme-sidebar-active-bg: #2d3a4d;
+  --theme-sidebar-border: #2a3341;
+  --theme-sidebar-text: #9aa3b2;
+  --theme-sidebar-active-text: #e8ecf2;
+  --theme-sidebar-title: #6b7d8f;
+  --theme-navbar-bg: #1e242d;
+  --theme-badge-info-bg: #2a323f;
+  --theme-badge-info-border: #3d4a5c;
+  --theme-badge-info-text: #7aa3d4;
+  --theme-menu-mask: rgba(0, 0, 0, 0.6);
+  --theme-page-gradient:
+    radial-gradient(circle at top right, rgba(90, 143, 199, 0.08), transparent 30%),
+    radial-gradient(circle at left 18%, rgba(107, 141, 175, 0.06), transparent 34%),
+    linear-gradient(180deg, #1a1f28 0%, #161a22 100%);
+  --theme-atmosphere:
+    linear-gradient(135deg, rgba(30, 42, 58, 0.5), transparent 42%),
+    radial-gradient(circle at 78% 12%, rgba(90, 143, 199, 0.05), transparent 22%);
+  --theme-header-gradient: linear-gradient(180deg, rgba(30, 36, 45, 0.98), rgba(26, 31, 40, 0.96));
+  --theme-panel-gradient: linear-gradient(180deg, rgba(42, 50, 63, 0.98), rgba(35, 42, 53, 0.96));
+  --theme-panel-highlight: rgba(255, 255, 255, 0.03);
+  --el-color-success: #7dd87d;
+  --el-color-success-dark-2: #6bc46b;
+  --el-color-success-light-3: #95e095;
+  --el-color-success-light-5: #ade8ad;
+  --el-color-success-light-7: #c5f0c5;
+  --el-color-success-light-8: #d4f4d4;
+  --el-color-success-light-9: #e3f8e3;
+  --el-color-warning: #f5c86e;
+  --el-color-warning-dark-2: #d4ad5d;
+  --el-color-warning-light-3: #f7d48e;
+  --el-color-warning-light-5: #f9e0a8;
+  --el-color-warning-light-7: #fbecbf;
+  --el-color-warning-light-8: #fcf1d0;
+  --el-color-warning-light-9: #fef6e0;
+  --el-color-danger: #f68a8a;
+  --el-color-danger-dark-2: #d47474;
+  --el-color-danger-light-3: #f9a5a5;
+  --el-color-danger-light-5: #fbbdbd;
+  --el-color-danger-light-7: #fdd5d5;
+  --el-color-danger-light-8: #fedede;
+  --el-color-danger-light-9: #ffeaea;
+  --el-color-info: #8c98ae;
+  --el-color-info-dark-2: #787878;
+  --el-color-info-light-3: #a6a9ad;
+  --el-color-info-light-5: #b8babd;
+  --el-color-info-light-7: #cbcdd0;
+  --el-color-info-light-8: #d9dbdd;
+  --el-color-info-light-9: #e8e9ea;
+}
+
+// Common Element Plus variable mappings (shared across all themes)
+:root {
+  --el-bg-color-page: var(--theme-main-bg);
+  --el-bg-color: var(--theme-surface-raised);
+  --el-bg-color-overlay: var(--theme-surface-raised);
+  --el-fill-color-blank: var(--theme-surface-raised);
+  --el-fill-color-light: var(--theme-primary-soft);
+  --el-fill-color-lighter: var(--theme-border);
+  --el-fill-color-extra-light: var(--theme-surface);
+  --el-text-color-primary: var(--theme-text);
+  --el-text-color-regular: var(--theme-text-muted);
+  --el-text-color-secondary: var(--theme-text-soft);
+  --el-text-color-placeholder: var(--theme-text-soft);
+  --el-border-color: var(--theme-border);
+  --el-border-color-light: var(--theme-primary-soft-border);
+  --el-border-color-lighter: var(--theme-border);
+  --el-border-color-extra-light: var(--theme-surface);
+  --el-mask-color: var(--theme-overlay);
+  --el-box-shadow-light: var(--theme-panel-shadow);
+  --el-box-shadow-lighter: var(--theme-shadow);
+  --el-font-family: var(--theme-font-body);
+  --el-color-white: #fff;
+  --el-color-black: #000;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+  background-color: var(--theme-main-bg);
+  color: var(--theme-text);
+}
+
+body {
+  font-family: var(--theme-font-body);
+  transition:
+    background-color 0.24s ease,
+    color 0.24s ease;
+  background-image: var(--theme-page-gradient);
+  background-attachment: fixed;
+  position: relative;
+}
+
+body:before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: var(--theme-atmosphere);
+  opacity: 0.9;
+  z-index: 0;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--theme-primary-soft);
+  color: var(--theme-text);
+}
+
+.theme-switcher-popper {
+  border: 1px solid var(--theme-border) !important;
+  box-shadow: var(--theme-panel-shadow) !important;
+  background: var(--theme-surface-raised) !important;
+  border-radius: 20px !important;
+  padding: 14px !important;
+}
+
+.theme-switcher-popper.el-popper {
+  border-radius: 20px !important;
+}

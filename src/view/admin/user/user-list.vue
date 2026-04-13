@@ -2,59 +2,72 @@
   <div class="container">
     <div class="header">
       <div class="title">用户列表</div>
-      <!-- 分组选择下拉框 -->
-      <el-select filterable v-model="groupId" placeholder="请选择分组" @change="handleChange" clearable>
-        <el-option v-for="(group, index) in allGroups" :key="index" :label="group.name" :value="group.id"> </el-option>
-      </el-select>
+      <div class="filter-toolbar">
+        <div class="group-field">
+          <el-select
+            v-model="selectedGroupId"
+            class="group-select"
+            clearable
+            filterable
+            placeholder="请选择分组"
+            @change="handleGroupChange"
+          >
+            <el-option v-for="group in allGroups" :key="group.id" :label="group.name" :value="group.id" />
+          </el-select>
+        </div>
+      </div>
     </div>
-    <!-- 表格 -->
-    <el-table :data="tableData" v-loading="loading" @row-dblclick="rowDoubleClick">
-      <el-table-column prop="username" label="名称"></el-table-column>
-      <el-table-column prop="groupNames" label="所属分组"></el-table-column>
+    <el-table v-loading="loading" :data="userRows" @row-dblclick="handleRowDoubleClick">
+      <el-table-column prop="username" label="名称" />
+      <el-table-column prop="groupNames" label="所属分组" />
       <el-table-column label="操作" fixed="right" width="275">
-        <template #default="scope">
-          <el-button plain size="mini" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button plain size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+        <template #default="{ row }">
+          <el-button plain size="small" type="primary" @click="openEditDialog(row)">编辑</el-button>
+          <el-button plain size="small" type="danger" @click="handleDelete(row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
+
     <div class="pagination">
       <el-pagination
-        :total="totalNum"
         :background="true"
-        :page-size="pageCount"
-        v-if="refreshPagination"
         :current-page="currentPage"
+        :page-size="pageSize"
+        :total="total"
         layout="prev, pager, next, jumper"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+        @current-change="handlePageChange"
+      />
     </div>
-    <!-- 弹窗 -->
-    <el-dialog title="用户信息" :append-to-body="true" :before-close="handleClose" v-model="dialogFormVisible">
-      <div style="margin-top: -25px">
-        <el-tabs v-model="activeTab" @tab-click="handleClick">
+
+    <el-dialog v-model="isDialogVisible" :append-to-body="true" :before-close="handleClose" title="用户信息">
+      <div class="dialog-body">
+        <el-tabs v-model="activeTabName" class="dialog-tabs" @tab-click="handleTabChange">
           <el-tab-pane label="修改信息" name="修改信息">
-            <user-info
-              :id="id"
-              ref="info"
-              class="info"
-              pageType="edit"
-              :info="userInfo"
+            <UserInfo
+              v-if="isDialogVisible"
+              ref="userInfoFormRef"
+              :allGroups
+              :id="selectedUserId"
+              layout="dialog"
+              :user-detail="selectedUser"
               :submit="false"
-              :allGroups="allGroups"
               labelPosition="right"
-              v-if="dialogFormVisible"
-              @handleInfoResult="handleInfoResult"
+              pageType="edit"
+              @submitted="handleInfoSubmittedWrapper"
             />
           </el-tab-pane>
           <el-tab-pane label="修改密码" name="修改密码">
-            <user-password @handlePasswordResult="handlePasswordResult" ref="password" :id="id" class="password" />
+            <UserPassword
+              ref="userPasswordFormRef"
+              :id="selectedUserId"
+              layout="dialog"
+              class="dialog-password-panel"
+              @submitted="handlePasswordSubmitted"
+            />
           </el-tab-pane>
         </el-tabs>
       </div>
-      <!-- 按键操作 -->
+
       <template #footer>
         <div class="dialog-footer">
           <el-button type="primary" @click="confirmEdit">确 定</el-button>
@@ -65,120 +78,59 @@
   </div>
 </template>
 
-<script>
-import { ref, reactive } from 'vue'
-import { ElMessageBox, ElMessage } from 'element-plus'
-import AdminModel from 'lin/model/admin'
+<script setup>
+import { ref, useTemplateRef } from 'vue'
 
 import UserInfo from './user-info'
 import UserPassword from './user-password'
-import { useUserList, useFormData } from './use-user'
+import { useUserList } from './use-user-list'
 
-export default {
-  components: { UserInfo, UserPassword },
-  setup(props, ctx) {
-    const info = ref(false)
-    const password = ref(false)
-    const dialogFormVisible = ref(false) // 弹窗遮罩层
-    const refreshPagination = ref(true) // 页数增加的时候，因为缓存的缘故，需要刷新Pagination组件
+const userInfoFormRef = useTemplateRef('userInfoFormRef')
+const userPasswordFormRef = useTemplateRef('userPasswordFormRef')
 
-    const { allGroups, loading, groupId, totalNum, tableData, pageCount, currentPage, getAdminUsers } = useUserList()
-    const {
-      id,
-      activeTab,
-      resetForm,
-      confirmEdit,
-      handleClose,
-      handleClick,
-      handleChange,
-      handleInfoResult,
-      handleCurrentChange,
-      handlePasswordResult,
-    } = useFormData(ctx, dialogFormVisible, getAdminUsers, currentPage, loading, info, password)
+const allGroups = ref([])
 
-    const userInfo = reactive({
-      email: '',
-      username: '',
-      password: '',
-      groups: [],
-      confirm_password: '',
-    })
+const {
+  activeTabName,
+  confirmEdit,
+  currentPage,
+  fetchGroups,
+  fetchUsers,
+  handleClose,
+  handleDelete,
+  handleGroupChange,
+  handleInfoSubmitted,
+  handlePageChange,
+  handlePasswordSubmitted,
+  handleRowDoubleClick,
+  handleTabChange,
+  isDialogVisible,
+  loading,
+  openEditDialog,
+  pageSize,
+  resetForm,
+  selectedGroupId,
+  selectedUser,
+  selectedUserId,
+  total,
+  userRows,
+} = useUserList({
+  userInfoFormRef,
+  userPasswordFormRef,
+})
 
-    /**
-     * 修改管理员信息
-     */
-    const handleEdit = row => {
-      id.value = row.id
-      userInfo.email = row.email
-      userInfo.groups = row.groups
-      userInfo.username = row.username
-      dialogFormVisible.value = true
-    }
+async function loadAllGroups() {
+  allGroups.value = await fetchGroups()
+}
 
-    /**
-     * 删除管理员数据
-     */
-    const handleDelete = id => {
-      let res
-      ElMessageBox.confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(async () => {
-        try {
-          loading.value = true
-          res = await AdminModel.deleteOneUser(id)
-        } catch (e) {
-          loading.value = false
-          console.error(e)
-        }
-        if (res.code < window.MAX_SUCCESS_CODE) {
-          loading.value = false
-          if (totalNum.value % pageCount.value === 1 && currentPage.value !== 1) {
-            // 判断删除的是不是每一页的最后一条数据
-            currentPage.value--
-          }
-          await getAdminUsers()
-          ElMessage.success(`${res.message}`)
-        } else {
-          loading.value = false
-          ElMessage.error(`${res.message}`)
-        }
-      })
-    }
+loadAllGroups()
 
-    const rowDoubleClick = row => {
-      handleEdit(row)
-    }
-
-    return {
-      id,
-      info,
-      groupId,
-      loading,
-      password,
-      userInfo,
-      totalNum,
-      allGroups,
-      tableData,
-      activeTab,
-      resetForm,
-      pageCount,
-      handleEdit,
-      confirmEdit,
-      handleClose,
-      currentPage,
-      handleClick,
-      handleChange,
-      handleDelete,
-      rowDoubleClick,
-      handleInfoResult,
-      refreshPagination,
-      dialogFormVisible,
-      handleCurrentChange,
-      handlePasswordResult,
-    }
-  },
+async function handleInfoSubmittedWrapper(submitted) {
+  const result = handleInfoSubmitted(submitted)
+  if (submitted === true) {
+    await fetchUsers()
+  }
+  return result
 }
 </script>
 
@@ -190,6 +142,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 59px;
 
     .title {
       height: 59px;
@@ -200,21 +153,38 @@ export default {
     }
   }
 
-  .pagination {
+  .filter-toolbar {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
-    margin: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .group-field {
+    width: 160px;
+  }
+
+  .group-select {
+    width: 100%;
   }
 }
 
-.info {
-  margin-left: -55px;
-  margin-bottom: -30px;
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 0 0;
 }
 
-.password {
-  margin-top: 20px;
-  margin-left: -55px;
-  margin-bottom: -20px;
+.dialog-body {
+  padding-top: 8px;
+}
+
+.dialog-tabs :deep(.el-tabs__content) {
+  padding-top: 16px;
+}
+
+.dialog-password-panel {
+  margin-top: 8px;
 }
 </style>

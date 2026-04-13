@@ -1,41 +1,43 @@
 <template>
-  <!-- 列表页面 -->
   <div class="container">
-    <div class="title">分组列表信息</div>
-    <el-table :data="tableData" v-loading="loading" @row-dblclick="rowDoubleClick">
-      <el-table-column prop="name" label="名称"></el-table-column>
-      <el-table-column prop="info" label="分组描述"></el-table-column>
+    <div class="header">
+      <div class="title">分组列表信息</div>
+    </div>
+    <el-table v-loading="loading" :data="tableData" @row-dblclick="rowDoubleClick">
+      <el-table-column prop="name" label="名称" />
+      <el-table-column prop="info" label="分组描述" />
       <el-table-column label="操作" fixed="right" width="275">
-        <template #default="scope">
-          <el-button plain size="small" type="primary" @click="handleEdit(scope.row)">信息</el-button>
-          <el-button plain size="small" type="info" @click="goToGroupEditPage(scope.row.id)">权限</el-button>
-          <el-button plain size="small" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+        <template #default="{ row }">
+          <el-button plain size="small" type="primary" @click="handleEdit(row)">信息</el-button>
+          <el-button plain size="small" type="info" @click="goToGroupEditPage(row.id)">权限</el-button>
+          <el-button plain size="small" type="danger" @click="handleDelete(row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分组信息 -->
-    <el-dialog title="分组信息" :append-to-body="true" v-model="dialogFormVisible" :before-close="handleClose">
-      <div style="margin-top: -25px">
+
+    <el-dialog v-model="dialogFormVisible" :append-to-body="true" :before-close="handleClose" title="分组信息">
+      <div class="dialog-body">
         <el-form
-          ref="form"
-          status-icon
-          :rules="rules"
-          :model="group"
-          label-width="120px"
           v-if="dialogFormVisible"
-          label-position="labelPosition"
-          style="margin-left: -35px; margin-bottom: -35px; margin-top: 15px"
+          ref="form"
+          class="dialog-form"
+          :model="group"
+          :rules="rules"
+          label-position="right"
+          label-width="120px"
+          status-icon
         >
           <el-form-item label="分组名称" prop="name">
-            <el-input clearable v-model="group.name"></el-input>
+            <el-input v-model="group.name" clearable />
           </el-form-item>
           <el-form-item label="分组描述" prop="info">
-            <el-input clearable v-model="group.info"></el-input>
+            <el-input v-model="group.info" clearable />
           </el-form-item>
         </el-form>
       </div>
+
       <template #footer>
-        <div class="dialog-footer" style="padding-left: 5px">
+        <div class="dialog-footer">
           <el-button type="primary" @click="confirmEdit">确 定</el-button>
           <el-button @click="resetForm">重 置</el-button>
         </div>
@@ -44,72 +46,65 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useRouter } from 'vue-router'
-import { useGroupList, useEditGroup } from './use-group'
+import { useTemplateRef } from 'vue'
 
-export default {
-  setup(props, ctx) {
-    const router = useRouter()
-    /**
-     * 分组列表所需数据
-     */
-    const { tableData, loading, handleDelete, getAllGroups } = useGroupList()
+import { useGroupList } from './use-group-list'
 
-    /**
-     * 编辑分组信息
-     */
-    const {
-      id,
-      form,
-      rules,
-      group,
-      resetForm,
-      handleEdit,
-      confirmEdit,
-      handleClose,
-      rowDoubleClick,
-      dialogFormVisible,
-    } = useEditGroup(ctx, getAllGroups)
+defineOptions({
+  name: 'GroupList',
+})
 
-    /**
-     * 前往修改分组权限页
-     */
-    const goToGroupEditPage = groupId => {
-      id.value = groupId
-      router.push({ path: '/admin/group/edit', query: { id: groupId } })
-    }
-
-    return {
-      id,
-      form,
-      rules,
-      group,
-      loading,
-      tableData,
-      resetForm,
-      handleEdit,
-      confirmEdit,
-      handleClose,
-      handleDelete,
-      rowDoubleClick,
-      goToGroupEditPage,
-      dialogFormVisible,
-    }
-  },
-}
+const router = useRouter()
+const form = useTemplateRef('form')
+const {
+  confirmEdit,
+  dialogFormVisible,
+  goToGroupEditPage,
+  group,
+  handleClose,
+  handleDelete,
+  handleEdit,
+  loading,
+  resetForm,
+  rowDoubleClick,
+  rules,
+  tableData,
+} = useGroupList({
+  formRef: form,
+  router,
+})
 </script>
 
 <style lang="scss" scoped>
 .container {
   padding: 0 30px;
 
-  .title {
-    height: 59px;
-    line-height: 59px;
-    color: $parent-title-color;
-    font-size: 16px;
-    font-weight: 500;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      height: 59px;
+      line-height: 59px;
+      color: $parent-title-color;
+      font-size: 16px;
+      font-weight: 500;
+    }
   }
+}
+
+.dialog-body {
+  padding-top: 8px;
+}
+
+.dialog-form {
+  margin-top: 16px;
+}
+
+.dialog-footer {
+  padding-left: 5px;
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="team-name hidden-sm-and-down"><img src="@/assets/image/login/team-name.png" alt="logo" /></div>
     <div class="form-box" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <div class="title"><h1 title="Lin">Lin CMS</h1></div>
-      <form class="login-form" autocomplete="off" @submit.prevent="throttleLogin()">
+      <form class="login-form" autocomplete="off" @submit.prevent="submitLogin">
         <div class="form-item nickname">
           <span class="icon account-icon"></span>
           <input type="text" v-model="account.username" autocomplete="off" placeholder="请填写用户名" />
@@ -13,7 +13,7 @@
           <input type="password" v-model="account.password" autocomplete="off" placeholder="请填写用户登录密码" />
         </div>
         <div class="form-item password" v-if="captchaImage">
-          <img class="captcha" :src="captchaImage" @click.stop="getCaptcha()" />
+          <img class="captcha" :src="captchaImage" @click.stop="fetchCaptcha" />
           <input type="text" v-model="account.captcha" autocomplete="off" placeholder="请填写验证码" />
         </div>
         <button class="submit-btn" type="submit">登录</button>
@@ -22,94 +22,52 @@
   </div>
 </template>
 
-<script>
-import { reactive, ref, onMounted } from 'vue'
-import { useUserStore } from '@/store/modules/user'
+<script setup>
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import axios from 'lin/plugin/axios'
-import UserModel from '@/lin/model/user'
-import Utils from '@/lin/util/util'
-import Config from '@/config'
 
-export default {
-  setup() {
-    let tag = ''
-    const wait = 2000 // 2000ms之内不能重复发起请求
-    const loading = ref(false)
-    const captchaImage = ref('')
-    const userStore = useUserStore()
-    const router = useRouter()
-    const throttleLogin = ref(null)
+import { createThrottledHandler } from '@/lin/util/rate-limit'
+import { notifyRequestError } from '@/lin/util/request-error'
+import { useUserStore } from '@/store/modules/user'
+import { useLogin } from './use-login'
 
-    const account = reactive({
-      username: '',
-      password: '',
-      captcha: '',
-    })
+defineOptions({
+  name: 'LoginPage',
+})
 
-    /**
-     * 根据账号密码登录，拿到 token 并储存
-     */
-    const login = async () => {
-      const { username, password, captcha } = account
-      try {
-        loading.value = true
-        await UserModel.getToken(username, password, captcha, tag)
-        await getInformation()
-        loading.value = false
-        router.push(Config.defaultRoute)
-        ElMessage({
-          message: '登录成功',
-          type: 'success',
-        })
-      } catch (e) {
-        getCaptcha()
-        loading.value = false
-      }
-    }
+const LOGIN_THROTTLE_WAIT = 2000
 
-    const getCaptcha = async () => {
-      axios({
-        method: 'POST',
-        url: 'cms/user/captcha',
-      }).then(result => {
-        ;({ tag } = result)
-        captchaImage.value = result.image
-      })
-    }
+const userStore = useUserStore()
+const router = useRouter()
+const {
+  account,
+  captchaImage,
+  fetchCaptcha: fetchCaptchaRaw,
+  loading,
+  login,
+} = useLogin({
+  router,
+  userStore,
+})
 
-    /**
-     * 获取并更新当前管理员信息
-     */
-    const getInformation = async () => {
-      try {
-        // 尝试获取当前用户信息
-        const user = await UserModel.getPermissions()
-        userStore.setUserAndState(user)
-        userStore.setUserPermissions(user.permissions)
-      } catch (e) {
-        console.error(e)
-      }
-    }
-
-    /**
-     * 节流登录
-     */
-    onMounted(() => {
-      getCaptcha()
-      throttleLogin.value = Utils.throttle(login, wait)
-    })
-
-    return {
-      account,
-      loading,
-      getCaptcha,
-      captchaImage,
-      throttleLogin,
-    }
-  },
+async function fetchCaptcha() {
+  try {
+    return await fetchCaptchaRaw()
+  } catch {
+    return null
+  }
 }
+
+const submitLogin = createThrottledHandler(() => {
+  void login().catch(error => {
+    notifyRequestError(ElMessage, error, '登录失败')
+  })
+}, LOGIN_THROTTLE_WAIT)
+
+onMounted(() => {
+  void fetchCaptcha()
+})
 </script>
 
 <style lang="scss">

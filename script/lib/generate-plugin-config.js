@@ -1,0 +1,24 @@
+const fs = require('fs-extra')
+const path = require('path')
+const ejs = require('ejs')
+const getAllPlugin = require('./plugin-get-all')
+
+function generatePluginConfig() {
+  const targetPath = path.resolve(__dirname, '../../src/config/stage/plugin.js')
+  const pluginsPath = path.resolve(__dirname, '../../src/plugin')
+  const templatePath = path.resolve(__dirname, '../template/plugin-stage-config.js.ejs')
+
+  const template = fs.readFileSync(templatePath, 'utf8')
+  const plugins = getAllPlugin(pluginsPath)
+  const result = ejs.render(template, { plugins })
+
+  fs.outputFileSync(targetPath, result)
+
+  return {
+    plugins,
+    result,
+    targetPath,
+  }
+}
+
+module.exports = generatePluginConfig

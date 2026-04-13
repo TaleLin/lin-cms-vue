@@ -2,18 +2,24 @@ const chalk = require('chalk')
 const semver = require('semver')
 const exec = require('./exec-promise')
 
+function getInstalledVersion(info, pkg) {
+  if (!Array.isArray(info) || info.length === 0) {
+    return false
+  }
+
+  const [project] = info
+  const deps = project.dependencies || project.devDependencies || {}
+  return deps[pkg]?.version || false
+}
+
 // 获取当前安装包版本
 const getLocalVersion = async (pkg, isDev) => {
-  let lsInfo
   try {
-    lsInfo = JSON.parse(await exec(`npm ls ${pkg} --json --depth=0 ${isDev ? '--dev' : '--prod'}`))
-    if (lsInfo.dependencies) {
-      lsInfo = lsInfo.dependencies[pkg].version
-    }
-  } catch (e) {
-    lsInfo = false
+    const lsInfo = JSON.parse(await exec(`pnpm ls ${pkg} --json --depth=0 ${isDev ? '--dev' : '--prod'}`))
+    return getInstalledVersion(lsInfo, pkg)
+  } catch {
+    return false
   }
-  return lsInfo
 }
 
 // pkg: 需要安装的包名, isDev: 是否安装到 dev 依赖, pPackage: 项目的 package 文件
@@ -41,7 +47,7 @@ const installFuc = async (pkg, version, pPackage = {}, isDev = false) => {
     }
   } else {
     console.log(chalk.yellow(`安装依赖 ${pkg}@${version}`))
-    await exec(`npm install ${isDev ? '--save-dev' : ''} ${pkg}@${version}`)
+    await exec(`pnpm install ${isDev ? '--save-dev' : ''} ${pkg}@${version}`)
     v = await getLocalVersion(pkg, isDev)
   }
 
@@ -57,7 +63,7 @@ const installFuc = async (pkg, version, pPackage = {}, isDev = false) => {
   }
 
   // 不符合要求则按照项目要求回滚
-  await exec(`npm install ${isDev ? '--save-dev' : ''} ${pkg}@${originPkg[key][pkg]}`)
+  await exec(`pnpm install ${isDev ? '--save-dev' : ''} ${pkg}@${originPkg[key][pkg]}`)
 
   // 检测回滚后能否符合要求
   v = await getLocalVersion(pkg, isDev)

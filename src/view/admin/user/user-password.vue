@@ -1,19 +1,19 @@
 <template>
-  <div class="container">
+  <div class="container" :class="containerClass">
     <el-form
       ref="form"
-      :model="info"
-      status-icon
-      :rules="rules"
       v-loading="loading"
-      label-width="100px"
+      :model="passwordForm"
+      :rules="rules"
       label-position="right"
+      label-width="100px"
+      status-icon
     >
       <el-form-item label="密码" prop="newPassword">
-        <el-input clearable type="password" v-model="info.newPassword" autocomplete="off"></el-input>
+        <el-input v-model="passwordForm.newPassword" autocomplete="off" clearable type="password" />
       </el-form-item>
-      <el-form-item label="确认密码" prop="confirmPassword" label-position="top">
-        <el-input clearable type="password" v-model="info.confirmPassword" autocomplete="off"></el-input>
+      <el-form-item label="确认密码" prop="confirmPassword">
+        <el-input v-model="passwordForm.confirmPassword" autocomplete="off" clearable type="password" />
       </el-form-item>
       <el-form-item v-show="false">
         <el-button type="primary" @click="submitForm">保存</el-button>
@@ -23,111 +23,43 @@
   </div>
 </template>
 
-<script>
-import { ElMessage } from 'element-plus'
-import { reactive, ref } from 'vue'
-import AdminModel from '@/lin/model/admin'
+<script setup>
+import { computed } from 'vue'
 
-export default {
-  props: ['id'],
-  setup(props, ctx) {
-    const form = ref(null)
-    const loading = ref(false)
-    const info = reactive({
-      newPassword: '',
-      confirmPassword: '',
-    })
+import { useUserPasswordForm } from './use-user-password-form'
 
-    /**
-     * 表单规则
-     */
-    const rules = getRules(ctx, info, form)
-
-    /**
-     * 提交表单数据
-     */
-    const submitForm = () => {
-      if (!info.newPassword && !info.confirmPassword) {
-        ctx.emit('handlePasswordResult', true)
-        return
-      }
-
-      form.value.validate(async valid => {
-        if (valid) {
-          let res = {}
-          try {
-            loading.value = true
-            res = await AdminModel.changePassword(info.newPassword, info.confirmPassword, props.id)
-          } catch (e) {
-            loading.value = false
-          }
-          if (res.code < window.MAX_SUCCESS_CODE) {
-            loading.value = false
-            ElMessage.success(`${res.message}`)
-            resetForm()
-            ctx.emit('handlePasswordResult', true)
-          } else {
-            loading.value = false
-            ElMessage.error(`${res.message}`)
-          }
-        } else {
-          ElMessage.error('请填写正确的密码信息')
-        }
-      })
-    }
-
-    // 重置表单
-    const resetForm = () => {
-      form.value.resetFields()
-    }
-
-    return {
-      info,
-      form,
-      rules,
-      loading,
-      resetForm,
-      submitForm,
-    }
+const { id, layout } = defineProps({
+  id: {
+    type: Number,
+    default: undefined,
   },
-}
+  layout: {
+    type: String,
+    default: 'page',
+  },
+})
 
-/**
- * 表单规则
- */
-function getRules(ctx, info, form) {
-  const validatePassword = (rule, value, callback) => {
-    if (!value) {
-      callback(new Error('请输入密码'))
-    } else if (value.length < 6) {
-      callback(new Error('密码长度不能少于6位数'))
-    } else {
-      if (info.confirmPassword) {
-        form.value.validateField('confirmPassword')
-      }
-      callback()
-    }
-  }
-  const validatePassword2 = (rule, value, callback) => {
-    if (!value) {
-      callback(new Error('请再次输入密码'))
-    } else if (value !== info.newPassword) {
-      callback(new Error('两次输入密码不一致!'))
-    } else {
-      callback()
-    }
-  }
+const emit = defineEmits(['submitted'])
+const containerClass = computed(() => `container--${layout}`)
+const { passwordForm, loading, resetForm, rules, submitForm } = useUserPasswordForm({
+  id: () => id,
+  onSubmitted: result => {
+    emit('submitted', result)
+  },
+})
 
-  // 验证规则
-  return {
-    newPassword: [{ validator: validatePassword, trigger: 'blur', required: true }],
-    confirmPassword: [{ validator: validatePassword2, trigger: 'blur', required: true }],
-  }
-}
+defineExpose({
+  resetForm,
+  submitForm,
+})
 </script>
 
 <style lang="scss" scoped>
-.el-form-item :v-deep(.el-form-item__label) {
+.container--dialog {
+  margin: 0;
+}
+
+.el-form-item ::v-deep(.el-form-item__label) {
   padding-right: 10px !important;
 }
 </style>

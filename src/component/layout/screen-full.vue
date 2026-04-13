@@ -1,74 +1,76 @@
 <template>
   <div class="container" title="全屏/正常">
-    <i class="iconfont" :class="isFullscreen ? 'icon-quxiaoquanping' : 'icon-quanping'" @click="handleFullScreen"></i>
+    <component :is="iconComponent" class="screen-full__icon" @click="handleFullScreen" />
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { FullScreen, ScaleToOriginal } from '@element-plus/icons-vue'
 import screenfull from 'screenfull'
 
-export default {
-  data() {
-    return {
-      isFullscreen: false,
-    }
-  },
-  mounted() {
-    this.init()
-  },
-  beforeUnmount() {
-    this.destroy()
-  },
-  methods: {
-    handleFullScreen() {
-      if (!screenfull.enabled) {
-        this.$message({
-          message: 'you browser can not work',
-          type: 'warning',
-        })
-        return false
-      }
-      screenfull.toggle()
-    },
-    change() {
-      this.isFullscreen = screenfull.isFullscreen
-    },
-    init() {
-      if (screenfull.enabled) {
-        screenfull.on('change', this.change)
-      }
-    },
-    destroy() {
-      if (screenfull.enabled) {
-        screenfull.off('change', this.change)
-      }
-    },
-  },
+const isFullscreen = ref(false)
+const iconComponent = computed(() => (isFullscreen.value ? ScaleToOriginal : FullScreen))
+
+function syncFullscreenState() {
+  isFullscreen.value = screenfull.isFullscreen
 }
+
+function registerScreenfullListener() {
+  if (!screenfull.isEnabled) {
+    return
+  }
+
+  syncFullscreenState()
+  screenfull.on('change', syncFullscreenState)
+}
+
+function unregisterScreenfullListener() {
+  if (!screenfull.isEnabled) {
+    return
+  }
+
+  screenfull.off('change', syncFullscreenState)
+}
+
+function handleFullScreen() {
+  if (!screenfull.isEnabled) {
+    ElMessage({
+      message: 'you browser can not work',
+      type: 'warning',
+    })
+    return
+  }
+
+  screenfull.toggle()
+}
+
+onMounted(() => {
+  registerScreenfullListener()
+})
+
+onBeforeUnmount(() => {
+  unregisterScreenfullListener()
+})
 </script>
 
 <style lang="scss" scoped>
 .container {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
   cursor: pointer;
 
-  i {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-
-    &:before {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-    }
+  .screen-full__icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

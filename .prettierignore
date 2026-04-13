@@ -1,0 +1,6 @@
+dist
+coverage
+node_modules
+.vite
+public/static/img
+src/assets/style/fonts

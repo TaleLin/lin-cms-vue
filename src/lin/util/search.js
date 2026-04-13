@@ -1,15 +1,5 @@
 import FastScanner from 'fastscan'
 
-// const words = ['今日头条',
-//   '微信', '支付宝',
-// ]
-// const scanner = new FastScanner(words)
-// const content = '今日头条小程序终于来了，这是继微信、支付宝、百度后，第四个推出小程序功能的App。猫眼电影率先试水，出现在今日头条。'
-// const offWords = scanner.search(content)
-// console.log(offWords)
-// const hits = scanner.hits(content)
-// console.log(hits)
-
 /**
  *
  * @param {string} word
@@ -31,20 +21,57 @@ export async function searchForWords(words, content) {
   const offWords = scanner.search(content)
   return offWords
 }
+
+export function escapeSearchKeyword(keyword = '') {
+  return keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+export function highlightSearchKeyword(content = '', keyword = '', className = 'strong') {
+  if (!keyword || typeof content !== 'string') {
+    return content
+  }
+
+  const safeKeyword = escapeSearchKeyword(keyword)
+  return content.replace(RegExp(safeKeyword, 'g'), `<span class="${className}">${keyword}</span>`)
+}
+
+export function buildHighlightedMessageSegments(content = '', keyword = '') {
+  if (typeof content !== 'string') {
+    return []
+  }
+
+  if (!keyword) {
+    return [
+      {
+        text: content,
+        highlighted: false,
+      },
+    ]
+  }
+
+  const safeKeyword = escapeSearchKeyword(keyword)
+  return content
+    .split(RegExp(`(${safeKeyword})`, 'g'))
+    .filter(Boolean)
+    .map(part => ({
+      text: part,
+      highlighted: part === keyword,
+    }))
+}
+
 /**
  *
  * @param {string} keyword
  * @param {Array} logs
  */
 export function searchLogKeyword(keyword, logs, className = 'strong') {
-  console.log('keyword', keyword)
-  console.log('logs', logs)
-  const _logs = logs.map(log => {
-    let msg = log.message
-    msg = msg.replace(RegExp(`${keyword}`, 'g'), `<span class="${className}">${keyword}</span>`)
-    // eslint-disable-next-line
-    log.message = msg
-    return log
-  })
-  return _logs
+  if (!Array.isArray(logs)) {
+    return []
+  }
+
+  return logs.map(log => ({
+    ...log,
+    message: highlightSearchKeyword(log.message, keyword, className),
+    messageSegments: buildHighlightedMessageSegments(log.message, keyword),
+  }))
 }

@@ -7,39 +7,50 @@ import { useUserStore } from '@/store/modules/user'
  * @param {*} permissions 当前管理员所在分组权限集
  */
 function isAllowed(permission, user, permissions) {
-  if (user.admin) return true
+  if (user.admin) {
+    return true
+  }
 
   if (typeof permission === 'string') {
     return permissions.includes(permission)
   }
-  if (permission instanceof Array) {
-    return permission.some(auth => permissions.indexOf(auth) >= 0)
+  if (Array.isArray(permission)) {
+    return permission.some(auth => permissions.includes(auth))
   }
   return false
 }
 
-export default {
-  beforeMount(el, binding) {
-    let type
-    let permission
-    const element = el
+function resolvePermissionBinding(bindingValue) {
+  if (Object.prototype.toString.call(bindingValue) === '[object Object]') {
+    return bindingValue
+  }
 
-    if (Object.prototype.toString.call(binding.value) === '[object Object]') {
-      ;({ permission } = binding.value);
-      ({ type } = binding.value)
-    } else {
-      permission = binding.value
-    }
+  return {
+    permission: bindingValue,
+    type: undefined,
+  }
+}
+
+function applyDenyState(element, type) {
+  if (type) {
+    element.disabled = true
+    element.style.opacity = 0.4
+    element.style.cursor = 'not-allowed'
+    return
+  }
+
+  element.style.display = 'none'
+}
+
+const permissionDirective = {
+  beforeMount(el, binding) {
+    const { permission, type } = resolvePermissionBinding(binding.value)
     const userStore = useUserStore()
-    const isAllow = isAllowed(permission, userStore.user || {}, userStore.permissions)
-    if (!isAllow && permission) {
-      if (type) {
-        element.disabled = true
-        element.style.opacity = 0.4
-        element.style.cursor = 'not-allowed'
-      } else {
-        element.style.display = 'none'
-      }
+
+    if (!isAllowed(permission, userStore.user || {}, userStore.permissions) && permission) {
+      applyDenyState(el, type)
     }
   },
 }
+
+export default permissionDirective

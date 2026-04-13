@@ -1,8 +1,8 @@
 <template>
   <section class="container">
-    <div class="wrapper" id="wrapper">
-      <router-view v-slot="{ Component }" :key="$route.fullPath">
-        <transition appear name="fade-transform" mode="out-in">
+    <div id="wrapper" class="wrapper">
+      <router-view :key="routeKey" #default="{ Component }">
+        <transition appear mode="out-in" name="fade-transform">
           <component :is="Component" />
         </transition>
       </router-view>
@@ -10,10 +10,17 @@
   </section>
 </template>
 
-<script>
-export default {
+<script setup>
+defineProps({
+  routeKey: {
+    type: String,
+    required: true,
+  },
+})
+
+defineOptions({
   name: 'AppMain',
-}
+})
 </script>
 
 <style lang="scss" scoped>

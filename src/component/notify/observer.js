@@ -1,116 +1,192 @@
-/* eslint-disable*/
-import Emitter from './emitter'
+import { defaultWindow } from '@vueuse/core'
 
-export default class {
-  constructor(connectionUrl, opts = {}) {
-    this.format = opts.format && opts.format.toLowerCase()
+export const SOCKET_EVENTS = ['onmessage', 'onclose', 'onerror', 'onopen']
 
-    if (connectionUrl.startsWith('//')) {
-      const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws'
-      connectionUrl = `${scheme}:${connectionUrl}`
-    }
-
-    this.connectionUrl = connectionUrl
-    this.opts = opts
-
-    this.reconnection = this.opts.reconnection || false
-    this.reconnectionAttempts = this.opts.reconnectionAttempts || Infinity
-    this.reconnectionDelay = this.opts.reconnectionDelay || 1000
-    this.reconnectTimeoutId = 0
-    this.reconnectionCount = 0
-
-    this.passToStoreHandler = this.opts.passToStoreHandler || false
-
-    this.connect(connectionUrl, opts)
-
-    if (opts.store) {
-      this.store = opts.store
-    }
-    if (opts.mutations) {
-      this.mutations = opts.mutations
-    }
-    this.onEvent()
+export function normalizeConnectionUrl(connectionUrl) {
+  if (connectionUrl.startsWith('//')) {
+    const scheme = defaultWindow?.location?.protocol === 'https:' ? 'wss' : 'ws'
+    return `${scheme}:${connectionUrl}`
   }
 
-  connect(connectionUrl, opts = {}) {
-    const protocol = opts.protocol || ''
-    this.WebSocket =
-      opts.WebSocket || (protocol === '' ? new WebSocket(connectionUrl) : new WebSocket(connectionUrl, protocol))
-    if (this.format === 'json') {
-      if (!('sendObj' in this.WebSocket)) {
-        this.WebSocket.sendObj = obj => this.WebSocket.send(JSON.stringify(obj))
+  return connectionUrl
+}
+
+export function attachJsonSender(socket) {
+  if (!('sendObj' in socket)) {
+    socket.sendObj = payload => socket.send(JSON.stringify(payload))
+  }
+}
+
+export function parseSocketMessageData(event) {
+  if (!event?.data) {
+    return null
+  }
+
+  try {
+    return JSON.parse(event.data)
+  } catch (_error) {
+    return null
+  }
+}
+
+export function createSocketObserver(connectionUrl, opts = {}) {
+  const state = {
+    format: opts.format?.toLowerCase(),
+    connectionUrl: normalizeConnectionUrl(connectionUrl),
+    opts,
+    events: opts.events || {},
+    reconnection: opts.reconnection || false,
+    reconnectionAttempts: opts.reconnectionAttempts || Infinity,
+    reconnectionDelay: opts.reconnectionDelay || 1000,
+    reconnectTimeoutId: 0,
+    reconnectionCount: 0,
+    passToStoreHandler: opts.passToStoreHandler || false,
+    socket: null,
+    store: opts.store || null,
+    mutations: opts.mutations || null,
+    manuallyDisconnected: false,
+  }
+
+  function clearReconnectTimeout() {
+    clearTimeout(state.reconnectTimeoutId)
+    state.reconnectTimeoutId = 0
+  }
+
+  function defaultPassToStore(eventName, event) {
+    if (!eventName.startsWith('SOCKET_')) {
+      return
+    }
+
+    let method = 'commit'
+    let target = eventName.toUpperCase()
+    let payload = event
+
+    if (state.format === 'json' && event.data) {
+      payload = parseSocketMessageData(event)
+
+      if (!payload) {
+        return
+      }
+
+      if (payload.mutation) {
+        target = [payload.namespace || '', payload.mutation].filter(Boolean).join('/')
+      } else if (payload.action) {
+        method = 'dispatch'
+        target = [payload.namespace || '', payload.action].filter(Boolean).join('/')
       }
     }
 
-    return this.WebSocket
-  }
-
-  reconnect() {
-    if (this.reconnectionCount <= this.reconnectionAttempts) {
-      this.reconnectionCount++
-      clearTimeout(this.reconnectTimeoutId)
-
-      this.reconnectTimeoutId = setTimeout(() => {
-        if (this.store) {
-          this.passToStore('SOCKET_RECONNECT', this.reconnectionCount)
-        }
-
-        this.connect(this.connectionUrl, this.opts)
-        this.onEvent()
-      }, this.reconnectionDelay)
-    } else if (this.store) {
-      this.passToStore('SOCKET_RECONNECT_ERROR', true)
+    if (state.mutations) {
+      target = state.mutations[target] || target
     }
+
+    state.store[method](target, payload)
   }
 
-  onEvent() {
-    ;['onmessage', 'onclose', 'onerror', 'onopen'].forEach(eventType => {
-      this.WebSocket[eventType] = event => {
-        Emitter.emit(eventType, event)
+  function passToStore(eventName, event) {
+    if (state.passToStoreHandler) {
+      state.passToStoreHandler(eventName, event, defaultPassToStore)
+      return
+    }
 
-        if (this.store) {
-          this.passToStore(`SOCKET_${eventType}`, event)
+    defaultPassToStore(eventName, event)
+  }
+
+  function bindSocketEvents() {
+    SOCKET_EVENTS.forEach(eventType => {
+      state.socket[eventType] = event => {
+        state.events[eventType]?.(event)
+
+        if (state.store) {
+          passToStore(`SOCKET_${eventType}`, event)
         }
 
-        if (this.reconnection && eventType === 'onopen') {
-          this.opts.$setInstance(event.currentTarget)
-          this.reconnectionCount = 0
+        if (state.reconnection && eventType === 'onopen') {
+          state.opts.$setInstance?.(event.currentTarget)
+          state.reconnectionCount = 0
         }
 
-        if (this.reconnection && eventType === 'onclose') {
-          this.reconnect()
+        if (state.reconnection && !state.manuallyDisconnected && eventType === 'onclose') {
+          reconnect()
         }
       }
     })
   }
 
-  passToStore(eventName, event) {
-    if (this.passToStoreHandler) {
-      this.passToStoreHandler(eventName, event, this.defaultPassToStore.bind(this))
-    } else {
-      this.defaultPassToStore(eventName, event)
+  function connect(nextConnectionUrl = state.connectionUrl, nextOpts = state.opts) {
+    state.manuallyDisconnected = false
+    const protocol = nextOpts.protocol || ''
+    const WebSocketImpl = nextOpts.WebSocket || WebSocket
+
+    state.socket = typeof WebSocketImpl === 'function' ? new WebSocketImpl(nextConnectionUrl, protocol) : WebSocketImpl
+
+    if (state.format === 'json') {
+      attachJsonSender(state.socket)
+    }
+
+    bindSocketEvents()
+
+    return state.socket
+  }
+
+  function reconnect() {
+    if (state.reconnectionCount <= state.reconnectionAttempts) {
+      state.reconnectionCount += 1
+      clearReconnectTimeout()
+
+      state.reconnectTimeoutId = setTimeout(() => {
+        if (state.store) {
+          passToStore('SOCKET_RECONNECT', state.reconnectionCount)
+        }
+
+        connect(state.connectionUrl, state.opts)
+      }, state.reconnectionDelay)
+      return
+    }
+
+    if (state.store) {
+      passToStore('SOCKET_RECONNECT_ERROR', true)
     }
   }
 
-  defaultPassToStore(eventName, event) {
-    if (!eventName.startsWith('SOCKET_')) {
+  function disconnect() {
+    state.manuallyDisconnected = true
+    clearReconnectTimeout()
+
+    if (!state.socket) {
       return
     }
-    let method = 'commit'
-    let target = eventName.toUpperCase()
-    let msg = event
-    if (this.format === 'json' && event.data) {
-      msg = JSON.parse(event.data)
-      if (msg.mutation) {
-        target = [msg.namespace || '', msg.mutation].filter(e => !!e).join('/')
-      } else if (msg.action) {
-        method = 'dispatch'
-        target = [msg.namespace || '', msg.action].filter(e => !!e).join('/')
-      }
+
+    SOCKET_EVENTS.forEach(eventType => {
+      state.socket[eventType] = null
+    })
+
+    if (typeof state.socket?.close === 'function') {
+      state.socket.close()
     }
-    if (this.mutations) {
-      target = this.mutations[target] || target
-    }
-    this.store[method](target, msg)
+  }
+
+  connect()
+
+  return {
+    connect,
+    defaultPassToStore,
+    disconnect,
+    passToStore,
+    get WebSocket() {
+      return state.socket
+    },
+    get connectionUrl() {
+      return state.connectionUrl
+    },
+    get reconnection() {
+      return state.reconnection
+    },
+    set reconnection(value) {
+      state.reconnection = value
+    },
+    get reconnectionCount() {
+      return state.reconnectionCount
+    },
   }
 }

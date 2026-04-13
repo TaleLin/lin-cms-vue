@@ -1,111 +1,77 @@
 <template>
-  <div v-if="showSidebarSearch" style="margin-top: 15px">
-    <div class="search-display" v-if="!showSearchList" @click="toSearch"><i class="el-icon-search"></i></div>
+  <div v-if="showSidebarSearch" class="search-wrap">
+    <div v-if="!showSearchList" class="search-display" @click="openSearch">
+      <el-icon><Search /></el-icon>
+    </div>
     <el-select
+      v-if="showSearchList"
+      ref="searchInput"
+      v-model="sidebar"
+      :filter-method="search"
+      class="search"
       clearable
       filterable
-      class="search"
-      v-model="sidebar"
-      ref="searchInput"
-      v-if="showSearchList"
-      :filter-method="search"
-      @change="handleChange"
       placeholder="请输入关键字"
+      @change="handleChange"
     >
-      <el-option v-for="item in groups" :key="item.key" :label="item.title" :value="item.path"> </el-option>
+      <el-option v-for="item in groups" :key="item.key" :label="item.title" :value="item.path" />
     </el-select>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'pinia'
-import { useUserStore } from '@/store/modules/user'
-import emitter from 'lin/util/emitter'
+<script setup>
+import { Search } from '@element-plus/icons-vue'
 
 import Config from '@/config/index'
 
-export default {
-  data() {
-    return {
-      groups: [],
-      sidebar: '',
-      showSearchList: false,
-      showSidebarSearch: Config.showSidebarSearch,
-    }
-  },
-  computed: {
-    ...mapGetters(useUserStore, ['sidebarList']),
-  },
-  mounted() {
-    emitter.on('removeSidebarSearch', () => {
-      this.showSidebarSearch = false
-    })
-    emitter.on('showSidebarSearch', () => {
-      if (Config.showSidebarSearch) {
-        this.showSidebarSearch = true
-      }
-    })
-  },
-  methods: {
-    handleChange(val) {
-      this.groups = []
-      this.sidebar = ''
-      this.showSearchList = false
-      this.$router.push(val)
-    },
-    toSearch() {
-      this.showSearchList = true
-      setTimeout(() => {
-        this.$refs.searchInput.focus()
-      }, 200)
-    },
-    search(val) {
-      this.groups = []
+import { useSidebarSearch } from './use-sidebar-search'
 
-      // 深度遍历配置树, 摘取叶子节点作为路由部分
-      function deepTravel(config, fuc) {
-        if (Array.isArray(config)) {
-          config.forEach(subConfig => {
-            deepTravel(subConfig, fuc)
-          })
-        } else if (config.children) {
-          config.children.forEach(subConfig => {
-            deepTravel(subConfig, fuc)
-          })
-        } else {
-          fuc(config)
-        }
-      }
+defineOptions({
+  name: 'SidebarSearch',
+})
 
-      deepTravel(this.sidebarList, viewConfig => {
-        // 构造舞台view路由
-        if (viewConfig.title.includes(val)) {
-          const viewRouter = {}
-          viewRouter.path = viewConfig.path
-          viewRouter.title = viewConfig.title
-          viewRouter.key = Math.random()
-          this.groups.push(viewRouter)
-        }
-      })
-    },
+const { visible, sidebarList, navigate } = defineProps({
+  visible: {
+    type: Boolean,
+    default: true,
   },
-}
+  sidebarList: {
+    type: Array,
+    default: () => [],
+  },
+  navigate: {
+    type: Function,
+    required: true,
+  },
+})
+
+const { groups, handleChange, openSearch, search, searchInput, showSearchList, showSidebarSearch, sidebar } =
+  useSidebarSearch({
+    configEnabled: Config.showSidebarSearch,
+    visible: () => visible,
+    sidebarList: () => sidebarList,
+    navigate,
+  })
 </script>
 
 <style lang="scss" scoped>
+.search-wrap {
+  margin-top: 15px;
+}
+
 .search-display {
   position: relative;
   width: 80%;
   margin: 0 auto;
   height: 36px;
-  border-bottom: 1px rgb(185, 190, 195) solid;
+  border-bottom: 1px rgba(185, 190, 195) solid;
   cursor: pointer;
 
-  .el-icon-search {
+  .el-icon {
     position: absolute;
     left: 1px;
     top: 10px;
-    color: rgb(185, 190, 195);
+    color: rgba(185, 190, 195);
   }
 }
 

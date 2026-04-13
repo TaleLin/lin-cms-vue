@@ -1,24 +1,24 @@
 <template>
-  <div class="container" ref="container">
+  <div class="container" :style="containerStyle">
     <img class="page-404" src="../../assets/image/error-page/404.png" alt="" />
     <img class="page-logo" src="../../assets/image/error-page/logo.png" alt="" />
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import { getCurrentInstance, onMounted } from 'vue'
+<script setup>
+import { computed } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 
-export default {
-  setup() {
-    onMounted(() => {
-      const headerHeight = 72
-      const { clientHeight } = document.body
+import { getNotFoundContainerHeight } from './not-found-helpers'
 
-      const ctx = getCurrentInstance()
-      ctx.refs.container.style.height = `${clientHeight - headerHeight}px`
-    })
-  }
-}
+defineOptions({
+  name: 'NotFound',
+})
+
+const { height } = useWindowSize()
+const containerStyle = computed(() => ({
+  height: getNotFoundContainerHeight(height.value),
+}))
 </script>
 
 <style scoped lang="scss">
@@ -27,10 +27,12 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
+
   .page-404 {
     width: 349px;
     height: 190px;
   }
+
   .page-logo {
     position: absolute;
     right: 40px;

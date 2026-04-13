@@ -1,32 +1,21 @@
-# 插件名: <%= title %>(<%= name %>)
+# <%= title %>（<%= name %>）
 
-插件描述, <%= title %> 用于处于xxx业务场景, 提供了xxx功能
+`<%= title %>` 插件用于 <%= description || '补充具体业务场景' %>。
 
-## 舞台视口列表
+## 开发基线
 
-### TestView
+- 前端运行于当前主仓的 Vue 3.5 + Vite + Element Plus 环境
+- 页面与组件默认使用 `<script setup>`
+- 插件路由和导航入口由 `stage-config.js` 管理
 
-地址: `/<%= name %>/test.vue`
-显示xxx内容, 可进行xxx操作
+## 入口
 
-## 自由视口列表
+- 舞台页面 1：`/<%= name %>/stage1`
+- 舞台页面 2：`/<%= name %>/stage2`
+- 共享组件：`component/component.vue`
 
-### Test
+## 开发约定
 
-属性:
-
-| Require | Name |  Type  | Default | Desc |
-|:-------:|:----:|:------:|:-------:|:----:|
-|  true   | name | String |   val   | 描述 |
-  
-事件:
-
-| Name |   Argument   | Desc |
-|:----:|:------------:|:----:|
-| name | 事件参数描述 | 描述 |
-
-方法:
-
-| Name |   Argument   |   Result   | Desc |
-|:----:|:------------:|:----------:|:----:|
-| name | 方法参数描述 | 返回值描述 | 描述 |
+- 页面级状态、路由交互和提交流程优先保留在页面组件内
+- 只有共享副作用或共享领域逻辑才抽成 `use-*.js`
+- 纯校验、映射和格式化逻辑放到 `*-helpers.js`

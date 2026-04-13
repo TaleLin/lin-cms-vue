@@ -1,0 +1,18 @@
+.vpc-root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.vpc-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.vpc-round-mode .cropper-view-box,
+.vpc-round-mode .cropper-face {
+  border-radius: 50%;
+}
