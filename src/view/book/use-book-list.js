@@ -2,13 +2,16 @@ import { onMounted, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { notifyRequestError } from '@/lin/util/request-error'
+import { isSuccessfulResponse } from '@/lin/util/response'
 import { deleteBook, getBooks } from '@/model/book'
-
-import { isBookListEmptyError, isBookResponseSuccessful } from './book-helpers'
 
 const defaultBookService = {
   deleteBook,
   getBooks,
+}
+
+function isBookListEmptyError(error = {}) {
+  return error?.code === 10020
 }
 
 export function useBookList({
@@ -59,7 +62,7 @@ export function useBookList({
     try {
       const result = await bookService.deleteBook(id)
 
-      if (isBookResponseSuccessful(result)) {
+      if (isSuccessfulResponse(result)) {
         await loadBooks()
         message.success(result.message)
         return true

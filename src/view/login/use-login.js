@@ -6,12 +6,25 @@ import { getPermissions, getToken, requestCaptcha } from '@/model/user'
 import { notifyRequestError } from '@/lin/util/request-error'
 import { mergeUserSnapshot } from '@/store/modules/user-helpers'
 
-import { createLoginAccount, extractCaptchaState } from './login-helpers'
-
 const defaultUserModel = {
   getPermissions,
   getToken,
   requestCaptcha,
+}
+
+function createLoginAccount() {
+  return {
+    username: '',
+    password: '',
+    captcha: '',
+  }
+}
+
+function extractCaptchaState(result = {}) {
+  return {
+    image: result.image || '',
+    tag: result.tag || '',
+  }
 }
 
 export function applyLoggedInUser(userStore, user = {}) {

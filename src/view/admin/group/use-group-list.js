@@ -1,18 +1,12 @@
 import { onMounted, reactive, ref, toValue } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-import { MAX_SUCCESS_CODE } from '@/config/global'
+import { createRequiredRule, validateElementForm } from '@/lin/util/form'
 import { deleteGroup, getAllGroups, updateGroup } from '@/model/admin'
 import { notifyRequestError } from '@/lin/util/request-error'
+import { isSuccessfulResponse } from '@/lin/util/response'
 
-import {
-  assignGroupDraft,
-  buildGroupEditRoute,
-  createGroupDraft,
-  createGroupRules,
-  hasGroupInfoChanged,
-  validateGroupForm,
-} from './group-helpers'
+import { assignGroupDraft, buildGroupEditRoute, createGroupDraft, hasGroupInfoChanged } from './group-helpers'
 
 const defaultAdminModel = {
   deleteGroup,
@@ -68,7 +62,7 @@ export function useGroupTable({
     try {
       const res = await adminModel.deleteGroup(targetGroupId)
 
-      if (res.code < MAX_SUCCESS_CODE) {
+      if (isSuccessfulResponse(res)) {
         await fetchGroups()
         message.success(res.message)
         return true
@@ -109,7 +103,10 @@ export function useGroupEdit({
   const groupId = ref(0)
   const group = reactive(createGroupDraft())
   const cachedGroup = ref(createGroupDraft())
-  const rules = createGroupRules()
+  const rules = {
+    info: [],
+    name: [createRequiredRule('分组名称不能为空', { trigger: ['blur', 'change'] })],
+  }
 
   function handleEdit(row) {
     groupId.value = row.id
@@ -128,7 +125,7 @@ export function useGroupEdit({
   }
 
   async function confirmEdit() {
-    const valid = await validateGroupForm(toValue(formRef))
+    const valid = await validateElementForm(toValue(formRef))
 
     if (!valid) {
       message.warning('请将信息填写完整')
@@ -143,7 +140,7 @@ export function useGroupEdit({
           info: group.info,
         })
 
-        if (res.code < MAX_SUCCESS_CODE) {
+        if (isSuccessfulResponse(res)) {
           message.success(res.message)
         } else {
           message.error(res.message)

@@ -2,17 +2,23 @@ import { computed, reactive, ref, toValue, useTemplateRef, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 
 import { MAX_SUCCESS_CODE } from '@/config/global'
+import {
+  createErrorMessageValidator,
+  createRequiredRule,
+  getConfirmedValueError,
+  getPasswordError,
+  validateElementForm,
+} from '@/lin/util/form'
 import { updateUser } from '@/model/admin'
 import { notifyRequestError } from '@/lin/util/request-error'
+import { isSuccessfulResponse } from '@/lin/util/response'
 import { register } from '@/model/user'
 
 import {
   createUserUpdatePayload,
   createUserInfoDraft,
-  createUserInfoRules,
   hasGroupSelectionChanged,
   populateUserInfoDraft,
-  validateElementForm,
 } from './user-helpers'
 
 const defaultUserModel = {
@@ -40,7 +46,24 @@ export function useUserInfoForm(
   const userInfo = reactive(createUserInfoDraft())
   const isCreateMode = computed(() => toValue(pageType) === 'add')
   const isEdited = computed(() => toValue(pageType) === 'edit')
-  const rules = createUserInfoRules(userInfo)
+  const rules = {
+    password: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: createErrorMessageValidator(value => getPasswordError(value)),
+      },
+    ],
+    username: [createRequiredRule('用户名不能为空', { trigger: ['blur', 'change'] })],
+    confirmPassword: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: createErrorMessageValidator(value => getConfirmedValueError(value, userInfo.password)),
+      },
+    ],
+    email: [{ type: 'email', message: '请输入正确的邮箱地址或者不填', trigger: ['blur', 'change'] }],
+  }
 
   function syncUserInfoFromDetail() {
     populateUserInfoDraft(userInfo, toValue(userDetail))
@@ -60,7 +83,7 @@ export function useUserInfoForm(
     try {
       const response = await userModel.register(userInfo)
 
-      if (response.code < successCode) {
+      if (isSuccessfulResponse(response, successCode)) {
         message.success(response.message)
         resetForm()
         return
@@ -91,7 +114,7 @@ export function useUserInfoForm(
     try {
       const response = await adminModel.updateUser(payload)
 
-      if (response.code < successCode) {
+      if (isSuccessfulResponse(response, successCode)) {
         message.success(response.message)
         onSubmitted(true)
         return

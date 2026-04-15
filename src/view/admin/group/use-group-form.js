@@ -1,21 +1,12 @@
 import { computed, reactive, ref, toValue, useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
 
-import { MAX_SUCCESS_CODE } from '@/config/global'
+import { createRequiredRule, validateElementForm } from '@/lin/util/form'
 import { createGroup, dispatchGroupPermissions, removeGroupPermissions } from '@/model/admin'
 import { notifyRequestError } from '@/lin/util/request-error'
+import { isFailedResponse, isSuccessfulResponse } from '@/lin/util/response'
 
-import {
-  createGroupRules,
-  getPermissionChanges,
-  normalizePermissionIds,
-  parseGroupId,
-  validateGroupForm,
-} from './group-helpers'
-
-function isSuccessResponse(result) {
-  return Boolean(result && result.code < MAX_SUCCESS_CODE)
-}
+import { getPermissionChanges, normalizePermissionIds, parseGroupId } from './group-helpers'
 
 function assertRouter(router) {
   if (!router || typeof router.push !== 'function') {
@@ -45,7 +36,10 @@ export function useGroupCreation({
     name: '',
     info: '',
   })
-  const rules = createGroupRules()
+  const rules = {
+    info: [],
+    name: [createRequiredRule('分组名称不能为空', { trigger: ['blur', 'change'] })],
+  }
 
   function resetGroupForm() {
     toValue(formReference)?.resetFields?.()
@@ -54,7 +48,7 @@ export function useGroupCreation({
   }
 
   async function submitGroupForm() {
-    const isValid = await validateGroupForm(toValue(formReference))
+    const isValid = await validateElementForm(toValue(formReference))
 
     if (!isValid) {
       message.error('请将信息填写完整')
@@ -70,7 +64,7 @@ export function useGroupCreation({
         permissionIds: selectedPermissionIds.value,
       })
 
-      if (isSuccessResponse(response)) {
+      if (isSuccessfulResponse(response)) {
         message.success(response.message)
         await router.push('/admin/group/list')
         resetGroupForm()
@@ -161,7 +155,7 @@ export function useGroupPermissionEditor({
         })
       }
 
-      const firstFailure = operationResults.find(({ result }) => !isSuccessResponse(result))
+      const firstFailure = operationResults.find(({ result }) => isFailedResponse(result))
 
       if (firstFailure) {
         message.error(firstFailure.result?.message || firstFailure.fallbackMessage)

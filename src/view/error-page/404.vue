@@ -9,15 +9,14 @@
 import { computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
-import { getNotFoundContainerHeight } from './not-found-helpers'
-
 defineOptions({
   name: 'NotFound',
 })
 
+const NOT_FOUND_HEADER_HEIGHT = 72
 const { height } = useWindowSize()
 const containerStyle = computed(() => ({
-  height: getNotFoundContainerHeight(height.value),
+  height: `${height.value - NOT_FOUND_HEADER_HEIGHT}px`,
 }))
 </script>
 

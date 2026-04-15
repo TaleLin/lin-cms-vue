@@ -1,17 +1,17 @@
 import { onBeforeUnmount, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 
-import { MAX_SUCCESS_CODE } from '@/config/global'
+import {
+  createErrorMessageValidator,
+  getConfirmedValueError,
+  getPasswordError,
+  validateElementForm,
+} from '@/lin/util/form'
 import { updatePassword } from '@/model/user'
 import { logoutAndRedirectToLogin } from '@/lin/util/session'
+import { isSuccessfulResponse } from '@/lin/util/response'
 
-import {
-  createCenterPasswordDraft,
-  createCenterPasswordRules,
-  hasPasswordChangeValues,
-  isReusedPassword,
-  validateCenterForm,
-} from './center-helpers'
+import { createCenterPasswordDraft, hasPasswordChangeValues, isReusedPassword } from './center-helpers'
 
 const defaultUserModel = {
   updatePassword,
@@ -28,11 +28,42 @@ export function useCenterPasswordForm({
 } = {}) {
   const loading = ref(false)
   const form = reactive(createCenterPasswordDraft())
-  const rules = createCenterPasswordRules(form, {
-    revalidateConfirmPassword: () => {
-      formRef.value?.validateField('confirmPassword')
-    },
-  })
+  const rules = {
+    oldPassword: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: (_, value, callback) => {
+          if (!value) {
+            callback(new Error('原始密码不能为空'))
+            return
+          }
+
+          callback()
+        },
+      },
+    ],
+    newPassword: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: createErrorMessageValidator(value => getPasswordError(value), {
+          onSuccess: () => {
+            if (form.confirmPassword !== '') {
+              formRef.value?.validateField('confirmPassword')
+            }
+          },
+        }),
+      },
+    ],
+    confirmPassword: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: createErrorMessageValidator(value => getConfirmedValueError(value, form.newPassword)),
+      },
+    ],
+  }
   let scheduledLogoutHandle = null
 
   function clearPendingLogout() {
@@ -54,7 +85,7 @@ export function useCenterPasswordForm({
       return
     }
 
-    const valid = await validateCenterForm(formRef.value)
+    const valid = await validateElementForm(formRef.value)
 
     if (!valid) {
       message.error('请填写正确的信息')
@@ -66,7 +97,7 @@ export function useCenterPasswordForm({
     try {
       const res = await userModel.updatePassword(form)
 
-      if (res.code < MAX_SUCCESS_CODE) {
+      if (isSuccessfulResponse(res)) {
         message.success(res.message)
         resetPasswordForm()
         clearPendingLogout()

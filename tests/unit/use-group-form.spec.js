@@ -4,7 +4,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 const createGroup = vi.fn()
 const dispatchGroupPermissions = vi.fn()
 const removeGroupPermissions = vi.fn()
-const validateGroupForm = vi.fn()
 
 vi.mock('@/model/admin', () => ({
   createGroup,
@@ -16,16 +15,6 @@ vi.mock('@/lin/util/request-error', () => ({
   notifyRequestError: vi.fn(),
 }))
 
-vi.mock('@/view/admin/group/group-helpers', async () => {
-  const actual = await vi.importActual('@/view/admin/group/group-helpers')
-
-  return {
-    ...actual,
-    createGroupRules: () => ({}),
-    validateGroupForm,
-  }
-})
-
 const { useGroupCreation, useGroupPermissionEditor } = await import('@/view/admin/group/use-group-form')
 
 describe('useGroupCreation', () => {
@@ -33,12 +22,13 @@ describe('useGroupCreation', () => {
     createGroup.mockReset()
     dispatchGroupPermissions.mockReset()
     removeGroupPermissions.mockReset()
-    validateGroupForm.mockReset()
   })
 
   it('shows an error when validation fails and skips the request', async () => {
-    validateGroupForm.mockResolvedValue(false)
-    const formRef = ref({ resetFields: vi.fn() })
+    const formRef = ref({
+      resetFields: vi.fn(),
+      validate: vi.fn().mockRejectedValue(new Error('invalid')),
+    })
     const groupPermissionsRef = ref({ getGroupPermissions: vi.fn() })
     const message = { error: vi.fn(), success: vi.fn() }
 
@@ -56,9 +46,11 @@ describe('useGroupCreation', () => {
   })
 
   it('creates a group, resets the form, and navigates back on success', async () => {
-    validateGroupForm.mockResolvedValue(true)
     createGroup.mockResolvedValue({ code: 0, message: '创建成功' })
-    const formRef = ref({ resetFields: vi.fn() })
+    const formRef = ref({
+      resetFields: vi.fn(),
+      validate: vi.fn().mockResolvedValue(undefined),
+    })
     const groupPermissionsRef = ref({ getGroupPermissions: vi.fn() })
     const router = { push: vi.fn() }
     const message = { error: vi.fn(), success: vi.fn() }
@@ -89,12 +81,14 @@ describe('useGroupCreation', () => {
   })
 
   it('shows a clear error when create returns a failed response code', async () => {
-    validateGroupForm.mockResolvedValue(true)
     createGroup.mockResolvedValue({ code: 10000, message: '创建失败' })
     const message = { error: vi.fn(), success: vi.fn() }
 
     const { submitGroupForm } = useGroupCreation({
-      formRef: ref({ resetFields: vi.fn() }),
+      formRef: ref({
+        resetFields: vi.fn(),
+        validate: vi.fn().mockResolvedValue(undefined),
+      }),
       groupPermissionsRef: ref({ getGroupPermissions: vi.fn() }),
       message,
       router: { push: vi.fn() },

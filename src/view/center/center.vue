@@ -1,11 +1,10 @@
 <template>
-  <div class="container">
-    <div class="title">个人中心</div>
-    <div class="wrap">
+  <PagePanel title="个人中心">
+    <div class="center-content">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
-          <div class="user">
-            <div class="title">用户信息</div>
+          <div class="user-section">
+            <div class="section-title">用户信息</div>
             <div class="content">
               <div class="name-wrapper">
                 <div class="label">昵称</div>
@@ -29,8 +28,8 @@
             </div>
           </div>
 
-          <div class="password">
-            <div class="title">修改密码</div>
+          <div class="password-section">
+            <div class="section-title">修改密码</div>
             <el-form
               ref="formRef"
               v-loading="loading"
@@ -61,7 +60,7 @@
     </div>
 
     <Avatar v-model:visible="cropVisible" :original-image="cropImg" :user-store="userStore" />
-  </div>
+  </PagePanel>
 </template>
 
 <script setup>
@@ -69,6 +68,7 @@ import { useTemplateRef } from 'vue'
 import { Camera, Edit } from '@element-plus/icons-vue'
 
 import defaultAvatar from '@/assets/image/user/user.png'
+import PagePanel from '@/component/base/page-panel.vue'
 import Avatar from '@/component/layout/avatar.vue'
 import { useUserStore } from '@/store/modules/user'
 import { useCenterProfile } from './use-center-profile'
@@ -94,109 +94,92 @@ const { avatarSrc, cropImg, cropVisible, handleAvatarFileChange, editingNickname
 </script>
 
 <style lang="scss" scoped>
-.container {
-  .title {
-    height: 59px;
-    line-height: 59px;
-    color: $parent-title-color;
-    font-size: 16px;
-    font-weight: 500;
-    text-indent: 40px;
-    border-bottom: 1px solid #dae1ec;
-  }
+.center-content {
+  max-width: 800px;
+}
 
-  .wrap {
-    padding: 20px;
-    max-width: 800px;
+.user-section {
+  padding: 0 20px 25px 0;
+  z-index: 100;
+  position: relative;
+  border-bottom: 1px solid #dae1ec;
+}
 
-    .user {
-      padding: 0 20px 25px 30px;
-      z-index: 100;
-      position: relative;
-      border-bottom: 1px solid #dae1ec;
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-      .title {
-        font-weight: bold;
-        font-size: 16px;
-        color: #3a3a3a;
-        text-indent: 0;
-        border: none;
-      }
+.name-wrapper {
+  display: flex;
+  align-items: center;
+}
 
-      .content {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+.label {
+  margin-right: 20px;
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+}
 
-        .name-wrapper {
-          display: flex;
-          align-items: center;
+.name {
+  font-weight: 500;
+}
 
-          .label {
-            margin-right: 20px;
-            color: #333;
-            font-weight: bold;
-            font-size: 14px;
-          }
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
 
-          .name {
-            font-weight: 500;
-          }
-        }
+.avatar .mask {
+  opacity: 0;
+  transition: all 0.2s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+}
 
-        .avatar {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          cursor: pointer;
-          overflow: hidden;
-          position: relative;
+.avatar .mask-icon {
+  font-size: 20px;
+}
 
-          .mask {
-            opacity: 0;
-            transition: all 0.2s;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            color: white;
+.avatar .mask input {
+  display: none;
+}
 
-            .mask-icon {
-              font-size: 20px;
-            }
+.avatar:hover .mask {
+  opacity: 1;
+}
 
-            input {
-              display: none;
-            }
-          }
+.password-section {
+  padding: 25px 20px 25px 0;
+}
 
-          &:hover {
-            .mask {
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
+.section-title {
+  margin-bottom: 20px;
+  color: #3a3a3a;
+  font-weight: bold;
+  font-size: 16px;
+}
 
-    .password {
-      padding: 25px 20px 25px 30px;
-
-      .title {
-        color: #3a3a3a;
-        font-weight: bold;
-        font-size: 16px;
-        text-indent: 0;
-        margin-bottom: 20px;
-        border: none;
-      }
-    }
+@media screen and (width <= 680px) {
+  .content {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>

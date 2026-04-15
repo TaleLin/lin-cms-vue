@@ -1,11 +1,13 @@
 <template>
-  <div class="container">
-    <div class="title" v-if="!editBookId">新建图书</div>
-    <div class="title" v-else>
-      <span>修改图书</span> <span class="back" @click="back"> <Back class="back__icon" /> 返回 </span>
-    </div>
+  <PagePanel :title="editBookId ? '修改图书' : '新建图书'">
+    <template v-if="editBookId" #actions>
+      <span class="back" @click="back">
+        <el-icon class="back__icon"><Back /></el-icon>
+        返回
+      </span>
+    </template>
 
-    <div class="wrap" v-loading="loading">
+    <div v-loading="loading">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
           <el-form :model="book" status-icon ref="form" label-width="100px" @submit.prevent :rules="rules">
@@ -36,12 +38,14 @@
         </el-col>
       </el-row>
     </div>
-  </div>
+  </PagePanel>
 </template>
 
 <script setup>
 import { Back } from '@element-plus/icons-vue'
 import { onMounted, useTemplateRef } from 'vue'
+
+import PagePanel from '@/component/base/page-panel.vue'
 
 import { useBookForm } from './use-book-form'
 
@@ -78,33 +82,20 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 59px;
-    line-height: 59px;
-    padding: 0 40px;
-    color: $parent-title-color;
-    font-size: 16px;
-    font-weight: 500;
-    border-bottom: 1px solid #dae1ec;
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
 
-    .back {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
-  }
+.back__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
 
-  .wrap {
-    padding: 20px;
-  }
-
-  .submit :deep(.el-form-item__content) {
-    justify-content: flex-start;
-  }
+.submit :deep(.el-form-item__content) {
+  justify-content: flex-start;
 }
 </style>

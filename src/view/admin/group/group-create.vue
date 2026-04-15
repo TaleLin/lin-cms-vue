@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-    <div class="title">新建分组信息</div>
+  <PagePanel title="新建分组信息">
     <div class="wrap">
       <el-row>
         <el-col :lg="16" :md="20" :sm="24" :xs="24">
@@ -31,12 +30,14 @@
         </el-col>
       </el-row>
     </div>
-  </div>
+  </PagePanel>
 </template>
 
 <script setup>
 import { useTemplateRef } from 'vue'
 import { useRouter } from 'vue-router'
+
+import PagePanel from '@/component/base/page-panel.vue'
 
 import GroupPermissions from './group-permission'
 import { useGroupCreation } from './use-group-form'
@@ -53,22 +54,7 @@ const { groupDraft, loading, resetGroupForm, rules, selectedPermissionIds, submi
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 0 30px;
-
-  .title {
-    height: 59px;
-    line-height: 59px;
-    color: $parent-title-color;
-    font-size: 16px;
-    font-weight: 500;
-    border-bottom: 1px solid #dae1ec;
-  }
-
-  .wrap {
-    padding: 20px;
-  }
-
+.wrap {
   .submit :deep(.el-form-item__content) {
     justify-content: flex-start;
   }

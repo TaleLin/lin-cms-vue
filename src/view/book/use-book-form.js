@@ -1,16 +1,10 @@
 import { computed, reactive, ref, toValue } from 'vue'
 import { ElMessage } from 'element-plus'
 
+import { createRequiredRule, validateElementForm } from '@/lin/util/form'
 import { notifyRequestError } from '@/lin/util/request-error'
+import { isSuccessfulResponse } from '@/lin/util/response'
 import { createBook, editBook, getBook } from '@/model/book'
-
-import {
-  assignBookFields,
-  createBookDraft,
-  getBookRules,
-  isBookResponseSuccessful,
-  validateBookForm,
-} from './book-helpers'
 
 const defaultBookService = {
   createBook,
@@ -18,10 +12,32 @@ const defaultBookService = {
   getBook,
 }
 
+function createBookDraft() {
+  return {
+    title: '',
+    author: '',
+    summary: '',
+    image: '',
+  }
+}
+
+function assignBookFields(target, source = {}) {
+  Object.keys(target).forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      target[key] = source[key] ?? ''
+    }
+  })
+}
+
 export function useBookForm({ editBookId, formRef, onSaved, message = ElMessage, model = defaultBookService } = {}) {
   const loading = ref(false)
   const book = reactive(createBookDraft())
-  const rules = getBookRules()
+  const rules = {
+    title: [createRequiredRule('信息不能为空')],
+    author: [createRequiredRule('信息不能为空')],
+    summary: [createRequiredRule('信息不能为空')],
+    image: [createRequiredRule('信息不能为空')],
+  }
   const isEditing = computed(() => Boolean(toValue(editBookId)))
 
   async function loadBook() {
@@ -46,7 +62,7 @@ export function useBookForm({ editBookId, formRef, onSaved, message = ElMessage,
   }
 
   async function submitForm() {
-    const valid = await validateBookForm(formRef.value)
+    const valid = await validateElementForm(formRef.value)
 
     if (!valid) {
       message.error('请将信息填写完整')
@@ -59,7 +75,7 @@ export function useBookForm({ editBookId, formRef, onSaved, message = ElMessage,
       if (isEditing.value) {
         const result = await model.editBook(toValue(editBookId), book)
 
-        if (isBookResponseSuccessful(result)) {
+        if (isSuccessfulResponse(result)) {
           message.success(result.message)
           await onSaved?.({ mode: 'edit', result })
           return
@@ -71,7 +87,7 @@ export function useBookForm({ editBookId, formRef, onSaved, message = ElMessage,
 
       const result = await model.createBook(book)
 
-      if (isBookResponseSuccessful(result)) {
+      if (isSuccessfulResponse(result)) {
         message.success(result.message)
         resetForm()
         await onSaved?.({ mode: 'create', result })

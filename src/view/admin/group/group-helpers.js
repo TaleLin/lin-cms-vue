@@ -29,22 +29,6 @@ export function assignGroupDraft(target, source = {}) {
   target.info = source.info || ''
 }
 
-export function createGroupRules() {
-  const checkName = (_, value, callback) => {
-    if (!value) {
-      callback(new Error('分组名称不能为空'))
-      return
-    }
-
-    callback()
-  }
-
-  return {
-    info: [],
-    name: [{ validator: checkName, trigger: ['blur', 'change'], required: true }],
-  }
-}
-
 export function buildGroupEditRoute(groupId) {
   return {
     path: '/admin/group/edit',
@@ -72,19 +56,6 @@ export function normalizePermissionIds(permissionIds = []) {
   })
 
   return [...normalizedIds]
-}
-
-export async function validateGroupForm(form) {
-  if (!form) {
-    return false
-  }
-
-  try {
-    await form.validate()
-    return true
-  } catch {
-    return false
-  }
 }
 
 export function hasGroupInfoChanged(group, cacheGroup) {

@@ -1,8 +1,5 @@
 <template>
-  <div class="container">
-    <div class="header">
-      <div class="title">分组列表信息</div>
-    </div>
+  <PagePanel title="分组列表信息">
     <el-table v-loading="loading" :data="tableData" @row-dblclick="rowDoubleClick">
       <el-table-column prop="name" label="名称" />
       <el-table-column prop="info" label="分组描述" />
@@ -43,12 +40,14 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  </PagePanel>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
 import { useTemplateRef } from 'vue'
+
+import PagePanel from '@/component/base/page-panel.vue'
 
 import { useGroupList } from './use-group-list'
 
@@ -78,24 +77,6 @@ const {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 0 30px;
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .title {
-      height: 59px;
-      line-height: 59px;
-      color: $parent-title-color;
-      font-size: 16px;
-      font-weight: 500;
-    }
-  }
-}
-
 .dialog-body {
   padding-top: 8px;
 }

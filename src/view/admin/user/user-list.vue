@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
-    <div class="header">
-      <div class="title">用户列表</div>
+  <PagePanel title="用户列表">
+    <template #actions>
       <div class="filter-toolbar">
         <div class="group-field">
           <el-select
@@ -16,7 +15,7 @@
           </el-select>
         </div>
       </div>
-    </div>
+    </template>
     <el-table v-loading="loading" :data="userRows" @row-dblclick="handleRowDoubleClick">
       <el-table-column prop="username" label="名称" />
       <el-table-column prop="groupNames" label="所属分组" />
@@ -75,11 +74,13 @@
         </div>
       </template>
     </el-dialog>
-  </div>
+  </PagePanel>
 </template>
 
 <script setup>
 import { ref, useTemplateRef } from 'vue'
+
+import PagePanel from '@/component/base/page-panel.vue'
 
 import UserInfo from './user-info'
 import UserPassword from './user-password'
@@ -135,39 +136,20 @@ async function handleInfoSubmittedWrapper(submitted) {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 0 30px;
+.filter-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 59px;
+.group-field {
+  width: 160px;
+}
 
-    .title {
-      height: 59px;
-      line-height: 59px;
-      color: $parent-title-color;
-      font-size: 16px;
-      font-weight: 500;
-    }
-  }
-
-  .filter-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .group-field {
-    width: 160px;
-  }
-
-  .group-select {
-    width: 100%;
-  }
+.group-select {
+  width: 100%;
 }
 
 .pagination {

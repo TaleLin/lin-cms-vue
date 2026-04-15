@@ -1,8 +1,8 @@
 import { ElMessage } from 'element-plus'
 
-import { MAX_SUCCESS_CODE } from '@/config/global'
 import { getInformation, updateProfile as updateUserProfile } from '@/model/user'
 import { notifyRequestError } from '@/lin/util/request-error'
+import { isFailedResponse } from '@/lin/util/response'
 import { mergeUserSnapshot } from '@/store/modules/user-helpers'
 
 const defaultUserModel = {
@@ -26,7 +26,7 @@ export function useCurrentUserProfile({ userStore, message = ElMessage, userMode
     try {
       const result = await userModel.updateProfile(profile)
 
-      if (result.code >= MAX_SUCCESS_CODE) {
+      if (isFailedResponse(result)) {
         message.error(result.message || failureMessage)
         return null
       }

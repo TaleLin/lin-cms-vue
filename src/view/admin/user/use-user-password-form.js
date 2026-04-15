@@ -1,10 +1,16 @@
 import { reactive, ref, toValue, useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
 
-import { MAX_SUCCESS_CODE } from '@/config/global'
+import {
+  createErrorMessageValidator,
+  getConfirmedValueError,
+  getPasswordError,
+  validateElementForm,
+} from '@/lin/util/form'
 import { changeUserPassword } from '@/model/admin'
+import { isSuccessfulResponse } from '@/lin/util/response'
 
-import { createUserPasswordRules, hasUserPasswordInput, validateElementForm } from './user-helpers'
+import { hasUserPasswordInput } from './user-helpers'
 
 export function useUserPasswordForm({ id, onSubmitted }) {
   const form = useTemplateRef('form')
@@ -13,7 +19,28 @@ export function useUserPasswordForm({ id, onSubmitted }) {
     newPassword: '',
     confirmPassword: '',
   })
-  const rules = createUserPasswordRules(passwordForm, form)
+  const rules = {
+    newPassword: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: createErrorMessageValidator(value => getPasswordError(value), {
+          onSuccess: () => {
+            if (passwordForm.confirmPassword) {
+              form.value?.validateField('confirmPassword')
+            }
+          },
+        }),
+      },
+    ],
+    confirmPassword: [
+      {
+        required: true,
+        trigger: 'blur',
+        validator: createErrorMessageValidator(value => getConfirmedValueError(value, passwordForm.newPassword)),
+      },
+    ],
+  }
 
   async function submitForm() {
     if (!hasUserPasswordInput(passwordForm)) {
@@ -37,7 +64,7 @@ export function useUserPasswordForm({ id, onSubmitted }) {
         confirmPassword: passwordForm.confirmPassword,
       })
 
-      if (res.code < MAX_SUCCESS_CODE) {
+      if (isSuccessfulResponse(res)) {
         ElMessage.success(res.message)
         resetForm()
         onSubmitted(true)

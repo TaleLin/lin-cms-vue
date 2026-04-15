@@ -3,7 +3,10 @@
     <header
       v-if="title || hasTitleSlot || hasActionsSlot"
       class="page-panel__header"
-      :class="{ 'page-panel__header--with-actions': hasActionsSlot }"
+      :class="{
+        'page-panel__header--with-actions': hasActionsSlot,
+        'page-panel__header--sticky': stickyHeader,
+      }"
       :style="headerStyle"
     >
       <div class="page-panel__title">
@@ -27,22 +30,30 @@ defineOptions({
   name: 'PagePanel',
 })
 
-const { title, headerPadding, bodyPadding, bodyClass } = defineProps({
+const { title, headerPadding, bodyPadding, bodyClass, stickyHeader, stickyTop } = defineProps({
   title: {
     type: String,
     default: '',
   },
   headerPadding: {
     type: String,
-    default: '0 40px',
+    default: '0 30px',
   },
   bodyPadding: {
     type: String,
-    default: '20px',
+    default: '',
   },
   bodyClass: {
     type: [String, Array, Object],
     default: '',
+  },
+  stickyHeader: {
+    type: Boolean,
+    default: true,
+  },
+  stickyTop: {
+    type: String,
+    default: '0px',
   },
 })
 
@@ -51,29 +62,24 @@ const hasTitleSlot = computed(() => Boolean(slots.title))
 const hasActionsSlot = computed(() => Boolean(slots.actions))
 const headerStyle = computed(() => ({
   '--page-panel-header-padding': headerPadding,
+  '--page-panel-sticky-top': stickyTop,
 }))
 const bodyStyle = computed(() => ({
-  '--page-panel-body-padding': bodyPadding,
+  '--page-panel-body-padding': resolveBodyPadding(),
 }))
+
+function resolveBodyPadding() {
+  if (bodyPadding) {
+    return bodyPadding
+  }
+
+  return '20px 30px 30px'
+}
 </script>
 
 <style lang="scss" scoped>
 .page-panel {
   position: relative;
-  overflow: hidden;
-  background: var(--theme-panel-gradient);
-  border: 1px solid var(--theme-border);
-  border-radius: 18px;
-  box-shadow: var(--theme-panel-shadow);
-
-  &:before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    height: 68px;
-    background: linear-gradient(180deg, var(--theme-panel-highlight), transparent);
-    pointer-events: none;
-  }
 }
 
 .page-panel__header {
@@ -83,12 +89,25 @@ const bodyStyle = computed(() => ({
   min-height: 59px;
   padding: var(--page-panel-header-padding);
   border-bottom: 1px solid var(--theme-border);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent);
 }
 
 .page-panel__header--with-actions {
   justify-content: space-between;
   gap: 16px;
+}
+
+.page-panel__header--sticky {
+  position: sticky;
+  top: var(--page-panel-sticky-top);
+  z-index: 9;
+}
+
+.page-panel__header--sticky:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--theme-main-bg);
 }
 
 .page-panel__title {
@@ -103,11 +122,26 @@ const bodyStyle = computed(() => ({
 .page-panel__actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 12px;
+  min-width: 0;
 }
 
 .page-panel__body {
   position: relative;
   padding: var(--page-panel-body-padding);
+}
+
+@media screen and (width <= 680px) {
+  .page-panel__header--with-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .page-panel__actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 </style>

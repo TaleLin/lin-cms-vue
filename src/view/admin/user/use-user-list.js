@@ -1,9 +1,9 @@
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-import { MAX_SUCCESS_CODE } from '@/config/global'
 import { deleteUser, getAdminUsers, getAllGroups } from '@/model/admin'
 import { notifyRequestError } from '@/lin/util/request-error'
+import { isSuccessfulResponse } from '@/lin/util/response'
 
 import { createUserDetailDraft, mapUserRows, populateUserDetailDraft, shouldMoveToPreviousPage } from './user-helpers'
 
@@ -82,7 +82,7 @@ export function useUserTable({
     try {
       const response = await adminModel.deleteUser(targetUserId)
 
-      if (response.code < MAX_SUCCESS_CODE) {
+      if (isSuccessfulResponse(response)) {
         if (shouldMoveToPreviousPage(total.value, pageSize.value, currentPage.value)) {
           currentPage.value -= 1
         }

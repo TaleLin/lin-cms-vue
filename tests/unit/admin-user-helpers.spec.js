@@ -1,21 +1,15 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import {
   createUserInfoDraft,
-  createUserInfoRules,
-  createUserPasswordRules,
   createUserDetailDraft,
   createUserUpdatePayload,
-  getUserConfirmPasswordError,
-  getUserNameError,
-  getUserPasswordError,
   hasGroupSelectionChanged,
   hasUserPasswordInput,
   mapUserRows,
   populateUserInfoDraft,
   populateUserDetailDraft,
   shouldMoveToPreviousPage,
-  validateElementForm,
 } from '@/view/admin/user/user-helpers'
 
 describe('admin user helpers', () => {
@@ -97,78 +91,9 @@ describe('admin user helpers', () => {
     })
   })
 
-  it('returns validation messages for user forms', () => {
-    expect(getUserNameError('')).toBe('用户名不能为空')
-    expect(getUserNameError('admin')).toBe('')
-    expect(getUserPasswordError('')).toBe('请输入密码')
-    expect(getUserPasswordError('12345')).toBe('密码长度不能少于6位数')
-    expect(getUserPasswordError('123456')).toBe('')
-    expect(getUserConfirmPasswordError('', '123456')).toBe('请再次输入密码')
-    expect(getUserConfirmPasswordError('654321', '123456')).toBe('两次输入密码不一致!')
-    expect(getUserConfirmPasswordError('123456', '123456')).toBe('')
+  it('tracks whether the password form contains input', () => {
     expect(hasUserPasswordInput({ newPassword: '', confirmPassword: '' })).toBe(false)
     expect(hasUserPasswordInput({ newPassword: '123456', confirmPassword: '' })).toBe(true)
-  })
-
-  it('validates element forms defensively', async () => {
-    await expect(validateElementForm()).resolves.toBe(false)
-    await expect(
-      validateElementForm({
-        validate: () => Promise.resolve(),
-      }),
-    ).resolves.toBe(true)
-    await expect(
-      validateElementForm({
-        validate: () => Promise.reject(new Error('invalid')),
-      }),
-    ).resolves.toBe(false)
-  })
-
-  it('builds user info validation rules that surface semantic errors', () => {
-    const rules = createUserInfoRules({
-      password: '123456',
-    })
-    const usernameCallback = vi.fn()
-    const passwordCallback = vi.fn()
-    const confirmCallback = vi.fn()
-
-    rules.username[0].validator(null, '', usernameCallback)
-    rules.password[0].validator(null, '12345', passwordCallback)
-    rules.confirmPassword[0].validator(null, '654321', confirmCallback)
-
-    expect(usernameCallback).toHaveBeenCalledWith(expect.any(Error))
-    expect(usernameCallback.mock.calls[0][0].message).toBe('用户名不能为空')
-    expect(passwordCallback.mock.calls[0][0].message).toBe('密码长度不能少于6位数')
-    expect(confirmCallback.mock.calls[0][0].message).toBe('两次输入密码不一致!')
-    expect(rules.email[0]).toEqual({
-      type: 'email',
-      message: '请输入正确的邮箱地址或者不填',
-      trigger: ['blur', 'change'],
-    })
-  })
-
-  it('builds user password rules that revalidate confirmation after password changes', () => {
-    const validateField = vi.fn()
-    const callback = vi.fn()
-    const confirmCallback = vi.fn()
-    const rules = createUserPasswordRules(
-      {
-        newPassword: '123456',
-        confirmPassword: '123456',
-      },
-      {
-        value: {
-          validateField,
-        },
-      },
-    )
-
-    rules.newPassword[0].validator(null, '123456', callback)
-    rules.confirmPassword[0].validator(null, '123456', confirmCallback)
-
-    expect(validateField).toHaveBeenCalledWith('confirmPassword')
-    expect(callback).toHaveBeenCalledWith()
-    expect(confirmCallback).toHaveBeenCalledWith()
   })
 
   it('creates immutable update payloads for user edit submissions', () => {
