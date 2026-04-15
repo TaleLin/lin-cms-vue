@@ -1,9 +1,19 @@
-// 本文件是自动生成, 请勿修改
-<% plugins.forEach(function(plugin){ %>import <%= plugin.camelCaseName %> from '@/plugin/<%= plugin.name %>/stage-config'
-<% }); %>
+<%
+const lines = ['// 本文件是自动生成, 请勿修改']
 
-const pluginsConfig = [
-<% plugins.forEach(function(plugin){ %>  <%= plugin.camelCaseName %>,
-<% }); %>]
+plugins.forEach(plugin => {
+  lines.push(`import ${plugin.camelCaseName} from '@/plugin/${plugin.name}/stage-config'`)
+})
 
-export default pluginsConfig
+lines.push('')
+lines.push('const pluginsConfig = [')
+
+plugins.forEach(plugin => {
+  lines.push(`  ${plugin.camelCaseName},`)
+})
+
+lines.push(']')
+lines.push('')
+lines.push('export default pluginsConfig')
+-%>
+<%- `${lines.join('\n')}\n` %>

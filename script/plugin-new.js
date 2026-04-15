@@ -140,7 +140,7 @@ inquirer
     console.log(chalk.green(`创建插件 ${answers.name}: ${targetPath}`))
   })
   .then(() => {
-    require('./plugin-get-config.js')
+    return require('./plugin-get-config.js')()
   })
   .catch(err => {
     console.log(chalk.red('创建插件失败'))

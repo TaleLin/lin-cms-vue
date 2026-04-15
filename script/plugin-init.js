@@ -85,6 +85,10 @@ async function handler() {
   })
 }
 
-handler().then(() => {
-  require('./plugin-get-config')
-})
+handler()
+  .then(() => require('./plugin-get-config')())
+  .catch(error => {
+    console.log(chalk.red('插件初始化失败'))
+    console.error(error)
+    process.exit(1)
+  })
