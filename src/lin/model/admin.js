@@ -35,7 +35,7 @@ export default class Admin {
     return get('cms/admin/permission')
   }
 
-  static async getAdminUsers({ groupId, count = this.uCount, page = this.uPage }) {
+  static async getAdminUsers({ groupId, count = 10, page = 0 }) {
     let res
     if (groupId) {
       res = await get('cms/admin/users', {
@@ -54,15 +54,15 @@ export default class Admin {
 
   async nextUsersPage() {
     await this.increaseUPage()
-    return this.getAdminUsers({})
+    return Admin.getAdminUsers({ count: this.uCount, page: this.uPage })
   }
 
   async preUsersPage() {
     await this.decreaseUPage()
-    return this.getAdminUsers({})
+    return Admin.getAdminUsers({ count: this.uCount, page: this.uPage })
   }
 
-  async getGroupsWithPermissions({ count = this.uCount, page = this.uPage }) {
+  async getGroupsWithPermissions({ count = 5, page = 0 }) {
     const res = await get('cms/admin/groups', {
       count,
       page,
@@ -72,12 +72,12 @@ export default class Admin {
 
   async nextGroupsPage() {
     await this.increaseGPage()
-    return this.getGroupsWithPermissions({})
+    return this.getGroupsWithPermissions({ count: this.gCount, page: this.lPage })
   }
 
   async preGroupsPage() {
     await this.decreaseGPage()
-    return this.getGroupsWithPermissions({})
+    return this.getGroupsWithPermissions({ count: this.gCount, page: this.lPage })
   }
 
   static async getAllGroups() {

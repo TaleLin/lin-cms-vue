@@ -1,7 +1,8 @@
-import moment from 'moment'
+// 使用 dayjs 替代 moment（dayjs 已在 package.json 中）
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
 
-// 设置语言为中文
-moment.locale('zh-cn')
+dayjs.locale('zh-cn')
 
 /**
  * @param {number} hours

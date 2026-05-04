@@ -20,7 +20,10 @@ export default {
     }
   },
   mounted() {
-    document.getElementById('loader').style.display = 'none'
+    const loader = document.getElementById('loader')
+    if (loader) {
+      loader.style.display = 'none'
+    }
   },
 }
 </script>

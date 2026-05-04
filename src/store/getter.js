@@ -195,10 +195,9 @@ function deepTravel(obj, fuc) {
  */
 function IterationDelateMenuChildren(arr) {
   if (arr.length) {
-    // eslint-disable-next-line no-unused-vars
-    for (const i in arr) {
+    for (let i = arr.length - 1; i >= 0; i -= 1) {
       if (arr[i].children && !arr[i].children.length) {
-        delete arr[i]
+        arr.splice(i, 1)
       } else if (arr[i].children && arr[i].children.length) {
         IterationDelateMenuChildren(arr[i].children)
       }

@@ -16,7 +16,7 @@
     "@babel/polyfill": "^7.4.4",
     "@element-plus/icons-vue": "^2.1.0",
     "@tinymce/tinymce-vue": "^4.0.0",
-    "axios": "^0.24.0",
+    "axios": "^1.7.9",
     "core-js": "^3.23.5",
     "dayjs": "^1.10.4",
     "element-plus": "^2.3.8",
@@ -24,7 +24,7 @@
     "fastscan": "^1.0.4",
     "good-storage": "^1.1.0",
     "js-cookie": "^2.2.0",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.21",
     "mitt": "^2.1.0",
     "moment": "^2.29.4",
     "photoswipe": "^4.1.2",
@@ -34,8 +34,7 @@
     "vue-picture-cropper": "^0.1.9",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.2",
-    "vuex-persist": "^2.0.1",
-    "yarn": "^1.22.19"
+    "vuex-persist": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -52,7 +51,6 @@
     "babel-jest": "^26.3.0",
     "babel-plugin-component": "^1.1.1",
     "chalk": "^2.4.2",
-    "child_process": "^1.0.2",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^2.1.0",
     "directory-tree": "^2.2.3",

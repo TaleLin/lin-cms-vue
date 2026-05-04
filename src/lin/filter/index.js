@@ -20,7 +20,7 @@ export const filters = {
       return value
     }
     const date = new Date(value * 1000)
-    const y = 1900 + date.getYear()
+    const y = date.getFullYear()
     const m = `0${date.getMonth() + 1}`
     const d = `0${date.getDate()}`
     const val = `${y}-${m.substring(m.length - 2, m.length)}-${d.substring(d.length - 2, d.length)}`
@@ -33,7 +33,7 @@ export const filters = {
       return value
     }
     const date = new Date(value * 1000)
-    const y = 1900 + date.getYear()
+    const y = date.getFullYear()
     const m = `0${date.getMonth() + 1}`
     const d = `0${date.getDate()}`
     const hh = date.getHours()
@@ -45,9 +45,9 @@ export const filters = {
 
   filterTimeYear(value) {
     // 过滤时间戳, 返回值 今年:mm-dd 往年:yyyy-mm-dd
-    const jy = 1900 + new Date().getYear()
+    const jy = new Date().getFullYear()
     const date = new Date(value * 1000)
-    const y = 1900 + date.getYear()
+    const y = date.getFullYear()
     const m = `0${date.getMonth() + 1}`
     const d = `0${date.getDate()}`
     const val = `${y}-${m.substring(m.length - 2, m.length)}-${d.substring(d.length - 2, d.length)}`

@@ -1,11 +1,20 @@
 /**
+ * 确保token不重复添加 Bearer 前缀
+ * @param {string} token
+ */
+function ensureBearerPrefix(token) {
+  if (!token) return ''
+  return token.startsWith('Bearer ') ? token : `Bearer ${token}`
+}
+
+/**
  * 存储tokens
  * @param {string} accessToken
  * @param {string} refreshToken
  */
 export function saveTokens(accessToken, refreshToken) {
-  localStorage.setItem('access_token', `Bearer ${accessToken}`)
-  localStorage.setItem('refresh_token', `Bearer ${refreshToken}`)
+  localStorage.setItem('access_token', ensureBearerPrefix(accessToken))
+  localStorage.setItem('refresh_token', ensureBearerPrefix(refreshToken))
 }
 
 /**
@@ -13,7 +22,7 @@ export function saveTokens(accessToken, refreshToken) {
  * @param {string} accessToken
  */
 export function saveAccessToken(accessToken) {
-  localStorage.setItem('access_token', `Bearer ${accessToken}`)
+  localStorage.setItem('access_token', ensureBearerPrefix(accessToken))
 }
 
 /**
@@ -22,12 +31,4 @@ export function saveAccessToken(accessToken) {
  */
 export function getToken(tokenKey) {
   return localStorage.getItem(tokenKey)
-}
-
-/**
- * 移除token
- */
-export function removeToken() {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
 }

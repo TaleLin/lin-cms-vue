@@ -13,7 +13,6 @@ module.exports = {
     config.module.rule('ignore').test(/\.md$/).use('ignore-loader').loader('ignore-loader').end()
   },
   configureWebpack: {
-    devtool: 'source-map',
     resolve: {
       extensions: ['.js', '.json', '.vue', '.scss', '.html'],
     },
