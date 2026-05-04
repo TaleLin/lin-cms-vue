@@ -32,11 +32,3 @@ export function saveAccessToken(accessToken) {
 export function getToken(tokenKey) {
   return localStorage.getItem(tokenKey)
 }
-
-/**
- * 移除token
- */
-export function removeToken() {
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
-}

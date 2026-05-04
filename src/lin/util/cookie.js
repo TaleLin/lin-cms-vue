@@ -35,16 +35,3 @@ export function saveAccessToken(accessToken) {
 export function getToken(tokenKey) {
   return cookies.get(tokenKey)
 }
-
-/**
- * 移除token
- */
-export function removeToken() {
-  cookies.remove('access_token')
-  cookies.remove('refresh_token')
-  localStorage.removeItem('access_token')
-  localStorage.removeItem('refresh_token')
-  localStorage.removeItem('vuex')
-  sessionStorage.removeItem('flag')
-  sessionStorage.clear()
-}
