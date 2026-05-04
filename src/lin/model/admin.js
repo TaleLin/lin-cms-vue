@@ -54,12 +54,12 @@ export default class Admin {
 
   async nextUsersPage() {
     await this.increaseUPage()
-    return this.getAdminUsers({ count: this.uCount, page: this.uPage })
+    return Admin.getAdminUsers({ count: this.uCount, page: this.uPage })
   }
 
   async preUsersPage() {
     await this.decreaseUPage()
-    return this.getAdminUsers({ count: this.uCount, page: this.uPage })
+    return Admin.getAdminUsers({ count: this.uCount, page: this.uPage })
   }
 
   async getGroupsWithPermissions({ count = 5, page = 0 }) {

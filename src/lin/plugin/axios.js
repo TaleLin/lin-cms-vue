@@ -42,13 +42,13 @@ let isRefreshing = false
 let refreshSubscribers = []
 
 function onRefreshed(newToken) {
-  refreshSubscribers.forEach(({ resolve }) => resolve(newToken))
+  refreshSubscribers.forEach(({ resolve, reject }) => resolve(newToken))
   refreshSubscribers = []
 }
 
 function addRefreshSubscriber() {
-  return new Promise(resolve => {
-    refreshSubscribers.push({ resolve })
+  return new Promise((resolve, reject) => {
+    refreshSubscribers.push({ resolve, reject })
   })
 }
 
@@ -118,7 +118,7 @@ _axios.interceptors.request.use(
 // Add a response interceptor
 _axios.interceptors.response.use(
   res => {
-    // All responses pass through here because validateStatus always returns true
+    // All 2xx-4xx responses pass through here because validateStatus returns status < 500
     const { status, data } = res
     const { code, message } = data
 
@@ -126,7 +126,10 @@ _axios.interceptors.response.use(
 
     // Non-2xx HTTP status (e.g. 401/403 from some proxies)
     if (status.toString().charAt(0) !== '2') {
-      return Promise.reject(res)
+      // Construct proper error so error interceptor's 401/403 refresh logic runs
+      const err = new Error('Non-2xx response')
+      err.response = res
+      return Promise.reject(err)
     }
 
     // refresh_token 异常，直接登出
