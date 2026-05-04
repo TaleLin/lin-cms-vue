@@ -19,7 +19,7 @@ const config = {
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
   validateStatus(status) {
-    return status >= 200 && status < 510
+    return status >= 200 && status < 300
   },
 }
 
@@ -34,6 +34,19 @@ function refreshTokenException(code) {
 
 // 创建请求实例
 const _axios = axios.create(config)
+
+// Module-scope token refresh deduplication
+let isRefreshing = false
+let refreshSubscribers = []
+
+function onRefreshed(newToken) {
+  refreshSubscribers.forEach(cb => cb(newToken))
+  refreshSubscribers = []
+}
+
+function addRefreshSubscriber(cb) {
+  refreshSubscribers.push(cb)
+}
 
 _axios.interceptors.request.use(
   originConfig => {
@@ -100,70 +113,81 @@ _axios.interceptors.request.use(
 
 // Add a response interceptor
 _axios.interceptors.response.use(
-  async res => {
+  res => {
     if (res.status.toString().charAt(0) === '2') {
       return res.data
     }
 
     const { code, message } = res.data
 
-    return new Promise(async (resolve, reject) => {
-      let tipMessage = ''
-      const { url } = res.config
+    let tipMessage = ''
 
-      // refresh_token 异常，直接登出
-      if (refreshTokenException(code)) {
-        setTimeout(() => {
-          store.dispatch('loginOut')
-          const { origin } = window.location
-          window.location.href = origin
-        }, 1500)
-        return resolve(null)
+    // refresh_token 异常，直接登出
+    if (refreshTokenException(code)) {
+      setTimeout(() => {
+        store.dispatch('loginOut')
+        const { origin } = window.location
+        window.location.href = origin
+      }, 1500)
+      return Promise.resolve(null)
+    }
+    // assessToken相关，刷新令牌（去重：并发请求只刷新一次）
+    if (code === 10041 || code === 10051) {
+      if (!isRefreshing) {
+        isRefreshing = true
+        _axios('cms/user/refresh')
+          .then(refreshResult => {
+            saveAccessToken(refreshResult.access_token)
+            onRefreshed(refreshResult.access_token)
+          })
+          .catch(() => {
+            refreshSubscribers = []
+            store.dispatch('loginOut')
+            const { origin } = window.location
+            window.location.href = origin
+          })
+          .finally(() => {
+            isRefreshing = false
+          })
       }
-      // assessToken相关，刷新令牌
-      if (code === 10041 || code === 10051) {
-        const cache = {}
-        if (cache.url !== url) {
-          cache.url = url
-          const refreshResult = await _axios('cms/user/refresh')
-          saveAccessToken(refreshResult.access_token)
-          // 将上次失败请求重发
-          const result = await _axios(res.config)
-          return resolve(result)
-        }
-      }
+      // 将当前请求排队，等刷新完成后重发
+      return new Promise(r => {
+        addRefreshSubscriber(() => {
+          r(_axios(res.config))
+        })
+      })
+    }
 
-      // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
-      // 特殊情况：如果本次请求添加了 handleError: true，用户自行通过 try catch 处理，框架不做额外处理
-      if (res.config.handleError) {
-        return reject(res)
-      }
+    // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
+    // 特殊情况：如果本次请求添加了 handleError: true，用户自行通过 try catch 处理，框架不做额外处理
+    if (res.config.handleError) {
+      return Promise.reject(res)
+    }
 
-      // 弹出信息提示的第二种情况：采用前端自己定义的一套异常提示信息（需自行在配置项开启）；
-      // 特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
-      if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
-        // 弹出前端自定义错误信息
-        const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
-        // 匹配到前端自定义的错误码
-        if (errorArr.length > 0 && errorArr[0][1] !== '') {
-          ;[[, tipMessage]] = errorArr
-        } else {
-          tipMessage = ErrorCode['777']
-        }
+    // 弹出信息提示的第二种情况：采用前端自己定义的一套异常提示信息（需自行在配置项开启）；
+    // 特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
+    if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
+      // 弹出前端自定义错误信息
+      const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
+      // 匹配到前端自定义的错误码
+      if (errorArr.length > 0 && errorArr[0][1] !== '') {
+        ;[[, tipMessage]] = errorArr
+      } else {
+        tipMessage = ErrorCode['777']
       }
+    }
 
-      if (typeof message === 'string') {
-        tipMessage = message
-      }
-      if (Object.prototype.toString.call(message) === '[object Object]') {
-        ;[tipMessage] = Object.values(message).flat()
-      }
-      if (Object.prototype.toString.call(message) === '[object Array]') {
-        ;[tipMessage] = message
-      }
-      ElMessage.error(tipMessage)
-      reject(res)
-    })
+    if (typeof message === 'string') {
+      tipMessage = message
+    }
+    if (Object.prototype.toString.call(message) === '[object Object]') {
+      ;[tipMessage] = Object.values(message).flat()
+    }
+    if (Object.prototype.toString.call(message) === '[object Array]') {
+      ;[tipMessage] = message
+    }
+    ElMessage.error(tipMessage)
+    return Promise.reject(res)
   },
   error => {
     if (!error.response) {

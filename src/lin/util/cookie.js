@@ -32,7 +32,8 @@ export function getToken(tokenKey) {
 export function removeToken() {
   cookies.remove('access_token')
   cookies.remove('refresh_token')
+  localStorage.removeItem('access_token')
+  localStorage.removeItem('refresh_token')
+  localStorage.removeItem('vuex')
   sessionStorage.removeItem('flag')
-  sessionStorage.clear()
-  localStorage.clear()
 }

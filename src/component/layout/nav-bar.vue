@@ -37,11 +37,16 @@ export default {
       value: 0,
       hidden: false,
       messages: [],
-      path: `//api.s.colorful3.com/ws/message?token=${getToken('access_token').split(' ')[1]}`,
+      path: '',
     }
   },
   created() {
-    if (Config.websocketEnable) {
+    const token = getToken('access_token')
+    if (token) {
+      const tokenValue = token.replace(/^Bearer\s+/i, '')
+      this.path = `${Config.baseURL}ws/message?token=${tokenValue}`
+    }
+    if (Config.websocketEnable && this.path) {
       this.$connect(this.path, { format: 'json' })
       this.$options.sockets.onmessage = data => {
         console.log(JSON.parse(data.data))

@@ -32,19 +32,23 @@ export async function searchForWords(words, content) {
   return offWords
 }
 /**
+ * 转义正则表达式特殊字符
+ * @param {string} str
+ */
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/**
  *
  * @param {string} keyword
  * @param {Array} logs
  */
 export function searchLogKeyword(keyword, logs, className = 'strong') {
-  console.log('keyword', keyword)
-  console.log('logs', logs)
+  const escaped = escapeRegExp(keyword)
   const _logs = logs.map(log => {
-    let msg = log.message
-    msg = msg.replace(RegExp(`${keyword}`, 'g'), `<span class="${className}">${keyword}</span>`)
-    // eslint-disable-next-line
-    log.message = msg
-    return log
+    const msg = log.message.replace(RegExp(escaped, 'g'), `<span class="${className}">${keyword}</span>`)
+    return { ...log, message: msg }
   })
   return _logs
 }

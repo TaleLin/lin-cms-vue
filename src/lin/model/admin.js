@@ -35,7 +35,7 @@ export default class Admin {
     return get('cms/admin/permission')
   }
 
-  static async getAdminUsers({ groupId, count = this.uCount, page = this.uPage }) {
+  static async getAdminUsers({ groupId, count = 10, page = 0 }) {
     let res
     if (groupId) {
       res = await get('cms/admin/users', {
