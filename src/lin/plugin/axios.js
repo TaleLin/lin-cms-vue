@@ -19,9 +19,9 @@ const config = {
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
   validateStatus(status) {
-    // Keep original behavior: 2xx-4xx go to success interceptor (not 5xx)
+    // Only 2xx-4xx go to success interceptor; 5xx goes to error interceptor
     // This allows token refresh logic (code 10041/10051) to run for business-auth errors on 200
-    return status < 510
+    return status < 500
   },
 }
 
@@ -210,6 +210,10 @@ _axios.interceptors.response.use(
     // HTTP-level auth errors (401/403) — treat same as business code 10041/10051
     const { status } = error.response
     if (status === 401 || status === 403) {
+      // Guard: if the failing request IS the refresh endpoint, don't re-refresh (infinite loop)
+      if (error.config.url === 'cms/user/refresh') {
+        return Promise.reject(error)
+      }
       if (!isRefreshing) {
         isRefreshing = true
         _axios('cms/user/refresh')

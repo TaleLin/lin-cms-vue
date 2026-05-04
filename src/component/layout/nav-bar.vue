@@ -53,7 +53,6 @@ export default {
     if (Config.websocketEnable && this.path) {
       this.$connect(this.path, { format: 'json' })
       this.$options.sockets.onmessage = data => {
-        console.log(JSON.parse(data.data))
         this.messages.push(JSON.parse(data.data))
       }
       this.$options.sockets.onerror = err => {

@@ -2,7 +2,7 @@ import { ElMessage } from 'element-plus'
 
 // import EventSourcePolyfill from 'event-source-polyfill'
 import 'event-source-polyfill/src/eventsource'
-import { getToken } from './cookie'
+import { getToken } from '@/lin/util/token'
 import store from '../../store'
 
 export default class Sse {

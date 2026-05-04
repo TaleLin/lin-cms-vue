@@ -1,4 +1,14 @@
 import cookies from 'js-cookie'
+
+/**
+ * 确保token不重复添加 Bearer 前缀
+ * @param {string} token
+ */
+function ensureBearerPrefix(token) {
+  if (!token) return ''
+  return token.startsWith('Bearer ') ? token : `Bearer ${token}`
+}
+
 /**
  * 存储tokens
  * @param {string} accessToken
@@ -6,8 +16,8 @@ import cookies from 'js-cookie'
  */
 export function saveTokens(accessToken, refreshToken) {
   // 存储tokens tokens只进入cookies，不进入vuex全局管理
-  cookies.set('access_token', `Bearer ${accessToken}`)
-  cookies.set('refresh_token', `Bearer ${refreshToken}`)
+  cookies.set('access_token', ensureBearerPrefix(accessToken))
+  cookies.set('refresh_token', ensureBearerPrefix(refreshToken))
 }
 
 /**
@@ -15,7 +25,7 @@ export function saveTokens(accessToken, refreshToken) {
  * @param {string} accessToken
  */
 export function saveAccessToken(accessToken) {
-  cookies.set('access_token', `Bearer ${accessToken}`)
+  cookies.set('access_token', ensureBearerPrefix(accessToken))
 }
 
 /**
@@ -36,4 +46,5 @@ export function removeToken() {
   localStorage.removeItem('refresh_token')
   localStorage.removeItem('vuex')
   sessionStorage.removeItem('flag')
+  sessionStorage.clear()
 }
