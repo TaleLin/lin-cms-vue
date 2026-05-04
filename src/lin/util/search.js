@@ -32,19 +32,43 @@ export async function searchForWords(words, content) {
   return offWords
 }
 /**
+ * 转义正则表达式特殊字符
+ * @param {string} str
+ */
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/**
+ * HTML转义，防止keyword注入恶意HTML（如 <img onerror=...>）
+ * @param {string} str
+ */
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+/**
  *
  * @param {string} keyword
  * @param {Array} logs
  */
 export function searchLogKeyword(keyword, logs, className = 'strong') {
-  console.log('keyword', keyword)
-  console.log('logs', logs)
+  if (!keyword) {
+    return logs
+  }
+  const escaped = escapeRegExp(keyword)
+  const safeKeyword = escapeHtml(keyword)
   const _logs = logs.map(log => {
-    let msg = log.message
-    msg = msg.replace(RegExp(`${keyword}`, 'g'), `<span class="${className}">${keyword}</span>`)
-    // eslint-disable-next-line
-    log.message = msg
-    return log
+    const msg = log.message.replace(
+      RegExp(escaped, 'g'),
+      `<span class="${className}">${safeKeyword}</span>`,
+    )
+    return { ...log, message: msg }
   })
   return _logs
 }

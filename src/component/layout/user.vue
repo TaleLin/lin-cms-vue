@@ -10,7 +10,7 @@
             <div class="avatar" title="点击修改头像">
               <img :src="user.avatar || defaultAvatar" alt="头像" />
               <label class="mask">
-                <i class="iconfont icon-icon-test" style="font-size: 20px;"></i>
+                <i class="iconfont icon-icon-test" style="font-size: 20px"></i>
                 <input ref="avatarInput" type="file" accept="image/*" @change="fileChange" />
               </label>
             </div>
@@ -45,6 +45,7 @@
 <script>
 import User from 'lin/model/user'
 import axios from 'lin/plugin/axios'
+import MAX_SUCCESS_CODE from '@/config/global'
 import { mapActions, mapGetters } from 'vuex'
 import defaultAvatar from '@/assets/image/user/user.png'
 import Avatar from './avatar.vue'
@@ -70,6 +71,9 @@ export default {
   watch: {
     cropVisible(val) {
       if (!val) {
+        if (this.cropImg) {
+          window.URL.revokeObjectURL(this.cropImg)
+        }
         this.cropImg = ''
       }
     },
@@ -146,7 +150,7 @@ export default {
             showBackend: true,
           })
             .then(res => {
-              if (res.code < window.MAX_SUCCESS_CODE) {
+              if (res.code < MAX_SUCCESS_CODE) {
                 this.$message({
                   type: 'success',
                   message: '更新昵称成功',

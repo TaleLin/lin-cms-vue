@@ -16,7 +16,6 @@ export default class Sse {
    */
   constructor(url, events) {
     /* eslint-disable no-undef */
-    console.log(url, events)
     this.source = new EventSourcePolyfill(url, {
       headers: {
         Authorization: getToken('access_token'),
@@ -30,23 +29,24 @@ export default class Sse {
   }
 
   open() {
-    this.source.onopen = event => {
-      console.log('sse opened', event)
-    }
+    this.source.onopen = () => {}
   }
 
   error() {
-    this.source.onerror = event => {
-      console.log('error', event)
-    }
+    this.source.onerror = () => {}
   }
 
   addEventListener(eventName) {
     this.source.addEventListener(eventName, event => {
-      // console.log('receive one message: ', event.data)
-      // console.log('receive one message: ', event.lastEventId)
-      store.commit('MARK_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
-      ElMessage.warning(JSON.parse(event.data).message)
+      try {
+        const data = JSON.parse(event.data)
+        store.commit('MARK_UNREAD_MESSAGE', { data: event.data, id: event.lastEventId })
+        if (data.message) {
+          ElMessage.warning(data.message)
+        }
+      } catch (e) {
+        console.error('Failed to parse SSE event data', e)
+      }
     })
   }
 }

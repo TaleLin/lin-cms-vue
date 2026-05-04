@@ -19,7 +19,9 @@ const config = {
   // 定义可获得的http响应状态码
   // return true、设置为null或者undefined，promise将resolved,否则将rejected
   validateStatus(status) {
-    return status >= 200 && status < 510
+    // Keep original behavior: 2xx-4xx go to success interceptor (not 5xx)
+    // This allows token refresh logic (code 10041/10051) to run for business-auth errors on 200
+    return status < 510
   },
 }
 
@@ -34,6 +36,21 @@ function refreshTokenException(code) {
 
 // 创建请求实例
 const _axios = axios.create(config)
+
+// Module-scope token refresh deduplication
+let isRefreshing = false
+let refreshSubscribers = []
+
+function onRefreshed(newToken) {
+  refreshSubscribers.forEach(({ resolve }) => resolve(newToken))
+  refreshSubscribers = []
+}
+
+function addRefreshSubscriber() {
+  return new Promise(resolve => {
+    refreshSubscribers.push({ resolve })
+  })
+}
 
 _axios.interceptors.request.use(
   originConfig => {
@@ -100,81 +117,122 @@ _axios.interceptors.request.use(
 
 // Add a response interceptor
 _axios.interceptors.response.use(
-  async res => {
-    if (res.status.toString().charAt(0) === '2') {
-      return res.data
+  res => {
+    // All responses pass through here because validateStatus always returns true
+    const { status, data } = res
+    const { code, message } = data
+
+    let tipMessage = ''
+
+    // Non-2xx HTTP status (e.g. 401/403 from some proxies)
+    if (status.toString().charAt(0) !== '2') {
+      return Promise.reject(res)
     }
 
-    const { code, message } = res.data
+    // refresh_token 异常，直接登出
+    if (refreshTokenException(code)) {
+      setTimeout(() => {
+        store.dispatch('loginOut')
+        const { origin } = window.location
+        window.location.href = origin
+      }, 1500)
+      return Promise.resolve(null)
+    }
+    // assessToken相关，刷新令牌（去重：并发请求只刷新一次）
+    if (code === 10041 || code === 10051) {
+      if (!isRefreshing) {
+        isRefreshing = true
+        _axios('cms/user/refresh')
+          .then(refreshResult => {
+            saveAccessToken(refreshResult.access_token)
+            onRefreshed(refreshResult.access_token)
+          })
+          .catch(() => {
+            // Reject all queued subscribers before logout
+            refreshSubscribers.forEach(({ reject }) => reject(new Error('refresh_failed')))
+            refreshSubscribers = []
+            store.dispatch('loginOut')
+            const { origin } = window.location
+            window.location.href = origin
+          })
+          .finally(() => {
+            isRefreshing = false
+          })
+      }
+      // 将当前请求排队，等刷新完成后重发
+      return addRefreshSubscriber().then(() => _axios(res.config))
+    }
 
-    return new Promise(async (resolve, reject) => {
-      let tipMessage = ''
-      const { url } = res.config
+    // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
+    // 特殊情况：如果本次请求添加了 handleError: true，用户自行通过 try catch 处理，框架不做额外处理
+    if (res.config.handleError) {
+      return Promise.reject(res)
+    }
 
-      // refresh_token 异常，直接登出
-      if (refreshTokenException(code)) {
-        setTimeout(() => {
-          store.dispatch('loginOut')
-          const { origin } = window.location
-          window.location.href = origin
-        }, 1500)
-        return resolve(null)
+    // 弹出信息提示的第二种情况：采用前端自己定义的一套异常提示信息（需自行在配置项开启）；
+    // 特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
+    if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
+      // 弹出前端自定义错误信息
+      const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
+      // 匹配到前端自定义的错误码
+      if (errorArr.length > 0 && errorArr[0][1] !== '') {
+        ;[[, tipMessage]] = errorArr
+      } else {
+        tipMessage = ErrorCode['777']
       }
-      // assessToken相关，刷新令牌
-      if (code === 10041 || code === 10051) {
-        const cache = {}
-        if (cache.url !== url) {
-          cache.url = url
-          const refreshResult = await _axios('cms/user/refresh')
-          saveAccessToken(refreshResult.access_token)
-          // 将上次失败请求重发
-          const result = await _axios(res.config)
-          return resolve(result)
-        }
-      }
+    }
 
-      // 弹出信息提示的第一种情况：直接提示后端返回的异常信息（框架默认为此配置）；
-      // 特殊情况：如果本次请求添加了 handleError: true，用户自行通过 try catch 处理，框架不做额外处理
-      if (res.config.handleError) {
-        return reject(res)
-      }
-
-      // 弹出信息提示的第二种情况：采用前端自己定义的一套异常提示信息（需自行在配置项开启）；
-      // 特殊情况：如果本次请求添加了 showBackend: true, 弹出后端返回错误信息。
-      if (Config.useFrontEndErrorMsg && !res.config.showBackend) {
-        // 弹出前端自定义错误信息
-        const errorArr = Object.entries(ErrorCode).filter(v => v[0] === code.toString())
-        // 匹配到前端自定义的错误码
-        if (errorArr.length > 0 && errorArr[0][1] !== '') {
-          ;[[, tipMessage]] = errorArr
-        } else {
-          tipMessage = ErrorCode['777']
-        }
-      }
-
-      if (typeof message === 'string') {
-        tipMessage = message
-      }
-      if (Object.prototype.toString.call(message) === '[object Object]') {
-        ;[tipMessage] = Object.values(message).flat()
-      }
-      if (Object.prototype.toString.call(message) === '[object Array]') {
-        ;[tipMessage] = message
-      }
-      ElMessage.error(tipMessage)
-      reject(res)
-    })
+    if (typeof message === 'string') {
+      tipMessage = message
+    }
+    if (Object.prototype.toString.call(message) === '[object Object]') {
+      ;[tipMessage] = Object.values(message).flat()
+    }
+    if (Object.prototype.toString.call(message) === '[object Array]') {
+      ;[tipMessage] = message
+    }
+    ElMessage.error(tipMessage)
+    return Promise.reject(res)
   },
   error => {
     if (!error.response) {
       ElMessage.error('请检查 API 是否异常')
       console.log('error', error)
+      return Promise.reject(error)
     }
 
     // 判断请求超时
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
       ElMessage.warning('请求超时')
+      return Promise.reject(error)
     }
+
+    // HTTP-level auth errors (401/403) — treat same as business code 10041/10051
+    const { status } = error.response
+    if (status === 401 || status === 403) {
+      if (!isRefreshing) {
+        isRefreshing = true
+        _axios('cms/user/refresh')
+          .then(refreshResult => {
+            saveAccessToken(refreshResult.access_token)
+            onRefreshed(refreshResult.access_token)
+          })
+          .catch(() => {
+            // Reject all queued subscribers before logout
+            refreshSubscribers.forEach(({ reject }) => reject(error))
+            refreshSubscribers = []
+            store.dispatch('loginOut')
+            const { origin } = window.location
+            window.location.href = origin
+          })
+          .finally(() => {
+            isRefreshing = false
+          })
+      }
+      // Queue this request to retry after refresh
+      return addRefreshSubscriber().then(() => _axios(error.config))
+    }
+
     return Promise.reject(error)
   },
 )

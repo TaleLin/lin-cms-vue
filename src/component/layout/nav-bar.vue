@@ -37,11 +37,20 @@ export default {
       value: 0,
       hidden: false,
       messages: [],
-      path: `//api.s.colorful3.com/ws/message?token=${getToken('access_token').split(' ')[1]}`,
+      path: '',
     }
   },
   created() {
-    if (Config.websocketEnable) {
+    const token = getToken('access_token')
+    if (token) {
+      const tokenValue = token.replace(/^Bearer\s+/i, '')
+      // Convert http(s):// to ws(s):// for WebSocket protocol
+      const wsBase = Config.baseURL.replace(/^http/, 'ws')
+      // Ensure exactly one slash between base URL and path
+      const base = wsBase.endsWith('/') ? wsBase.slice(0, -1) : wsBase
+      this.path = `${base}/ws/message?token=${tokenValue}`
+    }
+    if (Config.websocketEnable && this.path) {
       this.$connect(this.path, { format: 'json' })
       this.$options.sockets.onmessage = data => {
         console.log(JSON.parse(data.data))
